@@ -5,3 +5,9 @@
 .DS_Store
 __pycache__/
 *.py[cod]
+
+# Generated contact sheets for local visual review.
+/research/deepseek-harness/validation/column-contact-sheet.png
+/research/deepseek-harness/validation/column-sequence-contact-sheet.png
+/research/deepseek-harness/validation/column-layers-contact-sheet.png
+/research/deepseek-harness/validation/column-branches-contact-sheet.png
