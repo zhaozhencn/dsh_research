@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1140" viewBox="0 0 1200 1140">
+<rect width="100%" height="100%" fill="#f5f8fc"/>
+<title>工具失败发生在哪里：状态与行动</title>
+<desc>函数返回之后，反馈协议仍可能失败</desc>
+<text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">07 / 从源码理解 Agent Harness</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">工具失败发生在哪里：状态与行动</text>
+<rect x="130" y="175" width="940" height="110" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="600" y="241" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">依据执行身份、当前状态与已提交事实选择</text>
+<path d="M600,285 L600,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M220,312 L980,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M220,312 L220,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="220,352 212,338 228,338" fill="#6f8aa5"/>
+<rect x="55" y="352" width="330" height="630" rx="18" fill="#eef7f2" stroke="#cedcea" stroke-width="2"/>
+<text x="220" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">准备拒绝</text>
+<text x="220" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">参数、审批或</text>
+<text x="220" y="550" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">guard 失败</text>
+<path d="M82,574 L358,574" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="633" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">body 尚未开始</text>
+<path d="M82,657 L358,657" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="746" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">返回规范错误</text>
+<path d="M82,770 L358,770" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="859" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">不产生新派发</text>
+<path d="M82,883 L358,883" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M600,312 L600,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="600,352 592,338 608,338" fill="#6f8aa5"/>
+<rect x="435" y="352" width="330" height="630" rx="18" fill="#eef4fc" stroke="#cedcea" stroke-width="2"/>
+<text x="600" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">执行未知</text>
+<text x="600" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">body 已进入</text>
+<path d="M462,531 L738,531" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">远端可能已经提交</text>
+<path d="M462,644 L738,644" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="733" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">保留不确定性</text>
+<path d="M462,757 L738,757" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="846" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">查询回执与幂等状态</text>
+<path d="M462,870 L738,870" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M980,312 L980,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="980,352 972,338 988,338" fill="#6f8aa5"/>
+<rect x="815" y="352" width="330" height="630" rx="18" fill="#fff6ed" stroke="#cedcea" stroke-width="2"/>
+<text x="980" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">反馈失败</text>
+<text x="980" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">输出校验或 post 失</text>
+<text x="980" y="550" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">败</text>
+<path d="M842,574 L1118,574" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="633" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">业务效果可能存在</text>
+<path d="M842,657 L1118,657" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="746" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">最终 isError</text>
+<path d="M842,770 L1118,770" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="859" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">不能据此自动重做</text>
+<path d="M842,883 L1118,883" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="1054" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">函数返回之后，反馈协议仍可能失败</text>
+<text x="600" y="1102" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
+</svg>

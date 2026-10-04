@@ -107,6 +107,7 @@ for fig in figures['figures']:
     require(int(node.attrib['width'])==fig['width'] and int(node.attrib['height'])==fig['height'],f'SVG size {svg.name}')
     texts=[n.text or '' for n in node.iter() if n.tag.endswith('text')]
     require(fig['title'] in texts and fig['note'] in texts,f'SVG captions {svg.name}')
+    require(f'{fig["article"]:02} / 从源码理解 Agent Harness' in texts,f'SVG article number {svg.name}')
     require(not any(term in ' '.join(texts) for term in ['回合','代理']),f'English diagram terminology {svg.name}')
     checked_images.append({'png':fig['png'],'svg':fig['svg'],'width':fig['width'],'height':fig['height'],'ok':True})
 

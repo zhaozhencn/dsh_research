@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1140" viewBox="0 0 1200 1140">
+<rect width="100%" height="100%" fill="#f5f8fc"/>
+<title>额度何时可以归还：状态与行动</title>
+<desc>stopping 不是 finished，取消不是资源释放</desc>
+<text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">09 / 从源码理解 Agent Harness</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">额度何时可以归还：状态与行动</text>
+<rect x="130" y="175" width="940" height="110" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="600" y="241" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">依据执行身份、当前状态与已提交事实选择</text>
+<path d="M600,285 L600,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M220,312 L980,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M220,312 L220,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="220,352 212,338 228,338" fill="#6f8aa5"/>
+<rect x="55" y="352" width="330" height="630" rx="18" fill="#eef7f2" stroke="#cedcea" stroke-width="2"/>
+<text x="220" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">工具 body</text>
+<text x="220" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">停止新增</text>
+<path d="M82,531 L358,531" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">已启动 dispatch 结</text>
+<text x="220" y="663" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">算</text>
+<path d="M82,687 L358,687" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="746" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">按序结果提交</text>
+<path d="M82,770 L358,770" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="220" y="859" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">释放局部执行槽</text>
+<path d="M82,883 L358,883" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M600,312 L600,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="600,352 592,338 608,338" fill="#6f8aa5"/>
+<rect x="435" y="352" width="330" height="630" rx="18" fill="#eef4fc" stroke="#cedcea" stroke-width="2"/>
+<text x="600" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">后台 job</text>
+<text x="600" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">发送 cancel</text>
+<path d="M462,531 L738,531" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">状态变为 stopping</text>
+<path d="M462,644 L738,644" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="733" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">producer 与 pump</text>
+<text x="600" y="776" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">结束</text>
+<path d="M462,800 L738,800" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="859" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">settled 后不再占活</text>
+<text x="600" y="902" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">跃额度</text>
+<path d="M462,926 L738,926" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<path d="M980,312 L980,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="980,352 972,338 988,338" fill="#6f8aa5"/>
+<rect x="815" y="352" width="330" height="630" rx="18" fill="#fff6ed" stroke="#cedcea" stroke-width="2"/>
+<text x="980" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Child Agent</text>
+<text x="980" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">父取消或结果到达</text>
+<path d="M842,531 L1118,531" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">停止 child driver</text>
+<path d="M842,644 L1118,644" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="733" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">等待 result 和</text>
+<text x="980" y="776" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">handle.dispose</text>
+<path d="M842,800 L1118,800" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="980" y="859" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">真实资源释放后归还</text>
+<path d="M842,883 L1118,883" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<text x="600" y="1054" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">stopping 不是 finished，取消不是资源释放</text>
+<text x="600" y="1102" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
+</svg>

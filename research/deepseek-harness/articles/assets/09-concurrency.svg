@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1730" viewBox="0 0 1200 1730">
+<rect width="100%" height="100%" fill="#f6f8fb"/>
+<text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">09 / 从源码理解 Agent Harness</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">并发对象、提交和释放</text>
+<rect x="80" y="190" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="258" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Tool group</text>
+<text x="600.0" y="315" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">PlannedCall / inFlight / Slot</text>
+<rect x="80" y="403" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="471" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Model-ordered commit</text>
+<text x="600.0" y="528" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">body 可重叠，committed 按模型顺序推进</text>
+<line x1="600" y1="354" x2="600" y2="393" stroke="#7390ac" stroke-width="4"/><polygon points="600,393 591,379 609,379" fill="#7390ac"/>
+<rect x="80" y="650" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="718" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Local job</text>
+<text x="600.0" y="775" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">TrackedJob / producer / pump</text>
+<rect x="80" y="863" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="931" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">running + stopping</text>
+<text x="600.0" y="988" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">settled 后结束活跃计数</text>
+<line x1="600" y1="814" x2="600" y2="853" stroke="#7390ac" stroke-width="4"/><polygon points="600,853 591,839 609,839" fill="#7390ac"/>
+<rect x="80" y="1110" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1178" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Child Agent</text>
+<text x="600.0" y="1235" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">独立 Loop、Session 与 handle</text>
+<rect x="80" y="1323" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1391" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Result + dispose</text>
+<text x="600.0" y="1448" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">父 signal、结果检查与资源释放分别处理</text>
+<line x1="600" y1="1274" x2="600" y2="1313" stroke="#7390ac" stroke-width="4"/><polygon points="600,1313 591,1299 609,1299" fill="#7390ac"/>
+<text x="600" y="1604" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">局部额度以各自对象的实际生命周期为依据</text>
+<text x="600" y="1659" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
+</svg>

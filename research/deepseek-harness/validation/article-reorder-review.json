@@ -1,0 +1,170 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "scope": "Reading order, filenames, navigation and figure numbering; no mechanism rewrite or new runtime tests.",
+  "reason": "先交换原第01与第14篇，再将原第16篇移至第02篇，以插件扩展和生命周期为专栏起点。",
+  "mapping": [
+    {
+      "number": 1,
+      "original_number": 14,
+      "source_concern_number": 14,
+      "file": "articles/01-plugin-lifecycle.md",
+      "concern": "扩展机制与生命周期"
+    },
+    {
+      "number": 2,
+      "original_number": 16,
+      "source_concern_number": 16,
+      "file": "articles/02-deployment-evolution.md",
+      "concern": "部署、兼容性与版本演进"
+    },
+    {
+      "number": 3,
+      "original_number": 2,
+      "source_concern_number": 2,
+      "file": "articles/03-agent-loop.md",
+      "concern": "Agent Loop 与执行模型"
+    },
+    {
+      "number": 4,
+      "original_number": 3,
+      "source_concern_number": 3,
+      "file": "articles/04-model-adaptation.md",
+      "concern": "模型接入与能力适配"
+    },
+    {
+      "number": 5,
+      "original_number": 4,
+      "source_concern_number": 4,
+      "file": "articles/05-context-engineering.md",
+      "concern": "上下文工程"
+    },
+    {
+      "number": 6,
+      "original_number": 5,
+      "source_concern_number": 5,
+      "file": "articles/06-state-persistence.md",
+      "concern": "记忆、状态与持久化"
+    },
+    {
+      "number": 7,
+      "original_number": 6,
+      "source_concern_number": 6,
+      "file": "articles/07-tool-runtime.md",
+      "concern": "工具与执行环境契约"
+    },
+    {
+      "number": 8,
+      "original_number": 7,
+      "source_concern_number": 7,
+      "file": "articles/08-reliability.md",
+      "concern": "可靠性恢复与副作用一致性"
+    },
+    {
+      "number": 9,
+      "original_number": 8,
+      "source_concern_number": 8,
+      "file": "articles/09-concurrency.md",
+      "concern": "并发、调度与资源治理"
+    },
+    {
+      "number": 10,
+      "original_number": 9,
+      "source_concern_number": 9,
+      "file": "articles/10-security.md",
+      "concern": "权限与安全边界"
+    },
+    {
+      "number": 11,
+      "original_number": 10,
+      "source_concern_number": 10,
+      "file": "articles/11-autonomy.md",
+      "concern": "自主性控制与人工干预"
+    },
+    {
+      "number": 12,
+      "original_number": 11,
+      "source_concern_number": 11,
+      "file": "articles/12-budgets.md",
+      "concern": "成本、延迟与预算"
+    },
+    {
+      "number": 13,
+      "original_number": 12,
+      "source_concern_number": 12,
+      "file": "articles/13-observability.md",
+      "concern": "可观测性与审计"
+    },
+    {
+      "number": 14,
+      "original_number": 13,
+      "source_concern_number": 13,
+      "file": "articles/14-evaluation.md",
+      "concern": "评测与质量保障"
+    },
+    {
+      "number": 15,
+      "original_number": 1,
+      "source_concern_number": 1,
+      "file": "articles/15-task-completion.md",
+      "concern": "任务定义与完成语义"
+    },
+    {
+      "number": 16,
+      "original_number": 15,
+      "source_concern_number": 15,
+      "file": "articles/16-interaction-deliverables.md",
+      "concern": "交互协议与交付物"
+    }
+  ],
+  "historical_identity": "Excerpt IDs and historical baseline/review/log numbering remain unchanged; concern_number identifies the original report section.",
+  "before_article_hashes": {
+    "articles/01-task-completion.md": "6a9bb78585f5474d4415294ab8637792465bb68557c6ab204c37adf9281e4868",
+    "articles/02-agent-loop.md": "0ee9e1d1c23b8eac2623aa7bde40f6445856fbf49360b90c22344ebebb023a11",
+    "articles/03-model-adaptation.md": "5ec4f679be81f3607534fc297c87eddc55fca64d3fa1acdaeb128ed3c763fd6e",
+    "articles/04-context-engineering.md": "968fdbe971a25f193290fb3d6230e41dc9244f519f8eeb67034a8e6e5fb57336",
+    "articles/05-state-persistence.md": "772989d1722d7068c82d1695ca04a12dd219fb24505410c9c5006fa850b7e77c",
+    "articles/06-tool-runtime.md": "34073be46653d506f1130133afc621321e905514047e6eb9cb6044c057b8b702",
+    "articles/07-reliability.md": "06fb9714d6d2bdf67536779342bcac31909bdfa0ab67ae183a768d00257c6c0b",
+    "articles/08-concurrency.md": "68f885bcd5c8ed09e35e944c8853891325eb0fc7283a830ed1adc2f1afd4d4e0",
+    "articles/09-security.md": "36f4f748c6d03805f1f7c51e7ce29379d24f968938b2de1d2a7b74ffbf9730d2",
+    "articles/10-autonomy.md": "c4c1b0c1f676ed6f63f223a146014adbfe3142640d4d86fe772c2c1eb6ecc8b8",
+    "articles/11-budgets.md": "82dc6b59e6de16f4a5a601bb0cf75c0f2b905fc2b18785e60de3dc2f6b547be5",
+    "articles/12-observability.md": "1d895a3ad82d7e9947b42a2ff994d44c8a7d60c80bfee5df2fb16ab78464cfeb",
+    "articles/13-evaluation.md": "7d7649c70c443774a6e97637d25c63ff7885fa262a81ca172505dea341a32780",
+    "articles/14-plugin-lifecycle.md": "166e43030e9a7312942a89f94be652e4832649ee98d055c48afdf75a2ab9fff3",
+    "articles/15-interaction-deliverables.md": "93a1ef5858ef7dadb634e169db84d170583991cccae038dcea1c12df83d76819",
+    "articles/16-deployment-evolution.md": "0ad0e46cc438b88d2e2dfe26336f1aa6f459ec52e69c2ebc325e81163c0dd497"
+  },
+  "validation": [
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py",
+      "exit_code": 0,
+      "result": "64 PNG/SVG pairs rebuilt with new article numbering; figure definitions unchanged apart from numbering and paths."
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+      "exit_code": 0,
+      "log": "validation/article-reorder-column.log",
+      "result": "16 articles, 364 original excerpts, 64 PNGs and 64 SVGs; no failures."
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": "validation/article-reorder-artifacts.log",
+      "result": "Links, source ranges and Mermaid parsed successfully."
+    },
+    {
+      "command": "Compare articles and protected files against /private/tmp/dsh-article-reorder-plan.json",
+      "exit_code": 0,
+      "result": "All 364 excerpt blocks and all principal headings unchanged; original report sections, root README, AGENTS and skill files unchanged; all previous/next links follow the requested permutation."
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": "validation/article-reorder-artifacts-final.log",
+      "result": "Final navigation and validation appendix links checked; no failures."
+    }
+  ],
+  "status": "complete",
+  "visual_review": "Viewed the regenerated 16-topic contact sheet; extension and deployment diagrams occupy positions 01 and 02, and all diagrams show the current article number."
+}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1628" viewBox="0 0 1200 1628">
+<rect width="100%" height="100%" fill="#f6f8fb"/>
+<text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">01 / 从源码理解 Agent Harness</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">Extension 的注册、消费与清理</text>
+<rect x="80" y="170" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="238" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Definition / dependencies</text>
+<text x="600.0" y="295" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">声明 inject 与能力契约</text>
+<line x1="600" y1="334" x2="600" y2="378" stroke="#7390ac" stroke-width="4"/><polygon points="600,378 591,364 609,364" fill="#7390ac"/>
+<rect x="80" y="388" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="456" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Provider / realm</text>
+<text x="600.0" y="513" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">提供实现；notify 唤醒 consumer</text>
+<line x1="600" y1="552" x2="600" y2="596" stroke="#7390ac" stroke-width="4"/><polygon points="600,596 591,582 609,582" fill="#7390ac"/>
+<rect x="80" y="606" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="674" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Fiber / epoch</text>
+<text x="600.0" y="731" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">异步加载复核依赖身份</text>
+<line x1="600" y1="770" x2="600" y2="814" stroke="#7390ac" stroke-width="4"/><polygon points="600,814 591,800 609,800" fill="#7390ac"/>
+<rect x="80" y="824" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="892" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Context / effects</text>
+<text x="600.0" y="949" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">注册 listener、tool 与 disposer</text>
+<line x1="600" y1="988" x2="600" y2="1032" stroke="#7390ac" stroke-width="4"/><polygon points="600,1032 591,1018 609,1018" fill="#7390ac"/>
+<rect x="80" y="1042" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1110" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Lifetime / in-flight work</text>
+<text x="600.0" y="1167" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">撤销未来入口；取消并排空旧回调</text>
+<line x1="600" y1="1206" x2="600" y2="1250" stroke="#7390ac" stroke-width="4"/><polygon points="600,1250 591,1236 609,1236" fill="#7390ac"/>
+<rect x="80" y="1260" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1328" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Owner / disposal</text>
+<text x="600.0" y="1385" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">等待资源释放；历史状态单独处理</text>
+<text x="600" y="1527" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">生命周期地图；具体清理顺序由 owner 代码决定</text>
+<text x="600" y="1582" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
+</svg>

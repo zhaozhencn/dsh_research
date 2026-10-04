@@ -3,7 +3,2518 @@
   "figures": [
     {
       "article": 1,
-      "stem": "01-task-completion-02",
+      "stem": "01-plugin-lifecycle-02",
+      "kind": "sequence",
+      "title": "扩展从依赖到释放的阶段",
+      "nodes": [
+        [
+          "Definition",
+          "inject / public contract",
+          "类型声明与实际 provider 分开"
+        ],
+        [
+          "Provider",
+          "provide → notify",
+          "realm 槽位写入并刷新 consumer"
+        ],
+        [
+          "Consumer",
+          "Fiber epoch checkpoint",
+          "await 后复核依赖实现身份"
+        ],
+        [
+          "Context",
+          "effect / on / register",
+          "归属 owning Fiber 的贡献"
+        ],
+        [
+          "Lifetime",
+          "disposer + abort",
+          "未来入口与旧等待分别关闭"
+        ],
+        [
+          "Owner",
+          "await cleanup",
+          "历史状态与资源释放各有责任"
+        ]
+      ],
+      "note": "生命周期地图；实际 producer 决定事件语义",
+      "source_excerpt_ids": [
+        "14-3",
+        "14-4",
+        "14-5",
+        "14-1",
+        "14-6",
+        "14-7",
+        "14-8",
+        "14-21",
+        "14-9",
+        "14-10",
+        "14-11",
+        "14-2",
+        "14-20",
+        "14-12",
+        "14-13",
+        "14-14",
+        "14-15",
+        "14-16",
+        "14-19",
+        "14-17",
+        "14-18"
+      ],
+      "caption": "生命周期地图；实际 producer 决定事件语义。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 3
+    },
+    {
+      "article": 1,
+      "stem": "01-plugin-lifecycle-03",
+      "kind": "layers",
+      "title": "扩展代码保存的四种身份",
+      "nodes": [
+        [
+          "Service",
+          "realm symbol / provider Fiber",
+          "解析槽位与具体实现分开"
+        ],
+        [
+          "Dependency",
+          "uid / epoch / inertia",
+          "依赖变化与在途 transition"
+        ],
+        [
+          "Scope",
+          "Context / HarnessScope",
+          "贡献范围与注册归属"
+        ],
+        [
+          "Call",
+          "prepared call / bound registration",
+          "一次已准备操作的绑定实现"
+        ]
+      ],
+      "note": "名字相同不表示加载与执行资格相同",
+      "source_excerpt_ids": [
+        "14-3",
+        "14-4",
+        "14-5",
+        "14-1",
+        "14-6",
+        "14-7",
+        "14-8",
+        "14-21",
+        "14-9",
+        "14-10",
+        "14-11",
+        "14-2",
+        "14-20",
+        "14-12",
+        "14-13",
+        "14-14",
+        "14-15",
+        "14-16",
+        "14-19",
+        "14-17",
+        "14-18"
+      ],
+      "caption": "名字相同不表示加载与执行资格相同。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 1,
+      "stem": "01-plugin-lifecycle-04",
+      "kind": "branches",
+      "title": "更新与撤销的不同效果：状态与行动",
+      "nodes": [
+        [
+          "volatile 更新",
+          "候选先解析校验",
+          "live 引用成功才变",
+          "实例可以保留",
+          "非法值不提交"
+        ],
+        [
+          "普通依赖变化",
+          "epoch 改变",
+          "旧 Fiber 卸载排空",
+          "按最新依赖重建",
+          "不是全树事务"
+        ],
+        [
+          "旧回调仍在途",
+          "listener 已撤销",
+          "lifetime abort",
+          "等待 active 结算",
+          "捕获调用用 signal 停止"
+        ]
+      ],
+      "note": "撤销未来入口与取消旧操作必须分别设计",
+      "source_excerpt_ids": [
+        "14-3",
+        "14-4",
+        "14-5",
+        "14-1",
+        "14-6",
+        "14-7",
+        "14-8",
+        "14-21",
+        "14-9",
+        "14-10",
+        "14-11",
+        "14-2",
+        "14-20",
+        "14-12",
+        "14-13",
+        "14-14",
+        "14-15",
+        "14-16",
+        "14-19",
+        "14-17",
+        "14-18"
+      ],
+      "caption": "撤销未来入口与取消旧操作必须分别设计。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 2,
+      "stem": "02-deployment-evolution-02",
+      "kind": "sequence",
+      "title": "profile 启动到 readiness 的等待",
+      "nodes": [
+        [
+          "Launcher",
+          "runProfile",
+          "准备 Proxy 和启动配置"
+        ],
+        [
+          "Boot",
+          "Loader / host prepare",
+          "构造运行环境与宿主能力"
+        ],
+        [
+          "Loader",
+          "root Include",
+          "按 Entry 配置挂载插件树"
+        ],
+        [
+          "Boot",
+          "await activation",
+          "等待后复核 root 与 Loader"
+        ],
+        [
+          "Audit",
+          "required plugin checks",
+          "审计必需服务和激活问题"
+        ],
+        [
+          "Readiness",
+          "commit product ready",
+          "未取消且 root ACTIVE 才提交"
+        ]
+      ],
+      "note": "退出使用独立的 transport 与 owner 排空链",
+      "source_excerpt_ids": [
+        "16-3",
+        "16-4",
+        "16-5",
+        "16-2",
+        "16-21",
+        "16-6",
+        "16-7",
+        "16-20",
+        "16-8",
+        "16-9",
+        "16-10",
+        "16-11",
+        "16-1",
+        "16-12",
+        "16-19",
+        "16-13",
+        "16-14",
+        "16-15",
+        "16-16",
+        "16-17",
+        "16-18"
+      ],
+      "caption": "退出使用独立的 transport 与 owner 排空链。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 2,
+      "stem": "02-deployment-evolution-03",
+      "kind": "layers",
+      "title": "演进契约保存哪些对象",
+      "nodes": [
+        [
+          "Config",
+          "EntryOptions / Fiber.config",
+          "候选与当前生效参数分开"
+        ],
+        [
+          "Module",
+          "Reload / ESM / CJS",
+          "替换准备与旧注册恢复范围"
+        ],
+        [
+          "Runtime",
+          "Fiber / Agent / handle",
+          "停止接纳、等待和资源释放"
+        ],
+        [
+          "Data",
+          "PreparedJsonlMigration",
+          "物理身份、artifact 与排他发布"
+        ]
+      ],
+      "note": "代码、实例和数据兼容各自保存验收证据",
+      "source_excerpt_ids": [
+        "16-3",
+        "16-4",
+        "16-5",
+        "16-2",
+        "16-21",
+        "16-6",
+        "16-7",
+        "16-20",
+        "16-8",
+        "16-9",
+        "16-10",
+        "16-11",
+        "16-1",
+        "16-12",
+        "16-19",
+        "16-13",
+        "16-14",
+        "16-15",
+        "16-16",
+        "16-17",
+        "16-18"
+      ],
+      "caption": "代码、实例和数据兼容各自保存验收证据。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 2,
+      "stem": "02-deployment-evolution-04",
+      "kind": "branches",
+      "title": "部署失败时恢复范围：状态与行动",
+      "nodes": [
+        [
+          "配置准备失败",
+          "候选解析不通过",
+          "旧 live 值可保留",
+          "修正配置后再审计",
+          "不等于全树事务"
+        ],
+        [
+          "replacement 失败",
+          "恢复模块缓存",
+          "清理已挂新 Fiber",
+          "尝试重新挂旧实现",
+          "旧闭包状态不自动复原"
+        ],
+        [
+          "迁移或退出失败",
+          "持有 lease 的写操作",
+          "原错误与清理错误保留",
+          "核对权威 generation",
+          "未知业务效果单独处理"
+        ]
+      ],
+      "note": "部署报告应说明恢复对象与未覆盖边界",
+      "source_excerpt_ids": [
+        "16-3",
+        "16-4",
+        "16-5",
+        "16-2",
+        "16-21",
+        "16-6",
+        "16-7",
+        "16-20",
+        "16-8",
+        "16-9",
+        "16-10",
+        "16-11",
+        "16-1",
+        "16-12",
+        "16-19",
+        "16-13",
+        "16-14",
+        "16-15",
+        "16-16",
+        "16-17",
+        "16-18"
+      ],
+      "caption": "部署报告应说明恢复对象与未覆盖边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 7,
+      "section": 7
+    },
+    {
+      "article": 3,
+      "stem": "03-agent-loop-02",
+      "kind": "loop-nesting",
+      "title": "Turn / Step / attempt 的嵌套调用",
+      "nodes": [
+        [
+          "driver",
+          "kick()",
+          "while (await turn())；沿 running Phase 执行"
+        ],
+        [
+          "Turn",
+          "turn()",
+          "preStep → step → turn-stopping"
+        ],
+        [
+          "admission",
+          "preStep(target, position)",
+          "输入与 PromptAssembly → PreparedStep"
+        ],
+        [
+          "Step",
+          "step(decision)",
+          "PreparedStep → config / preparedCall → request"
+        ],
+        [
+          "attempt",
+          "attempt：prepareRequest → buildRequest → stream",
+          "retry 复用 PreparedStep；重新准备 preparedCall"
+        ],
+        [
+          "tool runtime",
+          "assistant/message → executeToolCalls（如有）",
+          "tool/result 写 Session；concluded 返回 Step"
+        ]
+      ],
+      "note": "step(): null → 下一 Step；turn(): true → 下一 Turn",
+      "source_excerpt_ids": [
+        "02-24",
+        "02-25",
+        "02-26",
+        "02-28",
+        "02-33",
+        "02-37",
+        "02-43",
+        "02-44",
+        "02-47"
+      ],
+      "caption": "kick() 管 Turn，turn() 管 Step，step() 内部重试 attempt；工具回流通常促成新 Step。",
+      "placement": "after-driver-before-prestep",
+      "section": 2
+    },
+    {
+      "article": 3,
+      "stem": "03-agent-loop-03",
+      "kind": "layers",
+      "title": "数据边界：Inbox、request 与 stream",
+      "nodes": [
+        [
+          "Inbox",
+          "InboxState：next-turn / next-step",
+          "send() 入队；claim() 取出 UserMessage"
+        ],
+        [
+          "request",
+          "request.messages ← Session surface",
+          "deriveMessages() → 冻结 request"
+        ],
+        [
+          "live stream",
+          "AssistantStreamAttempt",
+          "settle()：append → end frame"
+        ],
+        [
+          "tool result",
+          "tool/result + additionalContexts",
+          "tool/result → Session；context → Inbox"
+        ]
+      ],
+      "note": "这些是数据边界；Session 提交不等于磁盘 flush",
+      "source_excerpt_ids": [
+        "02-5",
+        "02-27",
+        "02-41",
+        "02-31",
+        "02-32",
+        "02-33",
+        "02-34",
+        "02-35",
+        "02-42",
+        "02-45",
+        "02-48"
+      ],
+      "caption": "候选输入、冻结请求、实时输出与工具结果各有提交位置，不能混为一种状态。",
+      "placement": "after-request-build-before-model-stream",
+      "section": 4
+    },
+    {
+      "article": 3,
+      "stem": "03-agent-loop-04",
+      "kind": "branches",
+      "title": "retry、cancel 与 dispose 的边界",
+      "nodes": [
+        [
+          "request retry",
+          "finish: error / aborted",
+          "settle assistant/attempt",
+          "request-error waterfall",
+          "获准 retry → 同 Step"
+        ],
+        [
+          "activity cancel",
+          "cancel() → signal",
+          "停止新 tool dispatch",
+          "等待 in-flight tools",
+          "turn/end: aborted"
+        ],
+        [
+          "Agent dispose",
+          "cancel: disposed",
+          "whenIdle()",
+          "scope.dispose()",
+          "handle.close()"
+        ]
+      ],
+      "note": "retry 复用 Step；dispose 等待活动与存储收束",
+      "source_excerpt_ids": [
+        "02-37",
+        "02-17",
+        "02-18",
+        "02-20",
+        "02-43"
+      ],
+      "caption": "请求 retry、活动取消与实例释放各有范围；仅 finish 失败获准 retry 时留在原 Step。",
+      "decision_label": "按 signal 与 lifecycle 确定后续路径",
+      "placement": "after-exception-section-intro",
+      "section": 6
+    },
+    {
+      "article": 4,
+      "stem": "04-model-adaptation-02",
+      "kind": "sequence",
+      "title": "prepareCall 到绑定 stream 的交接",
+      "nodes": [
+        [
+          "Loop",
+          "prepareCall(config)",
+          "每个 attempt 重新准备"
+        ],
+        [
+          "LLM registry",
+          "capture registration",
+          "在 await adapter.prepareCall 前固定实现"
+        ],
+        [
+          "Adapter",
+          "PreparedAdapterCall",
+          "model 与绑定 stream 一起返回"
+        ],
+        [
+          "LLM runtime",
+          "PreparedLlmCall",
+          "解析并冻结 config、能力与默认来源"
+        ],
+        [
+          "Runtime",
+          "request projection",
+          "按能力处理 messages 与 replayState"
+        ],
+        [
+          "Bound stream",
+          "streamWithRegistration",
+          "只消费一次，派发同一 registration"
+        ]
+      ],
+      "note": "准备结果是一次调用的完整执行描述",
+      "source_excerpt_ids": [
+        "03-3",
+        "03-4",
+        "03-5",
+        "03-6",
+        "03-21",
+        "03-7",
+        "03-8",
+        "03-1",
+        "03-20",
+        "03-9",
+        "03-19",
+        "03-10",
+        "03-2",
+        "03-11",
+        "03-12",
+        "03-13",
+        "03-14",
+        "03-15",
+        "03-16",
+        "03-17",
+        "03-18"
+      ],
+      "caption": "准备结果是一次调用的完整执行描述。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 2
+    },
+    {
+      "article": 4,
+      "stem": "04-model-adaptation-03",
+      "kind": "layers",
+      "title": "模型输入中的来源与绑定",
+      "nodes": [
+        [
+          "Session",
+          "canonical facts / messages",
+          "历史记录保留原来源"
+        ],
+        [
+          "Projection",
+          "input modalities / toolUpdate",
+          "形成当前 route 的请求视图"
+        ],
+        [
+          "Adapter",
+          "replayState",
+          "只交给能够解释它的实现"
+        ],
+        [
+          "Prepared call",
+          "config + registration + stream",
+          "能力与派发使用同一 generation"
+        ]
+      ],
+      "note": "配置、历史投影与派发通过 prepared call 连接",
+      "source_excerpt_ids": [
+        "03-3",
+        "03-4",
+        "03-5",
+        "03-6",
+        "03-21",
+        "03-7",
+        "03-8",
+        "03-1",
+        "03-20",
+        "03-9",
+        "03-19",
+        "03-10",
+        "03-2",
+        "03-11",
+        "03-12",
+        "03-13",
+        "03-14",
+        "03-15",
+        "03-16",
+        "03-17",
+        "03-18"
+      ],
+      "caption": "配置、历史投影与派发通过 prepared call 连接。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 4
+    },
+    {
+      "article": 4,
+      "stem": "04-model-adaptation-04",
+      "kind": "branches",
+      "title": "模型接缝的失败归属：状态与行动",
+      "nodes": [
+        [
+          "准备失败",
+          "模型或能力不合法",
+          "没有 dispatch",
+          "保留错误来源",
+          "不假造 stream start"
+        ],
+        [
+          "供应商失败",
+          "dispatch / iterator.next",
+          "规范化 failure chunk",
+          "交给恢复政策",
+          "同 Step 再准备"
+        ],
+        [
+          "消费方失败",
+          "yield 下游抛错",
+          "不冒充供应商异常",
+          "清理未完成 iterator",
+          "交给调用方处理"
+        ]
+      ],
+      "note": "错误分类必须对应实际抛错边界",
+      "source_excerpt_ids": [
+        "03-3",
+        "03-4",
+        "03-5",
+        "03-6",
+        "03-21",
+        "03-7",
+        "03-8",
+        "03-1",
+        "03-20",
+        "03-9",
+        "03-19",
+        "03-10",
+        "03-2",
+        "03-11",
+        "03-12",
+        "03-13",
+        "03-14",
+        "03-15",
+        "03-16",
+        "03-17",
+        "03-18"
+      ],
+      "caption": "错误分类必须对应实际抛错边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 9,
+      "section": 6
+    },
+    {
+      "article": 5,
+      "stem": "05-context-engineering-02",
+      "kind": "sequence",
+      "title": "compactRegion 的选区与提交",
+      "nodes": [
+        [
+          "Policy",
+          "compactIfNeeded",
+          "测量压力；prune 后重新测量"
+        ],
+        [
+          "Selector",
+          "SurfaceSelection",
+          "当前 nodes、seq 与完整调用配对"
+        ],
+        [
+          "Region",
+          "PreparedCompaction",
+          "保存选区计量与摘要输入"
+        ],
+        [
+          "Summarizer",
+          "SummaryResult",
+          "由 summarizeWithLlm 产生完整结果"
+        ],
+        [
+          "Region",
+          "stability / signal check",
+          "await 后确认处理的材料仍适用"
+        ],
+        [
+          "Session",
+          "commitCompactionBody",
+          "summary 与 replacement 指回原选区"
+        ]
+      ],
+      "note": "选区身份穿过异步摘要，提交保留来源关系",
+      "source_excerpt_ids": [
+        "04-3",
+        "04-20",
+        "04-4",
+        "04-5",
+        "04-6",
+        "04-7",
+        "04-8",
+        "04-1",
+        "04-19",
+        "04-9",
+        "04-10",
+        "04-18",
+        "04-11",
+        "04-12",
+        "04-13",
+        "04-14",
+        "04-15",
+        "04-2",
+        "04-16",
+        "04-17"
+      ],
+      "caption": "选区身份穿过异步摘要，提交保留来源关系。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 3
+    },
+    {
+      "article": 5,
+      "stem": "05-context-engineering-03",
+      "kind": "layers",
+      "title": "从事实到模型输入的四种表示",
+      "nodes": [
+        [
+          "Session log",
+          "append-only events / seq",
+          "保存恢复与审计依据"
+        ],
+        [
+          "Surface",
+          "append / replace view",
+          "决定当前可见历史"
+        ],
+        [
+          "Prompt",
+          "PromptAssembly",
+          "sections、contexts、tools 与 variables"
+        ],
+        [
+          "Request",
+          "GenerateOptions.messages",
+          "消费本次 route 的能力投影"
+        ]
+      ],
+      "note": "每种表示服务一种用途，并以身份关联",
+      "source_excerpt_ids": [
+        "04-3",
+        "04-20",
+        "04-4",
+        "04-5",
+        "04-6",
+        "04-7",
+        "04-8",
+        "04-1",
+        "04-19",
+        "04-9",
+        "04-10",
+        "04-18",
+        "04-11",
+        "04-12",
+        "04-13",
+        "04-14",
+        "04-15",
+        "04-2",
+        "04-16",
+        "04-17"
+      ],
+      "caption": "每种表示服务一种用途，并以身份关联。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 5,
+      "section": 4
+    },
+    {
+      "article": 5,
+      "stem": "05-context-engineering-04",
+      "kind": "branches",
+      "title": "窗口恢复的判断依据：状态与行动",
+      "nodes": [
+        [
+          "正常压力",
+          "测量达到阈值",
+          "prune 与摘要",
+          "重测降到阈值以下",
+          "允许正常派发"
+        ],
+        [
+          "溢出失败",
+          "记录 generation",
+          "恢复期间视图有进展",
+          "有界 retry",
+          "再次验证供应商接纳"
+        ],
+        [
+          "没有进展",
+          "选区不足或摘要失败",
+          "generation 未改变",
+          "不承诺原样 retry 有效",
+          "保留错误与恢复边界"
+        ]
+      ],
+      "note": "摘要完整与摘要语义正确还需分别评估",
+      "source_excerpt_ids": [
+        "04-3",
+        "04-20",
+        "04-4",
+        "04-5",
+        "04-6",
+        "04-7",
+        "04-8",
+        "04-1",
+        "04-19",
+        "04-9",
+        "04-10",
+        "04-18",
+        "04-11",
+        "04-12",
+        "04-13",
+        "04-14",
+        "04-15",
+        "04-2",
+        "04-16",
+        "04-17"
+      ],
+      "caption": "摘要完整与摘要语义正确还需分别评估。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 10,
+      "section": 6
+    },
+    {
+      "article": 6,
+      "stem": "06-state-persistence-02",
+      "kind": "sequence",
+      "title": "JSONL writer 的批写与屏障",
+      "nodes": [
+        [
+          "Session",
+          "append(event)",
+          "复制、校验并同步提交 log"
+        ],
+        [
+          "Persistence",
+          "enqueueLive",
+          "持久 consumer 复制事件入 buffer"
+        ],
+        [
+          "Handle",
+          "enqueueChain / drain",
+          "live 与显式 append 共享操作链"
+        ],
+        [
+          "Storage",
+          "persistContiguous",
+          "cursor、尾部修补与 materialized 推进"
+        ],
+        [
+          "Caller",
+          "flush()",
+          "等待前序写入成为持久屏障"
+        ],
+        [
+          "Handle",
+          "close()",
+          "排空 buffer / chain，再释放 lease"
+        ]
+      ],
+      "note": "接受、批写、屏障和关闭各有完成条件",
+      "source_excerpt_ids": [
+        "05-3",
+        "05-1",
+        "05-4",
+        "05-5",
+        "05-2",
+        "05-21",
+        "05-6",
+        "05-7",
+        "05-8",
+        "05-9",
+        "05-10",
+        "05-11",
+        "05-12",
+        "05-13",
+        "05-14",
+        "05-20",
+        "05-15",
+        "05-16",
+        "05-17",
+        "05-18",
+        "05-19"
+      ],
+      "caption": "接受、批写、屏障和关闭各有完成条件。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 3
+    },
+    {
+      "article": 6,
+      "stem": "06-state-persistence-03",
+      "kind": "layers",
+      "title": "恢复对象的数据与寿命",
+      "nodes": [
+        [
+          "Ledger",
+          "Session JSONL / seed",
+          "resume 消费有效事件前缀"
+        ],
+        [
+          "Projection",
+          "fold / stateVersion",
+          "按已安装解释器重建状态"
+        ],
+        [
+          "Live state",
+          "activation / jobs / driver",
+          "重新组织运行资格与管理对象"
+        ],
+        [
+          "Diff source",
+          "TurnRecord / scratch",
+          "丰富内容有自己的存储来源"
+        ]
+      ],
+      "note": "恢复承诺按对象与来源分别定义",
+      "source_excerpt_ids": [
+        "05-3",
+        "05-1",
+        "05-4",
+        "05-5",
+        "05-2",
+        "05-21",
+        "05-6",
+        "05-7",
+        "05-8",
+        "05-9",
+        "05-10",
+        "05-11",
+        "05-12",
+        "05-13",
+        "05-14",
+        "05-20",
+        "05-15",
+        "05-16",
+        "05-17",
+        "05-18",
+        "05-19"
+      ],
+      "caption": "恢复承诺按对象与来源分别定义。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 4
+    },
+    {
+      "article": 6,
+      "stem": "06-state-persistence-04",
+      "kind": "branches",
+      "title": "恢复时怎样解释缺口：状态与行动",
+      "nodes": [
+        [
+          "可读前缀",
+          "取得权威日志",
+          "校验并重建事实",
+          "只恢复已知状态",
+          "等待后续输入执行"
+        ],
+        [
+          "未开始工具",
+          "没有 call 证据",
+          "修复 NOT_STARTED",
+          "补齐结果与边界",
+          "不制造外部动作"
+        ],
+        [
+          "结果未知工具",
+          "call 已存在但无 result",
+          "修复 UNKNOWN",
+          "查询幂等操作回执",
+          "不盲目重新执行"
+        ]
+      ],
+      "note": "恢复和 fork 都不会重做历史工具",
+      "source_excerpt_ids": [
+        "05-3",
+        "05-1",
+        "05-4",
+        "05-5",
+        "05-2",
+        "05-21",
+        "05-6",
+        "05-7",
+        "05-8",
+        "05-9",
+        "05-10",
+        "05-11",
+        "05-12",
+        "05-13",
+        "05-14",
+        "05-20",
+        "05-15",
+        "05-16",
+        "05-17",
+        "05-18",
+        "05-19"
+      ],
+      "caption": "恢复和 fork 都不会重做历史工具。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 10,
+      "section": 6
+    },
+    {
+      "article": 7,
+      "stem": "07-tool-runtime-02",
+      "kind": "sequence",
+      "title": "ScheduledToolPreparation 如何交回 Loop",
+      "nodes": [
+        [
+          "Loop",
+          "tool/call → prepare",
+          "callSeq 与 ToolExecutionInput 连接调用"
+        ],
+        [
+          "Runtime",
+          "pre / approval / guards",
+          "形成 dispatch 或结果分支"
+        ],
+        [
+          "Dispatch",
+          "body → normalize",
+          "产生规范 value、render content"
+        ],
+        [
+          "Runtime",
+          "finalize / post",
+          "确定 ToolExecutionResult 与最终内容"
+        ],
+        [
+          "Observers",
+          "tools/result",
+          "通知 consumer；outcome 已经确定"
+        ],
+        [
+          "Loop",
+          "appendToolResult",
+          "模型顺序提交，再接纳 additionalContexts"
+        ]
+      ],
+      "note": "结果生产、最终治理和历史提交分别发生",
+      "source_excerpt_ids": [
+        "06-3",
+        "06-4",
+        "06-5",
+        "06-6",
+        "06-1",
+        "06-25",
+        "06-7",
+        "06-8",
+        "06-24",
+        "06-9",
+        "06-10",
+        "06-11",
+        "06-12",
+        "06-13",
+        "06-23",
+        "06-14",
+        "06-22",
+        "06-15",
+        "06-16",
+        "06-17",
+        "06-2",
+        "06-18",
+        "06-19",
+        "06-20",
+        "06-21"
+      ],
+      "caption": "结果生产、最终治理和历史提交分别发生。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 2
+    },
+    {
+      "article": 7,
+      "stem": "07-tool-runtime-03",
+      "kind": "layers",
+      "title": "工具结果协议中的数据职责",
+      "nodes": [
+        [
+          "Input",
+          "ToolExecutionInput",
+          "callId、arguments、agent 与 signal"
+        ],
+        [
+          "Preparation",
+          "ScheduledToolPreparation",
+          "kind 指明 dispatch 或结算路径"
+        ],
+        [
+          "Outcome",
+          "ToolExecutionSuccess",
+          "value / content / meta / contexts"
+        ],
+        [
+          "History",
+          "tool/result / sourceEventSeqs",
+          "规范消息关联原 callSeq"
+        ]
+      ],
+      "note": "规范 value 与 durable 模型内容有不同用途",
+      "source_excerpt_ids": [
+        "06-3",
+        "06-4",
+        "06-5",
+        "06-6",
+        "06-1",
+        "06-25",
+        "06-7",
+        "06-8",
+        "06-24",
+        "06-9",
+        "06-10",
+        "06-11",
+        "06-12",
+        "06-13",
+        "06-23",
+        "06-14",
+        "06-22",
+        "06-15",
+        "06-16",
+        "06-17",
+        "06-2",
+        "06-18",
+        "06-19",
+        "06-20",
+        "06-21"
+      ],
+      "caption": "规范 value 与 durable 模型内容有不同用途。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 7,
+      "section": 4
+    },
+    {
+      "article": 7,
+      "stem": "07-tool-runtime-04",
+      "kind": "branches",
+      "title": "工具失败发生在哪里：状态与行动",
+      "nodes": [
+        [
+          "准备拒绝",
+          "参数、审批或 guard 失败",
+          "body 尚未开始",
+          "返回规范错误",
+          "不产生新派发"
+        ],
+        [
+          "执行未知",
+          "body 已进入",
+          "远端可能已经提交",
+          "保留不确定性",
+          "查询回执与幂等状态"
+        ],
+        [
+          "反馈失败",
+          "输出校验或 post 失败",
+          "业务效果可能存在",
+          "最终 isError",
+          "不能据此自动重做"
+        ]
+      ],
+      "note": "函数返回之后，反馈协议仍可能失败",
+      "source_excerpt_ids": [
+        "06-3",
+        "06-4",
+        "06-5",
+        "06-6",
+        "06-1",
+        "06-25",
+        "06-7",
+        "06-8",
+        "06-24",
+        "06-9",
+        "06-10",
+        "06-11",
+        "06-12",
+        "06-13",
+        "06-23",
+        "06-14",
+        "06-22",
+        "06-15",
+        "06-16",
+        "06-17",
+        "06-2",
+        "06-18",
+        "06-19",
+        "06-20",
+        "06-21"
+      ],
+      "caption": "函数返回之后，反馈协议仍可能失败。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 9,
+      "section": 5
+    },
+    {
+      "article": 8,
+      "stem": "08-reliability-02",
+      "kind": "sequence",
+      "title": "llm-retry 在恢复链中的位置",
+      "nodes": [
+        [
+          "Adapter",
+          "failure finish",
+          "normalizeFailure 保留来源"
+        ],
+        [
+          "Loop",
+          "attempt settlement",
+          "先提交失败事实，再调用 request-error"
+        ],
+        [
+          "Retry listener",
+          "policy + previousRetry",
+          "normal 次数检查或委派下游"
+        ],
+        [
+          "Session",
+          "llm/retry",
+          "保存 retryId 与计划等待"
+        ],
+        [
+          "Delay",
+          "llm/retry-started",
+          "等待完成；取消可在此前发生"
+        ],
+        [
+          "Loop",
+          "next attempt",
+          "收到 retry 后重新 prepareRequest"
+        ]
+      ],
+      "note": "图示退避分支；窗口恢复依据 generation 变化",
+      "source_excerpt_ids": [
+        "07-3",
+        "07-4",
+        "07-1",
+        "07-18",
+        "07-19",
+        "07-5",
+        "07-6",
+        "07-7",
+        "07-8",
+        "07-9",
+        "07-10",
+        "07-11",
+        "07-12",
+        "07-13",
+        "07-2",
+        "07-17",
+        "07-14",
+        "07-15",
+        "07-16"
+      ],
+      "caption": "图示退避分支；窗口恢复依据 generation 变化。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 8,
+      "stem": "08-reliability-03",
+      "kind": "layers",
+      "title": "恢复决策使用的状态",
+      "nodes": [
+        [
+          "Failure",
+          "failure.code / retryPolicy",
+          "确定可处理的错误分类"
+        ],
+        [
+          "Retry",
+          "RetryStateEntry",
+          "Step 内次数与 retryId 去重"
+        ],
+        [
+          "Compaction",
+          "replaceGeneration",
+          "证明请求视图确实前进"
+        ],
+        [
+          "Repair",
+          "pendingCalls / callSeq",
+          "区分未记录开始与结果未知"
+        ]
+      ],
+      "note": "不同 consumer 各自保存作出决定的依据",
+      "source_excerpt_ids": [
+        "07-3",
+        "07-4",
+        "07-1",
+        "07-18",
+        "07-19",
+        "07-5",
+        "07-6",
+        "07-7",
+        "07-8",
+        "07-9",
+        "07-10",
+        "07-11",
+        "07-12",
+        "07-13",
+        "07-2",
+        "07-17",
+        "07-14",
+        "07-15",
+        "07-16"
+      ],
+      "caption": "不同 consumer 各自保存作出决定的依据。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 8,
+      "stem": "08-reliability-04",
+      "kind": "branches",
+      "title": "三个恢复出口：状态与行动",
+      "nodes": [
+        [
+          "可重试请求",
+          "政策支持该 failure",
+          "次数与等待符合约束",
+          "记录并等待",
+          "重新派发模型请求"
+        ],
+        [
+          "取消或超时",
+          "关闭新增入口",
+          "工具协作式停止",
+          "等待在途结算",
+          "资源释放后收尾"
+        ],
+        [
+          "工具结果缺失",
+          "已有 call 但无回执",
+          "补 UNKNOWN 事实",
+          "查询外部操作身份",
+          "不盲目重放写入"
+        ]
+      ],
+      "note": "可靠恢复首先表达知道什么、还不知道什么",
+      "source_excerpt_ids": [
+        "07-3",
+        "07-4",
+        "07-1",
+        "07-18",
+        "07-19",
+        "07-5",
+        "07-6",
+        "07-7",
+        "07-8",
+        "07-9",
+        "07-10",
+        "07-11",
+        "07-12",
+        "07-13",
+        "07-2",
+        "07-17",
+        "07-14",
+        "07-15",
+        "07-16"
+      ],
+      "caption": "可靠恢复首先表达知道什么、还不知道什么。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 5,
+      "section": 5
+    },
+    {
+      "article": 9,
+      "stem": "09-concurrency-02",
+      "kind": "sequence",
+      "title": "runGroup 的派发与有序提交",
+      "nodes": [
+        [
+          "Classifier",
+          "executionMode",
+          "实际参数与当前注册确定模式"
+        ],
+        [
+          "Scheduler",
+          "scheduler.prepare",
+          "依序 prepare；body 可以重叠"
+        ],
+        [
+          "Pool",
+          "scheduler.dispatch",
+          "inFlight 受局部并行度限制"
+        ],
+        [
+          "Slots",
+          "Slot.result",
+          "先完成结果等待 committed 游标"
+        ],
+        [
+          "Commit",
+          "commitReady",
+          "finalize → tool/result → context"
+        ],
+        [
+          "Drain",
+          "stop replenishment",
+          "失败或取消后等待已启动工作"
+        ]
+      ],
+      "note": "执行完成顺序与模型历史顺序分开管理",
+      "source_excerpt_ids": [
+        "08-24",
+        "08-3",
+        "08-4",
+        "08-5",
+        "08-6",
+        "08-7",
+        "08-1",
+        "08-23",
+        "08-8",
+        "08-9",
+        "08-10",
+        "08-11",
+        "08-22",
+        "08-12",
+        "08-13",
+        "08-14",
+        "08-2",
+        "08-21",
+        "08-15",
+        "08-16",
+        "08-17",
+        "08-18",
+        "08-19",
+        "08-20"
+      ],
+      "caption": "执行完成顺序与模型历史顺序分开管理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 9,
+      "stem": "09-concurrency-03",
+      "kind": "layers",
+      "title": "并发资源的 owner 与完成点",
+      "nodes": [
+        [
+          "Tool group",
+          "inFlight / Slot / committed",
+          "body 结算与结果提交分别观察"
+        ],
+        [
+          "Local job",
+          "TrackedJob.owner / settled",
+          "running 和 stopping 都占额度"
+        ],
+        [
+          "Child",
+          "SubagentRun / AgentHandle",
+          "result 与 dispose 分别等待"
+        ],
+        [
+          "Enterprise",
+          "任务 / 租户资源账本（建议）",
+          "原子准入并沿真实终点回收额度"
+        ]
+      ],
+      "note": "先明确管理责任，再决定配额释放位置",
+      "source_excerpt_ids": [
+        "08-24",
+        "08-3",
+        "08-4",
+        "08-5",
+        "08-6",
+        "08-7",
+        "08-1",
+        "08-23",
+        "08-8",
+        "08-9",
+        "08-10",
+        "08-11",
+        "08-22",
+        "08-12",
+        "08-13",
+        "08-14",
+        "08-2",
+        "08-21",
+        "08-15",
+        "08-16",
+        "08-17",
+        "08-18",
+        "08-19",
+        "08-20"
+      ],
+      "caption": "先明确管理责任，再决定配额释放位置。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 9,
+      "stem": "09-concurrency-04",
+      "kind": "branches",
+      "title": "额度何时可以归还：状态与行动",
+      "nodes": [
+        [
+          "工具 body",
+          "停止新增",
+          "已启动 dispatch 结算",
+          "按序结果提交",
+          "释放局部执行槽"
+        ],
+        [
+          "后台 job",
+          "发送 cancel",
+          "状态变为 stopping",
+          "producer 与 pump 结束",
+          "settled 后不再占活跃额度"
+        ],
+        [
+          "Child Agent",
+          "父取消或结果到达",
+          "停止 child driver",
+          "等待 result 和 handle.dispose",
+          "真实资源释放后归还"
+        ]
+      ],
+      "note": "stopping 不是 finished，取消不是资源释放",
+      "source_excerpt_ids": [
+        "08-24",
+        "08-3",
+        "08-4",
+        "08-5",
+        "08-6",
+        "08-7",
+        "08-1",
+        "08-23",
+        "08-8",
+        "08-9",
+        "08-10",
+        "08-11",
+        "08-22",
+        "08-12",
+        "08-13",
+        "08-14",
+        "08-2",
+        "08-21",
+        "08-15",
+        "08-16",
+        "08-17",
+        "08-18",
+        "08-19",
+        "08-20"
+      ],
+      "caption": "stopping 不是 finished，取消不是资源释放。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 10,
+      "stem": "10-security-02",
+      "kind": "sequence",
+      "title": "敏感文件 write 的资格链",
+      "nodes": [
+        [
+          "Tool view",
+          "visible tool view",
+          "可见能力进入实际 runtime 检查"
+        ],
+        [
+          "Pre policy",
+          "PreToolDecision",
+          "allow / deny / cancel / ask"
+        ],
+        [
+          "Approval",
+          "ApprovalRequestEvent",
+          "ask 获得受控一次决定"
+        ],
+        [
+          "Runtime",
+          "guards / callerSignal",
+          "审批后仍检查剩余约束和取消"
+        ],
+        [
+          "FS sandbox",
+          "checkedTarget",
+          "fresh.targetKey 与 writableRoots"
+        ],
+        [
+          "FS provider",
+          "write / edit",
+          "把检查返回的目标交给实际操作"
+        ]
+      ],
+      "note": "进程 runner 属于另一资源路径，正文单独说明",
+      "source_excerpt_ids": [
+        "09-21",
+        "09-3",
+        "09-4",
+        "09-5",
+        "09-1",
+        "09-20",
+        "09-6",
+        "09-7",
+        "09-2",
+        "09-8",
+        "09-9",
+        "09-10",
+        "09-11",
+        "09-12",
+        "09-13",
+        "09-19",
+        "09-14",
+        "09-15",
+        "09-16",
+        "09-17",
+        "09-18"
+      ],
+      "caption": "进程 runner 属于另一资源路径，正文单独说明。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 10,
+      "stem": "10-security-03",
+      "kind": "layers",
+      "title": "安全规则在不同层执行",
+      "nodes": [
+        [
+          "Host API",
+          "request trust / user mapping",
+          "控制来源与 Session 资源授权"
+        ],
+        [
+          "Scope",
+          "Context / realm / Fiber",
+          "组织服务、贡献与生命周期"
+        ],
+        [
+          "Tool policy",
+          "approval / guard / source",
+          "限制这次执行的资格"
+        ],
+        [
+          "Resource",
+          "FS / sandbox runner / credentials",
+          "约束实际路径、执行与凭据"
+        ]
+      ],
+      "note": "各层保存自己的检查对象与撤销责任",
+      "source_excerpt_ids": [
+        "09-21",
+        "09-3",
+        "09-4",
+        "09-5",
+        "09-1",
+        "09-20",
+        "09-6",
+        "09-7",
+        "09-2",
+        "09-8",
+        "09-9",
+        "09-10",
+        "09-11",
+        "09-12",
+        "09-13",
+        "09-19",
+        "09-14",
+        "09-15",
+        "09-16",
+        "09-17",
+        "09-18"
+      ],
+      "caption": "各层保存自己的检查对象与撤销责任。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 10,
+      "stem": "10-security-04",
+      "kind": "branches",
+      "title": "审批和来源的安全出口：状态与行动",
+      "nodes": [
+        [
+          "允许一次",
+          "受控 allowed-once",
+          "参数身份固定",
+          "仍检查 guard 与取消",
+          "执行本次操作"
+        ],
+        [
+          "没有合法决定",
+          "无通道 / never / 异常",
+          "结果拒绝或 unavailable",
+          "禁止派发 body",
+          "不推断默认同意"
+        ],
+        [
+          "伪造人类来源",
+          "模型文本声称批准",
+          "没有可信 source 与身份",
+          "不获得 root 人类权力",
+          "由 Host 受控元信息判断"
+        ]
+      ],
+      "note": "自然语言内容不能升级为系统授权",
+      "source_excerpt_ids": [
+        "09-21",
+        "09-3",
+        "09-4",
+        "09-5",
+        "09-1",
+        "09-20",
+        "09-6",
+        "09-7",
+        "09-2",
+        "09-8",
+        "09-9",
+        "09-10",
+        "09-11",
+        "09-12",
+        "09-13",
+        "09-19",
+        "09-14",
+        "09-15",
+        "09-16",
+        "09-17",
+        "09-18"
+      ],
+      "caption": "自然语言内容不能升级为系统授权。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 11,
+      "stem": "11-autonomy-02",
+      "kind": "sequence",
+      "title": "pending intent 到 plan/mode",
+      "nodes": [
+        [
+          "Exit tool",
+          "read plan / review",
+          "校验内容与合法审阅通道"
+        ],
+        [
+          "Question",
+          "await precise approval",
+          "等待期间检查 signal 与 disposed"
+        ],
+        [
+          "Plan service",
+          "pendingIntents.set",
+          "active / narrate 保存 live 选择"
+        ],
+        [
+          "Loop",
+          "assemble → pre-step",
+          "prompt 回调先消费 pending"
+        ],
+        [
+          "Admission",
+          "await next() → onBoundary",
+          "接受且仍有效才提交"
+        ],
+        [
+          "Session",
+          "plan/mode → delete",
+          "append 成功后清除对应 pending"
+        ]
+      ],
+      "note": "选择、组装与已确认事实由不同 consumer 处理",
+      "source_excerpt_ids": [
+        "10-3",
+        "10-4",
+        "10-2",
+        "10-22",
+        "10-5",
+        "10-6",
+        "10-7",
+        "10-1",
+        "10-21",
+        "10-8",
+        "10-9",
+        "10-10",
+        "10-11",
+        "10-20",
+        "10-12",
+        "10-13",
+        "10-14",
+        "10-15",
+        "10-16",
+        "10-17",
+        "10-18",
+        "10-19"
+      ],
+      "caption": "选择、组装与已确认事实由不同 consumer 处理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 11,
+      "stem": "11-autonomy-03",
+      "kind": "layers",
+      "title": "自主控制保存什么状态",
+      "nodes": [
+        [
+          "Goal driver",
+          "RoundAttempt / activation",
+          "精确 revision 的自动输入资格"
+        ],
+        [
+          "Plan mode",
+          "pendingIntents / PlanUnitState",
+          "live 选择与可重放政策状态"
+        ],
+        [
+          "Tool grant",
+          "allowed-once / callerSignal",
+          "一次行动的授权与有效期"
+        ],
+        [
+          "Host input",
+          "Inbox / cancel / keepInbox",
+          "接纳位置、停止与队列保留"
+        ]
+      ],
+      "note": "状态文案应对应真实控制范围",
+      "source_excerpt_ids": [
+        "10-3",
+        "10-4",
+        "10-2",
+        "10-22",
+        "10-5",
+        "10-6",
+        "10-7",
+        "10-1",
+        "10-21",
+        "10-8",
+        "10-9",
+        "10-10",
+        "10-11",
+        "10-20",
+        "10-12",
+        "10-13",
+        "10-14",
+        "10-15",
+        "10-16",
+        "10-17",
+        "10-18",
+        "10-19"
+      ],
+      "caption": "状态文案应对应真实控制范围。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 11,
+      "stem": "11-autonomy-04",
+      "kind": "branches",
+      "title": "等待后控制权可能怎样改变：状态与行动",
+      "nodes": [
+        [
+          "批准且仍有效",
+          "plugin 未 dispose",
+          "没有取消",
+          "下一边界准入",
+          "提交 mode 事实"
+        ],
+        [
+          "暂停后立即恢复",
+          "取消旧自动 Turn",
+          "resume 增加 revision",
+          "旧 attempt 不匹配",
+          "不能重新暂停新目标"
+        ],
+        [
+          "软提醒",
+          "重复工具达到阈值",
+          "追加 notice 上下文",
+          "仍委托下游执行",
+          "不等同强制终止"
+        ]
+      ],
+      "note": "异步等待之后必须复核实际资格",
+      "source_excerpt_ids": [
+        "10-3",
+        "10-4",
+        "10-2",
+        "10-22",
+        "10-5",
+        "10-6",
+        "10-7",
+        "10-1",
+        "10-21",
+        "10-8",
+        "10-9",
+        "10-10",
+        "10-11",
+        "10-20",
+        "10-12",
+        "10-13",
+        "10-14",
+        "10-15",
+        "10-16",
+        "10-17",
+        "10-18",
+        "10-19"
+      ],
+      "caption": "异步等待之后必须复核实际资格。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 12,
+      "stem": "12-budgets-02",
+      "kind": "call-tree",
+      "title": "任务消耗沿调用目的归集",
+      "nodes": [
+        [
+          "Parent",
+          "Goal round / task identity",
+          "一个 round 内可有多次模型调用"
+        ],
+        [
+          "Loop",
+          "Step / attempt",
+          "每次 retry 重新派发"
+        ],
+        [
+          "Compaction",
+          "Summary request",
+          "purpose=compaction"
+        ],
+        [
+          "Child",
+          "Child Agent requests",
+          "独立 Loop 消费资源"
+        ],
+        [
+          "Ledger",
+          "TokenUsage + route + purpose",
+          "保留计量来源，缺失用量记录为未知"
+        ],
+        [
+          "Enterprise",
+          "Atomic reserve / settle",
+          "在可信 dispatch 前预留，回执后幂等结算"
+        ]
+      ],
+      "note": "图示成本关联；统一账本在正文中作为扩展建议",
+      "source_excerpt_ids": [
+        "11-3",
+        "11-4",
+        "11-5",
+        "11-21",
+        "11-6",
+        "11-7",
+        "11-8",
+        "11-9",
+        "11-10",
+        "11-11",
+        "11-1",
+        "11-20",
+        "11-12",
+        "11-13",
+        "11-14",
+        "11-2",
+        "11-22",
+        "11-15",
+        "11-16",
+        "11-17",
+        "11-18"
+      ],
+      "caption": "图示成本关联；统一账本在正文中作为扩展建议。三种模型消费路径分别核算，成本关联不表示三条顺序调用。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 12,
+      "stem": "12-budgets-03",
+      "kind": "layers",
+      "title": "Budget 上限对应哪个 consumer",
+      "nodes": [
+        [
+          "Goal round",
+          "maxGoalRounds / roundsStarted",
+          "已接纳自动输入的累计轮次"
+        ],
+        [
+          "Retry",
+          "normal maxRetries / policyKey",
+          "当前 Step 的恢复状态"
+        ],
+        [
+          "Output",
+          "LlmCallConfig.maxTokens",
+          "一次实际模型生成的输出"
+        ],
+        [
+          "Deadline",
+          "timeout wrapper / exec.signal",
+          "工具停止请求与后续结算"
+        ]
+      ],
+      "note": "字段同时说明单位、范围和扣减事实",
+      "source_excerpt_ids": [
+        "11-3",
+        "11-4",
+        "11-5",
+        "11-21",
+        "11-6",
+        "11-7",
+        "11-8",
+        "11-9",
+        "11-10",
+        "11-11",
+        "11-1",
+        "11-20",
+        "11-12",
+        "11-13",
+        "11-14",
+        "11-2",
+        "11-22",
+        "11-15",
+        "11-16",
+        "11-17",
+        "11-18"
+      ],
+      "caption": "字段同时说明单位、范围和扣减事实。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 12,
+      "stem": "12-budgets-04",
+      "kind": "branches",
+      "title": "计量与预算的判断出口：状态与行动",
+      "nodes": [
+        [
+          "压力估计",
+          "路由一致才复用 anchor",
+          "baseline 与 delta",
+          "用于压缩判定",
+          "不能直接当账单"
+        ],
+        [
+          "可信 usage",
+          "字段完整且计数有效",
+          "按计价版本结算",
+          "关联实际调用身份",
+          "保留缓存口径"
+        ],
+        [
+          "回执缺失",
+          "已经派发但无法确认",
+          "保守保留未知额度",
+          "查询供应商记录",
+          "不在取消时自动退款"
+        ]
+      ],
+      "note": "预留、结算与未知需要不同账本状态",
+      "source_excerpt_ids": [
+        "11-3",
+        "11-4",
+        "11-5",
+        "11-21",
+        "11-6",
+        "11-7",
+        "11-8",
+        "11-9",
+        "11-10",
+        "11-11",
+        "11-1",
+        "11-20",
+        "11-12",
+        "11-13",
+        "11-14",
+        "11-2",
+        "11-22",
+        "11-15",
+        "11-16",
+        "11-17",
+        "11-18"
+      ],
+      "caption": "预留、结算与未知需要不同账本状态。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 7,
+      "section": 7
+    },
+    {
+      "article": 13,
+      "stem": "13-observability-02",
+      "kind": "sequence",
+      "title": "coordinator 的捕获与 handoff",
+      "nodes": [
+        [
+          "Reporter",
+          "canonical feedback",
+          "自有后缀与 Session 身份授权"
+        ],
+        [
+          "Coordinator",
+          "captureSession",
+          "cursor+1 到 inclusive throughSeq"
+        ],
+        [
+          "Capture",
+          "SessionTelemetryRecord",
+          "复制 envelope 与 body，保留来源"
+        ],
+        [
+          "Policy",
+          "record waterfall",
+          "捕获时应用部署的 redaction"
+        ],
+        [
+          "Sink",
+          "backend.emit",
+          "同步接受独立 record 进入 pipeline"
+        ],
+        [
+          "Coordinator",
+          "handoffCursor.set",
+          "只说明本地交接，远端接收另有协议"
+        ]
+      ],
+      "note": "on-demand 捕获由最终 OTel consumer 明确选择",
+      "source_excerpt_ids": [
+        "12-3",
+        "12-4",
+        "12-5",
+        "12-2",
+        "12-20",
+        "12-6",
+        "12-7",
+        "12-8",
+        "12-9",
+        "12-10",
+        "12-1",
+        "12-18",
+        "12-19",
+        "12-11",
+        "12-12",
+        "12-13",
+        "12-14",
+        "12-15",
+        "12-16",
+        "12-17"
+      ],
+      "caption": "on-demand 捕获由最终 OTel consumer 明确选择。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 3,
+      "section": 3
+    },
+    {
+      "article": 13,
+      "stem": "13-observability-03",
+      "kind": "layers",
+      "title": "观测对象各自回答什么",
+      "nodes": [
+        [
+          "Ledger",
+          "Session event / seq",
+          "已接纳事实与状态重建"
+        ],
+        [
+          "Live stream",
+          "AssistantStreamFrame",
+          "输出前缀与 settlement 结果"
+        ],
+        [
+          "Telemetry",
+          "SessionTelemetryRecord",
+          "授权范围、政策处理与交接"
+        ],
+        [
+          "Audit",
+          "outbox / durable ACK（建议）",
+          "更强业务审计使用独立提交协议"
+        ]
+      ],
+      "note": "记录来源和确认阶段一同解释",
+      "source_excerpt_ids": [
+        "12-3",
+        "12-4",
+        "12-5",
+        "12-2",
+        "12-20",
+        "12-6",
+        "12-7",
+        "12-8",
+        "12-9",
+        "12-10",
+        "12-1",
+        "12-18",
+        "12-19",
+        "12-11",
+        "12-12",
+        "12-13",
+        "12-14",
+        "12-15",
+        "12-16",
+        "12-17"
+      ],
+      "caption": "记录来源和确认阶段一同解释。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 13,
+      "stem": "13-observability-04",
+      "kind": "branches",
+      "title": "记录缺失的三种解释：状态与行动",
+      "nodes": [
+        [
+          "没有授权或禁用",
+          "未构建 reporter",
+          "没有普通实时捕获",
+          "远端自然无记录",
+          "不证明动作未执行"
+        ],
+        [
+          "处理或导出失败",
+          "脱敏失败可 withheld",
+          "backend 可能排队丢弃",
+          "游标不是持久 ACK",
+          "需查渠道状态"
+        ],
+        [
+          "交付观察失败",
+          "工具 outcome 已确定",
+          "present 声明可能缺失",
+          "按 seq 与 callId 查事实",
+          "分别检查文件与事件"
+        ]
+      ],
+      "note": "缺 trace、缺声明与业务失败不能混为一谈",
+      "source_excerpt_ids": [
+        "12-3",
+        "12-4",
+        "12-5",
+        "12-2",
+        "12-20",
+        "12-6",
+        "12-7",
+        "12-8",
+        "12-9",
+        "12-10",
+        "12-1",
+        "12-18",
+        "12-19",
+        "12-11",
+        "12-12",
+        "12-13",
+        "12-14",
+        "12-15",
+        "12-16",
+        "12-17"
+      ],
+      "caption": "缺 trace、缺声明与业务失败不能混为一谈。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 14,
+      "stem": "14-evaluation-02",
+      "kind": "sequence",
+      "title": "回流用例跨过的消费边界",
+      "nodes": [
+        [
+          "Fixture",
+          "controlled adapter script",
+          "提供确定的 tool call 与后续文本"
+        ],
+        [
+          "Runtime",
+          "real Agent / ToolRuntime",
+          "保留被测 Loop 和 Session"
+        ],
+        [
+          "Tool",
+          "execute / finalize",
+          "参数、body 与规范 outcome"
+        ],
+        [
+          "Loop",
+          "tool/result → next request",
+          "历史派生携带正确 toolCallId"
+        ],
+        [
+          "Assertions",
+          "messages + ledger",
+          "关键链路错误时断言应失败"
+        ],
+        [
+          "Cleanup",
+          "dispose contribution",
+          "再次查询工具不可见"
+        ]
+      ],
+      "note": "图示用例安排和断言链，真实模型质量另行评测",
+      "source_excerpt_ids": [
+        "13-3",
+        "13-4",
+        "13-5",
+        "13-1",
+        "13-6",
+        "13-7",
+        "13-8",
+        "13-2",
+        "13-19",
+        "13-9",
+        "13-10",
+        "13-11",
+        "13-18",
+        "13-12",
+        "13-13",
+        "13-17",
+        "13-14",
+        "13-15",
+        "13-16"
+      ],
+      "caption": "图示用例安排和断言链，真实模型质量另行评测。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 2,
+      "section": 2
+    },
+    {
+      "article": 14,
+      "stem": "14-evaluation-03",
+      "kind": "layers",
+      "title": "证据分层与可支持的结论",
+      "nodes": [
+        [
+          "Static",
+          "types / code / build",
+          "指定接口与产物形态"
+        ],
+        [
+          "Integration",
+          "real runtime + controlled seam",
+          "确定输入下的执行契约"
+        ],
+        [
+          "Smoke",
+          "profile / install / readiness",
+          "指定部署组合的入口行为"
+        ],
+        [
+          "Acceptance",
+          "files / command / receipt",
+          "独立任务集中的实际结果"
+        ]
+      ],
+      "note": "每层报告替身、断言、环境和分母",
+      "source_excerpt_ids": [
+        "13-3",
+        "13-4",
+        "13-5",
+        "13-1",
+        "13-6",
+        "13-7",
+        "13-8",
+        "13-2",
+        "13-19",
+        "13-9",
+        "13-10",
+        "13-11",
+        "13-18",
+        "13-12",
+        "13-13",
+        "13-17",
+        "13-14",
+        "13-15",
+        "13-16"
+      ],
+      "caption": "每层报告替身、断言、环境和分母。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 4,
+      "section": 4
+    },
+    {
+      "article": 14,
+      "stem": "14-evaluation-04",
+      "kind": "branches",
+      "title": "三个有辨别力的异常测试：状态与行动",
+      "nodes": [
+        [
+          "提交拒绝",
+          "append assistant/message 失败",
+          "最终 live end=abandoned",
+          "历史没有伪造正文",
+          "不把字块当完成"
+        ],
+        [
+          "等待期间替换",
+          "挂可控制 Promise",
+          "撤销旧 Agent 或改 revision",
+          "放行后旧资格被拒绝",
+          "避免用 sleep 碰竞态"
+        ],
+        [
+          "结构化缺失",
+          "Turn 看似 completed",
+          "没有最终 captured 值",
+          "readResult 返回 error",
+          "schema 之外还验业务真实"
+        ]
+      ],
+      "note": "测试应在关键协议破坏时真正失败",
+      "source_excerpt_ids": [
+        "13-3",
+        "13-4",
+        "13-5",
+        "13-1",
+        "13-6",
+        "13-7",
+        "13-8",
+        "13-2",
+        "13-19",
+        "13-9",
+        "13-10",
+        "13-11",
+        "13-18",
+        "13-12",
+        "13-13",
+        "13-17",
+        "13-14",
+        "13-15",
+        "13-16"
+      ],
+      "caption": "测试应在关键协议破坏时真正失败。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
+      "decision_label": "依据执行身份、当前状态与已提交事实选择",
+      "placement": "before-step",
+      "step": 6,
+      "section": 6
+    },
+    {
+      "article": 15,
+      "stem": "15-task-completion-02",
       "kind": "sequence",
       "title": "Goal round 从预留到接纳",
       "nodes": [
@@ -75,8 +2586,8 @@
       "section": 2
     },
     {
-      "article": 1,
-      "stem": "01-task-completion-03",
+      "article": 15,
+      "stem": "15-task-completion-03",
       "kind": "layers",
       "title": "完成判断读取哪一层数据",
       "nodes": [
@@ -138,8 +2649,8 @@
       "section": 3
     },
     {
-      "article": 1,
-      "stem": "01-task-completion-04",
+      "article": 15,
+      "stem": "15-task-completion-04",
       "kind": "branches",
       "title": "续跑准入的三个出口：状态与行动",
       "nodes": [
@@ -202,2337 +2713,8 @@
       "section": 4
     },
     {
-      "article": 2,
-      "stem": "02-agent-loop-02",
-      "kind": "loop-nesting",
-      "title": "Turn / Step / attempt 的嵌套调用",
-      "nodes": [
-        [
-          "driver",
-          "kick()",
-          "while (await turn())；沿 running Phase 执行"
-        ],
-        [
-          "Turn",
-          "turn()",
-          "preStep → step → turn-stopping"
-        ],
-        [
-          "admission",
-          "preStep(target, position)",
-          "输入与 PromptAssembly → PreparedStep"
-        ],
-        [
-          "Step",
-          "step(decision)",
-          "PreparedStep → config / preparedCall → request"
-        ],
-        [
-          "attempt",
-          "attempt：prepareRequest → buildRequest → stream",
-          "retry 复用 PreparedStep；重新准备 preparedCall"
-        ],
-        [
-          "tool runtime",
-          "assistant/message → executeToolCalls（如有）",
-          "tool/result 写 Session；concluded 返回 Step"
-        ]
-      ],
-      "note": "step(): null → 下一 Step；turn(): true → 下一 Turn",
-      "source_excerpt_ids": [
-        "02-24",
-        "02-25",
-        "02-26",
-        "02-28",
-        "02-33",
-        "02-37",
-        "02-43",
-        "02-44",
-        "02-47"
-      ],
-      "caption": "kick() 管 Turn，turn() 管 Step，step() 内部重试 attempt；工具回流通常促成新 Step。",
-      "placement": "after-driver-before-prestep",
-      "section": 2
-    },
-    {
-      "article": 2,
-      "stem": "02-agent-loop-03",
-      "kind": "layers",
-      "title": "数据边界：Inbox、request 与 stream",
-      "nodes": [
-        [
-          "Inbox",
-          "InboxState：next-turn / next-step",
-          "send() 入队；claim() 取出 UserMessage"
-        ],
-        [
-          "request",
-          "request.messages ← Session surface",
-          "deriveMessages() → 冻结 request"
-        ],
-        [
-          "live stream",
-          "AssistantStreamAttempt",
-          "settle()：append → end frame"
-        ],
-        [
-          "tool result",
-          "tool/result + additionalContexts",
-          "tool/result → Session；context → Inbox"
-        ]
-      ],
-      "note": "这些是数据边界；Session 提交不等于磁盘 flush",
-      "source_excerpt_ids": [
-        "02-5",
-        "02-27",
-        "02-41",
-        "02-31",
-        "02-32",
-        "02-33",
-        "02-34",
-        "02-35",
-        "02-42",
-        "02-45",
-        "02-48"
-      ],
-      "caption": "候选输入、冻结请求、实时输出与工具结果各有提交位置，不能混为一种状态。",
-      "placement": "after-request-build-before-model-stream",
-      "section": 4
-    },
-    {
-      "article": 2,
-      "stem": "02-agent-loop-04",
-      "kind": "branches",
-      "title": "retry、cancel 与 dispose 的边界",
-      "nodes": [
-        [
-          "request retry",
-          "finish: error / aborted",
-          "settle assistant/attempt",
-          "request-error waterfall",
-          "获准 retry → 同 Step"
-        ],
-        [
-          "activity cancel",
-          "cancel() → signal",
-          "停止新 tool dispatch",
-          "等待 in-flight tools",
-          "turn/end: aborted"
-        ],
-        [
-          "Agent dispose",
-          "cancel: disposed",
-          "whenIdle()",
-          "scope.dispose()",
-          "handle.close()"
-        ]
-      ],
-      "note": "retry 复用 Step；dispose 等待活动与存储收束",
-      "source_excerpt_ids": [
-        "02-37",
-        "02-17",
-        "02-18",
-        "02-20",
-        "02-43"
-      ],
-      "caption": "请求 retry、活动取消与实例释放各有范围；仅 finish 失败获准 retry 时留在原 Step。",
-      "decision_label": "按 signal 与 lifecycle 确定后续路径",
-      "placement": "after-exception-section-intro",
-      "section": 6
-    },
-    {
-      "article": 3,
-      "stem": "03-model-adaptation-02",
-      "kind": "sequence",
-      "title": "prepareCall 到绑定 stream 的交接",
-      "nodes": [
-        [
-          "Loop",
-          "prepareCall(config)",
-          "每个 attempt 重新准备"
-        ],
-        [
-          "LLM registry",
-          "capture registration",
-          "在 await adapter.prepareCall 前固定实现"
-        ],
-        [
-          "Adapter",
-          "PreparedAdapterCall",
-          "model 与绑定 stream 一起返回"
-        ],
-        [
-          "LLM runtime",
-          "PreparedLlmCall",
-          "解析并冻结 config、能力与默认来源"
-        ],
-        [
-          "Runtime",
-          "request projection",
-          "按能力处理 messages 与 replayState"
-        ],
-        [
-          "Bound stream",
-          "streamWithRegistration",
-          "只消费一次，派发同一 registration"
-        ]
-      ],
-      "note": "准备结果是一次调用的完整执行描述",
-      "source_excerpt_ids": [
-        "03-3",
-        "03-4",
-        "03-5",
-        "03-6",
-        "03-21",
-        "03-7",
-        "03-8",
-        "03-1",
-        "03-20",
-        "03-9",
-        "03-19",
-        "03-10",
-        "03-2",
-        "03-11",
-        "03-12",
-        "03-13",
-        "03-14",
-        "03-15",
-        "03-16",
-        "03-17",
-        "03-18"
-      ],
-      "caption": "准备结果是一次调用的完整执行描述。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 2
-    },
-    {
-      "article": 3,
-      "stem": "03-model-adaptation-03",
-      "kind": "layers",
-      "title": "模型输入中的来源与绑定",
-      "nodes": [
-        [
-          "Session",
-          "canonical facts / messages",
-          "历史记录保留原来源"
-        ],
-        [
-          "Projection",
-          "input modalities / toolUpdate",
-          "形成当前 route 的请求视图"
-        ],
-        [
-          "Adapter",
-          "replayState",
-          "只交给能够解释它的实现"
-        ],
-        [
-          "Prepared call",
-          "config + registration + stream",
-          "能力与派发使用同一 generation"
-        ]
-      ],
-      "note": "配置、历史投影与派发通过 prepared call 连接",
-      "source_excerpt_ids": [
-        "03-3",
-        "03-4",
-        "03-5",
-        "03-6",
-        "03-21",
-        "03-7",
-        "03-8",
-        "03-1",
-        "03-20",
-        "03-9",
-        "03-19",
-        "03-10",
-        "03-2",
-        "03-11",
-        "03-12",
-        "03-13",
-        "03-14",
-        "03-15",
-        "03-16",
-        "03-17",
-        "03-18"
-      ],
-      "caption": "配置、历史投影与派发通过 prepared call 连接。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 4
-    },
-    {
-      "article": 3,
-      "stem": "03-model-adaptation-04",
-      "kind": "branches",
-      "title": "模型接缝的失败归属：状态与行动",
-      "nodes": [
-        [
-          "准备失败",
-          "模型或能力不合法",
-          "没有 dispatch",
-          "保留错误来源",
-          "不假造 stream start"
-        ],
-        [
-          "供应商失败",
-          "dispatch / iterator.next",
-          "规范化 failure chunk",
-          "交给恢复政策",
-          "同 Step 再准备"
-        ],
-        [
-          "消费方失败",
-          "yield 下游抛错",
-          "不冒充供应商异常",
-          "清理未完成 iterator",
-          "交给调用方处理"
-        ]
-      ],
-      "note": "错误分类必须对应实际抛错边界",
-      "source_excerpt_ids": [
-        "03-3",
-        "03-4",
-        "03-5",
-        "03-6",
-        "03-21",
-        "03-7",
-        "03-8",
-        "03-1",
-        "03-20",
-        "03-9",
-        "03-19",
-        "03-10",
-        "03-2",
-        "03-11",
-        "03-12",
-        "03-13",
-        "03-14",
-        "03-15",
-        "03-16",
-        "03-17",
-        "03-18"
-      ],
-      "caption": "错误分类必须对应实际抛错边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 9,
-      "section": 6
-    },
-    {
-      "article": 4,
-      "stem": "04-context-engineering-02",
-      "kind": "sequence",
-      "title": "compactRegion 的选区与提交",
-      "nodes": [
-        [
-          "Policy",
-          "compactIfNeeded",
-          "测量压力；prune 后重新测量"
-        ],
-        [
-          "Selector",
-          "SurfaceSelection",
-          "当前 nodes、seq 与完整调用配对"
-        ],
-        [
-          "Region",
-          "PreparedCompaction",
-          "保存选区计量与摘要输入"
-        ],
-        [
-          "Summarizer",
-          "SummaryResult",
-          "由 summarizeWithLlm 产生完整结果"
-        ],
-        [
-          "Region",
-          "stability / signal check",
-          "await 后确认处理的材料仍适用"
-        ],
-        [
-          "Session",
-          "commitCompactionBody",
-          "summary 与 replacement 指回原选区"
-        ]
-      ],
-      "note": "选区身份穿过异步摘要，提交保留来源关系",
-      "source_excerpt_ids": [
-        "04-3",
-        "04-20",
-        "04-4",
-        "04-5",
-        "04-6",
-        "04-7",
-        "04-8",
-        "04-1",
-        "04-19",
-        "04-9",
-        "04-10",
-        "04-18",
-        "04-11",
-        "04-12",
-        "04-13",
-        "04-14",
-        "04-15",
-        "04-2",
-        "04-16",
-        "04-17"
-      ],
-      "caption": "选区身份穿过异步摘要，提交保留来源关系。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 3
-    },
-    {
-      "article": 4,
-      "stem": "04-context-engineering-03",
-      "kind": "layers",
-      "title": "从事实到模型输入的四种表示",
-      "nodes": [
-        [
-          "Session log",
-          "append-only events / seq",
-          "保存恢复与审计依据"
-        ],
-        [
-          "Surface",
-          "append / replace view",
-          "决定当前可见历史"
-        ],
-        [
-          "Prompt",
-          "PromptAssembly",
-          "sections、contexts、tools 与 variables"
-        ],
-        [
-          "Request",
-          "GenerateOptions.messages",
-          "消费本次 route 的能力投影"
-        ]
-      ],
-      "note": "每种表示服务一种用途，并以身份关联",
-      "source_excerpt_ids": [
-        "04-3",
-        "04-20",
-        "04-4",
-        "04-5",
-        "04-6",
-        "04-7",
-        "04-8",
-        "04-1",
-        "04-19",
-        "04-9",
-        "04-10",
-        "04-18",
-        "04-11",
-        "04-12",
-        "04-13",
-        "04-14",
-        "04-15",
-        "04-2",
-        "04-16",
-        "04-17"
-      ],
-      "caption": "每种表示服务一种用途，并以身份关联。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 5,
-      "section": 4
-    },
-    {
-      "article": 4,
-      "stem": "04-context-engineering-04",
-      "kind": "branches",
-      "title": "窗口恢复的判断依据：状态与行动",
-      "nodes": [
-        [
-          "正常压力",
-          "测量达到阈值",
-          "prune 与摘要",
-          "重测降到阈值以下",
-          "允许正常派发"
-        ],
-        [
-          "溢出失败",
-          "记录 generation",
-          "恢复期间视图有进展",
-          "有界 retry",
-          "再次验证供应商接纳"
-        ],
-        [
-          "没有进展",
-          "选区不足或摘要失败",
-          "generation 未改变",
-          "不承诺原样 retry 有效",
-          "保留错误与恢复边界"
-        ]
-      ],
-      "note": "摘要完整与摘要语义正确还需分别评估",
-      "source_excerpt_ids": [
-        "04-3",
-        "04-20",
-        "04-4",
-        "04-5",
-        "04-6",
-        "04-7",
-        "04-8",
-        "04-1",
-        "04-19",
-        "04-9",
-        "04-10",
-        "04-18",
-        "04-11",
-        "04-12",
-        "04-13",
-        "04-14",
-        "04-15",
-        "04-2",
-        "04-16",
-        "04-17"
-      ],
-      "caption": "摘要完整与摘要语义正确还需分别评估。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 10,
-      "section": 6
-    },
-    {
-      "article": 5,
-      "stem": "05-state-persistence-02",
-      "kind": "sequence",
-      "title": "JSONL writer 的批写与屏障",
-      "nodes": [
-        [
-          "Session",
-          "append(event)",
-          "复制、校验并同步提交 log"
-        ],
-        [
-          "Persistence",
-          "enqueueLive",
-          "持久 consumer 复制事件入 buffer"
-        ],
-        [
-          "Handle",
-          "enqueueChain / drain",
-          "live 与显式 append 共享操作链"
-        ],
-        [
-          "Storage",
-          "persistContiguous",
-          "cursor、尾部修补与 materialized 推进"
-        ],
-        [
-          "Caller",
-          "flush()",
-          "等待前序写入成为持久屏障"
-        ],
-        [
-          "Handle",
-          "close()",
-          "排空 buffer / chain，再释放 lease"
-        ]
-      ],
-      "note": "接受、批写、屏障和关闭各有完成条件",
-      "source_excerpt_ids": [
-        "05-3",
-        "05-1",
-        "05-4",
-        "05-5",
-        "05-2",
-        "05-21",
-        "05-6",
-        "05-7",
-        "05-8",
-        "05-9",
-        "05-10",
-        "05-11",
-        "05-12",
-        "05-13",
-        "05-14",
-        "05-20",
-        "05-15",
-        "05-16",
-        "05-17",
-        "05-18",
-        "05-19"
-      ],
-      "caption": "接受、批写、屏障和关闭各有完成条件。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 3
-    },
-    {
-      "article": 5,
-      "stem": "05-state-persistence-03",
-      "kind": "layers",
-      "title": "恢复对象的数据与寿命",
-      "nodes": [
-        [
-          "Ledger",
-          "Session JSONL / seed",
-          "resume 消费有效事件前缀"
-        ],
-        [
-          "Projection",
-          "fold / stateVersion",
-          "按已安装解释器重建状态"
-        ],
-        [
-          "Live state",
-          "activation / jobs / driver",
-          "重新组织运行资格与管理对象"
-        ],
-        [
-          "Diff source",
-          "TurnRecord / scratch",
-          "丰富内容有自己的存储来源"
-        ]
-      ],
-      "note": "恢复承诺按对象与来源分别定义",
-      "source_excerpt_ids": [
-        "05-3",
-        "05-1",
-        "05-4",
-        "05-5",
-        "05-2",
-        "05-21",
-        "05-6",
-        "05-7",
-        "05-8",
-        "05-9",
-        "05-10",
-        "05-11",
-        "05-12",
-        "05-13",
-        "05-14",
-        "05-20",
-        "05-15",
-        "05-16",
-        "05-17",
-        "05-18",
-        "05-19"
-      ],
-      "caption": "恢复承诺按对象与来源分别定义。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 4
-    },
-    {
-      "article": 5,
-      "stem": "05-state-persistence-04",
-      "kind": "branches",
-      "title": "恢复时怎样解释缺口：状态与行动",
-      "nodes": [
-        [
-          "可读前缀",
-          "取得权威日志",
-          "校验并重建事实",
-          "只恢复已知状态",
-          "等待后续输入执行"
-        ],
-        [
-          "未开始工具",
-          "没有 call 证据",
-          "修复 NOT_STARTED",
-          "补齐结果与边界",
-          "不制造外部动作"
-        ],
-        [
-          "结果未知工具",
-          "call 已存在但无 result",
-          "修复 UNKNOWN",
-          "查询幂等操作回执",
-          "不盲目重新执行"
-        ]
-      ],
-      "note": "恢复和 fork 都不会重做历史工具",
-      "source_excerpt_ids": [
-        "05-3",
-        "05-1",
-        "05-4",
-        "05-5",
-        "05-2",
-        "05-21",
-        "05-6",
-        "05-7",
-        "05-8",
-        "05-9",
-        "05-10",
-        "05-11",
-        "05-12",
-        "05-13",
-        "05-14",
-        "05-20",
-        "05-15",
-        "05-16",
-        "05-17",
-        "05-18",
-        "05-19"
-      ],
-      "caption": "恢复和 fork 都不会重做历史工具。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 10,
-      "section": 6
-    },
-    {
-      "article": 6,
-      "stem": "06-tool-runtime-02",
-      "kind": "sequence",
-      "title": "ScheduledToolPreparation 如何交回 Loop",
-      "nodes": [
-        [
-          "Loop",
-          "tool/call → prepare",
-          "callSeq 与 ToolExecutionInput 连接调用"
-        ],
-        [
-          "Runtime",
-          "pre / approval / guards",
-          "形成 dispatch 或结果分支"
-        ],
-        [
-          "Dispatch",
-          "body → normalize",
-          "产生规范 value、render content"
-        ],
-        [
-          "Runtime",
-          "finalize / post",
-          "确定 ToolExecutionResult 与最终内容"
-        ],
-        [
-          "Observers",
-          "tools/result",
-          "通知 consumer；outcome 已经确定"
-        ],
-        [
-          "Loop",
-          "appendToolResult",
-          "模型顺序提交，再接纳 additionalContexts"
-        ]
-      ],
-      "note": "结果生产、最终治理和历史提交分别发生",
-      "source_excerpt_ids": [
-        "06-3",
-        "06-4",
-        "06-5",
-        "06-6",
-        "06-1",
-        "06-25",
-        "06-7",
-        "06-8",
-        "06-24",
-        "06-9",
-        "06-10",
-        "06-11",
-        "06-12",
-        "06-13",
-        "06-23",
-        "06-14",
-        "06-22",
-        "06-15",
-        "06-16",
-        "06-17",
-        "06-2",
-        "06-18",
-        "06-19",
-        "06-20",
-        "06-21"
-      ],
-      "caption": "结果生产、最终治理和历史提交分别发生。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 2
-    },
-    {
-      "article": 6,
-      "stem": "06-tool-runtime-03",
-      "kind": "layers",
-      "title": "工具结果协议中的数据职责",
-      "nodes": [
-        [
-          "Input",
-          "ToolExecutionInput",
-          "callId、arguments、agent 与 signal"
-        ],
-        [
-          "Preparation",
-          "ScheduledToolPreparation",
-          "kind 指明 dispatch 或结算路径"
-        ],
-        [
-          "Outcome",
-          "ToolExecutionSuccess",
-          "value / content / meta / contexts"
-        ],
-        [
-          "History",
-          "tool/result / sourceEventSeqs",
-          "规范消息关联原 callSeq"
-        ]
-      ],
-      "note": "规范 value 与 durable 模型内容有不同用途",
-      "source_excerpt_ids": [
-        "06-3",
-        "06-4",
-        "06-5",
-        "06-6",
-        "06-1",
-        "06-25",
-        "06-7",
-        "06-8",
-        "06-24",
-        "06-9",
-        "06-10",
-        "06-11",
-        "06-12",
-        "06-13",
-        "06-23",
-        "06-14",
-        "06-22",
-        "06-15",
-        "06-16",
-        "06-17",
-        "06-2",
-        "06-18",
-        "06-19",
-        "06-20",
-        "06-21"
-      ],
-      "caption": "规范 value 与 durable 模型内容有不同用途。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 7,
-      "section": 4
-    },
-    {
-      "article": 6,
-      "stem": "06-tool-runtime-04",
-      "kind": "branches",
-      "title": "工具失败发生在哪里：状态与行动",
-      "nodes": [
-        [
-          "准备拒绝",
-          "参数、审批或 guard 失败",
-          "body 尚未开始",
-          "返回规范错误",
-          "不产生新派发"
-        ],
-        [
-          "执行未知",
-          "body 已进入",
-          "远端可能已经提交",
-          "保留不确定性",
-          "查询回执与幂等状态"
-        ],
-        [
-          "反馈失败",
-          "输出校验或 post 失败",
-          "业务效果可能存在",
-          "最终 isError",
-          "不能据此自动重做"
-        ]
-      ],
-      "note": "函数返回之后，反馈协议仍可能失败",
-      "source_excerpt_ids": [
-        "06-3",
-        "06-4",
-        "06-5",
-        "06-6",
-        "06-1",
-        "06-25",
-        "06-7",
-        "06-8",
-        "06-24",
-        "06-9",
-        "06-10",
-        "06-11",
-        "06-12",
-        "06-13",
-        "06-23",
-        "06-14",
-        "06-22",
-        "06-15",
-        "06-16",
-        "06-17",
-        "06-2",
-        "06-18",
-        "06-19",
-        "06-20",
-        "06-21"
-      ],
-      "caption": "函数返回之后，反馈协议仍可能失败。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 9,
-      "section": 5
-    },
-    {
-      "article": 7,
-      "stem": "07-reliability-02",
-      "kind": "sequence",
-      "title": "llm-retry 在恢复链中的位置",
-      "nodes": [
-        [
-          "Adapter",
-          "failure finish",
-          "normalizeFailure 保留来源"
-        ],
-        [
-          "Loop",
-          "attempt settlement",
-          "先提交失败事实，再调用 request-error"
-        ],
-        [
-          "Retry listener",
-          "policy + previousRetry",
-          "normal 次数检查或委派下游"
-        ],
-        [
-          "Session",
-          "llm/retry",
-          "保存 retryId 与计划等待"
-        ],
-        [
-          "Delay",
-          "llm/retry-started",
-          "等待完成；取消可在此前发生"
-        ],
-        [
-          "Loop",
-          "next attempt",
-          "收到 retry 后重新 prepareRequest"
-        ]
-      ],
-      "note": "图示退避分支；窗口恢复依据 generation 变化",
-      "source_excerpt_ids": [
-        "07-3",
-        "07-4",
-        "07-1",
-        "07-18",
-        "07-19",
-        "07-5",
-        "07-6",
-        "07-7",
-        "07-8",
-        "07-9",
-        "07-10",
-        "07-11",
-        "07-12",
-        "07-13",
-        "07-2",
-        "07-17",
-        "07-14",
-        "07-15",
-        "07-16"
-      ],
-      "caption": "图示退避分支；窗口恢复依据 generation 变化。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 7,
-      "stem": "07-reliability-03",
-      "kind": "layers",
-      "title": "恢复决策使用的状态",
-      "nodes": [
-        [
-          "Failure",
-          "failure.code / retryPolicy",
-          "确定可处理的错误分类"
-        ],
-        [
-          "Retry",
-          "RetryStateEntry",
-          "Step 内次数与 retryId 去重"
-        ],
-        [
-          "Compaction",
-          "replaceGeneration",
-          "证明请求视图确实前进"
-        ],
-        [
-          "Repair",
-          "pendingCalls / callSeq",
-          "区分未记录开始与结果未知"
-        ]
-      ],
-      "note": "不同 consumer 各自保存作出决定的依据",
-      "source_excerpt_ids": [
-        "07-3",
-        "07-4",
-        "07-1",
-        "07-18",
-        "07-19",
-        "07-5",
-        "07-6",
-        "07-7",
-        "07-8",
-        "07-9",
-        "07-10",
-        "07-11",
-        "07-12",
-        "07-13",
-        "07-2",
-        "07-17",
-        "07-14",
-        "07-15",
-        "07-16"
-      ],
-      "caption": "不同 consumer 各自保存作出决定的依据。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 7,
-      "stem": "07-reliability-04",
-      "kind": "branches",
-      "title": "三个恢复出口：状态与行动",
-      "nodes": [
-        [
-          "可重试请求",
-          "政策支持该 failure",
-          "次数与等待符合约束",
-          "记录并等待",
-          "重新派发模型请求"
-        ],
-        [
-          "取消或超时",
-          "关闭新增入口",
-          "工具协作式停止",
-          "等待在途结算",
-          "资源释放后收尾"
-        ],
-        [
-          "工具结果缺失",
-          "已有 call 但无回执",
-          "补 UNKNOWN 事实",
-          "查询外部操作身份",
-          "不盲目重放写入"
-        ]
-      ],
-      "note": "可靠恢复首先表达知道什么、还不知道什么",
-      "source_excerpt_ids": [
-        "07-3",
-        "07-4",
-        "07-1",
-        "07-18",
-        "07-19",
-        "07-5",
-        "07-6",
-        "07-7",
-        "07-8",
-        "07-9",
-        "07-10",
-        "07-11",
-        "07-12",
-        "07-13",
-        "07-2",
-        "07-17",
-        "07-14",
-        "07-15",
-        "07-16"
-      ],
-      "caption": "可靠恢复首先表达知道什么、还不知道什么。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 5,
-      "section": 5
-    },
-    {
-      "article": 8,
-      "stem": "08-concurrency-02",
-      "kind": "sequence",
-      "title": "runGroup 的派发与有序提交",
-      "nodes": [
-        [
-          "Classifier",
-          "executionMode",
-          "实际参数与当前注册确定模式"
-        ],
-        [
-          "Scheduler",
-          "scheduler.prepare",
-          "依序 prepare；body 可以重叠"
-        ],
-        [
-          "Pool",
-          "scheduler.dispatch",
-          "inFlight 受局部并行度限制"
-        ],
-        [
-          "Slots",
-          "Slot.result",
-          "先完成结果等待 committed 游标"
-        ],
-        [
-          "Commit",
-          "commitReady",
-          "finalize → tool/result → context"
-        ],
-        [
-          "Drain",
-          "stop replenishment",
-          "失败或取消后等待已启动工作"
-        ]
-      ],
-      "note": "执行完成顺序与模型历史顺序分开管理",
-      "source_excerpt_ids": [
-        "08-24",
-        "08-3",
-        "08-4",
-        "08-5",
-        "08-6",
-        "08-7",
-        "08-1",
-        "08-23",
-        "08-8",
-        "08-9",
-        "08-10",
-        "08-11",
-        "08-22",
-        "08-12",
-        "08-13",
-        "08-14",
-        "08-2",
-        "08-21",
-        "08-15",
-        "08-16",
-        "08-17",
-        "08-18",
-        "08-19",
-        "08-20"
-      ],
-      "caption": "执行完成顺序与模型历史顺序分开管理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 8,
-      "stem": "08-concurrency-03",
-      "kind": "layers",
-      "title": "并发资源的 owner 与完成点",
-      "nodes": [
-        [
-          "Tool group",
-          "inFlight / Slot / committed",
-          "body 结算与结果提交分别观察"
-        ],
-        [
-          "Local job",
-          "TrackedJob.owner / settled",
-          "running 和 stopping 都占额度"
-        ],
-        [
-          "Child",
-          "SubagentRun / AgentHandle",
-          "result 与 dispose 分别等待"
-        ],
-        [
-          "Enterprise",
-          "任务 / 租户资源账本（建议）",
-          "原子准入并沿真实终点回收额度"
-        ]
-      ],
-      "note": "先明确管理责任，再决定配额释放位置",
-      "source_excerpt_ids": [
-        "08-24",
-        "08-3",
-        "08-4",
-        "08-5",
-        "08-6",
-        "08-7",
-        "08-1",
-        "08-23",
-        "08-8",
-        "08-9",
-        "08-10",
-        "08-11",
-        "08-22",
-        "08-12",
-        "08-13",
-        "08-14",
-        "08-2",
-        "08-21",
-        "08-15",
-        "08-16",
-        "08-17",
-        "08-18",
-        "08-19",
-        "08-20"
-      ],
-      "caption": "先明确管理责任，再决定配额释放位置。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 8,
-      "stem": "08-concurrency-04",
-      "kind": "branches",
-      "title": "额度何时可以归还：状态与行动",
-      "nodes": [
-        [
-          "工具 body",
-          "停止新增",
-          "已启动 dispatch 结算",
-          "按序结果提交",
-          "释放局部执行槽"
-        ],
-        [
-          "后台 job",
-          "发送 cancel",
-          "状态变为 stopping",
-          "producer 与 pump 结束",
-          "settled 后不再占活跃额度"
-        ],
-        [
-          "Child Agent",
-          "父取消或结果到达",
-          "停止 child driver",
-          "等待 result 和 handle.dispose",
-          "真实资源释放后归还"
-        ]
-      ],
-      "note": "stopping 不是 finished，取消不是资源释放",
-      "source_excerpt_ids": [
-        "08-24",
-        "08-3",
-        "08-4",
-        "08-5",
-        "08-6",
-        "08-7",
-        "08-1",
-        "08-23",
-        "08-8",
-        "08-9",
-        "08-10",
-        "08-11",
-        "08-22",
-        "08-12",
-        "08-13",
-        "08-14",
-        "08-2",
-        "08-21",
-        "08-15",
-        "08-16",
-        "08-17",
-        "08-18",
-        "08-19",
-        "08-20"
-      ],
-      "caption": "stopping 不是 finished，取消不是资源释放。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 9,
-      "stem": "09-security-02",
-      "kind": "sequence",
-      "title": "敏感文件 write 的资格链",
-      "nodes": [
-        [
-          "Tool view",
-          "visible tool view",
-          "可见能力进入实际 runtime 检查"
-        ],
-        [
-          "Pre policy",
-          "PreToolDecision",
-          "allow / deny / cancel / ask"
-        ],
-        [
-          "Approval",
-          "ApprovalRequestEvent",
-          "ask 获得受控一次决定"
-        ],
-        [
-          "Runtime",
-          "guards / callerSignal",
-          "审批后仍检查剩余约束和取消"
-        ],
-        [
-          "FS sandbox",
-          "checkedTarget",
-          "fresh.targetKey 与 writableRoots"
-        ],
-        [
-          "FS provider",
-          "write / edit",
-          "把检查返回的目标交给实际操作"
-        ]
-      ],
-      "note": "进程 runner 属于另一资源路径，正文单独说明",
-      "source_excerpt_ids": [
-        "09-21",
-        "09-3",
-        "09-4",
-        "09-5",
-        "09-1",
-        "09-20",
-        "09-6",
-        "09-7",
-        "09-2",
-        "09-8",
-        "09-9",
-        "09-10",
-        "09-11",
-        "09-12",
-        "09-13",
-        "09-19",
-        "09-14",
-        "09-15",
-        "09-16",
-        "09-17",
-        "09-18"
-      ],
-      "caption": "进程 runner 属于另一资源路径，正文单独说明。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 9,
-      "stem": "09-security-03",
-      "kind": "layers",
-      "title": "安全规则在不同层执行",
-      "nodes": [
-        [
-          "Host API",
-          "request trust / user mapping",
-          "控制来源与 Session 资源授权"
-        ],
-        [
-          "Scope",
-          "Context / realm / Fiber",
-          "组织服务、贡献与生命周期"
-        ],
-        [
-          "Tool policy",
-          "approval / guard / source",
-          "限制这次执行的资格"
-        ],
-        [
-          "Resource",
-          "FS / sandbox runner / credentials",
-          "约束实际路径、执行与凭据"
-        ]
-      ],
-      "note": "各层保存自己的检查对象与撤销责任",
-      "source_excerpt_ids": [
-        "09-21",
-        "09-3",
-        "09-4",
-        "09-5",
-        "09-1",
-        "09-20",
-        "09-6",
-        "09-7",
-        "09-2",
-        "09-8",
-        "09-9",
-        "09-10",
-        "09-11",
-        "09-12",
-        "09-13",
-        "09-19",
-        "09-14",
-        "09-15",
-        "09-16",
-        "09-17",
-        "09-18"
-      ],
-      "caption": "各层保存自己的检查对象与撤销责任。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 9,
-      "stem": "09-security-04",
-      "kind": "branches",
-      "title": "审批和来源的安全出口：状态与行动",
-      "nodes": [
-        [
-          "允许一次",
-          "受控 allowed-once",
-          "参数身份固定",
-          "仍检查 guard 与取消",
-          "执行本次操作"
-        ],
-        [
-          "没有合法决定",
-          "无通道 / never / 异常",
-          "结果拒绝或 unavailable",
-          "禁止派发 body",
-          "不推断默认同意"
-        ],
-        [
-          "伪造人类来源",
-          "模型文本声称批准",
-          "没有可信 source 与身份",
-          "不获得 root 人类权力",
-          "由 Host 受控元信息判断"
-        ]
-      ],
-      "note": "自然语言内容不能升级为系统授权",
-      "source_excerpt_ids": [
-        "09-21",
-        "09-3",
-        "09-4",
-        "09-5",
-        "09-1",
-        "09-20",
-        "09-6",
-        "09-7",
-        "09-2",
-        "09-8",
-        "09-9",
-        "09-10",
-        "09-11",
-        "09-12",
-        "09-13",
-        "09-19",
-        "09-14",
-        "09-15",
-        "09-16",
-        "09-17",
-        "09-18"
-      ],
-      "caption": "自然语言内容不能升级为系统授权。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 10,
-      "stem": "10-autonomy-02",
-      "kind": "sequence",
-      "title": "pending intent 到 plan/mode",
-      "nodes": [
-        [
-          "Exit tool",
-          "read plan / review",
-          "校验内容与合法审阅通道"
-        ],
-        [
-          "Question",
-          "await precise approval",
-          "等待期间检查 signal 与 disposed"
-        ],
-        [
-          "Plan service",
-          "pendingIntents.set",
-          "active / narrate 保存 live 选择"
-        ],
-        [
-          "Loop",
-          "assemble → pre-step",
-          "prompt 回调先消费 pending"
-        ],
-        [
-          "Admission",
-          "await next() → onBoundary",
-          "接受且仍有效才提交"
-        ],
-        [
-          "Session",
-          "plan/mode → delete",
-          "append 成功后清除对应 pending"
-        ]
-      ],
-      "note": "选择、组装与已确认事实由不同 consumer 处理",
-      "source_excerpt_ids": [
-        "10-3",
-        "10-4",
-        "10-2",
-        "10-22",
-        "10-5",
-        "10-6",
-        "10-7",
-        "10-1",
-        "10-21",
-        "10-8",
-        "10-9",
-        "10-10",
-        "10-11",
-        "10-20",
-        "10-12",
-        "10-13",
-        "10-14",
-        "10-15",
-        "10-16",
-        "10-17",
-        "10-18",
-        "10-19"
-      ],
-      "caption": "选择、组装与已确认事实由不同 consumer 处理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 10,
-      "stem": "10-autonomy-03",
-      "kind": "layers",
-      "title": "自主控制保存什么状态",
-      "nodes": [
-        [
-          "Goal driver",
-          "RoundAttempt / activation",
-          "精确 revision 的自动输入资格"
-        ],
-        [
-          "Plan mode",
-          "pendingIntents / PlanUnitState",
-          "live 选择与可重放政策状态"
-        ],
-        [
-          "Tool grant",
-          "allowed-once / callerSignal",
-          "一次行动的授权与有效期"
-        ],
-        [
-          "Host input",
-          "Inbox / cancel / keepInbox",
-          "接纳位置、停止与队列保留"
-        ]
-      ],
-      "note": "状态文案应对应真实控制范围",
-      "source_excerpt_ids": [
-        "10-3",
-        "10-4",
-        "10-2",
-        "10-22",
-        "10-5",
-        "10-6",
-        "10-7",
-        "10-1",
-        "10-21",
-        "10-8",
-        "10-9",
-        "10-10",
-        "10-11",
-        "10-20",
-        "10-12",
-        "10-13",
-        "10-14",
-        "10-15",
-        "10-16",
-        "10-17",
-        "10-18",
-        "10-19"
-      ],
-      "caption": "状态文案应对应真实控制范围。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 10,
-      "stem": "10-autonomy-04",
-      "kind": "branches",
-      "title": "等待后控制权可能怎样改变：状态与行动",
-      "nodes": [
-        [
-          "批准且仍有效",
-          "plugin 未 dispose",
-          "没有取消",
-          "下一边界准入",
-          "提交 mode 事实"
-        ],
-        [
-          "暂停后立即恢复",
-          "取消旧自动 Turn",
-          "resume 增加 revision",
-          "旧 attempt 不匹配",
-          "不能重新暂停新目标"
-        ],
-        [
-          "软提醒",
-          "重复工具达到阈值",
-          "追加 notice 上下文",
-          "仍委托下游执行",
-          "不等同强制终止"
-        ]
-      ],
-      "note": "异步等待之后必须复核实际资格",
-      "source_excerpt_ids": [
-        "10-3",
-        "10-4",
-        "10-2",
-        "10-22",
-        "10-5",
-        "10-6",
-        "10-7",
-        "10-1",
-        "10-21",
-        "10-8",
-        "10-9",
-        "10-10",
-        "10-11",
-        "10-20",
-        "10-12",
-        "10-13",
-        "10-14",
-        "10-15",
-        "10-16",
-        "10-17",
-        "10-18",
-        "10-19"
-      ],
-      "caption": "异步等待之后必须复核实际资格。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 11,
-      "stem": "11-budgets-02",
-      "kind": "call-tree",
-      "title": "任务消耗沿调用目的归集",
-      "nodes": [
-        [
-          "Parent",
-          "Goal round / task identity",
-          "一个 round 内可有多次模型调用"
-        ],
-        [
-          "Loop",
-          "Step / attempt",
-          "每次 retry 重新派发"
-        ],
-        [
-          "Compaction",
-          "Summary request",
-          "purpose=compaction"
-        ],
-        [
-          "Child",
-          "Child Agent requests",
-          "独立 Loop 消费资源"
-        ],
-        [
-          "Ledger",
-          "TokenUsage + route + purpose",
-          "保留计量来源，缺失用量记录为未知"
-        ],
-        [
-          "Enterprise",
-          "Atomic reserve / settle",
-          "在可信 dispatch 前预留，回执后幂等结算"
-        ]
-      ],
-      "note": "图示成本关联；统一账本在正文中作为扩展建议",
-      "source_excerpt_ids": [
-        "11-3",
-        "11-4",
-        "11-5",
-        "11-21",
-        "11-6",
-        "11-7",
-        "11-8",
-        "11-9",
-        "11-10",
-        "11-11",
-        "11-1",
-        "11-20",
-        "11-12",
-        "11-13",
-        "11-14",
-        "11-2",
-        "11-22",
-        "11-15",
-        "11-16",
-        "11-17",
-        "11-18"
-      ],
-      "caption": "图示成本关联；统一账本在正文中作为扩展建议。三种模型消费路径分别核算，成本关联不表示三条顺序调用。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 11,
-      "stem": "11-budgets-03",
-      "kind": "layers",
-      "title": "Budget 上限对应哪个 consumer",
-      "nodes": [
-        [
-          "Goal round",
-          "maxGoalRounds / roundsStarted",
-          "已接纳自动输入的累计轮次"
-        ],
-        [
-          "Retry",
-          "normal maxRetries / policyKey",
-          "当前 Step 的恢复状态"
-        ],
-        [
-          "Output",
-          "LlmCallConfig.maxTokens",
-          "一次实际模型生成的输出"
-        ],
-        [
-          "Deadline",
-          "timeout wrapper / exec.signal",
-          "工具停止请求与后续结算"
-        ]
-      ],
-      "note": "字段同时说明单位、范围和扣减事实",
-      "source_excerpt_ids": [
-        "11-3",
-        "11-4",
-        "11-5",
-        "11-21",
-        "11-6",
-        "11-7",
-        "11-8",
-        "11-9",
-        "11-10",
-        "11-11",
-        "11-1",
-        "11-20",
-        "11-12",
-        "11-13",
-        "11-14",
-        "11-2",
-        "11-22",
-        "11-15",
-        "11-16",
-        "11-17",
-        "11-18"
-      ],
-      "caption": "字段同时说明单位、范围和扣减事实。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 11,
-      "stem": "11-budgets-04",
-      "kind": "branches",
-      "title": "计量与预算的判断出口：状态与行动",
-      "nodes": [
-        [
-          "压力估计",
-          "路由一致才复用 anchor",
-          "baseline 与 delta",
-          "用于压缩判定",
-          "不能直接当账单"
-        ],
-        [
-          "可信 usage",
-          "字段完整且计数有效",
-          "按计价版本结算",
-          "关联实际调用身份",
-          "保留缓存口径"
-        ],
-        [
-          "回执缺失",
-          "已经派发但无法确认",
-          "保守保留未知额度",
-          "查询供应商记录",
-          "不在取消时自动退款"
-        ]
-      ],
-      "note": "预留、结算与未知需要不同账本状态",
-      "source_excerpt_ids": [
-        "11-3",
-        "11-4",
-        "11-5",
-        "11-21",
-        "11-6",
-        "11-7",
-        "11-8",
-        "11-9",
-        "11-10",
-        "11-11",
-        "11-1",
-        "11-20",
-        "11-12",
-        "11-13",
-        "11-14",
-        "11-2",
-        "11-22",
-        "11-15",
-        "11-16",
-        "11-17",
-        "11-18"
-      ],
-      "caption": "预留、结算与未知需要不同账本状态。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 7,
-      "section": 7
-    },
-    {
-      "article": 12,
-      "stem": "12-observability-02",
-      "kind": "sequence",
-      "title": "coordinator 的捕获与 handoff",
-      "nodes": [
-        [
-          "Reporter",
-          "canonical feedback",
-          "自有后缀与 Session 身份授权"
-        ],
-        [
-          "Coordinator",
-          "captureSession",
-          "cursor+1 到 inclusive throughSeq"
-        ],
-        [
-          "Capture",
-          "SessionTelemetryRecord",
-          "复制 envelope 与 body，保留来源"
-        ],
-        [
-          "Policy",
-          "record waterfall",
-          "捕获时应用部署的 redaction"
-        ],
-        [
-          "Sink",
-          "backend.emit",
-          "同步接受独立 record 进入 pipeline"
-        ],
-        [
-          "Coordinator",
-          "handoffCursor.set",
-          "只说明本地交接，远端接收另有协议"
-        ]
-      ],
-      "note": "on-demand 捕获由最终 OTel consumer 明确选择",
-      "source_excerpt_ids": [
-        "12-3",
-        "12-4",
-        "12-5",
-        "12-2",
-        "12-20",
-        "12-6",
-        "12-7",
-        "12-8",
-        "12-9",
-        "12-10",
-        "12-1",
-        "12-18",
-        "12-19",
-        "12-11",
-        "12-12",
-        "12-13",
-        "12-14",
-        "12-15",
-        "12-16",
-        "12-17"
-      ],
-      "caption": "on-demand 捕获由最终 OTel consumer 明确选择。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 3
-    },
-    {
-      "article": 12,
-      "stem": "12-observability-03",
-      "kind": "layers",
-      "title": "观测对象各自回答什么",
-      "nodes": [
-        [
-          "Ledger",
-          "Session event / seq",
-          "已接纳事实与状态重建"
-        ],
-        [
-          "Live stream",
-          "AssistantStreamFrame",
-          "输出前缀与 settlement 结果"
-        ],
-        [
-          "Telemetry",
-          "SessionTelemetryRecord",
-          "授权范围、政策处理与交接"
-        ],
-        [
-          "Audit",
-          "outbox / durable ACK（建议）",
-          "更强业务审计使用独立提交协议"
-        ]
-      ],
-      "note": "记录来源和确认阶段一同解释",
-      "source_excerpt_ids": [
-        "12-3",
-        "12-4",
-        "12-5",
-        "12-2",
-        "12-20",
-        "12-6",
-        "12-7",
-        "12-8",
-        "12-9",
-        "12-10",
-        "12-1",
-        "12-18",
-        "12-19",
-        "12-11",
-        "12-12",
-        "12-13",
-        "12-14",
-        "12-15",
-        "12-16",
-        "12-17"
-      ],
-      "caption": "记录来源和确认阶段一同解释。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 12,
-      "stem": "12-observability-04",
-      "kind": "branches",
-      "title": "记录缺失的三种解释：状态与行动",
-      "nodes": [
-        [
-          "没有授权或禁用",
-          "未构建 reporter",
-          "没有普通实时捕获",
-          "远端自然无记录",
-          "不证明动作未执行"
-        ],
-        [
-          "处理或导出失败",
-          "脱敏失败可 withheld",
-          "backend 可能排队丢弃",
-          "游标不是持久 ACK",
-          "需查渠道状态"
-        ],
-        [
-          "交付观察失败",
-          "工具 outcome 已确定",
-          "present 声明可能缺失",
-          "按 seq 与 callId 查事实",
-          "分别检查文件与事件"
-        ]
-      ],
-      "note": "缺 trace、缺声明与业务失败不能混为一谈",
-      "source_excerpt_ids": [
-        "12-3",
-        "12-4",
-        "12-5",
-        "12-2",
-        "12-20",
-        "12-6",
-        "12-7",
-        "12-8",
-        "12-9",
-        "12-10",
-        "12-1",
-        "12-18",
-        "12-19",
-        "12-11",
-        "12-12",
-        "12-13",
-        "12-14",
-        "12-15",
-        "12-16",
-        "12-17"
-      ],
-      "caption": "缺 trace、缺声明与业务失败不能混为一谈。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 13,
-      "stem": "13-evaluation-02",
-      "kind": "sequence",
-      "title": "回流用例跨过的消费边界",
-      "nodes": [
-        [
-          "Fixture",
-          "controlled adapter script",
-          "提供确定的 tool call 与后续文本"
-        ],
-        [
-          "Runtime",
-          "real Agent / ToolRuntime",
-          "保留被测 Loop 和 Session"
-        ],
-        [
-          "Tool",
-          "execute / finalize",
-          "参数、body 与规范 outcome"
-        ],
-        [
-          "Loop",
-          "tool/result → next request",
-          "历史派生携带正确 toolCallId"
-        ],
-        [
-          "Assertions",
-          "messages + ledger",
-          "关键链路错误时断言应失败"
-        ],
-        [
-          "Cleanup",
-          "dispose contribution",
-          "再次查询工具不可见"
-        ]
-      ],
-      "note": "图示用例安排和断言链，真实模型质量另行评测",
-      "source_excerpt_ids": [
-        "13-3",
-        "13-4",
-        "13-5",
-        "13-1",
-        "13-6",
-        "13-7",
-        "13-8",
-        "13-2",
-        "13-19",
-        "13-9",
-        "13-10",
-        "13-11",
-        "13-18",
-        "13-12",
-        "13-13",
-        "13-17",
-        "13-14",
-        "13-15",
-        "13-16"
-      ],
-      "caption": "图示用例安排和断言链，真实模型质量另行评测。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 13,
-      "stem": "13-evaluation-03",
-      "kind": "layers",
-      "title": "证据分层与可支持的结论",
-      "nodes": [
-        [
-          "Static",
-          "types / code / build",
-          "指定接口与产物形态"
-        ],
-        [
-          "Integration",
-          "real runtime + controlled seam",
-          "确定输入下的执行契约"
-        ],
-        [
-          "Smoke",
-          "profile / install / readiness",
-          "指定部署组合的入口行为"
-        ],
-        [
-          "Acceptance",
-          "files / command / receipt",
-          "独立任务集中的实际结果"
-        ]
-      ],
-      "note": "每层报告替身、断言、环境和分母",
-      "source_excerpt_ids": [
-        "13-3",
-        "13-4",
-        "13-5",
-        "13-1",
-        "13-6",
-        "13-7",
-        "13-8",
-        "13-2",
-        "13-19",
-        "13-9",
-        "13-10",
-        "13-11",
-        "13-18",
-        "13-12",
-        "13-13",
-        "13-17",
-        "13-14",
-        "13-15",
-        "13-16"
-      ],
-      "caption": "每层报告替身、断言、环境和分母。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 13,
-      "stem": "13-evaluation-04",
-      "kind": "branches",
-      "title": "三个有辨别力的异常测试：状态与行动",
-      "nodes": [
-        [
-          "提交拒绝",
-          "append assistant/message 失败",
-          "最终 live end=abandoned",
-          "历史没有伪造正文",
-          "不把字块当完成"
-        ],
-        [
-          "等待期间替换",
-          "挂可控制 Promise",
-          "撤销旧 Agent 或改 revision",
-          "放行后旧资格被拒绝",
-          "避免用 sleep 碰竞态"
-        ],
-        [
-          "结构化缺失",
-          "Turn 看似 completed",
-          "没有最终 captured 值",
-          "readResult 返回 error",
-          "schema 之外还验业务真实"
-        ]
-      ],
-      "note": "测试应在关键协议破坏时真正失败",
-      "source_excerpt_ids": [
-        "13-3",
-        "13-4",
-        "13-5",
-        "13-1",
-        "13-6",
-        "13-7",
-        "13-8",
-        "13-2",
-        "13-19",
-        "13-9",
-        "13-10",
-        "13-11",
-        "13-18",
-        "13-12",
-        "13-13",
-        "13-17",
-        "13-14",
-        "13-15",
-        "13-16"
-      ],
-      "caption": "测试应在关键协议破坏时真正失败。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 14,
-      "stem": "14-plugin-lifecycle-02",
-      "kind": "sequence",
-      "title": "扩展从依赖到释放的阶段",
-      "nodes": [
-        [
-          "Definition",
-          "inject / public contract",
-          "类型声明与实际 provider 分开"
-        ],
-        [
-          "Provider",
-          "provide → notify",
-          "realm 槽位写入并刷新 consumer"
-        ],
-        [
-          "Consumer",
-          "Fiber epoch checkpoint",
-          "await 后复核依赖实现身份"
-        ],
-        [
-          "Context",
-          "effect / on / register",
-          "归属 owning Fiber 的贡献"
-        ],
-        [
-          "Lifetime",
-          "disposer + abort",
-          "未来入口与旧等待分别关闭"
-        ],
-        [
-          "Owner",
-          "await cleanup",
-          "历史状态与资源释放各有责任"
-        ]
-      ],
-      "note": "生命周期地图；实际 producer 决定事件语义",
-      "source_excerpt_ids": [
-        "14-3",
-        "14-4",
-        "14-5",
-        "14-1",
-        "14-6",
-        "14-7",
-        "14-8",
-        "14-21",
-        "14-9",
-        "14-10",
-        "14-11",
-        "14-2",
-        "14-20",
-        "14-12",
-        "14-13",
-        "14-14",
-        "14-15",
-        "14-16",
-        "14-19",
-        "14-17",
-        "14-18"
-      ],
-      "caption": "生命周期地图；实际 producer 决定事件语义。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 3,
-      "section": 3
-    },
-    {
-      "article": 14,
-      "stem": "14-plugin-lifecycle-03",
-      "kind": "layers",
-      "title": "扩展代码保存的四种身份",
-      "nodes": [
-        [
-          "Service",
-          "realm symbol / provider Fiber",
-          "解析槽位与具体实现分开"
-        ],
-        [
-          "Dependency",
-          "uid / epoch / inertia",
-          "依赖变化与在途 transition"
-        ],
-        [
-          "Scope",
-          "Context / HarnessScope",
-          "贡献范围与注册归属"
-        ],
-        [
-          "Call",
-          "prepared call / bound registration",
-          "一次已准备操作的绑定实现"
-        ]
-      ],
-      "note": "名字相同不表示加载与执行资格相同",
-      "source_excerpt_ids": [
-        "14-3",
-        "14-4",
-        "14-5",
-        "14-1",
-        "14-6",
-        "14-7",
-        "14-8",
-        "14-21",
-        "14-9",
-        "14-10",
-        "14-11",
-        "14-2",
-        "14-20",
-        "14-12",
-        "14-13",
-        "14-14",
-        "14-15",
-        "14-16",
-        "14-19",
-        "14-17",
-        "14-18"
-      ],
-      "caption": "名字相同不表示加载与执行资格相同。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 14,
-      "stem": "14-plugin-lifecycle-04",
-      "kind": "branches",
-      "title": "更新与撤销的不同效果：状态与行动",
-      "nodes": [
-        [
-          "volatile 更新",
-          "候选先解析校验",
-          "live 引用成功才变",
-          "实例可以保留",
-          "非法值不提交"
-        ],
-        [
-          "普通依赖变化",
-          "epoch 改变",
-          "旧 Fiber 卸载排空",
-          "按最新依赖重建",
-          "不是全树事务"
-        ],
-        [
-          "旧回调仍在途",
-          "listener 已撤销",
-          "lifetime abort",
-          "等待 active 结算",
-          "捕获调用用 signal 停止"
-        ]
-      ],
-      "note": "撤销未来入口与取消旧操作必须分别设计",
-      "source_excerpt_ids": [
-        "14-3",
-        "14-4",
-        "14-5",
-        "14-1",
-        "14-6",
-        "14-7",
-        "14-8",
-        "14-21",
-        "14-9",
-        "14-10",
-        "14-11",
-        "14-2",
-        "14-20",
-        "14-12",
-        "14-13",
-        "14-14",
-        "14-15",
-        "14-16",
-        "14-19",
-        "14-17",
-        "14-18"
-      ],
-      "caption": "撤销未来入口与取消旧操作必须分别设计。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 6,
-      "section": 6
-    },
-    {
-      "article": 15,
-      "stem": "15-interaction-deliverables-02",
+      "article": 16,
+      "stem": "16-interaction-deliverables-02",
       "kind": "sequence",
       "title": "prompt 从附件准入到输入接纳",
       "nodes": [
@@ -2601,8 +2783,8 @@
       "section": 2
     },
     {
-      "article": 15,
-      "stem": "15-interaction-deliverables-03",
+      "article": 16,
+      "stem": "16-interaction-deliverables-03",
       "kind": "layers",
       "title": "交互与交付的数据结构",
       "nodes": [
@@ -2661,8 +2843,8 @@
       "section": 4
     },
     {
-      "article": 15,
-      "stem": "15-interaction-deliverables-04",
+      "article": 16,
+      "stem": "16-interaction-deliverables-04",
       "kind": "branches",
       "title": "三种常见结果缺口：状态与行动",
       "nodes": [
@@ -2720,188 +2902,6 @@
       "placement": "before-step",
       "step": 6,
       "section": 6
-    },
-    {
-      "article": 16,
-      "stem": "16-deployment-evolution-02",
-      "kind": "sequence",
-      "title": "profile 启动到 readiness 的等待",
-      "nodes": [
-        [
-          "Launcher",
-          "runProfile",
-          "准备 Proxy 和启动配置"
-        ],
-        [
-          "Boot",
-          "Loader / host prepare",
-          "构造运行环境与宿主能力"
-        ],
-        [
-          "Loader",
-          "root Include",
-          "按 Entry 配置挂载插件树"
-        ],
-        [
-          "Boot",
-          "await activation",
-          "等待后复核 root 与 Loader"
-        ],
-        [
-          "Audit",
-          "required plugin checks",
-          "审计必需服务和激活问题"
-        ],
-        [
-          "Readiness",
-          "commit product ready",
-          "未取消且 root ACTIVE 才提交"
-        ]
-      ],
-      "note": "退出使用独立的 transport 与 owner 排空链",
-      "source_excerpt_ids": [
-        "16-3",
-        "16-4",
-        "16-5",
-        "16-2",
-        "16-21",
-        "16-6",
-        "16-7",
-        "16-20",
-        "16-8",
-        "16-9",
-        "16-10",
-        "16-11",
-        "16-1",
-        "16-12",
-        "16-19",
-        "16-13",
-        "16-14",
-        "16-15",
-        "16-16",
-        "16-17",
-        "16-18"
-      ],
-      "caption": "退出使用独立的 transport 与 owner 排空链。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 2,
-      "section": 2
-    },
-    {
-      "article": 16,
-      "stem": "16-deployment-evolution-03",
-      "kind": "layers",
-      "title": "演进契约保存哪些对象",
-      "nodes": [
-        [
-          "Config",
-          "EntryOptions / Fiber.config",
-          "候选与当前生效参数分开"
-        ],
-        [
-          "Module",
-          "Reload / ESM / CJS",
-          "替换准备与旧注册恢复范围"
-        ],
-        [
-          "Runtime",
-          "Fiber / Agent / handle",
-          "停止接纳、等待和资源释放"
-        ],
-        [
-          "Data",
-          "PreparedJsonlMigration",
-          "物理身份、artifact 与排他发布"
-        ]
-      ],
-      "note": "代码、实例和数据兼容各自保存验收证据",
-      "source_excerpt_ids": [
-        "16-3",
-        "16-4",
-        "16-5",
-        "16-2",
-        "16-21",
-        "16-6",
-        "16-7",
-        "16-20",
-        "16-8",
-        "16-9",
-        "16-10",
-        "16-11",
-        "16-1",
-        "16-12",
-        "16-19",
-        "16-13",
-        "16-14",
-        "16-15",
-        "16-16",
-        "16-17",
-        "16-18"
-      ],
-      "caption": "代码、实例和数据兼容各自保存验收证据。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 4,
-      "section": 4
-    },
-    {
-      "article": 16,
-      "stem": "16-deployment-evolution-04",
-      "kind": "branches",
-      "title": "部署失败时恢复范围：状态与行动",
-      "nodes": [
-        [
-          "配置准备失败",
-          "候选解析不通过",
-          "旧 live 值可保留",
-          "修正配置后再审计",
-          "不等于全树事务"
-        ],
-        [
-          "replacement 失败",
-          "恢复模块缓存",
-          "清理已挂新 Fiber",
-          "尝试重新挂旧实现",
-          "旧闭包状态不自动复原"
-        ],
-        [
-          "迁移或退出失败",
-          "持有 lease 的写操作",
-          "原错误与清理错误保留",
-          "核对权威 generation",
-          "未知业务效果单独处理"
-        ]
-      ],
-      "note": "部署报告应说明恢复对象与未覆盖边界",
-      "source_excerpt_ids": [
-        "16-3",
-        "16-4",
-        "16-5",
-        "16-2",
-        "16-21",
-        "16-6",
-        "16-7",
-        "16-20",
-        "16-8",
-        "16-9",
-        "16-10",
-        "16-11",
-        "16-1",
-        "16-12",
-        "16-19",
-        "16-13",
-        "16-14",
-        "16-15",
-        "16-16",
-        "16-17",
-        "16-18"
-      ],
-      "caption": "部署报告应说明恢复对象与未覆盖边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。",
-      "decision_label": "依据执行身份、当前状态与已提交事实选择",
-      "placement": "before-step",
-      "step": 7,
-      "section": 7
     }
   ]
 }

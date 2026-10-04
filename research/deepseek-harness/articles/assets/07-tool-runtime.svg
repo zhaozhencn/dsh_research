@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1628" viewBox="0 0 1200 1628">
+<rect width="100%" height="100%" fill="#f6f8fb"/>
+<text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">07 / 从源码理解 Agent Harness</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">Tool runtime 从调用到规范结果</text>
+<rect x="80" y="170" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="238" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Loop / tool/call</text>
+<text x="600.0" y="295" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">保存 callId 与 callSeq，解析参数</text>
+<line x1="600" y1="334" x2="600" y2="378" stroke="#7390ac" stroke-width="4"/><polygon points="600,378 591,364 609,364" fill="#7390ac"/>
+<rect x="80" y="388" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="456" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Runtime / prepare</text>
+<text x="600.0" y="513" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">pre-execute → approval → guards</text>
+<line x1="600" y1="552" x2="600" y2="596" stroke="#7390ac" stroke-width="4"/><polygon points="600,596 591,582 609,582" fill="#7390ac"/>
+<rect x="80" y="606" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="674" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Dispatch / body</text>
+<text x="600.0" y="731" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">融合 callerSignal 后执行实际操作</text>
+<line x1="600" y1="770" x2="600" y2="814" stroke="#7390ac" stroke-width="4"/><polygon points="600,814 591,800 609,800" fill="#7390ac"/>
+<rect x="80" y="824" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="892" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Outcome / value + content</text>
+<text x="600.0" y="949" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">校验规范 value，render 模型内容</text>
+<line x1="600" y1="988" x2="600" y2="1032" stroke="#7390ac" stroke-width="4"/><polygon points="600,1032 591,1018 609,1018" fill="#7390ac"/>
+<rect x="80" y="1042" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1110" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Finalize / tools/result</text>
+<text x="600.0" y="1167" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">post 与 finalContent 后通知 observer</text>
+<line x1="600" y1="1206" x2="600" y2="1250" stroke="#7390ac" stroke-width="4"/><polygon points="600,1250 591,1236 609,1236" fill="#7390ac"/>
+<rect x="80" y="1260" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1328" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Loop / tool/result</text>
+<text x="600.0" y="1385" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">按模型顺序提交，再接纳 additionalContexts</text>
+<text x="600" y="1527" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">规范 outcome、历史结果与业务回执各有来源</text>
+<text x="600" y="1582" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1730" viewBox="0 0 1200 1730">
+<rect width="100%" height="100%" fill="#f6f8fb"/>
+<text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">16 / 从源码理解 Agent Harness</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">交互结果的身份与内容来源</text>
+<rect x="80" y="190" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="258" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">SDK / SessionPromptResult</text>
+<text x="600.0" y="315" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">messageId 对应排队输入</text>
+<rect x="80" y="403" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="471" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Input receipt</text>
+<text x="600.0" y="528" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">由后续 user/message 与 Turn 事实确认消费</text>
+<line x1="600" y1="354" x2="600" y2="393" stroke="#7390ac" stroke-width="4"/><polygon points="600,393 591,379 609,379" fill="#7390ac"/>
+<rect x="80" y="650" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="718" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Present / pending</text>
+<text x="600.0" y="775" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">文件检查 → finalized tools/result</text>
+<rect x="80" y="863" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="931" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">deliverables/presented</text>
+<text x="600.0" y="988" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">声明文件引用；内容与访问另行检查</text>
+<line x1="600" y1="814" x2="600" y2="853" stroke="#7390ac" stroke-width="4"/><polygon points="600,853 591,839 609,839" fill="#7390ac"/>
+<rect x="80" y="1110" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1178" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Workspace / TurnRecord</text>
+<text x="600.0" y="1235" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">summary 与 FileSources 对齐</text>
+<rect x="80" y="1323" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
+<text x="600.0" y="1391" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Changes + diff source</text>
+<text x="600.0" y="1448" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">事件保存 turn，丰富内容依赖真实来源</text>
+<line x1="600" y1="1274" x2="600" y2="1313" stroke="#7390ac" stroke-width="4"/><polygon points="600,1313 591,1299 609,1299" fill="#7390ac"/>
+<text x="600" y="1604" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">接纳、声明与可访问内容共同组成交付链</text>
+<text x="600" y="1659" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
+</svg>

@@ -1,5 +1,7 @@
 # 验证范围、复现及结果
 
+历史批次中的文章篇次沿用当时编号；文章链接指向当前文件。最新阅读顺序与原关注点的对应关系见[篇次调整记录](../validation/article-reorder-review.json)。
+
 环境与SHA见[baseline](baseline.md)。所有命令使用固定checkout；新增示例从报告validation脚本进入真实runtime。没有提供模型凭据，没有生产业务系统副作用验证；V13 的业务写入仅发生在真实本地 SQLite 临时数据。JSONL测试采用仓库测试自己的临时数据和mock；POSIX lease用本机native flock。
 
 ## 结果与计数口径
@@ -158,7 +160,7 @@ V14 检查 16 项映射顺序、16 个测试身份去重、15 条补充源码锚
 
 ## 第一篇专栏深化：逐段源码解读
 
-本次仅深化[第 01 篇](../articles/01-task-completion.md)，上游 SHA 不变，原有七个主体章节、机制图与篇章导航保留，其余 15 篇正文没有改写。第一篇从 2 段源码增至 23 段，按 13 个执行步骤解释目标创建、revision 比较更新、自动调度、输入接纳、检查点、取消与状态发布；另外分析 Loop 结束、结构化子任务、todo、规划模式和业务验收的区别。源码摘录清单当前合计 54 段；原专栏的 33 段计数保留为历史批次结果。
+本次仅深化[第 01 篇](../articles/15-task-completion.md)，上游 SHA 不变，原有七个主体章节、机制图与篇章导航保留，其余 15 篇正文没有改写。第一篇从 2 段源码增至 23 段，按 13 个执行步骤解释目标创建、revision 比较更新、自动调度、输入接纳、检查点、取消与状态发布；另外分析 Loop 结束、结构化子任务、todo、规划模式和业务验收的区别。源码摘录清单当前合计 54 段；原专栏的 33 段计数保留为历史批次结果。
 
 专栏检查重新读取固定 Git 提交的原文，核对摘录内容、区间、hash、16 项映射、链接与 PNG／SVG；另核对七个主体标题和原图未变化、其余 15 篇正文与当前已提交原文一致。既有 V08 的七个相关测试断言逐项与 JSON 结果对照，均为此前已执行的 passed；没有新增或重跑行为测试，累计测试数保持 1,520 passed、1 conditional skipped。
 
@@ -194,7 +196,7 @@ git diff --check
 
 ## 第02篇叙事修订：整体架构、连续调用与术语
 
-按阅读反馈重写[第02篇](../articles/02-agent-loop.md)，保留七个主体关注领域，调整标题和展开顺序。正文先交代组件分工和 Turn／Step／attempt，随后用14个连续步骤追踪创建、输入、driver、准入、请求、stream、工具回流、结束、重试、取消与释放。每次进入内部函数先交代调用现场，离开时解释返回值和下一站；29段源码均来自原固定提交。全系列当前为307段，历史深化批次的298段仍保留为当时结果。
+按阅读反馈重写[第02篇](../articles/03-agent-loop.md)，保留七个主体关注领域，调整标题和展开顺序。正文先交代组件分工和 Turn／Step／attempt，随后用14个连续步骤追踪创建、输入、driver、准入、请求、stream、工具回流、结束、重试、取消与释放。每次进入内部函数先交代调用现场，离开时解释返回值和下一站；29段源码均来自原固定提交。全系列当前为307段，历史深化批次的298段仍保留为当时结果。
 
 四张PNG及SVG重新绘制，按整体主线、循环嵌套、数据提交边界、异常路径顺序嵌入；第三张移至请求构造之后，衔接后面的stream与工具回流。单一执行者查看全部四张PNG并复核图示语义；检查新增第02篇的图序、所在主体章节和 Agent／Turn 英文术语约束。保留原[结构基线](../validation/column-structure-baseline.json)与历史深化复核，另用[编辑修订约定](../validation/column-editorial-revisions.json)记录本篇的新旧标题和图片位置，不把历史“原章节保留”结论改写为本轮结果。
 
@@ -211,7 +213,7 @@ git diff --check
 
 ## 第02篇进一步优化：步骤衔接、核心数据与务实心得
 
-继续完善[第02篇](../articles/02-agent-loop.md)，七个主体标题、14个步骤标题和此前29段原文摘录保留。在章节及关键步骤之间补充上一阶段的数据、下一阶段的消费方与修复任务场景；新增9段结构及状态代码，解释 Phase、InboxState、PreparedStep、PromptAssembly、LlmCallConfig、PreparedLlmCall、AssistantStreamAttempt，以及工具调度的 PlannedCall、Slot、GroupOutcome 和游标。当前本篇38段，全系列316段；此前307段仍是上一批次结果。
+继续完善[第02篇](../articles/03-agent-loop.md)，七个主体标题、14个步骤标题和此前29段原文摘录保留。在章节及关键步骤之间补充上一阶段的数据、下一阶段的消费方与修复任务场景；新增9段结构及状态代码，解释 Phase、InboxState、PreparedStep、PromptAssembly、LlmCallConfig、PreparedLlmCall、AssistantStreamAttempt，以及工具调度的 PlannedCall、Slot、GroupOutcome 和游标。当前本篇38段，全系列316段；此前307段仍是上一批次结果。
 
 同时澄清 Inbox 的持久 projection 与模型可见 user/message 的区别，区分 config 数据、preparedCall 调用能力与最终 request 字段，并通过 slots／committed 的具体例子说明并发返回和有序提交。结尾改为与正文对应的四项实践收获，保留实现边界，将适用的设计经验落到恢复、观察、验收与退出。四张图保留原阅读位置，改用 Inbox、request、live stream、tool runtime 与源码类型标识；逐张查看PNG，并复核 request.messages 的来源和 retry 获准条件。
 
@@ -244,3 +246,12 @@ git diff --check
 本轮编辑辅助脚本首次解析出现UTF-8编码声明问题，保留[初次制作日志](../validation/series-refinement-authoring-initial.log)，显式声明编码后生成成功；这是文稿制作问题，不是runtime失败。[首次重建](../validation/series-refinement-diagrams-initial.log)通过，语义复核后修正部分源码标签与衔接文案，再[完整重建](../validation/series-refinement-diagrams.log)。[首次正文检查](../validation/series-refinement-column-initial.log)通过；最终输出见[正文日志](../validation/series-refinement-column.log)、[完整材料日志](../validation/series-refinement-artifacts.log)、[差异检查](../validation/series-refinement-diff-check.log)、[专栏结果](../validation/column-check.json)和[材料结果](../validation/artifact-check.json)。
 
 没有新增或重跑runtime测试、类型编译、真实模型或部署实验。此前同一SHA的37个去重测试文件、1520 passed、1个条件skip保留为历史证据。文稿检查证明原文、定位、结构及资产一致性，语义判断另行复核；未在公众号编辑器预览或发布，未进行独立SVG浏览器渲染，上游checkout保持原SHA且无改动。
+
+
+## 专栏阅读顺序调整：扩展性优先
+
+先交换原第01与第14篇，再把原第16篇移到第02篇。当前顺序对应原篇次为：14、16、02、03、04、05、06、07、08、09、10、11、12、13、01、15。插件扩展与生命周期位于开篇，部署与版本演进紧接其后；原研究报告的16项编号保持不变，以独立 concern_number 记录文章与关注点的对应关系。
+
+本次同步文章及图像文件名、篇次标识、篇间导航、当前目录与清单；历史摘录ID、结构基线、复核JSON和日志保留原编号。全部364段原文摘录及主体标题与编辑前一致，64组PNG／SVG仅更新对应篇次，图示机制定义保留。绘图入口按原关注点选取机制，材料检查按显式对应关系核验，避免将阅读顺序误认为原报告编号。
+
+专栏检查与完整材料检查退出0，结果分别见[专栏日志](../validation/article-reorder-column.log)、[材料日志](../validation/article-reorder-artifacts.log)和[调整记录](../validation/article-reorder-review.json)。查看了新顺序的16图总览。本次未新增或重跑类型、构建及runtime行为测试，没有切换上游SHA，也没有执行外部发布。

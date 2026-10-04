@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1060" viewBox="0 0 1200 1060">
+<rect width="100%" height="100%" fill="#f5f8fc"/>
+<title>交互与交付的数据结构</title>
+<desc>每类数据有自己的更新协议与保存寿命</desc>
+<text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">16 / 从源码理解 Agent Harness</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">交互与交付的数据结构</text>
+<rect x="80" y="178" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<rect x="80" y="178" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Snapshot</text>
+<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">generation / baseline</text>
+<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">新连接先建立增量起点</text>
+<rect x="80" y="360" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<rect x="80" y="360" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Journal</text>
+<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">cursor / page / entry</text>
+<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">重复、重叠与缺口分别处理</text>
+<rect x="80" y="542" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<rect x="80" y="542" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Live output</text>
+<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">SessionAssistantStreamBaseline</text>
+<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">revision 与 activeAttempt 保留前缀</text>
+<rect x="80" y="724" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<rect x="80" y="724" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
+<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Workspace</text>
+<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">TurnState / TurnRecord</text>
+<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">修改归属与两侧内容来源</text>
+<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">每类数据有自己的更新协议与保存寿命</text>
+<text x="600" y="1024" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
+</svg>

@@ -1,6 +1,6 @@
 # 源码技术文章深化：从研究材料到可发布专栏
 
-本文将第02篇的优化和其余15篇的同步完善整理为可复用方法。适用于源码已有依据、需要改善分析深度与阅读连贯性的单篇或系列文章。它同时管理证据、叙事、数据结构和插图；是否取得新版本、执行测试或发布，仍由当前任务范围决定。
+本文将 Agent Loop 篇（原第02篇，现第03篇）的优化和其余15篇的同步完善整理为可复用方法。适用于源码已有依据、需要改善分析深度与阅读连贯性的单篇或系列文章。它同时管理证据、叙事、数据结构和插图；是否取得新版本、执行测试或发布，仍由当前任务范围决定。
 
 案例基线为 DeepSeek Harness `5badb15009ae1756c3afe0ae0cef1faafc290ccc`。第02篇及系列的具体结果见[专栏目录](../articles/README.md)、[第02篇优化记录](../validation/agent-loop-refinement-review.json)和[15篇同步完善记录](../validation/series-refinement-review.json)。下面的方法不将此提交、16篇规模或历史测试数量规定为其他项目的要求。
 
@@ -43,7 +43,7 @@
 |下一阶段|哪个consumer继续使用它，或控制权返回哪里？|
 |异常支线|拒绝、取消、失败和卸载怎样回到同一条链？|
 
-以[Agent Loop篇](../articles/02-agent-loop.md)为例，输入链为`followup() → send() → wakeDriver() → kick() → turn()`；`turn()`内经`preStep()`取得准入结果，再进入`step()`。文章进入`step()`前应先说明它消费的`PreparedStep`，工具执行返回后再说明`concluded`如何影响结束判断。
+以[Agent Loop篇](../articles/03-agent-loop.md)为例，输入链为`followup() → send() → wakeDriver() → kick() → turn()`；`turn()`内经`preStep()`取得准入结果，再进入`step()`。文章进入`step()`前应先说明它消费的`PreparedStep`，工具执行返回后再说明`concluded`如何影响结束判断。
 
 片段跨文件时，解释切换原因；进入内部helper时，给出caller；返回后，说明结果怎样改变原流程。事件订阅、waterfall委派和数据查询应标出边的性质，不能把它们都解释为直接调用。装配、单次执行、错误恢复和重启读取各有生命周期，切换支线时明确说清。
 

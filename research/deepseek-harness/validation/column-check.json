@@ -3,124 +3,8 @@
   "articles": [
     {
       "number": 1,
-      "file": "articles/01-task-completion.md",
-      "concern": "任务定义与完成语义",
-      "code_excerpts": 27,
-      "illustrations": 4,
-      "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 10947
-    },
-    {
-      "number": 2,
-      "file": "articles/02-agent-loop.md",
-      "concern": "Agent Loop 与执行模型",
-      "code_excerpts": 38,
-      "illustrations": 4,
-      "evidence_refs": 12,
-      "cjk_characters_excluding_code_links": 8787
-    },
-    {
-      "number": 3,
-      "file": "articles/03-model-adaptation.md",
-      "concern": "模型接入与能力适配",
-      "code_excerpts": 21,
-      "illustrations": 4,
-      "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 5716
-    },
-    {
-      "number": 4,
-      "file": "articles/04-context-engineering.md",
-      "concern": "上下文工程",
-      "code_excerpts": 20,
-      "illustrations": 4,
-      "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 5494
-    },
-    {
-      "number": 5,
-      "file": "articles/05-state-persistence.md",
-      "concern": "记忆、状态与持久化",
-      "code_excerpts": 21,
-      "illustrations": 4,
-      "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 5326
-    },
-    {
-      "number": 6,
-      "file": "articles/06-tool-runtime.md",
-      "concern": "工具与执行环境契约",
-      "code_excerpts": 25,
-      "illustrations": 4,
-      "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 5274
-    },
-    {
-      "number": 7,
-      "file": "articles/07-reliability.md",
-      "concern": "可靠性恢复与副作用一致性",
-      "code_excerpts": 19,
-      "illustrations": 4,
-      "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 4641
-    },
-    {
-      "number": 8,
-      "file": "articles/08-concurrency.md",
-      "concern": "并发、调度与资源治理",
-      "code_excerpts": 24,
-      "illustrations": 4,
-      "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 4332
-    },
-    {
-      "number": 9,
-      "file": "articles/09-security.md",
-      "concern": "权限与安全边界",
-      "code_excerpts": 21,
-      "illustrations": 4,
-      "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 4066
-    },
-    {
-      "number": 10,
-      "file": "articles/10-autonomy.md",
-      "concern": "自主性控制与人工干预",
-      "code_excerpts": 22,
-      "illustrations": 4,
-      "evidence_refs": 13,
-      "cjk_characters_excluding_code_links": 3834
-    },
-    {
-      "number": 11,
-      "file": "articles/11-budgets.md",
-      "concern": "成本、延迟与预算",
-      "code_excerpts": 21,
-      "illustrations": 4,
-      "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 4451
-    },
-    {
-      "number": 12,
-      "file": "articles/12-observability.md",
-      "concern": "可观测性与审计",
-      "code_excerpts": 20,
-      "illustrations": 4,
-      "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 3853
-    },
-    {
-      "number": 13,
-      "file": "articles/13-evaluation.md",
-      "concern": "评测与质量保障",
-      "code_excerpts": 19,
-      "illustrations": 4,
-      "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 4474
-    },
-    {
-      "number": 14,
-      "file": "articles/14-plugin-lifecycle.md",
+      "concern_number": 14,
+      "file": "articles/01-plugin-lifecycle.md",
       "concern": "扩展机制与生命周期",
       "code_excerpts": 21,
       "illustrations": 4,
@@ -128,473 +12,605 @@
       "cjk_characters_excluding_code_links": 3747
     },
     {
-      "number": 15,
-      "file": "articles/15-interaction-deliverables.md",
-      "concern": "交互协议与交付物",
-      "code_excerpts": 24,
-      "illustrations": 4,
-      "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 4004
-    },
-    {
-      "number": 16,
-      "file": "articles/16-deployment-evolution.md",
+      "number": 2,
+      "concern_number": 16,
+      "file": "articles/02-deployment-evolution.md",
       "concern": "部署、兼容性与版本演进",
       "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 18,
       "cjk_characters_excluding_code_links": 4308
+    },
+    {
+      "number": 3,
+      "concern_number": 2,
+      "file": "articles/03-agent-loop.md",
+      "concern": "Agent Loop 与执行模型",
+      "code_excerpts": 38,
+      "illustrations": 4,
+      "evidence_refs": 12,
+      "cjk_characters_excluding_code_links": 8787
+    },
+    {
+      "number": 4,
+      "concern_number": 3,
+      "file": "articles/04-model-adaptation.md",
+      "concern": "模型接入与能力适配",
+      "code_excerpts": 21,
+      "illustrations": 4,
+      "evidence_refs": 8,
+      "cjk_characters_excluding_code_links": 5716
+    },
+    {
+      "number": 5,
+      "concern_number": 4,
+      "file": "articles/05-context-engineering.md",
+      "concern": "上下文工程",
+      "code_excerpts": 20,
+      "illustrations": 4,
+      "evidence_refs": 14,
+      "cjk_characters_excluding_code_links": 5494
+    },
+    {
+      "number": 6,
+      "concern_number": 5,
+      "file": "articles/06-state-persistence.md",
+      "concern": "记忆、状态与持久化",
+      "code_excerpts": 21,
+      "illustrations": 4,
+      "evidence_refs": 16,
+      "cjk_characters_excluding_code_links": 5330
+    },
+    {
+      "number": 7,
+      "concern_number": 6,
+      "file": "articles/07-tool-runtime.md",
+      "concern": "工具与执行环境契约",
+      "code_excerpts": 25,
+      "illustrations": 4,
+      "evidence_refs": 14,
+      "cjk_characters_excluding_code_links": 5274
+    },
+    {
+      "number": 8,
+      "concern_number": 7,
+      "file": "articles/08-reliability.md",
+      "concern": "可靠性恢复与副作用一致性",
+      "code_excerpts": 19,
+      "illustrations": 4,
+      "evidence_refs": 10,
+      "cjk_characters_excluding_code_links": 4641
+    },
+    {
+      "number": 9,
+      "concern_number": 8,
+      "file": "articles/09-concurrency.md",
+      "concern": "并发、调度与资源治理",
+      "code_excerpts": 24,
+      "illustrations": 4,
+      "evidence_refs": 8,
+      "cjk_characters_excluding_code_links": 4332
+    },
+    {
+      "number": 10,
+      "concern_number": 9,
+      "file": "articles/10-security.md",
+      "concern": "权限与安全边界",
+      "code_excerpts": 21,
+      "illustrations": 4,
+      "evidence_refs": 15,
+      "cjk_characters_excluding_code_links": 4066
+    },
+    {
+      "number": 11,
+      "concern_number": 10,
+      "file": "articles/11-autonomy.md",
+      "concern": "自主性控制与人工干预",
+      "code_excerpts": 22,
+      "illustrations": 4,
+      "evidence_refs": 13,
+      "cjk_characters_excluding_code_links": 3834
+    },
+    {
+      "number": 12,
+      "concern_number": 11,
+      "file": "articles/12-budgets.md",
+      "concern": "成本、延迟与预算",
+      "code_excerpts": 21,
+      "illustrations": 4,
+      "evidence_refs": 16,
+      "cjk_characters_excluding_code_links": 4451
+    },
+    {
+      "number": 13,
+      "concern_number": 12,
+      "file": "articles/13-observability.md",
+      "concern": "可观测性与审计",
+      "code_excerpts": 20,
+      "illustrations": 4,
+      "evidence_refs": 15,
+      "cjk_characters_excluding_code_links": 3853
+    },
+    {
+      "number": 14,
+      "concern_number": 13,
+      "file": "articles/14-evaluation.md",
+      "concern": "评测与质量保障",
+      "code_excerpts": 19,
+      "illustrations": 4,
+      "evidence_refs": 10,
+      "cjk_characters_excluding_code_links": 4474
+    },
+    {
+      "number": 15,
+      "concern_number": 1,
+      "file": "articles/15-task-completion.md",
+      "concern": "任务定义与完成语义",
+      "code_excerpts": 27,
+      "illustrations": 4,
+      "evidence_refs": 11,
+      "cjk_characters_excluding_code_links": 10947
+    },
+    {
+      "number": 16,
+      "concern_number": 15,
+      "file": "articles/16-interaction-deliverables.md",
+      "concern": "交互协议与交付物",
+      "code_excerpts": 24,
+      "illustrations": 4,
+      "evidence_refs": 11,
+      "cjk_characters_excluding_code_links": 4004
     }
   ],
   "article_count": 16,
   "source_excerpt_count": 364,
-  "checked_links": 780,
+  "checked_links": 783,
   "checked_source_links": 604,
   "figures": [
     {
-      "png": "articles/assets/01-task-completion.png",
-      "svg": "articles/assets/01-task-completion.svg",
+      "png": "articles/assets/01-plugin-lifecycle.png",
+      "svg": "articles/assets/01-plugin-lifecycle.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/01-task-completion-02.png",
-      "svg": "articles/assets/01-task-completion-02.svg",
+      "png": "articles/assets/01-plugin-lifecycle-02.png",
+      "svg": "articles/assets/01-plugin-lifecycle-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/01-task-completion-03.png",
-      "svg": "articles/assets/01-task-completion-03.svg",
+      "png": "articles/assets/01-plugin-lifecycle-03.png",
+      "svg": "articles/assets/01-plugin-lifecycle-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/01-task-completion-04.png",
-      "svg": "articles/assets/01-task-completion-04.svg",
+      "png": "articles/assets/01-plugin-lifecycle-04.png",
+      "svg": "articles/assets/01-plugin-lifecycle-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/02-agent-loop.png",
-      "svg": "articles/assets/02-agent-loop.svg",
+      "png": "articles/assets/02-deployment-evolution.png",
+      "svg": "articles/assets/02-deployment-evolution.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-deployment-evolution-02.png",
+      "svg": "articles/assets/02-deployment-evolution-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-deployment-evolution-03.png",
+      "svg": "articles/assets/02-deployment-evolution-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-deployment-evolution-04.png",
+      "svg": "articles/assets/02-deployment-evolution-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/03-agent-loop.png",
+      "svg": "articles/assets/03-agent-loop.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/02-agent-loop-02.png",
-      "svg": "articles/assets/02-agent-loop-02.svg",
+      "png": "articles/assets/03-agent-loop-02.png",
+      "svg": "articles/assets/03-agent-loop-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/02-agent-loop-03.png",
-      "svg": "articles/assets/02-agent-loop-03.svg",
+      "png": "articles/assets/03-agent-loop-03.png",
+      "svg": "articles/assets/03-agent-loop-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/02-agent-loop-04.png",
-      "svg": "articles/assets/02-agent-loop-04.svg",
+      "png": "articles/assets/03-agent-loop-04.png",
+      "svg": "articles/assets/03-agent-loop-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/03-model-adaptation.png",
-      "svg": "articles/assets/03-model-adaptation.svg",
+      "png": "articles/assets/04-model-adaptation.png",
+      "svg": "articles/assets/04-model-adaptation.svg",
       "width": 1200,
       "height": 1410,
       "ok": true
     },
     {
-      "png": "articles/assets/03-model-adaptation-02.png",
-      "svg": "articles/assets/03-model-adaptation-02.svg",
+      "png": "articles/assets/04-model-adaptation-02.png",
+      "svg": "articles/assets/04-model-adaptation-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/03-model-adaptation-03.png",
-      "svg": "articles/assets/03-model-adaptation-03.svg",
+      "png": "articles/assets/04-model-adaptation-03.png",
+      "svg": "articles/assets/04-model-adaptation-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/03-model-adaptation-04.png",
-      "svg": "articles/assets/03-model-adaptation-04.svg",
+      "png": "articles/assets/04-model-adaptation-04.png",
+      "svg": "articles/assets/04-model-adaptation-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/04-context-engineering.png",
-      "svg": "articles/assets/04-context-engineering.svg",
+      "png": "articles/assets/05-context-engineering.png",
+      "svg": "articles/assets/05-context-engineering.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/04-context-engineering-02.png",
-      "svg": "articles/assets/04-context-engineering-02.svg",
+      "png": "articles/assets/05-context-engineering-02.png",
+      "svg": "articles/assets/05-context-engineering-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/04-context-engineering-03.png",
-      "svg": "articles/assets/04-context-engineering-03.svg",
+      "png": "articles/assets/05-context-engineering-03.png",
+      "svg": "articles/assets/05-context-engineering-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/04-context-engineering-04.png",
-      "svg": "articles/assets/04-context-engineering-04.svg",
+      "png": "articles/assets/05-context-engineering-04.png",
+      "svg": "articles/assets/05-context-engineering-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/05-state-persistence.png",
-      "svg": "articles/assets/05-state-persistence.svg",
+      "png": "articles/assets/06-state-persistence.png",
+      "svg": "articles/assets/06-state-persistence.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/05-state-persistence-02.png",
-      "svg": "articles/assets/05-state-persistence-02.svg",
+      "png": "articles/assets/06-state-persistence-02.png",
+      "svg": "articles/assets/06-state-persistence-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/05-state-persistence-03.png",
-      "svg": "articles/assets/05-state-persistence-03.svg",
+      "png": "articles/assets/06-state-persistence-03.png",
+      "svg": "articles/assets/06-state-persistence-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/05-state-persistence-04.png",
-      "svg": "articles/assets/05-state-persistence-04.svg",
+      "png": "articles/assets/06-state-persistence-04.png",
+      "svg": "articles/assets/06-state-persistence-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/06-tool-runtime.png",
-      "svg": "articles/assets/06-tool-runtime.svg",
+      "png": "articles/assets/07-tool-runtime.png",
+      "svg": "articles/assets/07-tool-runtime.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/06-tool-runtime-02.png",
-      "svg": "articles/assets/06-tool-runtime-02.svg",
+      "png": "articles/assets/07-tool-runtime-02.png",
+      "svg": "articles/assets/07-tool-runtime-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/06-tool-runtime-03.png",
-      "svg": "articles/assets/06-tool-runtime-03.svg",
+      "png": "articles/assets/07-tool-runtime-03.png",
+      "svg": "articles/assets/07-tool-runtime-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/06-tool-runtime-04.png",
-      "svg": "articles/assets/06-tool-runtime-04.svg",
+      "png": "articles/assets/07-tool-runtime-04.png",
+      "svg": "articles/assets/07-tool-runtime-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/07-reliability.png",
-      "svg": "articles/assets/07-reliability.svg",
+      "png": "articles/assets/08-reliability.png",
+      "svg": "articles/assets/08-reliability.svg",
       "width": 1200,
       "height": 1730,
       "ok": true
     },
     {
-      "png": "articles/assets/07-reliability-02.png",
-      "svg": "articles/assets/07-reliability-02.svg",
+      "png": "articles/assets/08-reliability-02.png",
+      "svg": "articles/assets/08-reliability-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/07-reliability-03.png",
-      "svg": "articles/assets/07-reliability-03.svg",
+      "png": "articles/assets/08-reliability-03.png",
+      "svg": "articles/assets/08-reliability-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/07-reliability-04.png",
-      "svg": "articles/assets/07-reliability-04.svg",
+      "png": "articles/assets/08-reliability-04.png",
+      "svg": "articles/assets/08-reliability-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/08-concurrency.png",
-      "svg": "articles/assets/08-concurrency.svg",
+      "png": "articles/assets/09-concurrency.png",
+      "svg": "articles/assets/09-concurrency.svg",
       "width": 1200,
       "height": 1730,
       "ok": true
     },
     {
-      "png": "articles/assets/08-concurrency-02.png",
-      "svg": "articles/assets/08-concurrency-02.svg",
+      "png": "articles/assets/09-concurrency-02.png",
+      "svg": "articles/assets/09-concurrency-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/08-concurrency-03.png",
-      "svg": "articles/assets/08-concurrency-03.svg",
+      "png": "articles/assets/09-concurrency-03.png",
+      "svg": "articles/assets/09-concurrency-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/08-concurrency-04.png",
-      "svg": "articles/assets/08-concurrency-04.svg",
+      "png": "articles/assets/09-concurrency-04.png",
+      "svg": "articles/assets/09-concurrency-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/09-security.png",
-      "svg": "articles/assets/09-security.svg",
+      "png": "articles/assets/10-security.png",
+      "svg": "articles/assets/10-security.svg",
       "width": 1200,
       "height": 1410,
       "ok": true
     },
     {
-      "png": "articles/assets/09-security-02.png",
-      "svg": "articles/assets/09-security-02.svg",
+      "png": "articles/assets/10-security-02.png",
+      "svg": "articles/assets/10-security-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/09-security-03.png",
-      "svg": "articles/assets/09-security-03.svg",
+      "png": "articles/assets/10-security-03.png",
+      "svg": "articles/assets/10-security-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/09-security-04.png",
-      "svg": "articles/assets/09-security-04.svg",
+      "png": "articles/assets/10-security-04.png",
+      "svg": "articles/assets/10-security-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/10-autonomy.png",
-      "svg": "articles/assets/10-autonomy.svg",
+      "png": "articles/assets/11-autonomy.png",
+      "svg": "articles/assets/11-autonomy.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/10-autonomy-02.png",
-      "svg": "articles/assets/10-autonomy-02.svg",
+      "png": "articles/assets/11-autonomy-02.png",
+      "svg": "articles/assets/11-autonomy-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/10-autonomy-03.png",
-      "svg": "articles/assets/10-autonomy-03.svg",
+      "png": "articles/assets/11-autonomy-03.png",
+      "svg": "articles/assets/11-autonomy-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/10-autonomy-04.png",
-      "svg": "articles/assets/10-autonomy-04.svg",
+      "png": "articles/assets/11-autonomy-04.png",
+      "svg": "articles/assets/11-autonomy-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/11-budgets.png",
-      "svg": "articles/assets/11-budgets.svg",
+      "png": "articles/assets/12-budgets.png",
+      "svg": "articles/assets/12-budgets.svg",
       "width": 1200,
       "height": 1730,
       "ok": true
     },
     {
-      "png": "articles/assets/11-budgets-02.png",
-      "svg": "articles/assets/11-budgets-02.svg",
+      "png": "articles/assets/12-budgets-02.png",
+      "svg": "articles/assets/12-budgets-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/11-budgets-03.png",
-      "svg": "articles/assets/11-budgets-03.svg",
+      "png": "articles/assets/12-budgets-03.png",
+      "svg": "articles/assets/12-budgets-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/11-budgets-04.png",
-      "svg": "articles/assets/11-budgets-04.svg",
+      "png": "articles/assets/12-budgets-04.png",
+      "svg": "articles/assets/12-budgets-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/12-observability.png",
-      "svg": "articles/assets/12-observability.svg",
+      "png": "articles/assets/13-observability.png",
+      "svg": "articles/assets/13-observability.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/12-observability-02.png",
-      "svg": "articles/assets/12-observability-02.svg",
+      "png": "articles/assets/13-observability-02.png",
+      "svg": "articles/assets/13-observability-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/12-observability-03.png",
-      "svg": "articles/assets/12-observability-03.svg",
+      "png": "articles/assets/13-observability-03.png",
+      "svg": "articles/assets/13-observability-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/12-observability-04.png",
-      "svg": "articles/assets/12-observability-04.svg",
+      "png": "articles/assets/13-observability-04.png",
+      "svg": "articles/assets/13-observability-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/13-evaluation.png",
-      "svg": "articles/assets/13-evaluation.svg",
+      "png": "articles/assets/14-evaluation.png",
+      "svg": "articles/assets/14-evaluation.svg",
       "width": 1200,
       "height": 1730,
       "ok": true
     },
     {
-      "png": "articles/assets/13-evaluation-02.png",
-      "svg": "articles/assets/13-evaluation-02.svg",
+      "png": "articles/assets/14-evaluation-02.png",
+      "svg": "articles/assets/14-evaluation-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/13-evaluation-03.png",
-      "svg": "articles/assets/13-evaluation-03.svg",
+      "png": "articles/assets/14-evaluation-03.png",
+      "svg": "articles/assets/14-evaluation-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/13-evaluation-04.png",
-      "svg": "articles/assets/13-evaluation-04.svg",
+      "png": "articles/assets/14-evaluation-04.png",
+      "svg": "articles/assets/14-evaluation-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/14-plugin-lifecycle.png",
-      "svg": "articles/assets/14-plugin-lifecycle.svg",
+      "png": "articles/assets/15-task-completion.png",
+      "svg": "articles/assets/15-task-completion.svg",
       "width": 1200,
       "height": 1628,
       "ok": true
     },
     {
-      "png": "articles/assets/14-plugin-lifecycle-02.png",
-      "svg": "articles/assets/14-plugin-lifecycle-02.svg",
+      "png": "articles/assets/15-task-completion-02.png",
+      "svg": "articles/assets/15-task-completion-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/14-plugin-lifecycle-03.png",
-      "svg": "articles/assets/14-plugin-lifecycle-03.svg",
+      "png": "articles/assets/15-task-completion-03.png",
+      "svg": "articles/assets/15-task-completion-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/14-plugin-lifecycle-04.png",
-      "svg": "articles/assets/14-plugin-lifecycle-04.svg",
+      "png": "articles/assets/15-task-completion-04.png",
+      "svg": "articles/assets/15-task-completion-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true
     },
     {
-      "png": "articles/assets/15-interaction-deliverables.png",
-      "svg": "articles/assets/15-interaction-deliverables.svg",
+      "png": "articles/assets/16-interaction-deliverables.png",
+      "svg": "articles/assets/16-interaction-deliverables.svg",
       "width": 1200,
       "height": 1730,
       "ok": true
     },
     {
-      "png": "articles/assets/15-interaction-deliverables-02.png",
-      "svg": "articles/assets/15-interaction-deliverables-02.svg",
+      "png": "articles/assets/16-interaction-deliverables-02.png",
+      "svg": "articles/assets/16-interaction-deliverables-02.svg",
       "width": 1200,
       "height": 1240,
       "ok": true
     },
     {
-      "png": "articles/assets/15-interaction-deliverables-03.png",
-      "svg": "articles/assets/15-interaction-deliverables-03.svg",
+      "png": "articles/assets/16-interaction-deliverables-03.png",
+      "svg": "articles/assets/16-interaction-deliverables-03.svg",
       "width": 1200,
       "height": 1060,
       "ok": true
     },
     {
-      "png": "articles/assets/15-interaction-deliverables-04.png",
-      "svg": "articles/assets/15-interaction-deliverables-04.svg",
-      "width": 1200,
-      "height": 1140,
-      "ok": true
-    },
-    {
-      "png": "articles/assets/16-deployment-evolution.png",
-      "svg": "articles/assets/16-deployment-evolution.svg",
-      "width": 1200,
-      "height": 1730,
-      "ok": true
-    },
-    {
-      "png": "articles/assets/16-deployment-evolution-02.png",
-      "svg": "articles/assets/16-deployment-evolution-02.svg",
-      "width": 1200,
-      "height": 1240,
-      "ok": true
-    },
-    {
-      "png": "articles/assets/16-deployment-evolution-03.png",
-      "svg": "articles/assets/16-deployment-evolution-03.svg",
-      "width": 1200,
-      "height": 1060,
-      "ok": true
-    },
-    {
-      "png": "articles/assets/16-deployment-evolution-04.png",
-      "svg": "articles/assets/16-deployment-evolution-04.svg",
+      "png": "articles/assets/16-interaction-deliverables-04.png",
+      "svg": "articles/assets/16-interaction-deliverables-04.svg",
       "width": 1200,
       "height": 1140,
       "ok": true

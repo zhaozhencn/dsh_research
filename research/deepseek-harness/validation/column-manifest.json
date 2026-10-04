@@ -3,63 +3,121 @@
   "articles": [
     {
       "number": 1,
-      "file": "articles/01-task-completion.md",
-      "title": "任务何时才算完成：目标、Turn 与业务验收",
-      "concern": "任务定义与完成语义",
+      "file": "articles/01-plugin-lifecycle.md",
+      "title": "插件如何安全参与运行：依赖、事件与生命周期",
+      "concern": "扩展机制与生命周期",
       "evidence_ids": [
-        "E80",
-        "E144",
-        "E78",
-        "E81",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E65",
+        "E137",
+        "E05",
+        "E48",
+        "E17",
+        "E31",
         "E82",
-        "E122",
-        "E124",
-        "E85",
-        "E125",
-        "E121",
-        "E120"
+        "E140",
+        "E07",
+        "E13",
+        "E14",
+        "E64"
       ],
       "snippet_ids": [
-        "01-3",
-        "01-4",
-        "01-5",
-        "01-27",
-        "01-6",
-        "01-7",
-        "01-8",
-        "01-9",
-        "01-26",
-        "01-10",
-        "01-11",
-        "01-25",
-        "01-12",
-        "01-13",
-        "01-14",
-        "01-15",
-        "01-24",
-        "01-16",
-        "01-1",
-        "01-2",
-        "01-17",
-        "01-18",
-        "01-19",
-        "01-20",
-        "01-21",
-        "01-22",
-        "01-23"
+        "14-3",
+        "14-4",
+        "14-5",
+        "14-1",
+        "14-6",
+        "14-7",
+        "14-8",
+        "14-21",
+        "14-9",
+        "14-10",
+        "14-11",
+        "14-2",
+        "14-20",
+        "14-12",
+        "14-13",
+        "14-14",
+        "14-15",
+        "14-16",
+        "14-19",
+        "14-17",
+        "14-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "6a9bb78585f5474d4415294ab8637792465bb68557c6ab204c37adf9281e4868",
+      "sha256": "d16c458e59463a897a54cf69ba8f85f6bbdd3782caa22f65aa3efc4fabb5bdf6",
       "figure_stems": [
-        "01-task-completion",
-        "01-task-completion-02",
-        "01-task-completion-03",
-        "01-task-completion-04"
-      ]
+        "01-plugin-lifecycle",
+        "01-plugin-lifecycle-02",
+        "01-plugin-lifecycle-03",
+        "01-plugin-lifecycle-04"
+      ],
+      "concern_number": 14
     },
     {
       "number": 2,
-      "file": "articles/02-agent-loop.md",
+      "file": "articles/02-deployment-evolution.md",
+      "title": "Agent 系统如何持续演进：部署、兼容与状态迁移",
+      "concern": "部署、兼容性与版本演进",
+      "evidence_ids": [
+        "E09",
+        "E10",
+        "E12",
+        "E75",
+        "E07",
+        "E13",
+        "E64",
+        "E14",
+        "E15",
+        "E25",
+        "E116",
+        "E67",
+        "E39",
+        "E73",
+        "E72",
+        "E74",
+        "E60",
+        "E42"
+      ],
+      "snippet_ids": [
+        "16-3",
+        "16-4",
+        "16-5",
+        "16-2",
+        "16-21",
+        "16-6",
+        "16-7",
+        "16-20",
+        "16-8",
+        "16-9",
+        "16-10",
+        "16-11",
+        "16-1",
+        "16-12",
+        "16-19",
+        "16-13",
+        "16-14",
+        "16-15",
+        "16-16",
+        "16-17",
+        "16-18"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "94d8b5a67e57651b6c5f590e37b6ca269d4147d9bca122d55ace3985ed91a8a7",
+      "figure_stems": [
+        "02-deployment-evolution",
+        "02-deployment-evolution-02",
+        "02-deployment-evolution-03",
+        "02-deployment-evolution-04"
+      ],
+      "concern_number": 16
+    },
+    {
+      "number": 3,
+      "file": "articles/03-agent-loop.md",
       "title": "一次输入如何推进为多步执行：拆解 Agent Loop",
       "concern": "Agent Loop 与执行模型",
       "evidence_ids": [
@@ -117,17 +175,18 @@
         "02-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "0ee9e1d1c23b8eac2623aa7bde40f6445856fbf49360b90c22344ebebb023a11",
+      "sha256": "baaa71335bcaa0ae7b61991c919a6e97eab18dd96276f2ea054716ac4a937d84",
       "figure_stems": [
-        "02-agent-loop",
-        "02-agent-loop-02",
-        "02-agent-loop-03",
-        "02-agent-loop-04"
-      ]
+        "03-agent-loop",
+        "03-agent-loop-02",
+        "03-agent-loop-03",
+        "03-agent-loop-04"
+      ],
+      "concern_number": 2
     },
     {
-      "number": 3,
-      "file": "articles/03-model-adaptation.md",
+      "number": 4,
+      "file": "articles/04-model-adaptation.md",
       "title": "接入不同模型：路由绑定、能力解析与消息适配",
       "concern": "模型接入与能力适配",
       "evidence_ids": [
@@ -164,17 +223,18 @@
         "03-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "5ec4f679be81f3607534fc297c87eddc55fca64d3fa1acdaeb128ed3c763fd6e",
+      "sha256": "a4ef7241c5cc91079b729156bb498027260130f4ed84bf676d01d19b04a674d8",
       "figure_stems": [
-        "03-model-adaptation",
-        "03-model-adaptation-02",
-        "03-model-adaptation-03",
-        "03-model-adaptation-04"
-      ]
+        "04-model-adaptation",
+        "04-model-adaptation-02",
+        "04-model-adaptation-03",
+        "04-model-adaptation-04"
+      ],
+      "concern_number": 3
     },
     {
-      "number": 4,
-      "file": "articles/04-context-engineering.md",
+      "number": 5,
+      "file": "articles/05-context-engineering.md",
       "title": "模型每次究竟看到什么：上下文组装与压缩",
       "concern": "上下文工程",
       "evidence_ids": [
@@ -216,17 +276,18 @@
         "04-17"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "968fdbe971a25f193290fb3d6230e41dc9244f519f8eeb67034a8e6e5fb57336",
+      "sha256": "8733f029347e89d73b8687c868d914b6c85dcc53b3bb30154e502b5212ba5913",
       "figure_stems": [
-        "04-context-engineering",
-        "04-context-engineering-02",
-        "04-context-engineering-03",
-        "04-context-engineering-04"
-      ]
+        "05-context-engineering",
+        "05-context-engineering-02",
+        "05-context-engineering-03",
+        "05-context-engineering-04"
+      ],
+      "concern_number": 4
     },
     {
-      "number": 5,
-      "file": "articles/05-state-persistence.md",
+      "number": 6,
+      "file": "articles/06-state-persistence.md",
       "title": "进程重启之后：Agent 的状态、记忆与持久化",
       "concern": "记忆、状态与持久化",
       "evidence_ids": [
@@ -271,17 +332,18 @@
         "05-19"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "772989d1722d7068c82d1695ca04a12dd219fb24505410c9c5006fa850b7e77c",
+      "sha256": "26d29ed52e7226bdce458a2251326a4b6c7dc5141851a2d4dc1424c85cd3ad9a",
       "figure_stems": [
-        "05-state-persistence",
-        "05-state-persistence-02",
-        "05-state-persistence-03",
-        "05-state-persistence-04"
-      ]
+        "06-state-persistence",
+        "06-state-persistence-02",
+        "06-state-persistence-03",
+        "06-state-persistence-04"
+      ],
+      "concern_number": 5
     },
     {
-      "number": 6,
-      "file": "articles/06-tool-runtime.md",
+      "number": 7,
+      "file": "articles/07-tool-runtime.md",
       "title": "一次工具调用的完整生命周期：从参数到结果",
       "concern": "工具与执行环境契约",
       "evidence_ids": [
@@ -328,17 +390,18 @@
         "06-21"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "34073be46653d506f1130133afc621321e905514047e6eb9cb6044c057b8b702",
+      "sha256": "8ad59d6d6014bbde9ed7c565ce8e5e928f01b25603ae1e4c0a29c4e3c89c1c72",
       "figure_stems": [
-        "06-tool-runtime",
-        "06-tool-runtime-02",
-        "06-tool-runtime-03",
-        "06-tool-runtime-04"
-      ]
+        "07-tool-runtime",
+        "07-tool-runtime-02",
+        "07-tool-runtime-03",
+        "07-tool-runtime-04"
+      ],
+      "concern_number": 6
     },
     {
-      "number": 7,
-      "file": "articles/07-reliability.md",
+      "number": 8,
+      "file": "articles/08-reliability.md",
       "title": "失败之后如何继续：重试、取消与副作用一致性",
       "concern": "可靠性恢复与副作用一致性",
       "evidence_ids": [
@@ -375,17 +438,18 @@
         "07-16"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "06fb9714d6d2bdf67536779342bcac31909bdfa0ab67ae183a768d00257c6c0b",
+      "sha256": "9a8df8543e99e92ff8672c6b2e561befd0825ea86d0abd6800a0df1984bb4f6d",
       "figure_stems": [
-        "07-reliability",
-        "07-reliability-02",
-        "07-reliability-03",
-        "07-reliability-04"
-      ]
+        "08-reliability",
+        "08-reliability-02",
+        "08-reliability-03",
+        "08-reliability-04"
+      ],
+      "concern_number": 7
     },
     {
-      "number": 8,
-      "file": "articles/08-concurrency.md",
+      "number": 9,
+      "file": "articles/09-concurrency.md",
       "title": "哪些工作可以同时执行：工具、作业与子 Agent 调度",
       "concern": "并发、调度与资源治理",
       "evidence_ids": [
@@ -425,17 +489,18 @@
         "08-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "68f885bcd5c8ed09e35e944c8853891325eb0fc7283a830ed1adc2f1afd4d4e0",
+      "sha256": "847921e4ab1d67c8fb12b8fedd613660d6fd491d03b618396a428aa20005f866",
       "figure_stems": [
-        "08-concurrency",
-        "08-concurrency-02",
-        "08-concurrency-03",
-        "08-concurrency-04"
-      ]
+        "09-concurrency",
+        "09-concurrency-02",
+        "09-concurrency-03",
+        "09-concurrency-04"
+      ],
+      "concern_number": 8
     },
     {
-      "number": 9,
-      "file": "articles/09-security.md",
+      "number": 10,
+      "file": "articles/10-security.md",
       "title": "模型的行动权限从哪里来：审批、作用域与沙箱",
       "concern": "权限与安全边界",
       "evidence_ids": [
@@ -479,17 +544,18 @@
         "09-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "36f4f748c6d03805f1f7c51e7ce29379d24f968938b2de1d2a7b74ffbf9730d2",
+      "sha256": "5e853fbf7e478f441206950c9c484fbb7bf21726c3de98c86cf2b76487617c73",
       "figure_stems": [
-        "09-security",
-        "09-security-02",
-        "09-security-03",
-        "09-security-04"
-      ]
+        "10-security",
+        "10-security-02",
+        "10-security-03",
+        "10-security-04"
+      ],
+      "concern_number": 9
     },
     {
-      "number": 10,
-      "file": "articles/10-autonomy.md",
+      "number": 11,
+      "file": "articles/11-autonomy.md",
       "title": "如何控制自动推进：规划模式、目标续跑与人工接管",
       "concern": "自主性控制与人工干预",
       "evidence_ids": [
@@ -532,17 +598,18 @@
         "10-19"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "c4c1b0c1f676ed6f63f223a146014adbfe3142640d4d86fe772c2c1eb6ecc8b8",
+      "sha256": "6d246f2fc590802cd6f0d14e197a6c31dbab95209eee0c9a594ba377fbc7f122",
       "figure_stems": [
-        "10-autonomy",
-        "10-autonomy-02",
-        "10-autonomy-03",
-        "10-autonomy-04"
-      ]
+        "11-autonomy",
+        "11-autonomy-02",
+        "11-autonomy-03",
+        "11-autonomy-04"
+      ],
+      "concern_number": 10
     },
     {
-      "number": 11,
-      "file": "articles/11-budgets.md",
+      "number": 12,
+      "file": "articles/12-budgets.md",
       "title": "限制 Turn 数为什么仍可能失控：成本、延迟与预算",
       "concern": "成本、延迟与预算",
       "evidence_ids": [
@@ -587,17 +654,18 @@
         "11-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "82dc6b59e6de16f4a5a601bb0cf75c0f2b905fc2b18785e60de3dc2f6b547be5",
+      "sha256": "cc737b26cabed97bb285998b1b600a25d65fe486f43b232dbd488081b452a7d4",
       "figure_stems": [
-        "11-budgets",
-        "11-budgets-02",
-        "11-budgets-03",
-        "11-budgets-04"
-      ]
+        "12-budgets",
+        "12-budgets-02",
+        "12-budgets-03",
+        "12-budgets-04"
+      ],
+      "concern_number": 11
     },
     {
-      "number": 12,
-      "file": "articles/12-observability.md",
+      "number": 13,
+      "file": "articles/13-observability.md",
       "title": "如何还原 Agent 的行动：事实日志与反馈授权遥测",
       "concern": "可观测性与审计",
       "evidence_ids": [
@@ -640,17 +708,18 @@
         "12-17"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "1d895a3ad82d7e9947b42a2ff994d44c8a7d60c80bfee5df2fb16ab78464cfeb",
+      "sha256": "98f6e6805f152bd51eb5fced75082bba45ce750066a796a287a226f99056cf08",
       "figure_stems": [
-        "12-observability",
-        "12-observability-02",
-        "12-observability-03",
-        "12-observability-04"
-      ]
+        "13-observability",
+        "13-observability-02",
+        "13-observability-03",
+        "13-observability-04"
+      ],
+      "concern_number": 12
     },
     {
-      "number": 13,
-      "file": "articles/13-evaluation.md",
+      "number": 14,
+      "file": "articles/14-evaluation.md",
       "title": "如何证明 Agent 运行正确：契约测试与业务验收",
       "concern": "评测与质量保障",
       "evidence_ids": [
@@ -687,72 +756,75 @@
         "13-16"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "7d7649c70c443774a6e97637d25c63ff7885fa262a81ca172505dea341a32780",
+      "sha256": "69934da26ee70a3c882e25ea46436c02f2b6d24a94aa716e5855ba791a5287e8",
       "figure_stems": [
-        "13-evaluation",
-        "13-evaluation-02",
-        "13-evaluation-03",
-        "13-evaluation-04"
-      ]
-    },
-    {
-      "number": 14,
-      "file": "articles/14-plugin-lifecycle.md",
-      "title": "插件如何安全参与运行：依赖、事件与生命周期",
-      "concern": "扩展机制与生命周期",
-      "evidence_ids": [
-        "E02",
-        "E03",
-        "E04",
-        "E06",
-        "E65",
-        "E137",
-        "E05",
-        "E48",
-        "E17",
-        "E31",
-        "E82",
-        "E140",
-        "E07",
-        "E13",
-        "E14",
-        "E64"
+        "14-evaluation",
+        "14-evaluation-02",
+        "14-evaluation-03",
+        "14-evaluation-04"
       ],
-      "snippet_ids": [
-        "14-3",
-        "14-4",
-        "14-5",
-        "14-1",
-        "14-6",
-        "14-7",
-        "14-8",
-        "14-21",
-        "14-9",
-        "14-10",
-        "14-11",
-        "14-2",
-        "14-20",
-        "14-12",
-        "14-13",
-        "14-14",
-        "14-15",
-        "14-16",
-        "14-19",
-        "14-17",
-        "14-18"
-      ],
-      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "166e43030e9a7312942a89f94be652e4832649ee98d055c48afdf75a2ab9fff3",
-      "figure_stems": [
-        "14-plugin-lifecycle",
-        "14-plugin-lifecycle-02",
-        "14-plugin-lifecycle-03",
-        "14-plugin-lifecycle-04"
-      ]
+      "concern_number": 13
     },
     {
       "number": 15,
-      "file": "articles/15-interaction-deliverables.md",
+      "file": "articles/15-task-completion.md",
+      "title": "任务何时才算完成：目标、Turn 与业务验收",
+      "concern": "任务定义与完成语义",
+      "evidence_ids": [
+        "E80",
+        "E144",
+        "E78",
+        "E81",
+        "E82",
+        "E122",
+        "E124",
+        "E85",
+        "E125",
+        "E121",
+        "E120"
+      ],
+      "snippet_ids": [
+        "01-3",
+        "01-4",
+        "01-5",
+        "01-27",
+        "01-6",
+        "01-7",
+        "01-8",
+        "01-9",
+        "01-26",
+        "01-10",
+        "01-11",
+        "01-25",
+        "01-12",
+        "01-13",
+        "01-14",
+        "01-15",
+        "01-24",
+        "01-16",
+        "01-1",
+        "01-2",
+        "01-17",
+        "01-18",
+        "01-19",
+        "01-20",
+        "01-21",
+        "01-22",
+        "01-23"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "be2d434ca44615ac2dd457035cff88414c7825dc88b170e635024a64b5f5dc6a",
+      "figure_stems": [
+        "15-task-completion",
+        "15-task-completion-02",
+        "15-task-completion-03",
+        "15-task-completion-04"
+      ],
+      "concern_number": 1
+    },
+    {
+      "number": 16,
+      "file": "articles/16-interaction-deliverables.md",
       "title": "如何把执行结果交给用户：协议、重连与交付物",
       "concern": "交互协议与交付物",
       "evidence_ids": [
@@ -795,70 +867,14 @@
         "15-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "93a1ef5858ef7dadb634e169db84d170583991cccae038dcea1c12df83d76819",
+      "sha256": "e38c6922e6426aa45c3e3d50cfc0e86632656334ead8a2ba5bc4c33bff8ae300",
       "figure_stems": [
-        "15-interaction-deliverables",
-        "15-interaction-deliverables-02",
-        "15-interaction-deliverables-03",
-        "15-interaction-deliverables-04"
-      ]
-    },
-    {
-      "number": 16,
-      "file": "articles/16-deployment-evolution.md",
-      "title": "Agent 系统如何持续演进：部署、兼容与状态迁移",
-      "concern": "部署、兼容性与版本演进",
-      "evidence_ids": [
-        "E09",
-        "E10",
-        "E12",
-        "E75",
-        "E07",
-        "E13",
-        "E64",
-        "E14",
-        "E15",
-        "E25",
-        "E116",
-        "E67",
-        "E39",
-        "E73",
-        "E72",
-        "E74",
-        "E60",
-        "E42"
+        "16-interaction-deliverables",
+        "16-interaction-deliverables-02",
+        "16-interaction-deliverables-03",
+        "16-interaction-deliverables-04"
       ],
-      "snippet_ids": [
-        "16-3",
-        "16-4",
-        "16-5",
-        "16-2",
-        "16-21",
-        "16-6",
-        "16-7",
-        "16-20",
-        "16-8",
-        "16-9",
-        "16-10",
-        "16-11",
-        "16-1",
-        "16-12",
-        "16-19",
-        "16-13",
-        "16-14",
-        "16-15",
-        "16-16",
-        "16-17",
-        "16-18"
-      ],
-      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "0ad0e46cc438b88d2e2dfe26336f1aa6f459ec52e69c2ebc325e81163c0dd497",
-      "figure_stems": [
-        "16-deployment-evolution",
-        "16-deployment-evolution-02",
-        "16-deployment-evolution-03",
-        "16-deployment-evolution-04"
-      ]
+      "concern_number": 15
     }
   ],
   "snippets": {
@@ -3807,5 +3823,6 @@
     }
   },
   "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。",
-  "editorial_baseline": "d4b60a4"
+  "editorial_baseline": "d4b60a4",
+  "reading_order_review": "validation/article-reorder-review.json"
 }
