@@ -208,3 +208,20 @@ git diff --check
 [本轮复核记录](../validation/agent-loop-review.json)记录修改前本仓库提交、文稿hash、范围与命令。其他15篇正文及其120个PNG／SVG文件逐字节对照该编辑基线未变；上游仍为原SHA，checkout未修改。未新增或重跑runtime测试和类型编译，既有37个去重文件、1,520 passed与1条条件skip仅作为历史证据。
 
 初次绘图发现数据边界图标签超出纵向边框，缩短标签后重建成功；保留[首次绘图失败](../validation/agent-loop-diagrams-initial.log)、[修正绘图](../validation/agent-loop-diagrams.log)和[最终重建](../validation/agent-loop-diagrams-final.log)。之后图片位置元数据调整，第一次正文检查指出图清单尚未重建，保留[初次正文检查](../validation/agent-loop-column-initial.log)；重建后再次执行检查。最终结果见[正文日志](../validation/agent-loop-column.log)、[完整材料日志](../validation/agent-loop-artifacts.log)、[差异检查日志](../validation/agent-loop-diff-check.log)、[专栏结果](../validation/column-check.json)和[材料结果](../validation/artifact-check.json)。检查验证源码可定位性、结构和资产一致性，不认证业务正确性；未在公众号编辑器预览或发布。
+
+## 第02篇进一步优化：步骤衔接、核心数据与务实心得
+
+继续完善[第02篇](../articles/02-agent-loop.md)，七个主体标题、14个步骤标题和此前29段原文摘录保留。在章节及关键步骤之间补充上一阶段的数据、下一阶段的消费方与修复任务场景；新增9段结构及状态代码，解释 Phase、InboxState、PreparedStep、PromptAssembly、LlmCallConfig、PreparedLlmCall、AssistantStreamAttempt，以及工具调度的 PlannedCall、Slot、GroupOutcome 和游标。当前本篇38段，全系列316段；此前307段仍是上一批次结果。
+
+同时澄清 Inbox 的持久 projection 与模型可见 user/message 的区别，区分 config 数据、preparedCall 调用能力与最终 request 字段，并通过 slots／committed 的具体例子说明并发返回和有序提交。结尾改为与正文对应的四项实践收获，保留实现边界，将适用的设计经验落到恢复、观察、验收与退出。四张图保留原阅读位置，改用 Inbox、request、live stream、tool runtime 与源码类型标识；逐张查看PNG，并复核 request.messages 的来源和 retry 获准条件。
+
+```sh
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+node research/deepseek-harness/validation/check-artifacts.mjs
+git diff --check
+```
+
+[本轮复核](../validation/agent-loop-refinement-review.json)记录编辑前提交、保留结构、新增摘录位置与hash、实际命令和限制。对照编辑基线，其他15篇正文及120个PNG／SVG文件未变；上游SHA与checkout保持原状。初次渲染通过，语义复核后明确 running Phase、request.messages 与获准 retry，再次完整重建；保留[初次绘图](../validation/agent-loop-refinement-diagrams-initial.log)和[最终绘图](../validation/agent-loop-refinement-diagrams.log)。最终检查记录见[正文日志](../validation/agent-loop-refinement-column.log)、[完整材料日志](../validation/agent-loop-refinement-artifacts.log)、[差异检查](../validation/agent-loop-refinement-diff-check.log)、[专栏结果](../validation/column-check.json)及[材料结果](../validation/artifact-check.json)。
+
+本轮没有新增或重跑runtime测试及类型编译，不改变历史测试统计。文稿和图示检查验证原文、定位、结构及资产一致性；语义另由单一执行者复核，没有真实模型任务、公众号编辑器预览或发布，也没有独立SVG浏览器渲染。

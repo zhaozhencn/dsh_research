@@ -14,10 +14,10 @@
       "number": 2,
       "file": "articles/02-agent-loop.md",
       "concern": "Agent Loop 与执行模型",
-      "code_excerpts": 29,
+      "code_excerpts": 38,
       "illustrations": 4,
       "evidence_refs": 12,
-      "cjk_characters_excluding_code_links": 6351
+      "cjk_characters_excluding_code_links": 8787
     },
     {
       "number": 3,
@@ -147,9 +147,9 @@
     }
   ],
   "article_count": 16,
-  "source_excerpt_count": 307,
-  "checked_links": 725,
-  "checked_source_links": 551,
+  "source_excerpt_count": 316,
+  "checked_links": 737,
+  "checked_source_links": 562,
   "figures": [
     {
       "png": "articles/assets/01-task-completion.png",

@@ -237,34 +237,34 @@
       "width": 1200,
       "height": 1628,
       "kind": "flow",
-      "title": "Agent Loop 的组件与执行主线",
+      "title": "Agent Loop：组件与执行主线",
       "nodes": [
         [
-          "输入 / Inbox",
-          "send() 选择接纳目标并入队"
+          "Input / Inbox",
+          "send() 选择 next-turn / next-step"
         ],
         [
-          "驱动 / ReactLoopAgent",
-          "wakeDriver() → kick() → turn()"
+          "Driver / ReactLoopAgent",
+          "Phase 管活动；wakeDriver() → kick() → turn()"
         ],
         [
-          "准入 / preStep()",
-          "claim 输入、组装上下文、决定是否进入 Step"
+          "Admission / preStep()",
+          "claim → PromptAssembly → PreparedStep"
         ],
         [
-          "请求 / step() 与 LLM",
+          "Request / step() 与 LLM",
           "prepareRequest() → buildRequest() → stream()"
         ],
         [
-          "工具 / executeToolCalls()",
-          "runGroup() 调度；结果与额外上下文分别回流"
+          "Tool runtime / executeToolCalls()",
+          "runGroup() 调度；tool/result 与 context 分别回流"
         ],
         [
-          "事实与边界 / Session",
-          "记录消息及 Step、Turn 边界，派生后续历史"
+          "Session / facts 与 surface",
+          "记录 Step、Turn 边界；派生后续 messages"
         ]
       ],
-      "note": "Session 贯穿全程；图示省略循环与异常分支",
+      "note": "Session 贯穿执行；Turn / Step / attempt 分层推进",
       "png": "articles/assets/02-agent-loop.png",
       "svg": "articles/assets/02-agent-loop.svg"
     },
@@ -272,37 +272,37 @@
       "article": 2,
       "stem": "02-agent-loop-02",
       "kind": "loop-nesting",
-      "title": "三个循环层次如何传递控制权",
+      "title": "Turn / Step / attempt 的嵌套调用",
       "nodes": [
         [
           "driver",
           "kick()",
-          "while (await turn())：管理多个 Turn"
+          "while (await turn())；沿 running Phase 执行"
         ],
         [
           "Turn",
           "turn()",
-          "每次先准入，再执行 Step，最后检查结束"
+          "preStep → step → turn-stopping"
         ],
         [
-          "准入",
+          "admission",
           "preStep(target, position)",
-          "claim → assembly → enter / reject"
+          "输入与 PromptAssembly → PreparedStep"
         ],
         [
           "Step",
           "step(decision)",
-          "持有本 Step 的 messages 与 assembly"
+          "PreparedStep → config / preparedCall → request"
         ],
         [
           "attempt",
           "attempt：prepareRequest → buildRequest → stream",
-          "请求 retry 返回这里；不重新执行 preStep"
+          "retry 复用 PreparedStep；重新准备 preparedCall"
         ],
         [
-          "工具",
-          "成功结算 → executeToolCalls（如有）",
-          "工具结果入 Session，再返回结束理由或 null"
+          "tool runtime",
+          "assistant/message → executeToolCalls（如有）",
+          "tool/result 写 Session；concluded 返回 Step"
         ]
       ],
       "note": "step(): null → 下一 Step；turn(): true → 下一 Turn",
@@ -312,7 +312,10 @@
         "02-26",
         "02-28",
         "02-33",
-        "02-37"
+        "02-37",
+        "02-43",
+        "02-44",
+        "02-47"
       ],
       "caption": "kick() 管 Turn，turn() 管 Step，step() 内部重试 attempt；工具回流通常促成新 Step。",
       "placement": "after-driver-before-prestep",
@@ -326,27 +329,27 @@
       "article": 2,
       "stem": "02-agent-loop-03",
       "kind": "layers",
-      "title": "输入、请求与结果分别在哪里",
+      "title": "数据边界：Inbox、request 与 stream",
       "nodes": [
         [
           "Inbox",
-          "候选输入：next-turn / next-step",
-          "send 入队；claim 取走候选内容"
+          "InboxState：next-turn / next-step",
+          "send() 入队；claim() 取出 UserMessage"
         ],
         [
-          "请求历史",
-          "Session → deriveMessages()",
-          "提交输入后派生并冻结 request"
+          "request",
+          "request.messages ← Session surface",
+          "deriveMessages() → 冻结 request"
         ],
         [
-          "实时输出",
+          "live stream",
           "AssistantStreamAttempt",
-          "settle 先 append，再发 end frame"
+          "settle()：append → end frame"
         ],
         [
-          "工具回流",
+          "tool result",
           "tool/result + additionalContexts",
-          "结果进 Session；额外上下文进 Inbox"
+          "tool/result → Session；context → Inbox"
         ]
       ],
       "note": "这些是数据边界；Session 提交不等于磁盘 flush",
@@ -358,7 +361,10 @@
         "02-32",
         "02-33",
         "02-34",
-        "02-35"
+        "02-35",
+        "02-42",
+        "02-45",
+        "02-48"
       ],
       "caption": "候选输入、冻结请求、实时输出与工具结果各有提交位置，不能混为一种状态。",
       "placement": "after-request-build-before-model-stream",
@@ -375,36 +381,37 @@
       "title": "retry、cancel 与 dispose 的边界",
       "nodes": [
         [
-          "请求 retry",
+          "request retry",
           "finish: error / aborted",
-          "结算 assistant/attempt",
-          "request-error 决策",
-          "仅 retry 回原 Step"
+          "settle assistant/attempt",
+          "request-error waterfall",
+          "获准 retry → 同 Step"
         ],
         [
-          "活动 cancel",
-          "cancel() 发出 signal",
-          "停止新增工具派发",
-          "等待在途工作结算",
-          "Turn 记录 aborted"
+          "activity cancel",
+          "cancel() → signal",
+          "停止新 tool dispatch",
+          "等待 in-flight tools",
+          "turn/end: aborted"
         ],
         [
-          "实例 dispose",
-          "disposed-cause cancel",
-          "whenIdle() 等待收束",
-          "释放 Agent scope",
-          "关闭存储 handle"
+          "Agent dispose",
+          "cancel: disposed",
+          "whenIdle()",
+          "scope.dispose()",
+          "handle.close()"
         ]
       ],
-      "note": "重试不重放输入；取消不能回滚外部副作用",
+      "note": "retry 复用 Step；dispose 等待活动与存储收束",
       "source_excerpt_ids": [
         "02-37",
         "02-17",
         "02-18",
-        "02-20"
+        "02-20",
+        "02-43"
       ],
       "caption": "请求 retry、活动取消与实例释放各有范围；仅 finish 失败获准 retry 时留在原 Step。",
-      "decision_label": "按失败位置与生命周期选择后续路径",
+      "decision_label": "按 signal 与 lifecycle 确定后续路径",
       "placement": "after-exception-section-intro",
       "section": 6,
       "width": 1200,

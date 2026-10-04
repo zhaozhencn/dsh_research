@@ -78,21 +78,30 @@
         "02-22",
         "02-38",
         "02-4",
+        "02-42",
         "02-5",
+        "02-43",
         "02-7",
         "02-24",
         "02-25",
         "02-26",
+        "02-44",
         "02-27",
         "02-6",
+        "02-45",
         "02-28",
         "02-39",
+        "02-46",
+        "02-47",
         "02-41",
         "02-31",
+        "02-48",
         "02-11",
         "02-32",
         "02-33",
         "02-13",
+        "02-49",
+        "02-50",
         "02-34",
         "02-35",
         "02-14",
@@ -104,7 +113,7 @@
         "02-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "1e6dc463d488b0251598e4092fc00e70d175de888cfa73da85349ade8d3ab37f",
+      "sha256": "0ee9e1d1c23b8eac2623aa7bde40f6445856fbf49360b90c22344ebebb023a11",
       "figure_stems": [
         "02-agent-loop",
         "02-agent-loop-02",
@@ -3291,6 +3300,78 @@
       "raw": "      const commits = this.systemPrompt.project(renderedPrompt, {\n        inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n        startsSeries: startsRequestSeries\n          || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n          || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n      })\n      for (const { message, intent } of commits) {\n        this.session.append('system/message', { turn, step, message }, intent)\n      }\n      if (firstAttempt) {\n        for (const message of decision.messages) {\n          this.session.append('user/message', message, { surfaceOp: 'append' })\n        }\n      }\n      firstAttempt = false\n      const request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
       "code": "const commits = this.systemPrompt.project(renderedPrompt, {\n  inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n  startsSeries: startsRequestSeries\n    || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n    || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n})\nfor (const { message, intent } of commits) {\n  this.session.append('system/message', { turn, step, message }, intent)\n}\nif (firstAttempt) {\n  for (const message of decision.messages) {\n    this.session.append('user/message', message, { surfaceOp: 'append' })\n  }\n}\nfirstAttempt = false\nconst request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
       "sha256": "0efae295b33bb08dd5e01d18f1a0060ce94a6a707b968119d444687d8f5fe403"
+    },
+    "02-42": {
+      "path": "packages/core/agent/src/types.ts",
+      "start": 39,
+      "end": 45,
+      "raw": "export type InboxTarget = 'next-turn' | 'next-step'\n\n/** Complete pending Inbox value reconstructed from durable splices. */\nexport interface InboxState {\n  readonly 'next-turn': readonly UserMessage[]\n  readonly 'next-step': readonly UserMessage[]\n}",
+      "code": "export type InboxTarget = 'next-turn' | 'next-step'\n\n/** Complete pending Inbox value reconstructed from durable splices. */\nexport interface InboxState {\n  readonly 'next-turn': readonly UserMessage[]\n  readonly 'next-step': readonly UserMessage[]\n}",
+      "sha256": "a38f82d97163f9a4d59e7e93e2150226871a7326449a73229bfc2e06f44b5066"
+    },
+    "02-43": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 42,
+      "end": 50,
+      "raw": "type Phase =\n  | { kind: 'idle'; lastTurn: number }\n  | {\n    kind: 'maintenance'\n    abort: AbortController\n    lastTurn: number\n    wakeRequested: boolean\n  }\n  | { kind: 'running'; abort: AbortController; turn: number; step: number; wakeRequested: boolean }",
+      "code": "type Phase =\n  | { kind: 'idle'; lastTurn: number }\n  | {\n    kind: 'maintenance'\n    abort: AbortController\n    lastTurn: number\n    wakeRequested: boolean\n  }\n  | { kind: 'running'; abort: AbortController; turn: number; step: number; wakeRequested: boolean }",
+      "sha256": "a0f0cb40cc340b07d40a33de563771dfcf3bd7beb493cbd75e57e0883b2acbb5"
+    },
+    "02-44": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 54,
+      "end": 61,
+      "raw": "type PreparedStep =\n  | { kind: 'reject' }\n  | {\n    kind: 'enter'\n    messages: UserMessage[]\n    startsRequestSeries?: true\n    assembly: PromptAssembly\n  }",
+      "code": "type PreparedStep =\n  | { kind: 'reject' }\n  | {\n    kind: 'enter'\n    messages: UserMessage[]\n    startsRequestSeries?: true\n    assembly: PromptAssembly\n  }",
+      "sha256": "c1ddae3d81e0c00c5cdbde23068e0e96b24168cb1224f7d93cf70a0d17604316"
+    },
+    "02-45": {
+      "path": "packages/core/system-prompt/src/index.ts",
+      "start": 118,
+      "end": 123,
+      "raw": "export interface PromptAssembly {\n  sections: AssembledSection[]\n  contexts: AssembledContext[]\n  tools: ToolSchema[]\n  variables: Record<string, string | undefined>\n}",
+      "code": "export interface PromptAssembly {\n  sections: AssembledSection[]\n  contexts: AssembledContext[]\n  tools: ToolSchema[]\n  variables: Record<string, string | undefined>\n}",
+      "sha256": "0c4a38f70776ab6c1ceaff5f896f8d442233409805d275e496d51a7b4b832626"
+    },
+    "02-46": {
+      "path": "packages/llm/llm/src/call-config.ts",
+      "start": 23,
+      "end": 31,
+      "raw": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}\n",
+      "code": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}",
+      "sha256": "0402c5432608c4829a47f6e3173a9a33e8d3c11e6399e0a6f3c79962c9dfec45"
+    },
+    "02-47": {
+      "path": "packages/llm/llm/src/index.ts",
+      "start": 169,
+      "end": 192,
+      "raw": "export interface PreparedLlmCall {\n  /** Detached, deep-frozen config with any adapter-owned default materialized. */\n  readonly config: LlmCallConfig\n  /** Immutable retry policy captured with the adapter registration. */\n  readonly retryPolicy: ResolvedRetryPolicy\n  /** Detached context metadata resolved with the registration-bound call. */\n  readonly context?: LlmModelContext\n  /** Exact model modalities captured with the adapter dispatch generation. */\n  readonly inputModalities?: readonly ModelModality[]\n  /** Exact model system prompt update mode captured with the adapter dispatch generation. */\n  readonly systemPromptUpdate?: SystemPromptUpdate\n  /** Exact model tool update mode captured with the adapter dispatch generation. */\n  readonly toolUpdate?: ToolUpdate\n  /** Config fields materialized by the captured adapter rather than proposed by the caller. */\n  readonly adapterDefaults: LlmCallConfigAdapterDefaults\n  /**\n   * Dispatch this call once through the registration captured during\n   * preparation. The request's call-config fields must match {@link config};\n   * reuse or mismatch fails with `INVALID_PREPARED_CALL`.\n   * @param options - fully assembled request carrying the prepared config.\n   * @returns the chunk stream, including the `llm/stream` waterfall.\n   */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "code": "export interface PreparedLlmCall {\n  /** Detached, deep-frozen config with any adapter-owned default materialized. */\n  readonly config: LlmCallConfig\n  /** Immutable retry policy captured with the adapter registration. */\n  readonly retryPolicy: ResolvedRetryPolicy\n  /** Detached context metadata resolved with the registration-bound call. */\n  readonly context?: LlmModelContext\n  /** Exact model modalities captured with the adapter dispatch generation. */\n  readonly inputModalities?: readonly ModelModality[]\n  /** Exact model system prompt update mode captured with the adapter dispatch generation. */\n  readonly systemPromptUpdate?: SystemPromptUpdate\n  /** Exact model tool update mode captured with the adapter dispatch generation. */\n  readonly toolUpdate?: ToolUpdate\n  /** Config fields materialized by the captured adapter rather than proposed by the caller. */\n  readonly adapterDefaults: LlmCallConfigAdapterDefaults\n  /**\n   * Dispatch this call once through the registration captured during\n   * preparation. The request's call-config fields must match {@link config};\n   * reuse or mismatch fails with `INVALID_PREPARED_CALL`.\n   * @param options - fully assembled request carrying the prepared config.\n   * @returns the chunk stream, including the `llm/stream` waterfall.\n   */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "sha256": "3242def8d8a010c0e8743bb397319c8c00632ee0322dbfa58e2d4364c9a7031f"
+    },
+    "02-48": {
+      "path": "packages/core/agent-loop/src/assistant-stream.ts",
+      "start": 18,
+      "end": 27,
+      "raw": "export class AssistantStreamAttempt {\n  private readonly accumulator = new AssistantStreamAccumulator()\n  private readonly assembler = new BlockAssembler()\n  private index = 0\n  private terminal = false\n  /** Attempt identity unique within this Agent lifecycle. */\n  readonly attemptId: LlmAttemptId\n\n  /** Whether this started attempt has emitted its terminal frame. */\n  get ended(): boolean { return this.terminal }",
+      "code": "export class AssistantStreamAttempt {\n  private readonly accumulator = new AssistantStreamAccumulator()\n  private readonly assembler = new BlockAssembler()\n  private index = 0\n  private terminal = false\n  /** Attempt identity unique within this Agent lifecycle. */\n  readonly attemptId: LlmAttemptId\n\n  /** Whether this started attempt has emitted its terminal frame. */\n  get ended(): boolean { return this.terminal }",
+      "sha256": "a65de47864d0f47b0e188ca131399129f82fa65ab73dff4c4032ab151257531f"
+    },
+    "02-49": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 21,
+      "end": 39,
+      "raw": "interface PlannedCall {\n  block: ToolCallBlock\n  exec: ToolExecutionInput\n}\n\n/** Settled dispatch awaiting model-order finalization. */\ninterface Slot {\n  exec: ToolRunContext\n  result: ToolExecutionResult\n  needsPost: boolean\n}\n\n/** One scheduler group outcome, including a drained cancellation. */\ninterface GroupOutcome {\n  consumed: number\n  aborted: boolean\n  /** Whether any committed result carried {@link ToolExecutionResult.concludesTurn}. */\n  concluded: boolean\n}",
+      "code": "interface PlannedCall {\n  block: ToolCallBlock\n  exec: ToolExecutionInput\n}\n\n/** Settled dispatch awaiting model-order finalization. */\ninterface Slot {\n  exec: ToolRunContext\n  result: ToolExecutionResult\n  needsPost: boolean\n}\n\n/** One scheduler group outcome, including a drained cancellation. */\ninterface GroupOutcome {\n  consumed: number\n  aborted: boolean\n  /** Whether any committed result carried {@link ToolExecutionResult.concludesTurn}. */\n  concluded: boolean\n}",
+      "sha256": "ad782db3e89f324fd19384e24d322ad050fb01fee1812295991c62ad36f090f3"
+    },
+    "02-50": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 134,
+      "end": 142,
+      "raw": "  // Started slots retain their `tool/call` seq so the result can cite it.\n  const callSeqs: Array<SessionSeq | undefined> = group.map(() => undefined)\n  let nextToStart = 0\n  let committed = 0\n  let started = 0\n  let aborted: boolean = signal.aborted\n  let concluded = false\n  let schedulerFailure: { error: unknown } | undefined\n  const throwSchedulerFailure = (): void => {",
+      "code": "// Started slots retain their `tool/call` seq so the result can cite it.\nconst callSeqs: Array<SessionSeq | undefined> = group.map(() => undefined)\nlet nextToStart = 0\nlet committed = 0\nlet started = 0\nlet aborted: boolean = signal.aborted\nlet concluded = false\nlet schedulerFailure: { error: unknown } | undefined\nconst throwSchedulerFailure = (): void => {",
+      "sha256": "fa354966c000ea73f4cc6e4529e30cbde9e16ff26b6d9acbdf3c60ce899ef0bc"
     }
   },
   "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。",
