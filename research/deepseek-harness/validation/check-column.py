@@ -24,6 +24,8 @@ require(revisions['source_sha']==SHA,'editorial revision source SHA')
 require(set(revisions['articles'])=={str(n) for n in range(1,17)},'editorial revision scope')
 require(manifest['sha']==SHA,'manifest SHA')
 require(len(manifest['articles'])==16 and len(concerns)==16,'article / concern count')
+require([row['number'] for row in manifest['articles']]==list(range(1,17)),'article reading order')
+require(sorted(row['concern_number'] for row in manifest['articles'])==list(range(1,17)),'source concern coverage')
 require(len(figures['figures'])==64,'figure count')
 require(len(supplements['figures'])==48 and supplements['sha']==SHA,'supplement count / SHA')
 for spec in supplements['figures']:
@@ -36,7 +38,10 @@ require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).s
 require(not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'source checkout dirty')
 for row in manifest['articles']:
     path=ROOT/row['file'];body=path.read_text();n=row['number']
-    require(row['concern']==concerns[n-1],f'concern mapping {n}')
+    concern_number=row['concern_number']
+    require(row['concern']==concerns[concern_number-1],f'concern mapping {n}')
+    require(path.name.startswith(f'{n:02}-'),f'article filename number {n}')
+    require(f'· 第 {n:02} 篇 · {row["concern"]}' in body,f'article banner number {n}')
     require(body.startswith('# '+row['title']+'\n'),f'title {n}')
     require(SHA in body,f'baseline missing {n}')
     require(hashlib.sha256(body.encode()).hexdigest()==row['sha256'],f'changed manifest hash {n}')
@@ -45,8 +50,8 @@ for row in manifest['articles']:
     require(body.count('```')%2==0,f'unclosed fence {n}')
     revision=revisions['articles'].get(str(n))
     if revision:
-        require(revision['previous_headings']==structure['headings'][str(n)],f'editorial revision preserves historical baseline {n}')
-    expected_headings=revision['headings'] if revision else structure['headings'][str(n)]
+        require(revision['previous_headings']==structure['headings'][str(concern_number)],f'editorial revision preserves historical baseline {n}')
+    expected_headings=revision['headings'] if revision else structure['headings'][str(concern_number)]
     require(re.findall(r'^## .*$',body,re.M)==expected_headings,f'current section titles {n}')
     article_figures=[fig for fig in figures['figures'] if fig['article']==n]
     require(len(article_figures)==4,f'four figures per article {n}')
@@ -75,7 +80,7 @@ for row in manifest['articles']:
     for eid in row['evidence_ids']:require(eid in evidence,f'unknown evidence {n}: {eid}')
     no_code=re.sub(r'```[\s\S]*?```','',body)
     no_links=re.sub(r'!?\[[^\]]*\]\([^)]*\)','',no_code)
-    rows.append({'number':n,'file':row['file'],'concern':row['concern'],'code_excerpts':len(blocks),'illustrations':len(article_figures),'evidence_refs':len(row['evidence_ids']),'cjk_characters_excluding_code_links':len(re.findall(r'[\u4e00-\u9fff]',no_links))})
+    rows.append({'number':n,'concern_number':concern_number,'file':row['file'],'concern':row['concern'],'code_excerpts':len(blocks),'illustrations':len(article_figures),'evidence_refs':len(row['evidence_ids']),'cjk_characters_excluding_code_links':len(re.findall(r'[\u4e00-\u9fff]',no_links))})
 
 for path in sorted((ROOT/'articles').glob('*.md')):
     for m in re.finditer(r'!?\[[^\]\n]*\]\(([^)]+)\)',path.read_text()):

@@ -140,7 +140,7 @@ DATA={1: ('flow',
       '代码注册、实例寿命和状态兼容分别验收')}
 
 def draw(n,row):
-    kind,title,items,note=DATA[n]
+    kind,title,items,note=DATA[row['concern_number']]
     width=1200; y0=170; boxheight=154; gap=64
     count=len(items)
     height=y0+count*(boxheight+gap)+150

@@ -1,0 +1,89 @@
+{
+  "skill": "source-code-article-refiner",
+  "scope": "Structured article refinement methodology and reusable skill; no article body, figure, source or runtime changes",
+  "methodology": "research/deepseek-harness/appendices/article-refinement-methodology.md",
+  "authoritative_skill": "skills/source-code-article-refiner",
+  "installed_skill": "/Users/zz/.codex/skills/source-code-article-refiner",
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s skills/source-code-article-refiner/scripts -p \"test_*.py\" -v",
+      "exit_code": 0,
+      "tests_passed": 9,
+      "scope": "Isolated Git fixtures, extraction ranges, path scope, fences, duplicate excerpts, title and step policies, protected bytes, image count, CLI status and no overwrite"
+    },
+    {
+      "command": ".sources/article-skill-work/venv/bin/python /Users/zz/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/source-code-article-refiner",
+      "exit_code": 0
+    },
+    {
+      "command": ".sources/article-skill-work/venv/bin/python /Users/zz/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/zz/.codex/skills/source-code-article-refiner",
+      "exit_code": 0
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "markdown_files": 31,
+      "checked_links": 1659,
+      "artifact_report": "artifact-check.json"
+    },
+    {
+      "action": "Fixed-commit extract",
+      "exit_code": 0,
+      "path": "packages/core/agent/src/types.ts",
+      "start": 42,
+      "end": 45,
+      "raw_sha256": "84b3c4ce8c129ed3007c65c0ef9983a2dadd2aa837fa290d2a3fdee8b6264b1c"
+    },
+    {
+      "action": "Snapshot and compare real Agent Loop article",
+      "exit_code": 0,
+      "h2": 7,
+      "steps": 14,
+      "code_blocks": 38,
+      "images": 4,
+      "protected_files": 3
+    },
+    {
+      "action": "Skill local links and plan template",
+      "exit_code": 0,
+      "checked_links": 4
+    },
+    {
+      "action": "UI metadata",
+      "exit_code": 0,
+      "validation": "YAML parsed, three permitted fields, short description length 25-64, default prompt includes $source-code-article-refiner",
+      "short_description_characters": 31
+    },
+    {
+      "action": "Repository/local skill mirror",
+      "exit_code": 0,
+      "matching_files": 8
+    },
+    {
+      "action": "Article and asset files match HEAD",
+      "exit_code": 0,
+      "checked_files": 146,
+      "articles": 16
+    }
+  ],
+  "resolved_failures": [
+    "System and existing diagram Python lack PyYAML; official validator passed in isolated .sources/article-skill-work/venv with PyYAML 6.0.3.",
+    "Initial source search used nonexistent src directory; corrected to packages/** without changing source.",
+    "Initial smoke snapshot named nonexistent 02-agent-loop-01 image; corrected to actual 02-agent-loop image; failure log retained."
+  ],
+  "log": "article-refiner-skill-validation.log",
+  "semantic_review": [
+    "Workflow explicitly connects caller, callee, handoff object, consumer and return; alternate event/read edges are distinct.",
+    "Core public fields, local variables and captured closures are distinguished; DSH example types checked at recorded source SHA.",
+    "English terms preserved in prose and diagrams; image position follows the explanation rather than a fixed spacing rule.",
+    "Closing lessons trace to implementation facts and conditions; proposals and historical runtime evidence stay separately labeled.",
+    "Single executor; existing article bodies and figures preserved; no external publish, commit or push."
+  ],
+  "limitations": [
+    "Helper is not a full Markdown parser and does not certify semantics, source truth or diagram readability.",
+    "No new DSH runtime, model, typecheck or publishing checks performed for this skill-authoring task.",
+    "New skill trigger behavior was not tested through a fresh agent session; package format, metadata, scripts, local installation and file identity were checked."
+  ],
+  "ok": true
+}

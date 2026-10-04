@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "mode": "single",
+    "article": null,
+    "audience": null,
+    "central_question": null,
+    "preserve": ["subject_areas", "valid_source_excerpts"],
+    "protected_files": []
+  },
+  "source_baseline": {
+    "repository": null,
+    "full_sha": null,
+    "official_base_url": null,
+    "historical_runtime_evidence": []
+  },
+  "mechanism_map": {"entrypoints": [], "edges": [], "branches": []},
+  "article_plan": {"opening": null, "sections": []},
+  "steps": [],
+  "data_contracts": [],
+  "figure_plan": [],
+  "lessons": [],
+  "review": {
+    "status": "pending",
+    "commands": [],
+    "semantic_checks": [],
+    "limitations": []
+  }
+}

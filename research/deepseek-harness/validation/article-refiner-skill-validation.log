@@ -1,0 +1,132 @@
+[initial-validation-failures.log]
+command: python3 /Users/zz/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/source-code-article-refiner
+exit_code: 1
+ModuleNotFoundError: No module named yaml
+
+command: .sources/column-work/.venv/bin/python -c 'import yaml; print(yaml.__version__)'
+exit_code: 1
+ModuleNotFoundError: No module named yaml
+
+source search: rg in .sources/deepseek-harness/src
+search_exit_code: 2
+Directory does not exist; use packages/** source layout.
+
+[helper-smoke-1.log]
+{
+  "command": [
+    "python3",
+    "skills/source-code-article-refiner/scripts/evidence_tools.py",
+    "extract",
+    "--repo",
+    ".sources/deepseek-harness",
+    "--rev",
+    "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "--path",
+    "packages/core/agent/src/types.ts",
+    "--start",
+    "42",
+    "--end",
+    "45",
+    "--base-url",
+    "https://github.com/deepseek-ai/deepseek-harness",
+    "--out",
+    ".sources/article-skill-work/inbox-excerpt.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}
+
+[helper-smoke-2.log]
+{
+  "command": [
+    "python3",
+    "skills/source-code-article-refiner/scripts/evidence_tools.py",
+    "snapshot",
+    "--root",
+    "research/deepseek-harness",
+    "--files",
+    "articles/02-agent-loop.md",
+    "--protect",
+    "articles/01-task-completion.md",
+    "articles/assets/02-agent-loop-01.png",
+    "articles/assets/02-agent-loop-01.svg",
+    "--out",
+    ".sources/article-skill-work/real-article-before.json"
+  ],
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "Error: [Errno 2] No such file or directory: '/Users/zz/prj/dsh_research/research/deepseek-harness/articles/assets/02-agent-loop-01.png'\n"
+}
+
+[final-local-check-1.log]
+{
+  "command": [
+    "python3",
+    "skills/source-code-article-refiner/scripts/evidence_tools.py",
+    "snapshot",
+    "--root",
+    "research/deepseek-harness",
+    "--files",
+    "articles/02-agent-loop.md",
+    "--protect",
+    "articles/01-task-completion.md",
+    "articles/assets/02-agent-loop.png",
+    "articles/assets/02-agent-loop.svg",
+    "--out",
+    ".sources/article-skill-work/real-article-before.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}
+
+[final-local-check-2.log]
+{
+  "command": [
+    "python3",
+    "skills/source-code-article-refiner/scripts/evidence_tools.py",
+    "compare",
+    "--root",
+    "research/deepseek-harness",
+    "--baseline",
+    ".sources/article-skill-work/real-article-before.json",
+    "--images",
+    "4",
+    "--out",
+    ".sources/article-skill-work/real-article-check.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}
+
+[final-local-check-3.log]
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "skills/source-code-article-refiner/scripts",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_chinese_ordinals_and_english_steps (test_evidence_tools.EvidenceTests) ... ok\ntest_cli_report_status_and_no_overwrite (test_evidence_tools.EvidenceTests) ... ok\ntest_code_fences_exclude_fake_headings_and_images (test_evidence_tools.EvidenceTests) ... ok\ntest_duplicate_excerpt_removal_is_detected (test_evidence_tools.EvidenceTests) ... ok\ntest_extract_reads_commit_not_dirty_worktree (test_evidence_tools.EvidenceTests) ... ok\ntest_image_requirement_is_explicit (test_evidence_tools.EvidenceTests) ... ok\ntest_protected_binary_mutation_fails (test_evidence_tools.EvidenceTests) ... ok\ntest_rejects_escape_and_duplicate_scope (test_evidence_tools.EvidenceTests) ... ok\ntest_title_and_step_policies (test_evidence_tools.EvidenceTests) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.102s\n\nOK\n"
+}
+
+[final-local-check-4.log]
+{
+  "command": [
+    ".sources/article-skill-work/venv/bin/python",
+    "/Users/zz/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+    "skills/source-code-article-refiner"
+  ],
+  "exit_code": 0,
+  "stdout": "Skill is valid!\n",
+  "stderr": ""
+}

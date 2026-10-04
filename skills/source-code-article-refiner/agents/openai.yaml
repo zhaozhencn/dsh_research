@@ -1,0 +1,4 @@
+interface:
+  display_name: "源码技术文章深化"
+  short_description: "将源码研究深化为连贯技术专栏，核对调用、数据、插图与系列一致性"
+  default_prompt: "使用 $source-code-article-refiner 深化指定源码文章，先梳理机制与篇章计划，再完善连续调用、核心数据、插图和实践心得，保留既有结构与证据。"
