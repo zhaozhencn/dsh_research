@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 185, in <module>
+    rows.append(render(fig))
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 158, in render
+    assert bottom <= y+152,(fig['stem'], boundary)
+AssertionError: ('02-agent-loop-03', 'send 入队，preStep 调用 claim；尚未提交 user/message')
+Rendered 16 PNGs, 16 editable SVGs and contact sheet.
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-assets.py", line 138, in <module>
+    subprocess.run([sys.executable, str(ROOT/'validation/build-column-supplements.py')], check=True)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/zz/prj/dsh_research/.sources/column-work/.venv/bin/python', '/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py']' returned non-zero exit status 1.

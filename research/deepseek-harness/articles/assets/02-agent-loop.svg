@@ -1,30 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1628" viewBox="0 0 1200 1628">
 <rect width="100%" height="100%" fill="#f6f8fb"/>
 <text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">02 / 从源码理解 Agent Harness</text>
-<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">从输入到多步骤循环</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">Agent Loop 的组件与执行主线</text>
 <rect x="80" y="170" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="238" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">输入 inbox</text>
-<text x="600.0" y="295" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">followup 与 steer 选择不同接纳位置</text>
+<text x="600.0" y="238" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">输入 / Inbox</text>
+<text x="600.0" y="295" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">send() 选择接纳目标并入队</text>
 <line x1="600" y1="334" x2="600" y2="378" stroke="#7390ac" stroke-width="4"/><polygon points="600,378 591,364 609,364" fill="#7390ac"/>
 <rect x="80" y="388" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="456" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">preStep</text>
-<text x="600.0" y="513" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">claim → assembly → 准入 waterfall</text>
+<text x="600.0" y="456" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">驱动 / ReactLoopAgent</text>
+<text x="600.0" y="513" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">wakeDriver() → kick() → turn()</text>
 <line x1="600" y1="552" x2="600" y2="596" stroke="#7390ac" stroke-width="4"/><polygon points="600,596 591,582 609,582" fill="#7390ac"/>
 <rect x="80" y="606" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="674" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">请求准备</text>
-<text x="600.0" y="731" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">绑定路由，提交输入，构造请求</text>
+<text x="600.0" y="674" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">准入 / preStep()</text>
+<text x="600.0" y="731" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">claim 输入、组装上下文、决定是否进入 Step</text>
 <line x1="600" y1="770" x2="600" y2="814" stroke="#7390ac" stroke-width="4"/><polygon points="600,814 591,800 609,800" fill="#7390ac"/>
 <rect x="80" y="824" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="892" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">模型结算与工具</text>
-<text x="600.0" y="949" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">assistant/message → 工具 → tool/result</text>
+<text x="600.0" y="892" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">请求 / step() 与 LLM</text>
+<text x="600.0" y="949" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">prepareRequest() → buildRequest() → stream()</text>
 <line x1="600" y1="988" x2="600" y2="1032" stroke="#7390ac" stroke-width="4"/><polygon points="600,1032 591,1018 609,1018" fill="#7390ac"/>
 <rect x="80" y="1042" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="1110" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">步骤收尾</text>
-<text x="600.0" y="1167" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">step/end；必要时进入下一 Step</text>
+<text x="600.0" y="1110" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">工具 / executeToolCalls()</text>
+<text x="600.0" y="1167" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">runGroup() 调度；结果与额外上下文分别回流</text>
 <line x1="600" y1="1206" x2="600" y2="1250" stroke="#7390ac" stroke-width="4"/><polygon points="600,1250 591,1236 609,1236" fill="#7390ac"/>
 <rect x="80" y="1260" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="1328" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">回合收尾</text>
-<text x="600.0" y="1385" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">stopping 后重查输入，再 turn/end</text>
-<text x="600" y="1527" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">同一步骤可有多次 attempt；idle 不是业务成功</text>
+<text x="600.0" y="1328" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">事实与边界 / Session</text>
+<text x="600.0" y="1385" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">记录消息及 Step、Turn 边界，派生后续历史</text>
+<text x="600" y="1527" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">Session 贯穿全程；图示省略循环与异常分支</text>
 <text x="600" y="1582" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
 </svg>

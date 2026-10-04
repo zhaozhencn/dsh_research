@@ -19,10 +19,10 @@ DATA={
  ('目标服务','保存描述、修订身份和回合额度'),('提交 goal/change','事实追加之后才通知观察者'),
  ('续跑准入','检查 idle、授权；checkpoint 后重查'),('预留并入队','携带 goalId、revision、round'),
  ('接纳并追加 user/message','fold 验证身份并推进 roundsStarted'),('模型与工具执行','循环结束与业务验收分别判断')], '正常续跑主线；日志提交不等于立即磁盘 flush'),
-2:('flow','从输入到多步骤循环',[
- ('输入 inbox','followup 与 steer 选择不同接纳位置'),('preStep','claim → assembly → 准入 waterfall'),
- ('请求准备','绑定路由，提交输入，构造请求'),('模型结算与工具','assistant/message → 工具 → tool/result'),
- ('步骤收尾','step/end；必要时进入下一 Step'),('回合收尾','stopping 后重查输入，再 turn/end')], '同一步骤可有多次 attempt；idle 不是业务成功'),
+2:('flow','Agent Loop 的组件与执行主线',[
+ ('输入 / Inbox','send() 选择接纳目标并入队'),('驱动 / ReactLoopAgent','wakeDriver() → kick() → turn()'),
+ ('准入 / preStep()','claim 输入、组装上下文、决定是否进入 Step'),('请求 / step() 与 LLM','prepareRequest() → buildRequest() → stream()'),
+ ('工具 / executeToolCalls()','runGroup() 调度；结果与额外上下文分别回流'),('事实与边界 / Session','记录消息及 Step、Turn 边界，派生后续历史')], 'Session 贯穿全程；图示省略循环与异常分支'),
 3:('flow','一次模型调用的绑定过程',[
  ('选择路由','agent/request 提供 provider / model'),('prepareCall','捕获注册并解析精确模型能力'),
  ('固定调用描述','冻结配置、能力与一次性句柄'),('适配历史与输入','处理模态、工具更新和 replayState'),

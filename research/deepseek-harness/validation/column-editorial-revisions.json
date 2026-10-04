@@ -1,0 +1,40 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "editorial_baseline_commit": "006ee4dd7a6e415f2ca1583c7914832dfe8f6597",
+  "historical_structure_file": "column-structure-baseline.json",
+  "articles": {
+    "2": {
+      "reason": "按用户反馈补充整体架构、连续调用解读、英文术语及图示位置；保留七个主体关注领域，调整标题和叙事顺序。",
+      "previous_headings": [
+        "## 一个回合里，有多个步骤和请求尝试",
+        "## 输入 API 实际上选择了接纳时机",
+        "## preStep：候选输入成为请求之前",
+        "## 从路由准备到工具结果回流",
+        "## 结束信号之后，为什么还要检查一次",
+        "## 重试、取消和 idle 的真实含义",
+        "## 分层控制带来的收益与复杂度"
+      ],
+      "headings": [
+        "## 整体架构：一个 Turn 中如何组织 Step 与 attempt",
+        "## 输入 API：从入队到唯一 driver",
+        "## preStep：候选输入如何成为可执行的 Step",
+        "## step：从请求准备到模型与工具结果回流",
+        "## 结束检查：从 step() 返回到 turn()，再返回 kick()",
+        "## 重试、取消与 idle：异常怎样回到同一条执行链",
+        "## 技术心得：用控制边界与提交边界共同理解 Loop"
+      ],
+      "figure_order": [
+        "02-agent-loop",
+        "02-agent-loop-02",
+        "02-agent-loop-03",
+        "02-agent-loop-04"
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ]
+    }
+  }
+}

@@ -80,7 +80,7 @@ class Canvas:
 
 def render(fig):
     kind, nodes = fig['kind'], fig['nodes']
-    c = Canvas({'sequence':1240, 'call-tree':1240, 'layers':1060, 'branches':1140}[kind])
+    c = Canvas({'sequence':1240, 'call-tree':1240, 'loop-nesting':1240, 'layers':1060, 'branches':1140}[kind])
     c.header(fig)
     if kind == 'sequence':
         assert len(nodes) == 6
@@ -96,6 +96,29 @@ def render(fig):
             c.line(328,y+62,350,y+62,True)
             if i < 5:
                 c.line(300,y+90,300,y+186,True)
+        c.footer(fig,1133)
+    elif kind == 'loop-nesting':
+        assert len(nodes) == 6
+        # Containment shows callers. preStep is a sibling of step inside turn.
+        c.box(55,178,1090,888,'#e7eff9')
+        c.text(600,197,nodes[0][1],42)
+        c.text(600,255,nodes[0][2],31)
+        c.box(105,312,990,710,'#f1f6fc')
+        c.text(600,329,nodes[1][1],40)
+        c.text(600,383,nodes[1][2],31)
+        c.box(155,445,890,122)
+        c.text(600,459,nodes[2][1],37)
+        c.text(600,516,nodes[2][2],30)
+        c.line(600,571,600,600,True)
+        c.box(155,608,890,363,'#ffffff')
+        c.text(600,623,nodes[3][1],39)
+        c.text(600,678,nodes[3][2],30)
+        c.box(195,734,810,100,'#eef7f2')
+        c.text(600,748,nodes[4][1],30,max_width=770)
+        c.text(600,794,nodes[4][2],28,max_width=770)
+        c.line(600,838,600,860,True)
+        c.text(600,869,nodes[5][1],32,max_width=800)
+        c.text(600,919,nodes[5][2],28,max_width=800)
         c.footer(fig,1133)
     elif kind == 'call-tree':
         assert len(nodes) == 6
@@ -138,7 +161,7 @@ def render(fig):
     else:
         assert len(nodes) == 3
         c.box(130,175,940,110,'#e7eff9')
-        c.text(600,205,'根据资格、已知事实与生命周期分别判断',36,max_width=900)
+        c.text(600,205,fig.get('decision_label','根据资格、已知事实与生命周期分别判断'),36,max_width=900)
         c.line(600,285,600,312)
         c.line(220,312,980,312)
         for i, branch in enumerate(nodes):
@@ -169,7 +192,7 @@ existing['supplement_renderer']='Pillow; shared SVG geometry; explicit source-li
 # Separate sheets by mechanism allow comparison of all 16 topics at legible thumbnail size.
 for kind in ('sequence','layers','branches'):
     sheet=Image.new('RGB',(2000,2800),'white')
-    for i,row in enumerate(fig for fig in rows if fig['kind']==kind or (kind=='sequence' and fig['kind']=='call-tree')):
+    for i,row in enumerate(fig for fig in rows if fig['kind']==kind or (kind=='sequence' and fig['kind'] in ('call-tree','loop-nesting'))):
         with Image.open(ROOT/row['png']) as im:
             im.thumbnail((480,650))
             sheet.paste(im,(10+(i%4)*500,10+(i//4)*700))

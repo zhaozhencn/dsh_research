@@ -183,172 +183,134 @@
     {
       "article": 2,
       "stem": "02-agent-loop-02",
-      "kind": "sequence",
-      "title": "一次请求如何成为历史",
+      "kind": "loop-nesting",
+      "title": "三个循环层次如何传递控制权",
       "nodes": [
         [
-          "Inbox",
-          "claim 输入",
-          "候选输入尚未成为消息"
+          "driver",
+          "kick()",
+          "while (await turn())：管理多个 Turn"
         ],
         [
-          "Loop",
-          "组装并准入",
-          "assemble → pre-step waterfall"
+          "Turn",
+          "turn()",
+          "每次先准入，再执行 Step，最后检查结束"
         ],
         [
-          "LLM",
-          "固定调用",
-          "prepareCall 绑定 registration"
+          "准入",
+          "preStep(target, position)",
+          "claim → assembly → enter / reject"
         ],
         [
-          "Session",
-          "提交输入与请求",
-          "同 Step 重试不重复输入"
+          "Step",
+          "step(decision)",
+          "持有本 Step 的 messages 与 assembly"
         ],
         [
-          "Loop",
-          "模型和工具结算",
-          "assistant → call → result"
+          "attempt",
+          "attempt：prepareRequest → buildRequest → stream",
+          "请求 retry 返回这里；不重新执行 preStep"
         ],
         [
-          "Loop",
-          "停止前再检查",
-          "stopping 后重查 signal 与 inbox"
+          "工具",
+          "成功结算 → executeToolCalls（如有）",
+          "工具结果入 Session，再返回结束理由或 null"
         ]
       ],
-      "note": "同一 Step 可以产生多个 attempt",
+      "note": "step(): null → 下一 Step；turn(): true → 下一 Turn",
       "source_excerpt_ids": [
-        "02-3",
-        "02-4",
-        "02-5",
-        "02-6",
-        "02-7",
-        "02-1",
-        "02-8",
-        "02-9",
-        "02-10",
-        "02-11",
-        "02-12",
-        "02-13",
-        "02-2",
-        "02-14",
-        "02-15",
-        "02-16",
-        "02-17",
-        "02-18",
-        "02-19",
-        "02-20"
+        "02-24",
+        "02-25",
+        "02-26",
+        "02-28",
+        "02-33",
+        "02-37"
       ],
-      "insert_before_section": 2,
-      "caption": "同一 Step 可以产生多个 attempt。详见本节及相邻源码解读；图示省略其他分支。"
+      "caption": "kick() 管 Turn，turn() 管 Step，step() 内部重试 attempt；工具回流通常促成新 Step。",
+      "placement": "after-driver-before-prestep",
+      "section": 2
     },
     {
       "article": 2,
       "stem": "02-agent-loop-03",
       "kind": "layers",
-      "title": "执行单位与状态归属",
+      "title": "输入、请求与结果分别在哪里",
       "nodes": [
         [
-          "Agent 驱动",
-          "单一 activity",
-          "维护与取消后的唤醒锁存"
-        ],
-        [
-          "Turn / Step",
-          "执行边界事件",
-          "停止原因与是否进入 Step 分开"
-        ],
-        [
-          "Attempt",
-          "已绑定的一次请求",
-          "失败 attempt 保留证据"
-        ],
-        [
           "Inbox",
-          "输入接纳位置",
-          "next-turn / next-step / inject"
+          "候选输入：next-turn / next-step",
+          "send 入队；claim 取走候选内容"
+        ],
+        [
+          "请求历史",
+          "Session → deriveMessages()",
+          "提交输入后派生并冻结 request"
+        ],
+        [
+          "实时输出",
+          "AssistantStreamAttempt",
+          "settle 先 append，再发 end frame"
+        ],
+        [
+          "工具回流",
+          "tool/result + additionalContexts",
+          "结果进 Session；额外上下文进 Inbox"
         ]
       ],
-      "note": "阶段状态和产品成功需要独立解释",
+      "note": "这些是数据边界；Session 提交不等于磁盘 flush",
       "source_excerpt_ids": [
-        "02-3",
-        "02-4",
         "02-5",
-        "02-6",
-        "02-7",
-        "02-1",
-        "02-8",
-        "02-9",
-        "02-10",
-        "02-11",
-        "02-12",
-        "02-13",
-        "02-2",
-        "02-14",
-        "02-15",
-        "02-16",
-        "02-17",
-        "02-18",
-        "02-19",
-        "02-20"
+        "02-27",
+        "02-41",
+        "02-31",
+        "02-32",
+        "02-33",
+        "02-34",
+        "02-35"
       ],
-      "insert_before_section": 4,
-      "caption": "阶段状态和产品成功需要独立解释。详见本节及相邻源码解读；图示省略其他分支。"
+      "caption": "候选输入、冻结请求、实时输出与工具结果各有提交位置，不能混为一种状态。",
+      "placement": "after-request-build-before-model-stream",
+      "section": 4
     },
     {
       "article": 2,
       "stem": "02-agent-loop-04",
       "kind": "branches",
-      "title": "结束判定为何不能提前",
+      "title": "retry、cancel 与 dispose 的边界",
       "nodes": [
         [
-          "无工具回答",
-          "结算 assistant/message",
-          "检查 max-tokens",
-          "进入 stopping",
-          "重查后结束"
+          "请求 retry",
+          "finish: error / aborted",
+          "结算 assistant/attempt",
+          "request-error 决策",
+          "仅 retry 回原 Step"
         ],
         [
-          "有工具回答",
-          "执行并提交结果",
-          "接受追加上下文",
-          "进入下一 Step",
-          "沿同一 Turn 继续"
+          "活动 cancel",
+          "cancel() 发出 signal",
+          "停止新增工具派发",
+          "等待在途工作结算",
+          "Turn 记录 aborted"
         ],
         [
-          "取消或拒绝",
-          "不再新增派发",
-          "结算在途与边界",
-          "保留合理失败事实",
-          "idle 不代表业务完成"
+          "实例 dispose",
+          "disposed-cause cancel",
+          "whenIdle() 等待收束",
+          "释放 Agent scope",
+          "关闭存储 handle"
         ]
       ],
-      "note": "await 之后仍可能出现输入或生命周期变化",
+      "note": "重试不重放输入；取消不能回滚外部副作用",
       "source_excerpt_ids": [
-        "02-3",
-        "02-4",
-        "02-5",
-        "02-6",
-        "02-7",
-        "02-1",
-        "02-8",
-        "02-9",
-        "02-10",
-        "02-11",
-        "02-12",
-        "02-13",
-        "02-2",
-        "02-14",
-        "02-15",
-        "02-16",
+        "02-37",
         "02-17",
         "02-18",
-        "02-19",
         "02-20"
       ],
-      "insert_before_section": 6,
-      "caption": "await 之后仍可能出现输入或生命周期变化。详见本节及相邻源码解读；图示省略其他分支。"
+      "caption": "请求 retry、活动取消与实例释放各有范围；仅 finish 失败获准 retry 时留在原 Step。",
+      "decision_label": "按失败位置与生命周期选择后续路径",
+      "placement": "after-exception-section-intro",
+      "section": 6
     },
     {
       "article": 3,

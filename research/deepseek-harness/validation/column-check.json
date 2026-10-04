@@ -14,10 +14,10 @@
       "number": 2,
       "file": "articles/02-agent-loop.md",
       "concern": "Agent Loop 与执行模型",
-      "code_excerpts": 20,
+      "code_excerpts": 29,
       "illustrations": 4,
       "evidence_refs": 12,
-      "cjk_characters_excluding_code_links": 5023
+      "cjk_characters_excluding_code_links": 6351
     },
     {
       "number": 3,
@@ -147,9 +147,9 @@
     }
   ],
   "article_count": 16,
-  "source_excerpt_count": 298,
-  "checked_links": 715,
-  "checked_source_links": 543,
+  "source_excerpt_count": 307,
+  "checked_links": 725,
+  "checked_source_links": 551,
   "figures": [
     {
       "png": "articles/assets/01-task-completion.png",
@@ -604,7 +604,7 @@
   "svg_count": 64,
   "source_checkout_clean": true,
   "existing_runtime_tests": "Reused previously executed same-SHA evidence; no new behavior-test runs claimed.",
-  "checks": "16 concern mapping / original section preservation / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
+  "checks": "16 concern mapping / historical or explicit editorial section contract / figure order and placement for article 02 / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
   "limits": [
     "Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.",
     "Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.",

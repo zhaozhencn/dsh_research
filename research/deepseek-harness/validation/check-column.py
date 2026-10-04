@@ -12,6 +12,7 @@ manifest=json.loads((ROOT/'validation/column-manifest.json').read_text())
 evidence=json.loads((ROOT/'appendices/evidence.json').read_text())
 figures=json.loads((ROOT/'articles/assets/diagrams.json').read_text())
 structure=json.loads((ROOT/'validation/column-structure-baseline.json').read_text())
+revisions=json.loads((ROOT/'validation/column-editorial-revisions.json').read_text())
 supplements=json.loads((ROOT/'articles/assets/diagram-supplements.json').read_text())
 concerns=re.findall(r'^## \d+\. (.*)$',(ROOT/'02-runtime-source.md').read_text(),re.M)
 failures=[];rows=[];links=0;source_links=0;snippets=0;checked_images=[]
@@ -19,6 +20,8 @@ failures=[];rows=[];links=0;source_links=0;snippets=0;checked_images=[]
 def require(condition,message):
     if not condition:failures.append(message)
 
+require(revisions['source_sha']==SHA,'editorial revision source SHA')
+require(set(revisions['articles'])=={'2'},'editorial revision scope')
 require(manifest['sha']==SHA,'manifest SHA')
 require(len(manifest['articles'])==16 and len(concerns)==16,'article / concern count')
 require(len(figures['figures'])==64,'figure count')
@@ -40,11 +43,21 @@ for row in manifest['articles']:
     require('{{' not in body,f'unexpanded marker {n}')
     require('技术心得' in body and any(word in body for word in ['不足','代价','局限']),f'tradeoffs / insights structure missing {n}')
     require(body.count('```')%2==0,f'unclosed fence {n}')
-    require(re.findall(r'^## .*$',body,re.M)==structure['headings'][str(n)],f'original section titles {n}')
+    revision=revisions['articles'].get(str(n))
+    if revision:
+        require(revision['previous_headings']==structure['headings'][str(n)],f'editorial revision preserves historical baseline {n}')
+    expected_headings=revision['headings'] if revision else structure['headings'][str(n)]
+    require(re.findall(r'^## .*$',body,re.M)==expected_headings,f'current section titles {n}')
     article_figures=[fig for fig in figures['figures'] if fig['article']==n]
     require(len(article_figures)==4,f'four figures per article {n}')
     image_stems=re.findall(r'!\[[^\n]*\]\(assets/([^)]*)\.png\)',body)
     require(len(image_stems)==4 and set(image_stems)==set(row['figure_stems']),f'embedded figures {n}')
+    if revision:
+        require(image_stems==revision['figure_order'],f'figure reading order {n}')
+        positions=[len(re.findall(r'^## ',body[:match.start()],re.M)) for match in re.finditer(r'!\[[^\n]*\]\(assets/([^)]*)\.png\)',body)]
+        require(positions==revision['figure_sections'],f'figure section placement {n}')
+        prose=re.sub(r'```[\s\S]*?```','',body)
+        require(not any(term in prose for term in ['回合','代理']),f'English Agent / Turn terminology {n}')
     for fig in article_figures:
         require(fig['stem'] in row['figure_stems'],f'figure mapping {n}')
         require(set(fig.get('source_excerpt_ids',[])).issubset(row['snippet_ids']),f'figure source references {fig["stem"]}')
@@ -90,7 +103,7 @@ for fig in figures['figures']:
     require(fig['title'] in texts and fig['note'] in texts,f'SVG captions {svg.name}')
     checked_images.append({'png':fig['png'],'svg':fig['svg'],'width':fig['width'],'height':fig['height'],'ok':True})
 
-result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / original section preservation / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
+result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / historical or explicit editorial section contract / figure order and placement for article 02 / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
 RESULT.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({'articles':len(rows),'excerpts':snippets,'png':len(checked_images),'svg':len(checked_images),'links':links,'ok':not failures,'failures':failures},ensure_ascii=False))
 raise SystemExit(1 if failures else 0)

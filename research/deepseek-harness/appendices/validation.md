@@ -191,3 +191,20 @@ git diff --check
 渲染首轮成功，改进英文断行时先触发纵向边界断言，再发现长标识超过最小字体宽度；修正边界检查并改用中文图中标签后全部重建成功。预算归集图另改为调用树，避免暗示摘要与子任务必须按固定顺序运行，该图首次渲染的断言把末行间距计入可见文本高度，修正后重建成功；保留[调用树边界失败](../validation/series-diagrams-call-tree-failure.log)和[最终绘图日志](../validation/series-diagrams-final.log)。保留[初次渲染](../validation/series-diagrams-initial.log)、[断行边界失败](../validation/series-diagrams-wrap-failure.log)、[长标识失败](../validation/series-diagrams-identifier-failure.log)与[修正渲染](../validation/series-diagrams-corrected.log)。正文检查首轮通过；完整材料检查首轮发现目录引用的复核JSON尚未创建，补齐后再次检查，保留[初次正文日志](../validation/series-deepening-column-initial.log)和[初次材料失败](../validation/series-deepening-artifacts-initial.log)。这些是文稿制作与排版问题，不是runtime测试失败。
 
 [复核记录](../validation/series-deepening-review.json)汇总逐篇数量、结构保留、原图一致性、命令、修正与限制。本次**没有新增或重跑行为测试**，沿用此前同一SHA的37个去重文件、1,520 passed、1条条件skip；没有新增类型编译、真实模型、生产多租户、跨平台或在线升级验证。Markdown与图片为本地交付，未在公众号编辑器预览或发布；研究README既有删除保持不变。
+
+## 第02篇叙事修订：整体架构、连续调用与术语
+
+按阅读反馈重写[第02篇](../articles/02-agent-loop.md)，保留七个主体关注领域，调整标题和展开顺序。正文先交代组件分工和 Turn／Step／attempt，随后用14个连续步骤追踪创建、输入、driver、准入、请求、stream、工具回流、结束、重试、取消与释放。每次进入内部函数先交代调用现场，离开时解释返回值和下一站；29段源码均来自原固定提交。全系列当前为307段，历史深化批次的298段仍保留为当时结果。
+
+四张PNG及SVG重新绘制，按整体主线、循环嵌套、数据提交边界、异常路径顺序嵌入；第三张移至请求构造之后，衔接后面的stream与工具回流。单一执行者查看全部四张PNG并复核图示语义；检查新增第02篇的图序、所在主体章节和 Agent／Turn 英文术语约束。保留原[结构基线](../validation/column-structure-baseline.json)与历史深化复核，另用[编辑修订约定](../validation/column-editorial-revisions.json)记录本篇的新旧标题和图片位置，不把历史“原章节保留”结论改写为本轮结果。
+
+```sh
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+node research/deepseek-harness/validation/check-artifacts.mjs
+git diff --check
+```
+
+[本轮复核记录](../validation/agent-loop-review.json)记录修改前本仓库提交、文稿hash、范围与命令。其他15篇正文及其120个PNG／SVG文件逐字节对照该编辑基线未变；上游仍为原SHA，checkout未修改。未新增或重跑runtime测试和类型编译，既有37个去重文件、1,520 passed与1条条件skip仅作为历史证据。
+
+初次绘图发现数据边界图标签超出纵向边框，缩短标签后重建成功；保留[首次绘图失败](../validation/agent-loop-diagrams-initial.log)、[修正绘图](../validation/agent-loop-diagrams.log)和[最终重建](../validation/agent-loop-diagrams-final.log)。之后图片位置元数据调整，第一次正文检查指出图清单尚未重建，保留[初次正文检查](../validation/agent-loop-column-initial.log)；重建后再次执行检查。最终结果见[正文日志](../validation/agent-loop-column.log)、[完整材料日志](../validation/agent-loop-artifacts.log)、[差异检查日志](../validation/agent-loop-diff-check.log)、[专栏结果](../validation/column-check.json)和[材料结果](../validation/artifact-check.json)。检查验证源码可定位性、结构和资产一致性，不认证业务正确性；未在公众号编辑器预览或发布。

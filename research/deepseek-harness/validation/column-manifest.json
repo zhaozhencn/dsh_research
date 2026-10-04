@@ -74,28 +74,37 @@
       ],
       "snippet_ids": [
         "02-3",
+        "02-21",
+        "02-22",
+        "02-38",
         "02-4",
         "02-5",
-        "02-6",
         "02-7",
-        "02-1",
-        "02-8",
-        "02-9",
-        "02-10",
+        "02-24",
+        "02-25",
+        "02-26",
+        "02-27",
+        "02-6",
+        "02-28",
+        "02-39",
+        "02-41",
+        "02-31",
         "02-11",
-        "02-12",
+        "02-32",
+        "02-33",
         "02-13",
-        "02-2",
+        "02-34",
+        "02-35",
         "02-14",
+        "02-40",
         "02-15",
-        "02-16",
+        "02-37",
         "02-17",
         "02-18",
-        "02-19",
         "02-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "9f1f29e68c1975b5bcd1eb53b1ca1925bbac27a778fbf785065b1aacc4b895f5",
+      "sha256": "1e6dc463d488b0251598e4092fc00e70d175de888cfa73da85349ade8d3ab37f",
       "figure_stems": [
         "02-agent-loop",
         "02-agent-loop-02",
@@ -814,24 +823,6 @@
       "sha256": "3019c0d5c47681aca2893adf94ed24483c6cf09ec9379463247d396d7d802227",
       "evidence_id": "E120"
     },
-    "02-1": {
-      "evidence_id": "E128",
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 271,
-      "end": 285,
-      "raw": "    const claimed = this.inbox.claim(target, position.turn)\n    const assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\n    signal.throwIfAborted()\n    const sections = renderContextSections(assembly)\n    const context = this.runtimeContext.project(joinContextSections(sections), sections)\n    const decision = await this.dispatch.waterfall(\n      'agent/pre-step', { messages: claimed, ...position, signal },\n      (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n        kind: 'enter',\n        messages: context === undefined ? claimed : [...claimed, context],\n      }),\n    )\n    signal.throwIfAborted()\n    if (decision.kind === 'reject') return decision\n    return { ...decision, assembly }",
-      "code": "const claimed = this.inbox.claim(target, position.turn)\nconst assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\nsignal.throwIfAborted()\nconst sections = renderContextSections(assembly)\nconst context = this.runtimeContext.project(joinContextSections(sections), sections)\nconst decision = await this.dispatch.waterfall(\n  'agent/pre-step', { messages: claimed, ...position, signal },\n  (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n    kind: 'enter',\n    messages: context === undefined ? claimed : [...claimed, context],\n  }),\n)\nsignal.throwIfAborted()\nif (decision.kind === 'reject') return decision\nreturn { ...decision, assembly }",
-      "sha256": "29fa44064b0f8cd555b26a190d048fb616a71b558e7ae55ee5c74b169835057c"
-    },
-    "02-2": {
-      "evidence_id": "E20",
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 356,
-      "end": 365,
-      "raw": "          this.session.append('step/end', { turn, step })\n        }\n        signal.throwIfAborted()\n        if (turnEnds && this.inbox.nextStep.length === 0) {\n          await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n          signal.throwIfAborted()\n        }\n        if (turnEnds && this.inbox.nextStep.length === 0) break\n        target = 'next-step'\n      }",
-      "code": "    this.session.append('step/end', { turn, step })\n  }\n  signal.throwIfAborted()\n  if (turnEnds && this.inbox.nextStep.length === 0) {\n    await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n    signal.throwIfAborted()\n  }\n  if (turnEnds && this.inbox.nextStep.length === 0) break\n  target = 'next-step'\n}",
-      "sha256": "fef83235d2394c866e71e6cc1db3b6b63d4c439ed9249d2100d509901103dc42"
-    },
     "03-1": {
       "evidence_id": "E30",
       "path": "packages/llm/llm/src/index.ts",
@@ -1301,30 +1292,6 @@
       "code": "private wakeDriver(wakeAfterAbort = false): void {\n  if (this.phase.kind !== 'idle') {\n    // Maintenance and aborted drivers cannot deliver the wake: latch it for\n    // replay at convergence. Live drivers claim queued work themselves;\n    // disposal never latches, so teardown waits on no model turn.\n    const reason = abortedCancelCause(this.phase.abort.signal)\n    if (reason?.kind !== 'disposed' && (this.phase.kind === 'maintenance' || wakeAfterAbort)) {\n      this.phase.wakeRequested = true\n    }\n    return\n  }\n  const driver = Promise.withResolvers<void>()\n  this.activityDone = driver.promise\n  this.setPhase({\n    kind: 'running',\n    abort: new AbortController(),\n    turn: this.phase.lastTurn,\n    step: 0,\n    wakeRequested: false,\n  })\n  this.loopCtx.agents.withInitiator(this, () => this.kick()).then(driver.resolve, driver.reject)\n}",
       "sha256": "e021e0058c8e48218ae4a99c8184ce01a87c7baefe1e4de260af44948b975139"
     },
-    "02-8": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 313,
-      "end": 330,
-      "raw": "      while (true) {\n        signal.throwIfAborted()\n        const step = phase.step + 1\n        const decision = await this.preStep(target, { turn, step })\n        if (decision.kind === 'reject') {\n          turnEnds = { kind: 'blocked' }\n          return false\n        }\n        if (turnEnds && decision.messages.length === 0) break\n        // A removed waking message or an enter decision rewritten to empty\n        // still owns the initial turn boundary, but it spends no model call.\n        if (phase.step === 0 && decision.messages.length === 0) {\n          turnEnds = { kind: 'completed' }\n          return false\n        }\n        signal.throwIfAborted()\n        this.session.append('step/start', { turn, step })\n        phase.step = step",
-      "code": "while (true) {\n  signal.throwIfAborted()\n  const step = phase.step + 1\n  const decision = await this.preStep(target, { turn, step })\n  if (decision.kind === 'reject') {\n    turnEnds = { kind: 'blocked' }\n    return false\n  }\n  if (turnEnds && decision.messages.length === 0) break\n  // A removed waking message or an enter decision rewritten to empty\n  // still owns the initial turn boundary, but it spends no model call.\n  if (phase.step === 0 && decision.messages.length === 0) {\n    turnEnds = { kind: 'completed' }\n    return false\n  }\n  signal.throwIfAborted()\n  this.session.append('step/start', { turn, step })\n  phase.step = step",
-      "sha256": "d2971fcdc54f216cebc0c41f10bc0c237bdc51244427e497fcd01eb4da8af7b9"
-    },
-    "02-9": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 576,
-      "end": 583,
-      "raw": "    const proposedConfig = await this.dispatch.waterfall(\n      'agent/request', { turn, step, signal },\n      () => Promise.resolve(seedConfig),\n    )\n    signal.throwIfAborted()\n    if (!proposedConfig.provider || !proposedConfig.model) {\n      throw new Error(`agent \"${this.id}\" has no provider/model: set AgentOptions.provider and AgentOptions.model or supply both via the agent/request waterfall`)\n    }",
-      "code": "const proposedConfig = await this.dispatch.waterfall(\n  'agent/request', { turn, step, signal },\n  () => Promise.resolve(seedConfig),\n)\nsignal.throwIfAborted()\nif (!proposedConfig.provider || !proposedConfig.model) {\n  throw new Error(`agent \"${this.id}\" has no provider/model: set AgentOptions.provider and AgentOptions.model or supply both via the agent/request waterfall`)\n}",
-      "sha256": "9304d2c61038e80afaddb0ddb4a802815217bd1f6d3262739e0a0a7f34c162ff"
-    },
-    "02-10": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 408,
-      "end": 425,
-      "raw": "      const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\n      const startsRequestSeries = firstAttempt && decision.startsRequestSeries === true\n      const commits = this.systemPrompt.project(renderedPrompt, {\n        inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n        startsSeries: startsRequestSeries\n          || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n          || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n      })\n      for (const { message, intent } of commits) {\n        this.session.append('system/message', { turn, step, message }, intent)\n      }\n      if (firstAttempt) {\n        for (const message of decision.messages) {\n          this.session.append('user/message', message, { surfaceOp: 'append' })\n        }\n      }\n      firstAttempt = false\n      const request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
-      "code": "const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\nconst startsRequestSeries = firstAttempt && decision.startsRequestSeries === true\nconst commits = this.systemPrompt.project(renderedPrompt, {\n  inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n  startsSeries: startsRequestSeries\n    || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n    || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n})\nfor (const { message, intent } of commits) {\n  this.session.append('system/message', { turn, step, message }, intent)\n}\nif (firstAttempt) {\n  for (const message of decision.messages) {\n    this.session.append('user/message', message, { surfaceOp: 'append' })\n  }\n}\nfirstAttempt = false\nconst request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
-      "sha256": "62e0653cb049eae5a80ce52dda69fba844f306ea0378d023f2cf6699e50fb96e"
-    },
     "02-11": {
       "path": "packages/core/agent-loop/src/agent.ts",
       "start": 436,
@@ -1332,14 +1299,6 @@
       "raw": "        const stream = preparedCall?.stream(request) ?? this.loopCtx.llm.stream(request)\n        signal.throwIfAborted()\n        live.start()\n        started = true\n        for await (const chunk of stream) {\n          signal.throwIfAborted()\n          live.push(chunk)\n        }\n        signal.throwIfAborted()",
       "code": "const stream = preparedCall?.stream(request) ?? this.loopCtx.llm.stream(request)\nsignal.throwIfAborted()\nlive.start()\nstarted = true\nfor await (const chunk of stream) {\n  signal.throwIfAborted()\n  live.push(chunk)\n}\nsignal.throwIfAborted()",
       "sha256": "4d901c07e43fff7ed230ea69b9e555a2a0987f7eba5b23aeeba8857ca9ab360f"
-    },
-    "02-12": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 520,
-      "end": 530,
-      "raw": "        live.settle(\n          'assistant/message',\n          () => this.session.append('assistant/message', {\n            turn,\n            step,\n            message,\n            ...live.usage === undefined ? {} : { usage: live.usage },\n            stream: live.stream,\n          }, { surfaceOp: 'append' }).seq,\n        )\n        if (finish.kind === 'max-tokens') return { kind: 'max-tokens' }",
-      "code": "live.settle(\n  'assistant/message',\n  () => this.session.append('assistant/message', {\n    turn,\n    step,\n    message,\n    ...live.usage === undefined ? {} : { usage: live.usage },\n    stream: live.stream,\n  }, { surfaceOp: 'append' }).seq,\n)\nif (finish.kind === 'max-tokens') return { kind: 'max-tokens' }",
-      "sha256": "2143d473816a5c55f11081211cbfa59599e0347583013e031359436ab9be236d"
     },
     "02-13": {
       "path": "packages/core/agent-loop/src/tool-calls.ts",
@@ -1365,14 +1324,6 @@
       "code": "} finally {\n  try {\n    // oxlint-disable-next-line typescript/no-non-null-assertion -- every exit assigns a turn ending\n    this.session.append('turn/end', { turn, reason: turnEnds! })\n  } catch (error: unknown) {\n    this.throwError(error)\n  }\n}\nif (!this.inbox.hasPending) return false\nphase.abort = new AbortController()\n// A fresh controller makes a latch set on the old one stale: the live driver claims the queue itself.\nphase.wakeRequested = false\nphase.step = 0\nreturn true",
       "sha256": "436c9167fb222bcd84504970bd8e78897bb8bfd180355b18a732df7ade378ff4"
     },
-    "02-16": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 494,
-      "end": 509,
-      "raw": "          const action = await this.dispatch.waterfall(\n            'agent/request-error', {\n              turn,\n              step,\n              provider: request.provider,\n              failure: finish.failure,\n              retryPolicy: preparedCall?.retryPolicy,\n              signal,\n            },\n            () => Promise.resolve<RequestErrorAction>(undefined),\n          )\n          signal.throwIfAborted()\n          if (action?.kind !== 'retry') {\n            throw new LlmError(finish.failure.message, finish.failure.code, finish.failure)\n          }\n          continue",
-      "code": "const action = await this.dispatch.waterfall(\n  'agent/request-error', {\n    turn,\n    step,\n    provider: request.provider,\n    failure: finish.failure,\n    retryPolicy: preparedCall?.retryPolicy,\n    signal,\n  },\n  () => Promise.resolve<RequestErrorAction>(undefined),\n)\nsignal.throwIfAborted()\nif (action?.kind !== 'retry') {\n  throw new LlmError(finish.failure.message, finish.failure.code, finish.failure)\n}\ncontinue",
-      "sha256": "1ca6100f6c16e8d88ade04e59d81b3eb2004b83c066ee7f7f3c089f080bde319"
-    },
     "02-17": {
       "path": "packages/core/agent-loop/src/agent.ts",
       "start": 175,
@@ -1388,14 +1339,6 @@
       "raw": "  async whenIdle(): Promise<void> {\n    let activity: Promise<void>\n    do {\n      await (activity = this.activityDone)\n    } while (activity !== this.activityDone)\n  }",
       "code": "async whenIdle(): Promise<void> {\n  let activity: Promise<void>\n  do {\n    await (activity = this.activityDone)\n  } while (activity !== this.activityDone)\n}",
       "sha256": "c66d863977b9108b9eab7678513acd9fb9b1f9d31d99abd8a80f5592ef4ed1c7"
-    },
-    "02-19": {
-      "path": "packages/core/agent-loop/src/agent.ts",
-      "start": 183,
-      "end": 193,
-      "raw": "  runMaintenance<T>(job: (signal: AbortSignal) => Promise<T>): Promise<T> {\n    if (this.phase.kind !== 'idle') throw new Error(`agent \"${this.id}\" already has active work`)\n    const done = Promise.withResolvers<void>()\n    const maintenance: Phase = {\n      kind: 'maintenance',\n      abort: new AbortController(),\n      lastTurn: this.phase.lastTurn,\n      wakeRequested: false,\n    }\n    this.setPhase(maintenance)\n    this.activityDone = done.promise",
-      "code": "runMaintenance<T>(job: (signal: AbortSignal) => Promise<T>): Promise<T> {\n  if (this.phase.kind !== 'idle') throw new Error(`agent \"${this.id}\" already has active work`)\n  const done = Promise.withResolvers<void>()\n  const maintenance: Phase = {\n    kind: 'maintenance',\n    abort: new AbortController(),\n    lastTurn: this.phase.lastTurn,\n    wakeRequested: false,\n  }\n  this.setPhase(maintenance)\n  this.activityDone = done.promise",
-      "sha256": "05cb9a97d1c6b73b0b80e37d22aed1356962f1bf9fddd8b39887c2dae33206ec"
     },
     "02-20": {
       "path": "packages/core/agent-loop/src/index.ts",
@@ -3212,6 +3155,142 @@
       "raw": "        if (machine !== undefined) {\n          machine.cancel({ kind: 'disposed' })\n          await machine.whenIdle()\n          await machine.scope.dispose()\n        }\n      } catch (error: unknown) {\n        failures.push(error)\n      }\n      // The loop above committed its closing events synchronously into the\n      // session; handle close drains them durably before releasing the write\n      // path. The close drain can be the first operation that surfaces a\n      // durability failure, so its error is retained, not logged away.\n      try {\n        await handle?.close()\n      } catch (error: unknown) {\n        failures.push(error)",
       "code": "  if (machine !== undefined) {\n    machine.cancel({ kind: 'disposed' })\n    await machine.whenIdle()\n    await machine.scope.dispose()\n  }\n} catch (error: unknown) {\n  failures.push(error)\n}\n// The loop above committed its closing events synchronously into the\n// session; handle close drains them durably before releasing the write\n// path. The close drain can be the first operation that surfaces a\n// durability failure, so its error is retained, not logged away.\ntry {\n  await handle?.close()\n} catch (error: unknown) {\n  failures.push(error)",
       "sha256": "9b4fa96dd8436e935102409e8b649edd4a13f3c5d4750f71286b473f34336590"
+    },
+    "02-21": {
+      "path": "packages/core/agent-loop/src/index.ts",
+      "start": 737,
+      "end": 750,
+      "raw": "      return this.setupAndPublish(\n        ownerCtx,\n        options.sessionId,\n        preparation,\n        options.agentOptions ?? {},\n        options.setup,\n        options.signal,\n        'startup',\n        stored,\n        options.parentAgent,\n      )\n    })()\n    this.ownership.trackWrapper(published)\n    return published",
+      "code": "  return this.setupAndPublish(\n    ownerCtx,\n    options.sessionId,\n    preparation,\n    options.agentOptions ?? {},\n    options.setup,\n    options.signal,\n    'startup',\n    stored,\n    options.parentAgent,\n  )\n})()\nthis.ownership.trackWrapper(published)\nreturn published",
+      "sha256": "208b78c122d2af437ecc40a4bf556f56f42996c6bff720cac414dbde5b53756d"
+    },
+    "02-22": {
+      "path": "packages/core/agent-loop/src/index.ts",
+      "start": 765,
+      "end": 779,
+      "raw": "    using ownedPreparation = preparation\n    const session = ownedPreparation.session\n    let prepared: PreparedAgent\n    try {\n      prepared = this.prepare(ownerCtx, id, agentOptions, session, signal, stored?.handle, parentAgent)\n    } catch (error: unknown) {\n      await stored?.handle.close().catch(() => {})\n      throw error\n    }\n    return await this.initializeAgent(prepared, async () => {\n      const setupCommit = await raceAbort(setup?.(prepared.agent.ctx, prepared.agent), prepared.signal, id)\n      setupCommit?.commit()\n      await this.appendUnstoredSuffix(stored, session)\n      return await prepared.publish(source)\n    })",
+      "code": "using ownedPreparation = preparation\nconst session = ownedPreparation.session\nlet prepared: PreparedAgent\ntry {\n  prepared = this.prepare(ownerCtx, id, agentOptions, session, signal, stored?.handle, parentAgent)\n} catch (error: unknown) {\n  await stored?.handle.close().catch(() => {})\n  throw error\n}\nreturn await this.initializeAgent(prepared, async () => {\n  const setupCommit = await raceAbort(setup?.(prepared.agent.ctx, prepared.agent), prepared.signal, id)\n  setupCommit?.commit()\n  await this.appendUnstoredSuffix(stored, session)\n  return await prepared.publish(source)\n})",
+      "sha256": "096ba5f9318d0d4e26be4a887f38b48976737f353e7e17c3a7f6111f04361810"
+    },
+    "02-24": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 252,
+      "end": 265,
+      "raw": "  private async kick(): Promise<void> {\n    try {\n      while (await this.turn()) {}\n    } catch (_error) {\n      // Reported failures and cancellation are contained at the driver boundary.\n    } finally {\n      /* v8 ignore next -- kick owns a running phase until this driver boundary */\n      if (this.phase.kind === 'running') {\n        const { turn, wakeRequested } = this.phase\n        this.setPhase({ kind: 'idle', lastTurn: turn })\n        if (wakeRequested && this.inbox.hasPending) this.wakeDriver()\n      }\n    }\n  }",
+      "code": "private async kick(): Promise<void> {\n  try {\n    while (await this.turn()) {}\n  } catch (_error) {\n    // Reported failures and cancellation are contained at the driver boundary.\n  } finally {\n    /* v8 ignore next -- kick owns a running phase until this driver boundary */\n    if (this.phase.kind === 'running') {\n      const { turn, wakeRequested } = this.phase\n      this.setPhase({ kind: 'idle', lastTurn: turn })\n      if (wakeRequested && this.inbox.hasPending) this.wakeDriver()\n    }\n  }\n}",
+      "sha256": "84304ea46e3e70e928f24390da360b881e9774f4fa80d44ca22e7ff07ff5576e"
+    },
+    "02-25": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 296,
+      "end": 313,
+      "raw": "  private async turn(): Promise<boolean> {\n    if (this.phase.kind !== 'running') {\n      this.throwError(new Error(`agent \"${this.id}\": turn without driver reservation`))\n    }\n    const phase = this.phase\n    const { signal } = phase.abort\n    signal.throwIfAborted()\n    const turn = phase.turn + 1\n    try {\n      this.session.append('turn/start', { turn })\n    } catch (error: unknown) {\n      this.throwError(error)\n    }\n    phase.turn = turn\n    let turnEnds: TurnEndReason | null = null\n    let target: InboxTarget = 'next-turn'\n    try {\n      while (true) {",
+      "code": "private async turn(): Promise<boolean> {\n  if (this.phase.kind !== 'running') {\n    this.throwError(new Error(`agent \"${this.id}\": turn without driver reservation`))\n  }\n  const phase = this.phase\n  const { signal } = phase.abort\n  signal.throwIfAborted()\n  const turn = phase.turn + 1\n  try {\n    this.session.append('turn/start', { turn })\n  } catch (error: unknown) {\n    this.throwError(error)\n  }\n  phase.turn = turn\n  let turnEnds: TurnEndReason | null = null\n  let target: InboxTarget = 'next-turn'\n  try {\n    while (true) {",
+      "sha256": "61e8ddf1dde00190ef86d85bf0f78f7e8f638d2cc3615ceeddb5e1d61dc63cee"
+    },
+    "02-26": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 314,
+      "end": 330,
+      "raw": "        signal.throwIfAborted()\n        const step = phase.step + 1\n        const decision = await this.preStep(target, { turn, step })\n        if (decision.kind === 'reject') {\n          turnEnds = { kind: 'blocked' }\n          return false\n        }\n        if (turnEnds && decision.messages.length === 0) break\n        // A removed waking message or an enter decision rewritten to empty\n        // still owns the initial turn boundary, but it spends no model call.\n        if (phase.step === 0 && decision.messages.length === 0) {\n          turnEnds = { kind: 'completed' }\n          return false\n        }\n        signal.throwIfAborted()\n        this.session.append('step/start', { turn, step })\n        phase.step = step",
+      "code": "signal.throwIfAborted()\nconst step = phase.step + 1\nconst decision = await this.preStep(target, { turn, step })\nif (decision.kind === 'reject') {\n  turnEnds = { kind: 'blocked' }\n  return false\n}\nif (turnEnds && decision.messages.length === 0) break\n// A removed waking message or an enter decision rewritten to empty\n// still owns the initial turn boundary, but it spends no model call.\nif (phase.step === 0 && decision.messages.length === 0) {\n  turnEnds = { kind: 'completed' }\n  return false\n}\nsignal.throwIfAborted()\nthis.session.append('step/start', { turn, step })\nphase.step = step",
+      "sha256": "c5f92b64572fd9073229957f27594b8e8830f276bda49ec992f3cfa6b1f4599b"
+    },
+    "02-27": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 267,
+      "end": 285,
+      "raw": "  private async preStep(target: InboxTarget, position: { turn: number; step: number }): Promise<PreparedStep> {\n    /* v8 ignore next -- private callers establish the running phase before proposing a step */\n    if (this.phase.kind !== 'running') throw new Error(`agent \"${this.id}\": pre-step outside running phase`)\n    const signal = this.phase.abort.signal\n    const claimed = this.inbox.claim(target, position.turn)\n    const assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\n    signal.throwIfAborted()\n    const sections = renderContextSections(assembly)\n    const context = this.runtimeContext.project(joinContextSections(sections), sections)\n    const decision = await this.dispatch.waterfall(\n      'agent/pre-step', { messages: claimed, ...position, signal },\n      (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n        kind: 'enter',\n        messages: context === undefined ? claimed : [...claimed, context],\n      }),\n    )\n    signal.throwIfAborted()\n    if (decision.kind === 'reject') return decision\n    return { ...decision, assembly }",
+      "code": "private async preStep(target: InboxTarget, position: { turn: number; step: number }): Promise<PreparedStep> {\n  /* v8 ignore next -- private callers establish the running phase before proposing a step */\n  if (this.phase.kind !== 'running') throw new Error(`agent \"${this.id}\": pre-step outside running phase`)\n  const signal = this.phase.abort.signal\n  const claimed = this.inbox.claim(target, position.turn)\n  const assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\n  signal.throwIfAborted()\n  const sections = renderContextSections(assembly)\n  const context = this.runtimeContext.project(joinContextSections(sections), sections)\n  const decision = await this.dispatch.waterfall(\n    'agent/pre-step', { messages: claimed, ...position, signal },\n    (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n      kind: 'enter',\n      messages: context === undefined ? claimed : [...claimed, context],\n    }),\n  )\n  signal.throwIfAborted()\n  if (decision.kind === 'reject') return decision\n  return { ...decision, assembly }",
+      "sha256": "5b00c3822d5fc53adaeae9d773538dc32ec30a360646af9bd95b2f5df88d5027"
+    },
+    "02-28": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 398,
+      "end": 409,
+      "raw": "  private async step(decision: Extract<PreparedStep, { kind: 'enter' }>): Promise<StepEndReason | null> {\n    /* v8 ignore next -- private callers establish the running phase before executing a step */\n    if (this.phase.kind !== 'running') throw new Error(`agent \"${this.id}\": step outside running phase`)\n    const { turn, step, abort: { signal } } = this.phase\n    signal.throwIfAborted()\n\n    const { assembly } = decision\n    const renderedPrompt = renderPrompt(assembly)\n    let firstAttempt = true\n    while (true) {\n      const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\n      const startsRequestSeries = firstAttempt && decision.startsRequestSeries === true",
+      "code": "private async step(decision: Extract<PreparedStep, { kind: 'enter' }>): Promise<StepEndReason | null> {\n  /* v8 ignore next -- private callers establish the running phase before executing a step */\n  if (this.phase.kind !== 'running') throw new Error(`agent \"${this.id}\": step outside running phase`)\n  const { turn, step, abort: { signal } } = this.phase\n  signal.throwIfAborted()\n\n  const { assembly } = decision\n  const renderedPrompt = renderPrompt(assembly)\n  let firstAttempt = true\n  while (true) {\n    const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\n    const startsRequestSeries = firstAttempt && decision.startsRequestSeries === true",
+      "sha256": "ef2e23aa7eb48bb9c1836f88536bcc5a201e0b250093dcbc3f2ebe37b4680598"
+    },
+    "02-31": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 669,
+      "end": 686,
+      "raw": "    // canonicalHeader is shallow; append logs a detached snapshot, not these local values.\n    deepFreeze(header)\n    const boundaryMessages = session.deriveMessages()\n    for (const message of boundaryMessages) {\n      if (this.frozenMessages.has(message)) continue\n      deepFreeze(message)\n      this.frozenMessages.add(message)\n    }\n    Object.freeze(boundaryMessages)\n    const request = markAgentLoopRequest(Object.freeze({\n      ...header.config,\n      messages: boundaryMessages,\n      toolHistory: session.toolHistory(),\n      ...header.tools !== undefined ? { tools: header.tools } : {},\n      sessionId: this.session.id,\n      signal,\n    }))\n    return request",
+      "code": "// canonicalHeader is shallow; append logs a detached snapshot, not these local values.\ndeepFreeze(header)\nconst boundaryMessages = session.deriveMessages()\nfor (const message of boundaryMessages) {\n  if (this.frozenMessages.has(message)) continue\n  deepFreeze(message)\n  this.frozenMessages.add(message)\n}\nObject.freeze(boundaryMessages)\nconst request = markAgentLoopRequest(Object.freeze({\n  ...header.config,\n  messages: boundaryMessages,\n  toolHistory: session.toolHistory(),\n  ...header.tools !== undefined ? { tools: header.tools } : {},\n  sessionId: this.session.id,\n  signal,\n}))\nreturn request",
+      "sha256": "dc20dd9165c28301f0b3e334873b7f1243a8a084a6d8e3e4773ac67e171c3970"
+    },
+    "02-32": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 512,
+      "end": 530,
+      "raw": "        const message = createAssistantMessage({\n          content: live.blocks(),\n          source: {\n            provider: request.provider,\n            model: request.model,\n            ...live.replayState !== undefined ? { replayState: live.replayState } : {},\n          },\n        })\n        live.settle(\n          'assistant/message',\n          () => this.session.append('assistant/message', {\n            turn,\n            step,\n            message,\n            ...live.usage === undefined ? {} : { usage: live.usage },\n            stream: live.stream,\n          }, { surfaceOp: 'append' }).seq,\n        )\n        if (finish.kind === 'max-tokens') return { kind: 'max-tokens' }",
+      "code": "const message = createAssistantMessage({\n  content: live.blocks(),\n  source: {\n    provider: request.provider,\n    model: request.model,\n    ...live.replayState !== undefined ? { replayState: live.replayState } : {},\n  },\n})\nlive.settle(\n  'assistant/message',\n  () => this.session.append('assistant/message', {\n    turn,\n    step,\n    message,\n    ...live.usage === undefined ? {} : { usage: live.usage },\n    stream: live.stream,\n  }, { surfaceOp: 'append' }).seq,\n)\nif (finish.kind === 'max-tokens') return { kind: 'max-tokens' }",
+      "sha256": "85f3dc4ecdeaabb7cb89ec4ee39dc1c05196e158184d060055558d73f3f756f8"
+    },
+    "02-33": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 531,
+      "end": 538,
+      "raw": "\n        const toolCalls = message.content.filter(block => block.type === 'tool-call')\n        if (toolCalls.length === 0) return { kind: 'completed' }\n        const { concluded } = await executeToolCalls(\n          this.loopCtx, turn, step, toolCalls, signal,\n          context => this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [context]),\n        )\n        return concluded ? { kind: 'completed' } : null",
+      "code": "\nconst toolCalls = message.content.filter(block => block.type === 'tool-call')\nif (toolCalls.length === 0) return { kind: 'completed' }\nconst { concluded } = await executeToolCalls(\n  this.loopCtx, turn, step, toolCalls, signal,\n  context => this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [context]),\n)\nreturn concluded ? { kind: 'completed' } : null",
+      "sha256": "8530858f8e75a518def425d3277a41e2a33445f6c610378fa4b42f8f6eea1c6c"
+    },
+    "02-34": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 146,
+      "end": 160,
+      "raw": "  // `committed` advances only across contiguous model-order slots.\n  const commitReady = async (): Promise<void> => {\n    while (committed < group.length) {\n      const slot = slots[committed]\n      if (slot === undefined) break\n      const call = group[committed]\n      const result = slot.needsPost\n        ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)\n        : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)\n      // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index\n      appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)\n      for (const context of result.additionalContexts ?? []) acceptContext(context)\n      concluded ||= result.concludesTurn === true\n      committed++\n    }",
+      "code": "// `committed` advances only across contiguous model-order slots.\nconst commitReady = async (): Promise<void> => {\n  while (committed < group.length) {\n    const slot = slots[committed]\n    if (slot === undefined) break\n    const call = group[committed]\n    const result = slot.needsPost\n      ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)\n      : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)\n    // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index\n    appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)\n    for (const context of result.additionalContexts ?? []) acceptContext(context)\n    concluded ||= result.concludesTurn === true\n    committed++\n  }",
+      "sha256": "242ad115eb0203afcca577fdada5fd3e3e170dffe8b3fa8b0161d7dfe67720ab"
+    },
+    "02-35": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 277,
+      "end": 290,
+      "raw": "  const message = createToolResultMessage({\n    callId: block.id,\n    content: result.content,\n    isError: result.isError,\n  })\n  session.append('tool/result', {\n    turn, step,\n    message,\n    ...result.error?.info ? { error: result.error.info } : {},\n    // The tool's private presentation payload (e.g. a result-time diff),\n    // persisted so a UI bridge reproduces the card on replay.\n    ...result.meta !== undefined ? { meta: result.meta } : {},\n  }, { surfaceOp: 'append', sourceEventSeqs: [callSeq] })\n}",
+      "code": "  const message = createToolResultMessage({\n    callId: block.id,\n    content: result.content,\n    isError: result.isError,\n  })\n  session.append('tool/result', {\n    turn, step,\n    message,\n    ...result.error?.info ? { error: result.error.info } : {},\n    // The tool's private presentation payload (e.g. a result-time diff),\n    // persisted so a UI bridge reproduces the card on replay.\n    ...result.meta !== undefined ? { meta: result.meta } : {},\n  }, { surfaceOp: 'append', sourceEventSeqs: [callSeq] })\n}",
+      "sha256": "ab2828325041b00586e1c52405e78ed90fff96ed05f856fb1fadd6bd175cf821"
+    },
+    "02-37": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 488,
+      "end": 509,
+      "raw": "        const finish = live.finish\n        if (finish.kind === 'error' || finish.kind === 'aborted') {\n          live.settle(\n            'assistant/attempt',\n            () => this.session.append('assistant/attempt', { turn, step, stream: live.stream }).seq,\n          )\n          const action = await this.dispatch.waterfall(\n            'agent/request-error', {\n              turn,\n              step,\n              provider: request.provider,\n              failure: finish.failure,\n              retryPolicy: preparedCall?.retryPolicy,\n              signal,\n            },\n            () => Promise.resolve<RequestErrorAction>(undefined),\n          )\n          signal.throwIfAborted()\n          if (action?.kind !== 'retry') {\n            throw new LlmError(finish.failure.message, finish.failure.code, finish.failure)\n          }\n          continue",
+      "code": "const finish = live.finish\nif (finish.kind === 'error' || finish.kind === 'aborted') {\n  live.settle(\n    'assistant/attempt',\n    () => this.session.append('assistant/attempt', { turn, step, stream: live.stream }).seq,\n  )\n  const action = await this.dispatch.waterfall(\n    'agent/request-error', {\n      turn,\n      step,\n      provider: request.provider,\n      failure: finish.failure,\n      retryPolicy: preparedCall?.retryPolicy,\n      signal,\n    },\n    () => Promise.resolve<RequestErrorAction>(undefined),\n  )\n  signal.throwIfAborted()\n  if (action?.kind !== 'retry') {\n    throw new LlmError(finish.failure.message, finish.failure.code, finish.failure)\n  }\n  continue",
+      "sha256": "17aee925132f3dd8085012149e1c886db59cb201e9e64c01746225e273852124"
+    },
+    "02-38": {
+      "path": "packages/core/agent-loop/src/index.ts",
+      "start": 573,
+      "end": 577,
+      "raw": "    let unfollowOwner: () => Promise<void> | void\n    try {\n      unfollowOwner = ownerCtx.effect(function* () {\n        machine = new ReactLoopAgent(loopCtx, id, options, session)\n        machineReady.resolve()",
+      "code": "let unfollowOwner: () => Promise<void> | void\ntry {\n  unfollowOwner = ownerCtx.effect(function* () {\n    machine = new ReactLoopAgent(loopCtx, id, options, session)\n    machineReady.resolve()",
+      "sha256": "4918c449cabe2de501462960a482540e4a97e899c0659768bfc111b1dcbc4695"
+    },
+    "02-39": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 576,
+      "end": 595,
+      "raw": "    const proposedConfig = await this.dispatch.waterfall(\n      'agent/request', { turn, step, signal },\n      () => Promise.resolve(seedConfig),\n    )\n    signal.throwIfAborted()\n    if (!proposedConfig.provider || !proposedConfig.model) {\n      throw new Error(`agent \"${this.id}\" has no provider/model: set AgentOptions.provider and AgentOptions.model or supply both via the agent/request waterfall`)\n    }\n    let config: LlmCallConfig\n    let preparedCall: PreparedLlmCall | undefined\n    try {\n      preparedCall = await this.loopCtx.llm.prepareCall(proposedConfig, signal)\n      config = preparedCall.config\n    } catch (error: unknown) {\n      // Middleware may serve an unregistered route; terminal dispatch still requires an adapter.\n      if (!(error instanceof LlmError) || error.code !== 'NO_ADAPTER') throw error\n      config = proposedConfig\n    }\n    signal.throwIfAborted()\n    return { config, ...preparedCall === undefined ? {} : { preparedCall } }",
+      "code": "const proposedConfig = await this.dispatch.waterfall(\n  'agent/request', { turn, step, signal },\n  () => Promise.resolve(seedConfig),\n)\nsignal.throwIfAborted()\nif (!proposedConfig.provider || !proposedConfig.model) {\n  throw new Error(`agent \"${this.id}\" has no provider/model: set AgentOptions.provider and AgentOptions.model or supply both via the agent/request waterfall`)\n}\nlet config: LlmCallConfig\nlet preparedCall: PreparedLlmCall | undefined\ntry {\n  preparedCall = await this.loopCtx.llm.prepareCall(proposedConfig, signal)\n  config = preparedCall.config\n} catch (error: unknown) {\n  // Middleware may serve an unregistered route; terminal dispatch still requires an adapter.\n  if (!(error instanceof LlmError) || error.code !== 'NO_ADAPTER') throw error\n  config = proposedConfig\n}\nsignal.throwIfAborted()\nreturn { config, ...preparedCall === undefined ? {} : { preparedCall } }",
+      "sha256": "25a2fe0e549257e4af8327ed31de2e1fc9d4ee287ed785c1beaa06c03a7539a4"
+    },
+    "02-40": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 354,
+      "end": 365,
+      "raw": "        } finally {\n          stopRecovery()\n          this.session.append('step/end', { turn, step })\n        }\n        signal.throwIfAborted()\n        if (turnEnds && this.inbox.nextStep.length === 0) {\n          await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n          signal.throwIfAborted()\n        }\n        if (turnEnds && this.inbox.nextStep.length === 0) break\n        target = 'next-step'\n      }",
+      "code": "  } finally {\n    stopRecovery()\n    this.session.append('step/end', { turn, step })\n  }\n  signal.throwIfAborted()\n  if (turnEnds && this.inbox.nextStep.length === 0) {\n    await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n    signal.throwIfAborted()\n  }\n  if (turnEnds && this.inbox.nextStep.length === 0) break\n  target = 'next-step'\n}",
+      "sha256": "56cc3e17ac192d206639698d6d2a9c96a519f60b2abd12954ba3fc77ec42cd0c"
+    },
+    "02-41": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 410,
+      "end": 425,
+      "raw": "      const commits = this.systemPrompt.project(renderedPrompt, {\n        inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n        startsSeries: startsRequestSeries\n          || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n          || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n      })\n      for (const { message, intent } of commits) {\n        this.session.append('system/message', { turn, step, message }, intent)\n      }\n      if (firstAttempt) {\n        for (const message of decision.messages) {\n          this.session.append('user/message', message, { surfaceOp: 'append' })\n        }\n      }\n      firstAttempt = false\n      const request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
+      "code": "const commits = this.systemPrompt.project(renderedPrompt, {\n  inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n  startsSeries: startsRequestSeries\n    || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n    || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n})\nfor (const { message, intent } of commits) {\n  this.session.append('system/message', { turn, step, message }, intent)\n}\nif (firstAttempt) {\n  for (const message of decision.messages) {\n    this.session.append('user/message', message, { surfaceOp: 'append' })\n  }\n}\nfirstAttempt = false\nconst request = this.buildRequest(config, preparedCall, assembly.tools, { turn, step }, startsRequestSeries, signal)",
+      "sha256": "0efae295b33bb08dd5e01d18f1a0060ce94a6a707b968119d444687d8f5fe403"
     }
   },
   "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。",
