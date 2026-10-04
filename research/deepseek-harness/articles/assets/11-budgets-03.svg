@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1060" viewBox="0 0 1200 1060">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>四种上限的实际作用域</title>
-<desc>字段必须说明单位、范围与扣减时刻</desc>
+<title>Budget 上限对应哪个 consumer</title>
+<desc>字段同时说明单位、范围和扣减事实</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">11 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">四种上限的实际作用域</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">Budget 上限对应哪个 consumer</text>
 <rect x="80" y="178" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="178" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">目标回合上限</text>
-<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">已接纳自动回合</text>
-<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">不限制同 Step 重试</text>
+<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Goal round</text>
+<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">maxGoalRounds / roundsStarted</text>
+<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">已接纳自动输入的累计轮次</text>
 <rect x="80" y="360" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="360" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">普通重试上限</text>
-<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">provider / policy 的 Step 状态</text>
-<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">always 无相同次数门</text>
+<text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Retry</text>
+<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">normal maxRetries / policyKey</text>
+<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">当前 Step 的恢复状态</text>
 <rect x="80" y="542" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="542" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">单次输出上限</text>
-<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">本次输出</text>
-<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">输入、摘要、子任务另计</text>
+<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Output</text>
+<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">LlmCallConfig.maxTokens</text>
+<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">一次实际模型生成的输出</text>
 <rect x="80" y="724" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="724" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">工具执行期限</text>
-<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">协作式工具 deadline</text>
-<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">不保证全部资源立刻释放</text>
-<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">字段必须说明单位、范围与扣减时刻</text>
+<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Deadline</text>
+<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">timeout wrapper / exec.signal</text>
+<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">工具停止请求与后续结算</text>
+<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">字段同时说明单位、范围和扣减事实</text>
 <text x="600" y="1024" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
 </svg>

@@ -6,6 +6,9 @@
 
 DeepSeek Harness 的部署路径包括 profile 组合、插件激活审计、配置刷新、模块 HMR、会话格式迁移和有序退出。本文将它们放到一次版本演进中分析，说明**代码可替换、实例可释放与数据可兼容，是三项独立责任**。
 
+
+版本演进可以按候选、实例和数据三条链理解。runProfile()/boot() 组合插件并审计 readiness；配置 reconciliation 与模块 HMR 各自准备候选、等待旧 Fiber、检查新激活；JSONL catalog 解码历史格式，write open 在取得所有权后发布 successor。退出再沿 driver、scope、storage 与 transport 排空。本文从受支持入口开始，逐条说明这些变化在哪里交接。
+
 ## 从受支持入口验证实际组合
 
 CLI 经 runCli、runProfile、boot 解析运行环境与 profile，创建 Context，让 Loader 激活插件树，再检查必需项和 readiness。包能导入、fixture 能手工挂 Context，并不证明这个组合可以作为完整产品启动。[CLI 入口](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/bin.ts#L26-L73) [profile 启动和退出](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L326) [应用 boot](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L973-L1036)
@@ -14,11 +17,15 @@ CLI 经 runCli、runProfile、boot 解析运行环境与 profile，创建 Contex
 
 项目处于 developer preview，公共 API 尚未稳定。包号 0.2.1-alpha.1 和 TypeScript 可编译，不足以推导长期 ABI 或跨版本插件兼容承诺。[预稳定版本说明](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/README.md#L11-L13)
 
-![部署、兼容性与版本演进的机制图](assets/16-deployment-evolution.png)
 
-图1：升级需要分别处理的对象。
+![图1：Deployment 变化的三类对象](assets/16-deployment-evolution.png)
+
+图1：代码注册、实例寿命和状态兼容分别验收。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：启动准备、插件激活和 readiness 分开验收
+
+runProfile() 准备 Proxy 和 profile，boot() 建立 Loader 与 root Include，等待激活后审计；readiness 只在 root、Loader 和取消条件仍有效时提交。
+
 
 ```typescript
 export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Context; shutdown: ProcessShutdown }> {
@@ -45,7 +52,7 @@ export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Con
 
 [源码：`apps/cli/src/profile-boot.ts:244–263`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L263)。
 
-代理环境在插件挂载前安装；dispose memoized，先 root Fiber 再代理，并汇总释放错误。包可以 import 不等于网络环境、配置与清理可作为完整产品运行。
+Proxy 环境在插件挂载前安装；dispose memoized，先 root Fiber 再 Proxy，并汇总释放错误。包可以 import 不等于网络环境、配置与清理可作为完整产品运行。
 
 ```typescript
 try {
@@ -95,11 +102,10 @@ boot 创建 Loader，执行 host prepare，挂 root Include，等待 Loader 后�
 
 只在未取消、root ACTIVE 且 Loader 存在时 commit readiness；startup error 后也清理。部署 smoke 应通过受支持入口检验必需服务和 readiness，而不是手工 Context 成功就宣称产品启动成功。
 
-![图2：产品启动与退出的边界](assets/16-deployment-evolution-02.png)
-
-图2：启动成功和业务成功应分别验收。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 配置刷新先准备，再等待并审计
+
+启动建立了当前 live tree，配置变化随后进入 reconciliation。下面保留 Entry 与旧 Fiber 的关系，追踪候选准备、更新、等待和审计。
 
 Entry 能禁用、移除、激活和重挂插件。普通有效配置变化可能重建 Fiber，仅 volatile 字段变化可保留实例；非法候选警告而不提交 live 值。[Entry 配置更新](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L118-L237)
 
@@ -143,7 +149,43 @@ export async function reconcileProfilePatches(
 
 但这不是全局事务。解析准备失败可以保护旧配置，应用阶段某个插件失败时，成功的兄弟插件仍可能生效。部署系统应检查最终组合与错误审计，而不是把“有 reload API”写成“失败时全树自动回滚”。[配置重组与激活审计](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L274-L302)
 
+![图2：profile 启动到 readiness 的等待](assets/16-deployment-evolution-02.png)
+
+图2：退出使用独立的 transport 与 owner 排空链。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第二步：reload 包含旧资源等待与新树审核
+
+运行后配置变更进入 reconcileProfilePatches()：prepare patches，再调用 Entry.update()，分别等待旧 Fiber 和当前 Loader，最后检查 introduced failures。volatile 判断属于 update() 内部支线。
+
+reconciliation 更新的是明确的 EntryOptions：
+
+```typescript
+export interface EntryOptions {
+  /** Stable id inside the containing entry tree. */
+  id: string
+  /** Module specifier imported by the entry tree. */
+  name: string
+  /** Config passed to the plugin. */
+  config?: any
+  /** Marks this entry as a nested group. */
+  group?: boolean | null
+  /** Prevents this entry and descendants from running. */
+  disabled?: boolean | null
+  /** Required services or service intercept config for this entry. */
+  inject?: Inject | null
+}
+```
+
+[源码：`vendor/loader/src/config/entry.ts:10–23`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L10-L23)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`id` / `name`|配置树节点与模块身份|patch 和 import|
+|`config` / `inject`|候选参数和依赖|update、解析与激活|
+|`disabled` / `group`|运行选择和嵌套组合|最终树审计|
+
+字段已写入候选不表示 Fiber 已成功激活。管理面应关联这份 Entry 身份、当前实例与激活错误。
+
 
 原文 reconcileProfilePatches 先保存旧失败与旧 Fiber 引用，再 prepare patches，entry.update 后分别等 previousFibers 和 Loader，比较 introduced failures。这条链保护准备失败不触动 live tree，却没有提供应用阶段全树原子回滚。
 
@@ -204,6 +246,8 @@ private _commitVolatile(): boolean {
 
 ## 模块 HMR 解决的是另一类变化
 
+配置入口已经说明，模块文件变化则进入 HMR 的独立 consumer。它消费缓存与 runtime，替换的是代码注册，不能与普通字段更新混为一次事务。
+
 模块 HMR 依赖 Loader internal 和 expose-internals，通过串行队列防止嵌套 reload，分析缓存决定局部替换或退出。局部流程备份 ESM／CJS 缓存，导入 replacement，卸载旧 runtime 并等待旧 Fiber，再注册新实现。[HMR 前提与控制](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L262-L340) [partialReload 流程](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L525-L732)
 
 导入失败可以恢复缓存，激活失败尝试恢复旧插件。恢复范围是代码和配置注册，不是旧对象的任意业务状态，更不是工具已经发生的外部写入。base 默认主要监听配置，不代表所有产品 profile 都开箱提供源码热替换。[base 的运行配置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L20-L40)
@@ -211,6 +255,29 @@ private _commitVolatile(): boolean {
 例如一个模型请求已经准备了 adapter registration，热替换不能假定它会自动换到新实现；安全退出也必须等它结算。一个有持久进程或连接的 provider，更需要停止接纳、排空，再决定如何重挂和恢复状态。
 
 ### 第三步：代码替换要准备新模块并排空旧 Fiber
+
+模块 HMR 是另一入口。partialReload() 先备份缓存并 import replacement，随后卸载旧 runtime、等旧 Fiber，再激活新实现；失败从对应阶段进入恢复路径。
+
+模块替换准备阶段保留 Reload：
+
+```typescript
+export interface Reload {
+  filename: string
+  /** Original namespaces and URLs of all entry modules participating in this runtime replacement. */
+  modules: ReloadModules
+  runtime?: Plugin.Runtime | undefined
+}
+```
+
+[源码：`packages/boot/hmr/src/index.ts:82–87`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L82-L87)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`filename` / `modules`|模块位置、namespace 与 URL 集合|缓存和 replacement 处理|
+|`runtime`|可选旧运行实例|卸载与恢复原注册|
+
+它保存替换所需代码身份，业务对象和外部效果不在这份结构中。HMR 恢复范围应沿这些字段解释。
+
 
 ```typescript
 /**
@@ -322,11 +389,10 @@ try {
 
 失败时恢复缓存，撤销已激活新实例，等待结算，尝试重新挂旧插件。恢复的仍是代码和配置注册；期间已写数据库、已发送网络请求的效果不会因 rollback 自动撤回。生产发布不能把它当跨系统回滚方案。
 
-![图3：升级要处理的四种对象](assets/16-deployment-evolution-03.png)
-
-图3：代码回退不能替外部效果或状态迁移回滚。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 会话格式兼容由静态 catalog 承担
+
+代码替换之后还有持久历史兼容问题。下面切到存储 reader 使用的静态 catalog，物理 codec 与领域事件能力在这里分层判断。
 
 本基线当前 writer 格式为 4，历史 codec 和相邻迁移固定导入 catalog。是否挂载某个用户插件，不决定旧物理格式是否存在解码器。
 
@@ -372,7 +438,14 @@ export const sessionFormatCatalog = createSessionFormatCatalog(sessionFormatCata
 
 这也是保存状态的插件为什么参与升级义务：若它改变模型可见输入、Session 事件或读取类型，需要考虑旧数据和所有 consumer。API 变更只让新代码编译，不会自动迁移已有日志。[会话 header 与格式版本](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/types.ts#L79-L137) [格式基线和发布状态](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/session-format-status.md#L18-L51)
 
+![图3：演进契约保存哪些对象](assets/16-deployment-evolution-03.png)
+
+图3：代码、实例和数据兼容各自保存验收证据。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：格式能力不能依赖运行插件恰好挂载
+
+现在转到历史数据 reader：静态 catalog 固定 codec、migration 与当前 writer 版本。restoreCurrent 等方法对安装能力再作检查，让物理解码结果进入当前领域解释。
+
 
 原文 generated catalog 明确 currentVersion=4，列出 v0—v4 codec 和相邻 migration。静态组合让读取旧 artifact 与当前 profile 的可选插件分离，但旧格式可读取不代表新事件能被旧程序解释。
 
@@ -400,6 +473,8 @@ restoreCurrent 包含 installed current artifact 验证，restoreTransformedCurr
 
 ## 新 generation 保留历史，不提供任意降级保证
 
+catalog 已定义转换路径，write open 接下来准备并发布新 generation。这条发布链还消费第五篇说明的 lease，只有合法写方才能改变当前存储代。
+
 resolver 选择最高合法 canonical generation，拒绝冲突布局。迁移先准备和校验，写操作取得所有权后发布新的 successor；普通读取不会仅为了升级覆写前代。当前 generation 仍可以追加新事实。[generation 选择](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L1446-L1482) [写 open 与发布路径](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L314-L435)
 
 “保留旧文件”不等于旧程序可以随时接管。新版本已经追加新事件、外部工具已经产生变化，降级后的代码未必理解，也不能把旧 generation 当作最新状态。前代用于历史兼容与追溯，不能直接宣传为任意失败的业务回滚点。
@@ -407,6 +482,30 @@ resolver 选择最高合法 canonical generation，拒绝冲突布局。迁移�
 例如升级后模型已经修改文件，即使恢复旧 runtime，文件修改仍存在。迁移和业务副作用属于不同系统，只有明确的版本与补偿协议才能让它们共同支持恢复策略。
 
 ### 第五步：写迁移在取得所有权后发布 successor
+
+需要写升级后的 artifact 时，resolver 先识别合法 generation；open(write) 取得 claim 和 lease，在锁内准备权威迁移，再 publish successor 并 adopt handle。
+
+迁移准备结果通过 PreparedJsonlMigration 交给合法写方：
+
+```typescript
+export interface PreparedJsonlMigration {
+  readonly sourceIdentity: JsonlPhysicalIdentity
+  readonly artifact: SessionFormatArtifact
+  /** Encode, verify, and exclusively publish once; every call shares the same success or failure. */
+  publish(): Promise<JsonlPhysicalIdentity>
+}
+```
+
+[源码：`packages/session/session-persistence-jsonl/src/generation.ts:122–127`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/generation.ts#L122-L127)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`sourceIdentity`|读取的物理文件身份|稳定性与发布验证|
+|`artifact`|已转换的 Session artifact|当前编码及检查|
+|`publish()`|共享一次成功或失败的发布|successor generation|
+
+prepare 与 publish 分开，编码、校验和排他发布属于后者。write open 在所有权内使用权威材料，失败仍释放 claim 和 lease。
+
 
 ```typescript
 const generations: Array<{ readonly path: string; readonly version: number }> = []
@@ -495,9 +594,6 @@ try {
 
 保留前代文件有助审计和恢复，但降级程序是否支持新日志、新事件与新 consumer 必须单独验证。滚回代码包与安全降级状态不是同一件事。
 
-![图4：部署失败时恢复范围](assets/16-deployment-evolution-04.png)
-
-图4：部署报告应说明恢复对象与未覆盖边界。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 文档、类型与实现需要一起核对
 
@@ -508,6 +604,9 @@ try {
 测试也应跟随受影响义务选择：入口变化检查真实启动，状态类型变化检查旧日志，provider 生命周期变化检查取消与释放。旧提交的成功日志不能作为新提交运行通过的证据。
 
 ### 第六步：从公共声明追到真正执行入口
+
+兼容研究还要回到公共声明的 consumer。以 export 为例，实际入口在独立 command/Host route，接口与调用方共同决定能力，旧文档名称不能代替执行证据。
+
 
 ```typescript
 export function apply(ctx: Context, config: Config = {}): void {
@@ -544,13 +643,22 @@ export function apply(ctx: Context, config: Config = {}): void {
 
 ## 有序退出是部署能力的一部分
 
-CLI 使用 memoized cleanup 清理 root Fiber 与代理；SDK shutdown 先写响应并 flush transport，再 dispose root 和退出，并清理自己创建的 Agent。provider 停止可能带动依赖消费者卸载，资源释放仍需等待在途工作。[CLI 清理](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L326) [SDK shutdown 顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/server/src/index.ts#L46-L100)
+启动、更新与迁移都定义了进入新状态的条件，最后看退出如何完成旧状态责任。SDK transport 与 Agent owner 的清理有各自 caller，但都要等待下游结束。
+
+CLI 使用 memoized cleanup 清理 root Fiber 与 Proxy；SDK shutdown 先写响应并 flush transport，再 dispose root 和退出，并清理自己创建的 Agent。provider 停止可能带动依赖消费者卸载，资源释放仍需等待在途工作。[CLI 清理](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L326) [SDK shutdown 顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/server/src/index.ts#L46-L100)
 
 立刻杀进程可能留下未结算文本、未知工具结果或临时产物消失，恢复器随后只能依据持久事实修补。滚动升级若要求不丢业务结果，应先定义接纳停止、任务 drain、持久产物保存和恢复准入，再设计切流与退出步骤。
 
 本研究没有执行集群滚动升级、跨版本压测、Python wheel 或多平台发布安装。上述步骤是基于源码义务的部署建议，不能写成已经验证的生产方案。
 
+![图4：部署失败时恢复范围：状态与行动](assets/16-deployment-evolution-04.png)
+
+图4：部署报告应说明恢复对象与未覆盖边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第七步：响应、传输排空和资源释放按顺序结束
+
+最后从 SDK shutdown 追到资源终点：先响应并 flush transport，再 dispose root；Agent owner 内部 cancel、whenIdle、Scope.dispose、handle.close 依次等待。退出完成以后新部署才应接管相应资源。
+
 
 ```typescript
 // Share one exit task so racing shutdown requests cannot dispose the root or
@@ -613,23 +721,21 @@ Agent 清理 cancel、whenIdle、Scope dispose、persistence close。退出必�
 
 Host supervisor 应设置合理的优雅退出期限，并在超过期限时记录未释放资源；强终止后的未知业务效果必须在下次恢复中显式处理。这是部署建议，不是协作式 cancel 自动获得硬停止保证。
 
-## 优势、不足与技术心得
+## 技术心得：让版本演进持续履行运行契约
 
-DSH 的优势是 profile 组合和激活审计有明确入口，配置与模块刷新分开，会话历史格式由静态 catalog 管理，退出也有等待责任。它提供了进一步做版本治理的基础。
+### 将部署状态对应真实等待点
 
-不足是局部恢复不能替代整体事务，临时资源与外部副作用不能靠 HMR 自动迁移，预稳定 API 仍要求集成方维护兼容验证。使用者需要为自己的 provider、业务产物和控制面补部署义务。
+EntryOptions、Fiber、readiness 与 introduced failures 说明候选、生效和可接流量不是同一时刻。我会为升级分别保存候选配置、激活结果与 smoke 证据，让发布判断可以复核。
 
-这一篇也是整套专栏的技术收获：Agent Harness 的成熟度，体现在对状态和执行责任的持续管理。任务怎样接纳，模型看见什么，工具何时产生副作用，取消如何结束，产物怎样保存，以及旧数据怎样被新版本解释，都需要一致的定义和验证。
+### 分别定义代码、实例与数据兼容
 
-每项机制都可以单独实现，真正的架构工作是让它们在同一生命周期中协作。对外承诺应依据具体入口、版本和环境，既不因几个测试通过而扩大，也不因能力尚有边界而否定其适用价值。本文沿用既有配置、HMR、存储与恢复验证，最后将源码、解释和限制一起保留，供后续版本继续复核。
+Reload 管代码替换，Fiber 管运行寿命，PreparedJsonlMigration 管持久格式发布。三条链需要不同回退范围；企业升级可以据此列出哪些注册可恢复、哪些状态要迁移、哪些外部效果要查询或补偿。
 
-### 技术感悟：部署成功是运行契约的一次完整验收
+### 把退出作为下一次启动的前提
 
-启动、readiness、reload 审计、HMR 恢复、格式迁移和退出共同决定系统能否演进。DSH 的优势是这些边界有实际等待、身份与错误收集；局限是预稳定 API、Node internal 依赖和局部恢复不能替代企业发布策略。
+transport flush、whenIdle、Scope dispose 和 handle close 把旧责任逐步交还。滚动部署可沿这些边界停止接纳、排空任务、保存产物，再让新实例接管；具体期限与强终止政策由部署环境安排。
 
-我会为每次升级保存源码 SHA、配置/profile、编译产物、持久格式、兼容测试和回退范围。对成功的定义也分层：候选准备成功、运行树激活成功、任务烟测成功、数据兼容成功，不能只检查命令 exit code。
-
-本次沿固定版本逐代码研究，未更新上游 checkout，也未新增真实线上升级实验。原有入口与迁移验证支持其测试范围，不构成任意版本无损升级或安全降级承诺。
+整套专栏最终收获是一种可复用的研究方法：从定义追到 provider 与 consumer，再看等待、提交、释放和重放。每次升级沿同一条链核对实际变化，便能把源码理解转为持续维护的运行契约。本轮固定原 SHA，未新增线上滚动升级或跨版本实验。
 
 ---
 

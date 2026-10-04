@@ -6,6 +6,9 @@
 
 DeepSeek Harness 将自动续跑、规划状态、敏感操作审批、输入接纳与取消分别实现。本文关注它们怎样决定推进权限，尤其是**已经准备的动作如何在授权变化后失效**。
 
+
+自主性控制在本文分为意图、准入和停止三阶段。plan-mode 接收审阅并保留 pending intent，在 PromptAssembly 中解释选择、在 accepted pre-step 后提交 plan/mode；goal driver 保留自动输入的 revision 与 phase，Host 干预使旧资格失效；Inbox 和 cancel 提供具体接管位置。repeat-tool-reminder 则只影响后续模型 context。下面按这些交接边界说明用户控制如何到达执行。
+
 ## 自主性要沿执行阶段控制
 
 目标 driver 决定 idle 后是否主动发下一轮；规划模式决定接下来遵循的工作政策；审批决定某个敏感工具能否执行；steer、followup 和 cancel 则为外部干预提供不同接纳位置。[自动目标续跑](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L137-L205) [退出规划的用户审阅](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L277-L348) [工具审批](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/interaction/user-approval/src/index.ts#L215-L307) [输入与取消](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L154-L241)
@@ -14,11 +17,15 @@ DeepSeek Harness 将自动续跑、规划状态、敏感操作审批、输入接
 
 设计产品时，应该给用户说明“当前允许继续什么”，而不是只显示自动或手动。自动推进的权限、计划批准和资源写入授权分开，才容易解释拒绝和接管。
 
-![自主性控制与人工干预的机制图](assets/10-autonomy.png)
 
-图1：规划退出的状态提交。
+![图1：Plan intent 如何成为模式事实](assets/10-autonomy.png)
+
+图1：选择、提示组装与事实提交分别发生。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：先区分持续目标、模式与一次行动
+
+先看 driver 生命周期与 Inbox 接纳：持久目标、进程内自动资格和待处理输入各有状态。后面的计划审阅、Host pause 与 steer 分别消费这些对象。
+
 
 ```typescript
 ctx.on('agent/error', ({ agent }) => {
@@ -66,11 +73,10 @@ inject(input: UserMessage): void {
 
 followup、steer、inject 接纳到不同 inbox 位置；取消窗口里新消息可设置 wakingAfterAbort。自主性的控制分布在驱动、准入、请求、工具、停止等接缝，单个“自主开关”难以准确表达它们的影响范围。
 
-![图2：计划批准后的模式切换](assets/10-autonomy-02.png)
-
-图2：审阅批准与模式事实提交是两个时刻。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 计划批准为什么不立即写最终状态
+
+控制对象已区分，先进入计划审阅路径。exit_plan_mode 在当前工具 batch 中得到选择，把它交给 pendingIntents，而不立即改变整个 batch 的政策。
 
 exit_plan_mode 先读取并检查计划文件，准备用户审阅请求，等待 answerer。它要求符合约束的批准结果，不接受随意一条自由回复作为肯定。下面片段体现了精确选择条件。
 
@@ -96,7 +102,29 @@ return { approved: true }
 
 pending intent 意味着“选择已经形成，尚待合适执行边界提交”。它让当前工具 batch 保留原规划政策，避免批准工具后，同一批后续操作无声地跨入新模式。
 
+![图2：pending intent 到 plan/mode](assets/10-autonomy-02.png)
+
+图2：选择、组装与已确认事实由不同 consumer 处理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第二步：审阅发生在工具批次里，切换留给安全边界
+
+exit_plan_mode.execute() 读取计划并 await 问题服务。严格批准结果只写 pendingIntents；下一步会看到 prompt 与 pre-step 如何消费这一意图。
+
+审阅后的进程内意图保存为 WeakMap：
+
+```typescript
+private readonly pendingIntents = new WeakMap<Session, { active: boolean; narrate: boolean }>()
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:186–186`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L186-L186)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`Session` key|意图所属会话对象|prompt 与 boundary 共同查找|
+|`active` / `narrate`|目标模式与是否添加叙述消息|组装政策和 accepted 提交|
+
+这份状态不是日志 projection；accepted boundary 才生成 plan/mode。Session key 让选择归属于明确实例，而非共享的全局模式开关。
+
 
 ```typescript
 execute: async (args, exec) => {
@@ -169,6 +197,8 @@ if (disposed) {
 
 ## 准入成功之后，再提交模式事实
 
+审阅产生的 pending intent 由两个 consumer 使用：prompt 回调用于准备输入，pre-step listener 用于提交已接受事实。下面结合 Loop caller 解释二者的真实先后。
+
 plan-mode 监听 pre-step，先 await next，让下游准入决策完成，然后检查拒绝、signal 和 pending，再调用 onBoundary。
 
 ```typescript
@@ -201,6 +231,34 @@ ctx.on('agent/pre-step', async (
 这里并非矛盾，而是区分临时选择和已确认事实。提示词可以根据待应用意图准备，日志则必须等待接纳条件成立。
 
 ### 第三步：提示组装先读取意图，准入后写事实
+
+审阅结束后，下一次 preStep() 先 assemble，再进入 waterfall。plan:policy 回调读取 pending，accepted listener 才调用 onBoundary() 追加 plan/mode，形成意图到事实的交接。
+
+可重放的模式 fold 使用 PlanUnitState：
+
+```typescript
+export interface PlanUnitState {
+  /** Logged plan mode. */
+  active: boolean
+  /** The selection's target mode; null when no selection is outstanding. */
+  wanted: boolean | null
+  /** The latest plan command awaiting its paired settlement. */
+  running: { commandId: CommandId; wanted: boolean } | null
+  /** Active state recorded by the latest `request/header`, or null. */
+  activeAtLastHeader: boolean | null
+}
+```
+
+[源码：`packages/plan/plan-mode/src/types.ts:27–36`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/types.ts#L27-L36)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`active` / `wanted`|已记录模式与待实现选择|plan/mode 和 command fold|
+|`running`|尚待 command/done 的精确命令|配对结算|
+|`activeAtLastHeader`|最后 request/header 的模式|模式叙述判断|
+
+它与 pendingIntents 的用途不同：前者从事件解释可见状态，后者把 live 选择交给下一准入边界。projection 的 pending 也由自己的日志事实推导。
+
 
 ```typescript
 private async preStep(target: InboxTarget, position: { turn: number; step: number }): Promise<PreparedStep> {
@@ -293,11 +351,10 @@ private onBoundary(session: Session): void {
 
 边界提交同样先 append 再 delete。这里的成功指 Session 接纳，并不直接保证 JSONL 已刷盘；若业务要求持久承诺，还要等待 persistence checkpoint。
 
-![图3：自主权的四个控制位置](assets/10-autonomy-03.png)
-
-图3：自主权需要对象、范围与失效条件。详见本节及相邻源码解读；图示省略其他分支。
 
 ## Host 暂停怎样阻止旧续跑
+
+计划路径已闭合，接下来切到自动目标的接管。goal driver 同样要处理等待中的选择失效，但使用的是目标 revision 与输入 reservation。
 
 目标 driver 为下一轮保留 goalId、revision、round 和 messageId，追踪 queued、claimed、admitted。目标改变或普通用户输入到达时，旧 reservation 可能变 stale。准入 waterfall 前后重查，checkpoint await 后也重查 live Agent 与状态。[驱动器的有效性检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L96-L134) [准入双重校验](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L350-L459)
 
@@ -307,7 +364,36 @@ Host 外部发起 pause 时，driver 根据 currentInitiator 与当前执行状�
 
 自动 activation 与持久 phase 也分开。错误、max-tokens、卸载和恢复可能撤销进程内自动权限，目标仍然可以展示为未完成。这样的保守设计避免把失败恢复直接转成新一轮外部动作。[目标激活与持久状态](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L240-L280)
 
+![图3：自主控制保存什么状态](assets/10-autonomy-03.png)
+
+图3：状态文案应对应真实控制范围。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：暂停需要撤销执行资格，也要防止误伤新 revision
+
+现在切到 goal driver 的 Host pause listener：它使同一 RoundAttempt 取消或 stale，并在 idle 与 pre-step 边界按原 goalId/revision 复核。新 revision 继续保有自己的资格。
+
+自动输入在撤销过程中沿同一 RoundAttempt 流转：
+
+```typescript
+interface RoundAttempt extends RoundIdentity {
+  readonly messageId: MessageId
+  readonly content: ContentBlock[]
+  phase: 'queued' | 'claimed' | 'admitted'
+  cancelled: boolean
+  stale: boolean
+}
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:29–35`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L29-L35)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`messageId` / `content`|准确匹配的输入|claim 与移除|
+|`phase`|queued / claimed / admitted|控制生效的阶段|
+|`cancelled` / `stale`|停止或失去当前资格|await 后再次准入检查|
+
+继承的 goalId、revision 与 round 指向具体要求。Host pause 后立即 resume 时，新 revision 不会被旧 attempt 的收敛逻辑覆盖。
+
 
 ```typescript
 ctx.on('goal/changed', ({ agent, change }) => {
@@ -335,7 +421,7 @@ ctx.on('agent/inbox/inserted', ({ agent, message }) => {
 
 [源码：`packages/goal/goal-round-driver/src/index.ts:286–306`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L286-L306)。
 
-Host pause 且当前 running 时取消 live Turn、保留 inbox；当前 Agent 自己发 pause 则正常收尾。普通下一回合输入让竞争标记成立，已排队自动 attempt 变 stale，用户接管不能被旧自动续跑抢占。
+Host pause 且当前 running 时取消 live Turn、保留 inbox；当前 Agent 自己发 pause 则正常收尾。普通下一 Turn 输入让竞争标记成立，已排队自动 attempt 变 stale，用户接管不能被旧自动续跑抢占。
 
 ```typescript
 // Fence the pause to the exact dropped attempt's ref. A resume bumps
@@ -415,6 +501,9 @@ steer 在后续 Step 边界被接纳，followup 排下一 Turn，inject 不单�
 
 ### 第五步：取消、下一 Step 与下一 Turn 分别验收
 
+资格失效以后，Agent.cancel() 决定正在运行的工作和 Inbox 的处理；driver 卸载再等待 whenIdle 与 run。steer/followup 是接纳位置，不能代替已启动操作的停止。
+
+
 ```typescript
 cancel(cause: AgentCancelCause, options: CancelOptions = {}): void {
   if (!options.keepInbox) {
@@ -456,9 +545,6 @@ driver 卸载先 stopping/disarm，把 attempt 标记 stale，必要时 cancel �
 
 产品可以展示“已请求停止”“正在结算”“已停止”；如果只显示已停止而 body 还在运行，用户会错误地开始另一项互斥操作。自主控制必须把这些中间状态纳入协议。
 
-![图4：等待后控制权可能怎样改变](assets/10-autonomy-04.png)
-
-图4：异步等待之后必须复核实际资格。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 提醒属于软干预，不能替代终止策略
 
@@ -468,7 +554,14 @@ repeat-tool-reminder 观察重复调用，向后续上下文补充提醒，不�
 
 这并不贬低软引导。成本低、可解释、允许模型恢复思路的提醒适合低风险探索；敏感操作则应由可执行规则兜底。两种方式可以组合，但要清楚它们提供不同强度的保证。
 
+![图4：等待后控制权可能怎样改变：状态与行动](assets/10-autonomy-04.png)
+
+图4：异步等待之后必须复核实际资格。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第六步：重复检测改变上下文，不改变执行资格
+
+最后切到软干预的 post-execute listener。repeat-tool-reminder 根据执行后的 key 更新计数，再将 notice 放入 additionalContexts；返回链仍委派，不改变 body 的准入。
+
 
 ```typescript
 function observe(exec: ToolExecution): UserMessage | undefined {
@@ -524,23 +617,21 @@ ctx.on('agent/pre-step', ({ agent, messages }, next): Promise<PreStepDecision> =
 
 提醒适合促使模型换策略，硬额度与高风险授权必须由确定性规则控制。把软提示当硬治理，会让守规矩的模型表现良好，却没有建立系统不变量。
 
-## 优势、不足与技术心得
+## 技术心得：把自主性接到可撤销的控制边界
 
-DSH 将自主性控制分布到真实执行边界，模式意图延迟提交，续跑授权使用 revision 和生命周期校验，人工接管有明确 API。这些机制适合持续任务与插件组合。
+### 把选择与提交分别展示
 
-不足是上层产品需要把多种状态组织成清楚的用户体验；规划、目标、审批和取消若各自只展示一段文案，用户很难理解当前到底拥有什么权限。模型仍可能不遵循软提醒，provider 也可能不能立即停止，框架并未消除这些限制。
+pendingIntents 与 PlanUnitState 说明了“已选择”和“已生效”的差别。产品可以据此显示待应用政策，并在 plan/mode 事实到达后确认切换，让界面状态对应实际接纳边界。
 
-我的技术心得是：自主性应被设计为可撤销的执行权。授权取得、等待期间的复核、具体动作准入和权限撤销，都需要记录；只在任务开始时检查一次，无法覆盖长任务中的状态变化。
+### 为持续行动定义失效条件
 
-V08 目标权限与 driver 测试、V10 规划 66 项验证受控来源、批准和接纳边界。完整人机界面与真实模型长期服从性未运行。后续预算篇会继续讨论：即使推进权限正确，如何使资源消耗可预测。
+RoundAttempt 的 revision、phase 和 stale 连接自动输入的一生。我会用这些字段审查新自主策略：授权针对哪份工作，哪个等待可能使它失效，返回后在哪里复核，以及如何给用户输入让路。
 
-### 技术感悟：自主权应是一份有失效条件的授权
+### 将接管按钮接到控制 API
 
-goalRef、revision、pending intent 和双重 validReservation 都在表达同一原则：控制指令必须有来源、范围、提交点和失效条件。自主权不是持久状态中的一个布尔值，也不是模型说“我会继续”。
+steer、followup、cancel 和 keepInbox 各解决一种干预需求；whenIdle 与 run 等待说明停止完成。产品可按这些边界实现补充要求、排下一 Turn、请求停止与停止完成，而把软提醒用于帮助模型调整策略。
 
-这套设计利于保守接管，失败后不悄悄继承旧自动权限；代价是应用必须理解多个中间状态，强制预算、外部效果验收和组织政策仍要补充。技术上我会把每个授权写成“针对什么对象、允许什么阶段、何时失效”，再让 UI 对应真实状态。
-
-原有计划与目标竞争测试支撑特定边界，本次未重新运行 runtime，也不承诺任意第三方插件都遵守同样的生命周期协议。
+持续代码修复需要的自主性，是能够解释当前为何继续、用户怎样改变方向、旧选择何时失效。本文从类型到 caller 的连接给出了实现依据；既有受控验证支持相关路径，本轮不把源码阅读计为新增 runtime 测试。
 
 ---
 

@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1240" viewBox="0 0 1200 1240">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>事件从内存走到 JSONL</title>
-<desc>存储屏障不包办远端业务事务</desc>
+<title>JSONL writer 的批写与屏障</title>
+<desc>接受、批写、屏障和关闭各有完成条件</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">05 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">事件从内存走到 JSONL</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">JSONL writer 的批写与屏障</text>
 <rect x="350" y="190" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="247" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">快照与校验</text>
-<text x="735" y="292" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">seq 分配 / append 防重入</text>
+<text x="735" y="247" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">append(event)</text>
+<text x="735" y="292" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">复制、校验并同步提交 log</text>
 <text x="151" y="257" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Session</text>
 <rect x="272" y="224" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="265" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">1</text>
@@ -15,9 +15,9 @@
 <path d="M300,280 L300,376" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,376 292,362 308,362" fill="#6f8aa5"/>
 <rect x="350" y="342" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="399" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">live writer 缓冲</text>
-<text x="735" y="444" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">事实接纳不等于刷盘</text>
-<text x="151" y="409" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Observer</text>
+<text x="735" y="399" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">enqueueLive</text>
+<text x="735" y="444" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">持久 consumer 复制事件入 buffer</text>
+<text x="151" y="409" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Persistence</text>
 <rect x="272" y="376" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="417" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">2</text>
 <path d="M328,404 L350,404" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -25,8 +25,8 @@
 <path d="M300,432 L300,528" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,528 292,514 308,514" fill="#6f8aa5"/>
 <rect x="350" y="494" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="551" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">串行 drain</text>
-<text x="735" y="596" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">失败批次恢复到队首</text>
+<text x="735" y="551" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">enqueueChain / drain</text>
+<text x="735" y="596" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">live 与显式 append 共享操作链</text>
 <text x="151" y="561" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Handle</text>
 <rect x="272" y="528" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="569" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">3</text>
@@ -35,8 +35,8 @@
 <path d="M300,584 L300,680" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,680 292,666 308,666" fill="#6f8aa5"/>
 <rect x="350" y="646" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="703" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">持有写 lease</text>
-<text x="735" y="748" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">校验连续前缀与尾部</text>
+<text x="735" y="703" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">persistContiguous</text>
+<text x="735" y="748" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">cursor、尾部修补与 materialized 推进</text>
 <text x="151" y="713" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Storage</text>
 <rect x="272" y="680" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="721" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">4</text>
@@ -45,9 +45,9 @@
 <path d="M300,736 L300,832" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,832 292,818 308,818" fill="#6f8aa5"/>
 <rect x="350" y="798" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="855" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">等待 flush</text>
-<text x="735" y="900" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">调用前的持久屏障</text>
-<text x="151" y="865" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Checkpoint</text>
+<text x="735" y="855" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">flush()</text>
+<text x="735" y="900" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">等待前序写入成为持久屏障</text>
+<text x="151" y="865" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Caller</text>
 <rect x="272" y="832" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="873" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">5</text>
 <path d="M328,860 L350,860" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -55,13 +55,13 @@
 <path d="M300,888 L300,984" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,984 292,970 308,970" fill="#6f8aa5"/>
 <rect x="350" y="950" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="1007" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">排空并释放</text>
-<text x="735" y="1052" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">lease 与进程 claim 都要清理</text>
-<text x="151" y="1017" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Close</text>
+<text x="735" y="1007" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">close()</text>
+<text x="735" y="1052" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">排空 buffer / chain，再释放 lease</text>
+<text x="151" y="1017" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Handle</text>
 <rect x="272" y="984" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="1025" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">6</text>
 <path d="M328,1012 L350,1012" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="350,1012 336,1004 336,1020" fill="#6f8aa5"/>
-<text x="600" y="1163" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">存储屏障不包办远端业务事务</text>
+<text x="600" y="1163" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">接受、批写、屏障和关闭各有完成条件</text>
 <text x="600" y="1211" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
 </svg>

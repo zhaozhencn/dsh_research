@@ -4,7 +4,7 @@
     {
       "number": 1,
       "file": "articles/01-task-completion.md",
-      "title": "任务何时才算完成：目标、回合与业务验收",
+      "title": "任务何时才算完成：目标、Turn 与业务验收",
       "concern": "任务定义与完成语义",
       "evidence_ids": [
         "E80",
@@ -23,16 +23,20 @@
         "01-3",
         "01-4",
         "01-5",
+        "01-27",
         "01-6",
         "01-7",
         "01-8",
         "01-9",
+        "01-26",
         "01-10",
         "01-11",
+        "01-25",
         "01-12",
         "01-13",
         "01-14",
         "01-15",
+        "01-24",
         "01-16",
         "01-1",
         "01-2",
@@ -45,7 +49,7 @@
         "01-23"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "596c6f667cdd246788fb1e615d06433b707eefe4a3a53615fd566a1d204745a2",
+      "sha256": "6a9bb78585f5474d4415294ab8637792465bb68557c6ab204c37adf9281e4868",
       "figure_stems": [
         "01-task-completion",
         "01-task-completion-02",
@@ -141,10 +145,13 @@
         "03-4",
         "03-5",
         "03-6",
+        "03-21",
         "03-7",
         "03-8",
         "03-1",
+        "03-20",
         "03-9",
+        "03-19",
         "03-10",
         "03-2",
         "03-11",
@@ -157,7 +164,7 @@
         "03-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "1e974bc0870d0ac55da98c31a3729c2ddd73c65c7c0773102718ba227e65805c",
+      "sha256": "5ec4f679be81f3607534fc297c87eddc55fca64d3fa1acdaeb128ed3c763fd6e",
       "figure_stems": [
         "03-model-adaptation",
         "03-model-adaptation-02",
@@ -188,14 +195,17 @@
       ],
       "snippet_ids": [
         "04-3",
+        "04-20",
         "04-4",
         "04-5",
         "04-6",
         "04-7",
         "04-8",
         "04-1",
+        "04-19",
         "04-9",
         "04-10",
+        "04-18",
         "04-11",
         "04-12",
         "04-13",
@@ -206,7 +216,7 @@
         "04-17"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "09d5add3d68d6b318e53e756a411c1bc49258d13a3ca062808d60426ec263257",
+      "sha256": "968fdbe971a25f193290fb3d6230e41dc9244f519f8eeb67034a8e6e5fb57336",
       "figure_stems": [
         "04-context-engineering",
         "04-context-engineering-02",
@@ -243,6 +253,7 @@
         "05-4",
         "05-5",
         "05-2",
+        "05-21",
         "05-6",
         "05-7",
         "05-8",
@@ -252,6 +263,7 @@
         "05-12",
         "05-13",
         "05-14",
+        "05-20",
         "05-15",
         "05-16",
         "05-17",
@@ -259,7 +271,7 @@
         "05-19"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "16bc9ab0e5e1ed10b5371debc89cf1acbe949e9f863de0f2418cbf6b84d08b40",
+      "sha256": "772989d1722d7068c82d1695ca04a12dd219fb24505410c9c5006fa850b7e77c",
       "figure_stems": [
         "05-state-persistence",
         "05-state-persistence-02",
@@ -294,14 +306,18 @@
         "06-5",
         "06-6",
         "06-1",
+        "06-25",
         "06-7",
         "06-8",
+        "06-24",
         "06-9",
         "06-10",
         "06-11",
         "06-12",
         "06-13",
+        "06-23",
         "06-14",
+        "06-22",
         "06-15",
         "06-16",
         "06-17",
@@ -312,7 +328,7 @@
         "06-21"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "d69eb6bb6edc2effd94256693eb69152f7ba458e64d4e5b84004ab647ab77b3f",
+      "sha256": "34073be46653d506f1130133afc621321e905514047e6eb9cb6044c057b8b702",
       "figure_stems": [
         "06-tool-runtime",
         "06-tool-runtime-02",
@@ -341,6 +357,8 @@
         "07-3",
         "07-4",
         "07-1",
+        "07-18",
+        "07-19",
         "07-5",
         "07-6",
         "07-7",
@@ -351,12 +369,13 @@
         "07-12",
         "07-13",
         "07-2",
+        "07-17",
         "07-14",
         "07-15",
         "07-16"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "03982b9ae8ebb1a583bcc7b19d1f08d03e45e1041e703de466284909ae86a066",
+      "sha256": "06fb9714d6d2bdf67536779342bcac31909bdfa0ab67ae183a768d00257c6c0b",
       "figure_stems": [
         "07-reliability",
         "07-reliability-02",
@@ -380,20 +399,24 @@
         "E143"
       ],
       "snippet_ids": [
+        "08-24",
         "08-3",
         "08-4",
         "08-5",
         "08-6",
         "08-7",
         "08-1",
+        "08-23",
         "08-8",
         "08-9",
         "08-10",
         "08-11",
+        "08-22",
         "08-12",
         "08-13",
         "08-14",
         "08-2",
+        "08-21",
         "08-15",
         "08-16",
         "08-17",
@@ -402,7 +425,7 @@
         "08-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "9c49d8169d4dada6e4d469819324147ae69f99dbc83b6d0851239250fa0f909a",
+      "sha256": "68f885bcd5c8ed09e35e944c8853891325eb0fc7283a830ed1adc2f1afd4d4e0",
       "figure_stems": [
         "08-concurrency",
         "08-concurrency-02",
@@ -433,10 +456,12 @@
         "E55"
       ],
       "snippet_ids": [
+        "09-21",
         "09-3",
         "09-4",
         "09-5",
         "09-1",
+        "09-20",
         "09-6",
         "09-7",
         "09-2",
@@ -446,6 +471,7 @@
         "09-11",
         "09-12",
         "09-13",
+        "09-19",
         "09-14",
         "09-15",
         "09-16",
@@ -453,7 +479,7 @@
         "09-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "32af27ab13f90e7be4f32b4b9c5188c07f3563c08e05a2e956230919726061f7",
+      "sha256": "36f4f748c6d03805f1f7c51e7ce29379d24f968938b2de1d2a7b74ffbf9730d2",
       "figure_stems": [
         "09-security",
         "09-security-02",
@@ -485,14 +511,17 @@
         "10-3",
         "10-4",
         "10-2",
+        "10-22",
         "10-5",
         "10-6",
         "10-7",
         "10-1",
+        "10-21",
         "10-8",
         "10-9",
         "10-10",
         "10-11",
+        "10-20",
         "10-12",
         "10-13",
         "10-14",
@@ -503,7 +532,7 @@
         "10-19"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "619b80043109ec0e943b5e62aebb1add1a4ea2027c5ecc2c99ab1de0a9387600",
+      "sha256": "c4c1b0c1f676ed6f63f223a146014adbfe3142640d4d86fe772c2c1eb6ecc8b8",
       "figure_stems": [
         "10-autonomy",
         "10-autonomy-02",
@@ -514,7 +543,7 @@
     {
       "number": 11,
       "file": "articles/11-budgets.md",
-      "title": "限制回合数为什么仍可能失控：成本、延迟与预算",
+      "title": "限制 Turn 数为什么仍可能失控：成本、延迟与预算",
       "concern": "成本、延迟与预算",
       "evidence_ids": [
         "E21",
@@ -538,6 +567,7 @@
         "11-3",
         "11-4",
         "11-5",
+        "11-21",
         "11-6",
         "11-7",
         "11-8",
@@ -545,17 +575,19 @@
         "11-10",
         "11-11",
         "11-1",
+        "11-20",
         "11-12",
         "11-13",
         "11-14",
         "11-2",
+        "11-22",
         "11-15",
         "11-16",
         "11-17",
         "11-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "062053f62fc3b197fe727210303c57114ca35e4f0628ae504e5c2fa8ff6c4bd3",
+      "sha256": "82dc6b59e6de16f4a5a601bb0cf75c0f2b905fc2b18785e60de3dc2f6b547be5",
       "figure_stems": [
         "11-budgets",
         "11-budgets-02",
@@ -590,12 +622,15 @@
         "12-4",
         "12-5",
         "12-2",
+        "12-20",
         "12-6",
         "12-7",
         "12-8",
         "12-9",
         "12-10",
         "12-1",
+        "12-18",
+        "12-19",
         "12-11",
         "12-12",
         "12-13",
@@ -605,7 +640,7 @@
         "12-17"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "cdfaf1f277df3efb8acd022009447bcefaa12799b3e7153affc0c9c3dd7c3dfa",
+      "sha256": "1d895a3ad82d7e9947b42a2ff994d44c8a7d60c80bfee5df2fb16ab78464cfeb",
       "figure_stems": [
         "12-observability",
         "12-observability-02",
@@ -639,17 +674,20 @@
         "13-7",
         "13-8",
         "13-2",
+        "13-19",
         "13-9",
         "13-10",
         "13-11",
+        "13-18",
         "13-12",
         "13-13",
+        "13-17",
         "13-14",
         "13-15",
         "13-16"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "67900dad9f073f3371217c383593a6d01033083ff4fc210b312c86c2ead60d20",
+      "sha256": "7d7649c70c443774a6e97637d25c63ff7885fa262a81ca172505dea341a32780",
       "figure_stems": [
         "13-evaluation",
         "13-evaluation-02",
@@ -688,20 +726,23 @@
         "14-6",
         "14-7",
         "14-8",
+        "14-21",
         "14-9",
         "14-10",
         "14-11",
         "14-2",
+        "14-20",
         "14-12",
         "14-13",
         "14-14",
         "14-15",
         "14-16",
+        "14-19",
         "14-17",
         "14-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "fd48a228947a66c4a5bb144d45fff0515e2b986b084e68dd80992a00e2f0a428",
+      "sha256": "166e43030e9a7312942a89f94be652e4832649ee98d055c48afdf75a2ab9fff3",
       "figure_stems": [
         "14-plugin-lifecycle",
         "14-plugin-lifecycle-02",
@@ -729,9 +770,11 @@
       ],
       "snippet_ids": [
         "15-2",
+        "15-24",
         "15-4",
         "15-5",
         "15-6",
+        "15-23",
         "15-7",
         "15-8",
         "15-9",
@@ -741,16 +784,18 @@
         "15-12",
         "15-13",
         "15-14",
+        "15-22",
         "15-15",
         "15-16",
         "15-17",
         "15-18",
         "15-3",
+        "15-21",
         "15-19",
         "15-20"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "d608c39ae846e462f687961b0b6a68db5375321d29e8d7cce6efd808b3941662",
+      "sha256": "93a1ef5858ef7dadb634e169db84d170583991cccae038dcea1c12df83d76819",
       "figure_stems": [
         "15-interaction-deliverables",
         "15-interaction-deliverables-02",
@@ -788,14 +833,17 @@
         "16-4",
         "16-5",
         "16-2",
+        "16-21",
         "16-6",
         "16-7",
+        "16-20",
         "16-8",
         "16-9",
         "16-10",
         "16-11",
         "16-1",
         "16-12",
+        "16-19",
         "16-13",
         "16-14",
         "16-15",
@@ -804,7 +852,7 @@
         "16-18"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "dd4f2cfc0d14de243705c87a98021ebed4ec4f3e89e292b408abbf695846336f",
+      "sha256": "0ad0e46cc438b88d2e2dfe26336f1aa6f459ec52e69c2ebc325e81163c0dd497",
       "figure_stems": [
         "16-deployment-evolution",
         "16-deployment-evolution-02",
@@ -3372,6 +3420,390 @@
       "raw": "  // Started slots retain their `tool/call` seq so the result can cite it.\n  const callSeqs: Array<SessionSeq | undefined> = group.map(() => undefined)\n  let nextToStart = 0\n  let committed = 0\n  let started = 0\n  let aborted: boolean = signal.aborted\n  let concluded = false\n  let schedulerFailure: { error: unknown } | undefined\n  const throwSchedulerFailure = (): void => {",
       "code": "// Started slots retain their `tool/call` seq so the result can cite it.\nconst callSeqs: Array<SessionSeq | undefined> = group.map(() => undefined)\nlet nextToStart = 0\nlet committed = 0\nlet started = 0\nlet aborted: boolean = signal.aborted\nlet concluded = false\nlet schedulerFailure: { error: unknown } | undefined\nconst throwSchedulerFailure = (): void => {",
       "sha256": "fa354966c000ea73f4cc6e4529e30cbde9e16ff26b6d9acbdf3c60ce899ef0bc"
+    },
+    "01-24": {
+      "path": "packages/goal/goal/src/types.ts",
+      "start": 90,
+      "end": 99,
+      "raw": "export interface GoalView extends GoalSnapshot {\n  /** Highest admitted round number for this goal. */\n  readonly roundsStarted: number\n  /** Epoch milliseconds of the create mutation. */\n  readonly createdAt: number\n  /** Epoch milliseconds of the latest mutation. */\n  readonly updatedAt: number\n  /** Process-local continuation eligibility; never persisted. */\n  readonly activation: GoalActivation\n}",
+      "code": "export interface GoalView extends GoalSnapshot {\n  /** Highest admitted round number for this goal. */\n  readonly roundsStarted: number\n  /** Epoch milliseconds of the create mutation. */\n  readonly createdAt: number\n  /** Epoch milliseconds of the latest mutation. */\n  readonly updatedAt: number\n  /** Process-local continuation eligibility; never persisted. */\n  readonly activation: GoalActivation\n}",
+      "sha256": "36b459519a60c757e666dad3d45566bd3dc76e57a991d4040825087384158690"
+    },
+    "01-25": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 29,
+      "end": 35,
+      "raw": "interface RoundAttempt extends RoundIdentity {\n  readonly messageId: MessageId\n  readonly content: ContentBlock[]\n  phase: 'queued' | 'claimed' | 'admitted'\n  cancelled: boolean\n  stale: boolean\n}",
+      "code": "interface RoundAttempt extends RoundIdentity {\n  readonly messageId: MessageId\n  readonly content: ContentBlock[]\n  phase: 'queued' | 'claimed' | 'admitted'\n  cancelled: boolean\n  stale: boolean\n}",
+      "sha256": "4217e3a6612a740840f4c7d0a25ad49809c65ceaf79e2ff8659ec7b8f6b4d34c"
+    },
+    "01-26": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 38,
+      "end": 46,
+      "raw": "interface DriverState {\n  readonly agent: Agent\n  attempt: RoundAttempt | undefined\n  competingQueued: boolean\n  needsCheckpoint: boolean\n  requested: boolean\n  run: Promise<void> | undefined\n  stopping: boolean\n}",
+      "code": "interface DriverState {\n  readonly agent: Agent\n  attempt: RoundAttempt | undefined\n  competingQueued: boolean\n  needsCheckpoint: boolean\n  requested: boolean\n  run: Promise<void> | undefined\n  stopping: boolean\n}",
+      "sha256": "080531f314cc41fd89316d6a4a0eaa4f1564dd71ee6ddeee9d042929af69e079"
+    },
+    "01-27": {
+      "path": "packages/goal/goal/src/types.ts",
+      "start": 20,
+      "end": 25,
+      "raw": "export interface GoalRef {\n  /** Stable goal identity. */\n  readonly id: GoalId\n  /** Positive revision; every durable mutation increments it. */\n  readonly revision: number\n}",
+      "code": "export interface GoalRef {\n  /** Stable goal identity. */\n  readonly id: GoalId\n  /** Positive revision; every durable mutation increments it. */\n  readonly revision: number\n}",
+      "sha256": "daed4002b84a1a2d6270cdd789c3735087eebef178bf221e25c3645604b5eb80"
+    },
+    "03-19": {
+      "path": "packages/llm/llm/src/call-config.ts",
+      "start": 23,
+      "end": 30,
+      "raw": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}",
+      "code": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}",
+      "sha256": "3ba4b8b646264e7e061193e4a5d2e4912d4207d6e4b989b7c8a5c6ea9137ab45"
+    },
+    "03-20": {
+      "path": "packages/llm/llm/src/index.ts",
+      "start": 169,
+      "end": 192,
+      "raw": "export interface PreparedLlmCall {\n  /** Detached, deep-frozen config with any adapter-owned default materialized. */\n  readonly config: LlmCallConfig\n  /** Immutable retry policy captured with the adapter registration. */\n  readonly retryPolicy: ResolvedRetryPolicy\n  /** Detached context metadata resolved with the registration-bound call. */\n  readonly context?: LlmModelContext\n  /** Exact model modalities captured with the adapter dispatch generation. */\n  readonly inputModalities?: readonly ModelModality[]\n  /** Exact model system prompt update mode captured with the adapter dispatch generation. */\n  readonly systemPromptUpdate?: SystemPromptUpdate\n  /** Exact model tool update mode captured with the adapter dispatch generation. */\n  readonly toolUpdate?: ToolUpdate\n  /** Config fields materialized by the captured adapter rather than proposed by the caller. */\n  readonly adapterDefaults: LlmCallConfigAdapterDefaults\n  /**\n   * Dispatch this call once through the registration captured during\n   * preparation. The request's call-config fields must match {@link config};\n   * reuse or mismatch fails with `INVALID_PREPARED_CALL`.\n   * @param options - fully assembled request carrying the prepared config.\n   * @returns the chunk stream, including the `llm/stream` waterfall.\n   */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "code": "export interface PreparedLlmCall {\n  /** Detached, deep-frozen config with any adapter-owned default materialized. */\n  readonly config: LlmCallConfig\n  /** Immutable retry policy captured with the adapter registration. */\n  readonly retryPolicy: ResolvedRetryPolicy\n  /** Detached context metadata resolved with the registration-bound call. */\n  readonly context?: LlmModelContext\n  /** Exact model modalities captured with the adapter dispatch generation. */\n  readonly inputModalities?: readonly ModelModality[]\n  /** Exact model system prompt update mode captured with the adapter dispatch generation. */\n  readonly systemPromptUpdate?: SystemPromptUpdate\n  /** Exact model tool update mode captured with the adapter dispatch generation. */\n  readonly toolUpdate?: ToolUpdate\n  /** Config fields materialized by the captured adapter rather than proposed by the caller. */\n  readonly adapterDefaults: LlmCallConfigAdapterDefaults\n  /**\n   * Dispatch this call once through the registration captured during\n   * preparation. The request's call-config fields must match {@link config};\n   * reuse or mismatch fails with `INVALID_PREPARED_CALL`.\n   * @param options - fully assembled request carrying the prepared config.\n   * @returns the chunk stream, including the `llm/stream` waterfall.\n   */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "sha256": "3242def8d8a010c0e8743bb397319c8c00632ee0322dbfa58e2d4364c9a7031f"
+    },
+    "03-21": {
+      "path": "packages/llm/llm/src/index.ts",
+      "start": 195,
+      "end": 200,
+      "raw": "export interface PreparedAdapterCall {\n  /** Exact model metadata from the same adapter generation as {@link stream}. */\n  readonly model: LlmResolvedModelInfo\n  /** Dispatch through that generation without re-reading dynamic connection facts. */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "code": "export interface PreparedAdapterCall {\n  /** Exact model metadata from the same adapter generation as {@link stream}. */\n  readonly model: LlmResolvedModelInfo\n  /** Dispatch through that generation without re-reading dynamic connection facts. */\n  stream(options: GenerateOptions): AsyncIterable<StreamChunk>\n}",
+      "sha256": "a5a5e7f91b5bac30f25bbb8e040e4413f00f9dc9ee3bb99b86e3f08d7152bc57"
+    },
+    "04-18": {
+      "path": "packages/compaction/compaction-basic/src/region.ts",
+      "start": 55,
+      "end": 64,
+      "raw": "interface CompactionTransactionOptions {\n  /** `current-turn` derives a numbered owner; `null` writes a standalone bracket. */\n  readonly owner: 'current-turn' | null\n  /** Surface relationship that must survive asynchronous summarization. */\n  readonly stability: 'whole-surface' | 'selected-span'\n  /** Optional durability checkpoint after a successfully closed bracket. */\n  readonly flush?: () => Promise<void>\n  /** Manual command that initiated this transaction, when present. */\n  readonly sourceCommandId?: CommandId\n}",
+      "code": "interface CompactionTransactionOptions {\n  /** `current-turn` derives a numbered owner; `null` writes a standalone bracket. */\n  readonly owner: 'current-turn' | null\n  /** Surface relationship that must survive asynchronous summarization. */\n  readonly stability: 'whole-surface' | 'selected-span'\n  /** Optional durability checkpoint after a successfully closed bracket. */\n  readonly flush?: () => Promise<void>\n  /** Manual command that initiated this transaction, when present. */\n  readonly sourceCommandId?: CommandId\n}",
+      "sha256": "0761e319ca408f7c2328859af5c727799c21648852604124a2484e32b1052452"
+    },
+    "04-19": {
+      "path": "packages/compaction/compaction-basic/src/region.ts",
+      "start": 42,
+      "end": 49,
+      "raw": "interface PreparedCompaction extends SurfaceSelection {\n  readonly measurement: TokenMeasurement\n  readonly selectedNodes: TokenMeasurement['nodes']\n  readonly shadowedTokenCount: number\n  /** Route-priced total of the selected span; the shrink comparison's unit. */\n  readonly shadowedRouteTokenCount: number\n  readonly input: SummarizationInput\n}",
+      "code": "interface PreparedCompaction extends SurfaceSelection {\n  readonly measurement: TokenMeasurement\n  readonly selectedNodes: TokenMeasurement['nodes']\n  readonly shadowedTokenCount: number\n  /** Route-priced total of the selected span; the shrink comparison's unit. */\n  readonly shadowedRouteTokenCount: number\n  readonly input: SummarizationInput\n}",
+      "sha256": "91ffb61c1e966b1566ba27cc6fc9d05a64abcab6b87433fa1f5676ff0e20f9ae"
+    },
+    "04-20": {
+      "path": "packages/core/system-prompt/src/index.ts",
+      "start": 118,
+      "end": 123,
+      "raw": "export interface PromptAssembly {\n  sections: AssembledSection[]\n  contexts: AssembledContext[]\n  tools: ToolSchema[]\n  variables: Record<string, string | undefined>\n}",
+      "code": "export interface PromptAssembly {\n  sections: AssembledSection[]\n  contexts: AssembledContext[]\n  tools: ToolSchema[]\n  variables: Record<string, string | undefined>\n}",
+      "sha256": "0c4a38f70776ab6c1ceaff5f896f8d442233409805d275e496d51a7b4b832626"
+    },
+    "05-20": {
+      "path": "packages/core/session/src/types.ts",
+      "start": 172,
+      "end": 181,
+      "raw": "export interface RestoredSessionOptions {\n  /** Events that are independently owned or already deeply frozen. */\n  readonly seed: SessionEvent[]\n  /** Independently owned storage metadata to validate and freeze in place. */\n  readonly meta: SessionHeader\n  /** Exact number of fork-inherited leading events decoded from storage. */\n  readonly inheritedEventCount: SessionLogOffset\n  /** Aliasing state carried from the operation that produced the seed. */\n  readonly eventState: SessionSeedEventState\n}",
+      "code": "export interface RestoredSessionOptions {\n  /** Events that are independently owned or already deeply frozen. */\n  readonly seed: SessionEvent[]\n  /** Independently owned storage metadata to validate and freeze in place. */\n  readonly meta: SessionHeader\n  /** Exact number of fork-inherited leading events decoded from storage. */\n  readonly inheritedEventCount: SessionLogOffset\n  /** Aliasing state carried from the operation that produced the seed. */\n  readonly eventState: SessionSeedEventState\n}",
+      "sha256": "2e862f32e13eeea57dca6f3c0430e7645e5d5227a4ac1e0b3771bdc50ab9062c"
+    },
+    "05-21": {
+      "path": "packages/session/session-persistence-jsonl/src/storage.ts",
+      "start": 64,
+      "end": 77,
+      "raw": "export interface StorageHandleState {\n  /** The stored next-seq (the logical end this handle knows). */\n  cursor: number\n  /** Whether the session has a durable artifact yet. */\n  materialized: boolean\n  /** Torn-tail truncation point, consumed by the first new append. */\n  tornTruncateTo?: number | undefined\n  /** Complete events recovered from the torn final frame; the first mutation rewrites them durably. */\n  recoveredTail?: SessionEvent[] | undefined\n  /** Exact fork-inherited prefix length stored with the log; `0` when unseeded. */\n  inheritedEventCount: SessionLogOffset\n  /** The validated stored prefix from a write open, served to reads until the first append. */\n  primed?: SessionHandleReadResult | undefined\n}",
+      "code": "export interface StorageHandleState {\n  /** The stored next-seq (the logical end this handle knows). */\n  cursor: number\n  /** Whether the session has a durable artifact yet. */\n  materialized: boolean\n  /** Torn-tail truncation point, consumed by the first new append. */\n  tornTruncateTo?: number | undefined\n  /** Complete events recovered from the torn final frame; the first mutation rewrites them durably. */\n  recoveredTail?: SessionEvent[] | undefined\n  /** Exact fork-inherited prefix length stored with the log; `0` when unseeded. */\n  inheritedEventCount: SessionLogOffset\n  /** The validated stored prefix from a write open, served to reads until the first append. */\n  primed?: SessionHandleReadResult | undefined\n}",
+      "sha256": "133c2cd7f5a6399cf542b3120a298368d934663ee8a20a2780242da832bf471e"
+    },
+    "06-22": {
+      "path": "packages/core/tools/src/index.ts",
+      "start": 607,
+      "end": 611,
+      "raw": "export type PreToolDecision =\n  | { kind: 'allow' }\n  | { kind: 'deny'; reason: string; info?: ToolErrorInfo }\n  | { kind: 'cancel' }\n  | { kind: 'ask'; reason?: string; displayReason?: { readonly en: string; readonly [locale: string]: string } }",
+      "code": "export type PreToolDecision =\n  | { kind: 'allow' }\n  | { kind: 'deny'; reason: string; info?: ToolErrorInfo }\n  | { kind: 'cancel' }\n  | { kind: 'ask'; reason?: string; displayReason?: { readonly en: string; readonly [locale: string]: string } }",
+      "sha256": "2489ace25df8d258a107d3b8416570e319279c061db7b5bd906af09475b6b26d"
+    },
+    "06-23": {
+      "path": "packages/core/tools/src/index.ts",
+      "start": 572,
+      "end": 582,
+      "raw": "export interface ToolExecutionSuccess {\n  readonly isError: false\n  /** Execution-local canonical value; deliberately omitted from durable events. */\n  readonly value: JsonValue\n  readonly content: ContentBlock[]\n  readonly error?: never\n  readonly meta?: JsonValue\n  readonly additionalContexts?: UserMessage[]\n  /** The agent loop stops after committing this successful result batch. */\n  readonly concludesTurn?: true\n}",
+      "code": "export interface ToolExecutionSuccess {\n  readonly isError: false\n  /** Execution-local canonical value; deliberately omitted from durable events. */\n  readonly value: JsonValue\n  readonly content: ContentBlock[]\n  readonly error?: never\n  readonly meta?: JsonValue\n  readonly additionalContexts?: UserMessage[]\n  /** The agent loop stops after committing this successful result batch. */\n  readonly concludesTurn?: true\n}",
+      "sha256": "c573e9ddd6e2703902a2c0fe5c40ad25d452c361b168d7e7dfe6073e41abcde2"
+    },
+    "06-24": {
+      "path": "packages/core/tools/src/index.ts",
+      "start": 445,
+      "end": 449,
+      "raw": "export type ScheduledToolPreparation =\n  | { kind: 'dispatch'; exec: ToolRunContext }\n  | { kind: 'post-result'; exec: ToolRunContext; result: ToolExecutionResult }\n  | { kind: 'final-result'; exec: ToolRunContext; result: ToolExecutionResult }\n",
+      "code": "export type ScheduledToolPreparation =\n  | { kind: 'dispatch'; exec: ToolRunContext }\n  | { kind: 'post-result'; exec: ToolRunContext; result: ToolExecutionResult }\n  | { kind: 'final-result'; exec: ToolRunContext; result: ToolExecutionResult }",
+      "sha256": "48c127dcaf5181b04cca29e785919d1858ff7eebc262b35cfcd77eedc60b22c9"
+    },
+    "06-25": {
+      "path": "packages/core/tools/src/index.ts",
+      "start": 326,
+      "end": 352,
+      "raw": "export interface ToolExecutionInput {\n  readonly callId: ToolCallId\n  /**\n   * Root model-requested call owning this execution tree. Callers omit it for\n   * a root execution; nested dispatchers propagate the enclosing value.\n   */\n  readonly rootCallId?: ToolCallId\n  readonly name: string\n  /** Binding-time tool schema for a PTC inner call; frozen by its producer and never logged. */\n  readonly schema?: ToolSchema\n  /** Losslessly JSON-serializable parsed arguments (tools validate their own schema). */\n  readonly arguments: unknown\n  /** The agent on whose behalf the call runs (set by the agent loop). */\n  readonly agent?: Agent\n  /**\n   * Opaque token of the enclosing transport execution, when one exists. PTC\n   * mode sets this on SDK sub-dispatches so commit-style observers can wait for\n   * the outer `run_code` outcome without receiving its live mutable execution.\n   * The token also marks the call as a transport sub-dispatch rather than a\n   * model-direct call: under `mode: 'ptc'`, only calls WITH a parent may\n   * execute a native tool name — a model-direct call (no parent) is denied as\n   * `UNKNOWN_TOOL` before the policy pipeline. See {@link ToolRuntime.execute}.\n   */\n  readonly parent?: ToolExecutionToken\n  /** Required caller-owned cancellation for this invocation. */\n  readonly signal: AbortSignal\n}",
+      "code": "export interface ToolExecutionInput {\n  readonly callId: ToolCallId\n  /**\n   * Root model-requested call owning this execution tree. Callers omit it for\n   * a root execution; nested dispatchers propagate the enclosing value.\n   */\n  readonly rootCallId?: ToolCallId\n  readonly name: string\n  /** Binding-time tool schema for a PTC inner call; frozen by its producer and never logged. */\n  readonly schema?: ToolSchema\n  /** Losslessly JSON-serializable parsed arguments (tools validate their own schema). */\n  readonly arguments: unknown\n  /** The agent on whose behalf the call runs (set by the agent loop). */\n  readonly agent?: Agent\n  /**\n   * Opaque token of the enclosing transport execution, when one exists. PTC\n   * mode sets this on SDK sub-dispatches so commit-style observers can wait for\n   * the outer `run_code` outcome without receiving its live mutable execution.\n   * The token also marks the call as a transport sub-dispatch rather than a\n   * model-direct call: under `mode: 'ptc'`, only calls WITH a parent may\n   * execute a native tool name — a model-direct call (no parent) is denied as\n   * `UNKNOWN_TOOL` before the policy pipeline. See {@link ToolRuntime.execute}.\n   */\n  readonly parent?: ToolExecutionToken\n  /** Required caller-owned cancellation for this invocation. */\n  readonly signal: AbortSignal\n}",
+      "sha256": "2ba1c19a497ed3de51564e9723da7721e052c9f7595560f107113f9d3c9eab4e"
+    },
+    "07-17": {
+      "path": "packages/core/session/src/repair.ts",
+      "start": 109,
+      "end": 115,
+      "raw": "  /** @param cause - defaults to interrupted live/crash recovery; fork-seed construction supplies its own cause. */\n  constructor(private readonly cause: OpenTurnCloseCause = { kind: 'interrupted' }) {}\n\n  /**\n   * Consume the next committed event; closed steps and turn boundaries discard pending requests.\n   * @param event - the next event from the same Session, in sequence order.\n   */",
+      "code": "/** @param cause - defaults to interrupted live/crash recovery; fork-seed construction supplies its own cause. */\nconstructor(private readonly cause: OpenTurnCloseCause = { kind: 'interrupted' }) {}\n\n/**\n * Consume the next committed event; closed steps and turn boundaries discard pending requests.\n * @param event - the next event from the same Session, in sequence order.\n */",
+      "sha256": "f7289eccd74d0689dba16b7f38d10e79c305c91e7716d7292b53bfdd83f955f8"
+    },
+    "07-18": {
+      "path": "packages/llm/llm-retry/src/index.ts",
+      "start": 104,
+      "end": 107,
+      "raw": "interface RetryStateEntry {\n  retry: number\n  retryId: RetryId\n}",
+      "code": "interface RetryStateEntry {\n  retry: number\n  retryId: RetryId\n}",
+      "sha256": "224995b038a15b3e294cdef2f945868880550c7eb87f13da869c79d3c5f40c66"
+    },
+    "07-19": {
+      "path": "packages/llm/llm-retry/src/types.ts",
+      "start": 43,
+      "end": 48,
+      "raw": "export interface LlmRetryStartedEventData {\n  retryId: RetryId\n  turn: number\n  step: number\n  retry: number\n}",
+      "code": "export interface LlmRetryStartedEventData {\n  retryId: RetryId\n  turn: number\n  step: number\n  retry: number\n}",
+      "sha256": "b8e281a0b6de1811dbe54da6907ca20dc3761cbd40fc25418ab1395cc645766d"
+    },
+    "08-21": {
+      "path": "packages/jobs/jobs-local/src/index.ts",
+      "start": 76,
+      "end": 116,
+      "raw": "interface TrackedJob {\n  id: JobId\n  kind: JobKind\n  label: string\n  outputLimitBytes: number | undefined\n  /** Exact lifecycle owner; session-id authorization is derived from it. */\n  owner: Agent | undefined\n  cancel: (reason?: string) => void\n  status: JobStatus\n  ring: OutputRing\n  /** The model's consuming cursor; {@link JobRegistry.readAt} never moves it. */\n  modelCursor: number\n  /** Whether the first post-settlement read already handed out `result`. */\n  resultDelivered: boolean\n  /** Producer-shared progress line and commit binding. */\n  state: ProducerState\n  /** Terminal reason; a recorded kill reason is merged in at settlement. */\n  detail: string | undefined\n  result: string | undefined\n  startedAt: number\n  finishedAt: number | undefined\n  /** Reason recorded by {@link JobRegistry.kill}, merged into a `killed` settlement's detail. */\n  killReason: string | undefined\n  /** Set once a kill or teardown cancel ran; settlement reports it as the cause. */\n  settleCause: JobSettleCause | undefined\n  /** Resolves once the terminal record is committed and announced. */\n  settled: Promise<void>\n  /** Resolver for {@link settled}, called by the first effective settlement. */\n  markSettled: () => void\n  /** Removable resolvers for live waits; timeout/abort unregister before the job settles. */\n  waitResolvers: Set<() => void>\n  /** The registry-owned pump over the spec's pull sources, when it named any. */\n  pump: PumpHandle | undefined\n  /**\n   * The spill file each pull source reported on its latest read, by source\n   * index; an entry is undefined while that source keeps none. Source\n   * metadata rather than per-chunk metadata, so it survives ring eviction and\n   * follows a source that withdraws its file.\n   */\n  spillPaths: (string | undefined)[]\n}",
+      "code": "interface TrackedJob {\n  id: JobId\n  kind: JobKind\n  label: string\n  outputLimitBytes: number | undefined\n  /** Exact lifecycle owner; session-id authorization is derived from it. */\n  owner: Agent | undefined\n  cancel: (reason?: string) => void\n  status: JobStatus\n  ring: OutputRing\n  /** The model's consuming cursor; {@link JobRegistry.readAt} never moves it. */\n  modelCursor: number\n  /** Whether the first post-settlement read already handed out `result`. */\n  resultDelivered: boolean\n  /** Producer-shared progress line and commit binding. */\n  state: ProducerState\n  /** Terminal reason; a recorded kill reason is merged in at settlement. */\n  detail: string | undefined\n  result: string | undefined\n  startedAt: number\n  finishedAt: number | undefined\n  /** Reason recorded by {@link JobRegistry.kill}, merged into a `killed` settlement's detail. */\n  killReason: string | undefined\n  /** Set once a kill or teardown cancel ran; settlement reports it as the cause. */\n  settleCause: JobSettleCause | undefined\n  /** Resolves once the terminal record is committed and announced. */\n  settled: Promise<void>\n  /** Resolver for {@link settled}, called by the first effective settlement. */\n  markSettled: () => void\n  /** Removable resolvers for live waits; timeout/abort unregister before the job settles. */\n  waitResolvers: Set<() => void>\n  /** The registry-owned pump over the spec's pull sources, when it named any. */\n  pump: PumpHandle | undefined\n  /**\n   * The spill file each pull source reported on its latest read, by source\n   * index; an entry is undefined while that source keeps none. Source\n   * metadata rather than per-chunk metadata, so it survives ring eviction and\n   * follows a source that withdraws its file.\n   */\n  spillPaths: (string | undefined)[]\n}",
+      "sha256": "e1958e250e14afd053e89f51342ef67446bd7c3fd81a303d3af53ca46c31f211"
+    },
+    "08-22": {
+      "path": "packages/jobs/jobs-local/src/index.ts",
+      "start": 68,
+      "end": 73,
+      "raw": "interface ProducerState {\n  /** Live progress line until settlement clears it. */\n  progress: string | undefined\n  /** The committed registry record; undefined exactly during the starter call. */\n  job: TrackedJob | undefined\n}",
+      "code": "interface ProducerState {\n  /** Live progress line until settlement clears it. */\n  progress: string | undefined\n  /** The committed registry record; undefined exactly during the starter call. */\n  job: TrackedJob | undefined\n}",
+      "sha256": "1101753c6c8440369bf0b584e53e757af26b00899279a3440633c7344deeeb21"
+    },
+    "08-23": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 27,
+      "end": 31,
+      "raw": "interface Slot {\n  exec: ToolRunContext\n  result: ToolExecutionResult\n  needsPost: boolean\n}",
+      "code": "interface Slot {\n  exec: ToolRunContext\n  result: ToolExecutionResult\n  needsPost: boolean\n}",
+      "sha256": "5a63dd8890f5fd1f46269d77433f0fb266a1f2887a22caab4fb83262bb93f520"
+    },
+    "08-24": {
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 21,
+      "end": 24,
+      "raw": "interface PlannedCall {\n  block: ToolCallBlock\n  exec: ToolExecutionInput\n}",
+      "code": "interface PlannedCall {\n  block: ToolCallBlock\n  exec: ToolExecutionInput\n}",
+      "sha256": "ef3c7b31f1ff405e39affd620df323cbc0dd6577564a98f1b9c579ee19b4dfba"
+    },
+    "09-19": {
+      "path": "packages/goal/tool-goal/src/authority.ts",
+      "start": 12,
+      "end": 16,
+      "raw": "export interface GoalToolExecution {\n  readonly agent: Agent\n  readonly events: readonly SessionEvent[]\n  readonly openTurnStartSeq: SessionSeq\n}",
+      "code": "export interface GoalToolExecution {\n  readonly agent: Agent\n  readonly events: readonly SessionEvent[]\n  readonly openTurnStartSeq: SessionSeq\n}",
+      "sha256": "421f60034052d4bdcde0b85f3ee7cdb251d72befa9f6f093be8f47a18f4ad6f8"
+    },
+    "09-20": {
+      "path": "packages/interaction/user-approval/src/types.ts",
+      "start": 63,
+      "end": 76,
+      "raw": "export interface ApprovalRequestEvent {\n  /** Agent identity projected to the corresponding Client Context in transit. */\n  readonly agent: Agent\n  /** Tool whose operation requires a decision. */\n  readonly toolName: string\n  /** Exact tool call being decided, when available. */\n  readonly callId?: ToolCallId\n  /** Human-readable reason supplied by the asker. */\n  readonly reason?: string\n  /** Localized presentation only; never persisted in approval audit events. */\n  readonly displayReason?: { readonly en: string; readonly [locale: string]: string }\n  /** Cancellation lifetime of the pending request. */\n  readonly signal?: AbortSignal\n}",
+      "code": "export interface ApprovalRequestEvent {\n  /** Agent identity projected to the corresponding Client Context in transit. */\n  readonly agent: Agent\n  /** Tool whose operation requires a decision. */\n  readonly toolName: string\n  /** Exact tool call being decided, when available. */\n  readonly callId?: ToolCallId\n  /** Human-readable reason supplied by the asker. */\n  readonly reason?: string\n  /** Localized presentation only; never persisted in approval audit events. */\n  readonly displayReason?: { readonly en: string; readonly [locale: string]: string }\n  /** Cancellation lifetime of the pending request. */\n  readonly signal?: AbortSignal\n}",
+      "sha256": "c5010cf648cd52417192fccce4d62ae4e31584fdc27c8b8de04551be4e7b9db9"
+    },
+    "09-21": {
+      "path": "packages/core/tools/src/index.ts",
+      "start": 700,
+      "end": 705,
+      "raw": "export interface ToolRestriction {\n  /** Global tool names that stay visible; everything else is removed. */\n  readonly allow?: readonly string[]\n  /** Global tool names removed from visibility. */\n  readonly deny?: readonly string[]\n}",
+      "code": "export interface ToolRestriction {\n  /** Global tool names that stay visible; everything else is removed. */\n  readonly allow?: readonly string[]\n  /** Global tool names removed from visibility. */\n  readonly deny?: readonly string[]\n}",
+      "sha256": "969753d42747973d054ffd95b067ee2aa4f1e7a7635c6e8ff989beda85a09079"
+    },
+    "10-20": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 29,
+      "end": 35,
+      "raw": "interface RoundAttempt extends RoundIdentity {\n  readonly messageId: MessageId\n  readonly content: ContentBlock[]\n  phase: 'queued' | 'claimed' | 'admitted'\n  cancelled: boolean\n  stale: boolean\n}",
+      "code": "interface RoundAttempt extends RoundIdentity {\n  readonly messageId: MessageId\n  readonly content: ContentBlock[]\n  phase: 'queued' | 'claimed' | 'admitted'\n  cancelled: boolean\n  stale: boolean\n}",
+      "sha256": "4217e3a6612a740840f4c7d0a25ad49809c65ceaf79e2ff8659ec7b8f6b4d34c"
+    },
+    "10-21": {
+      "path": "packages/plan/plan-mode/src/types.ts",
+      "start": 27,
+      "end": 36,
+      "raw": "export interface PlanUnitState {\n  /** Logged plan mode. */\n  active: boolean\n  /** The selection's target mode; null when no selection is outstanding. */\n  wanted: boolean | null\n  /** The latest plan command awaiting its paired settlement. */\n  running: { commandId: CommandId; wanted: boolean } | null\n  /** Active state recorded by the latest `request/header`, or null. */\n  activeAtLastHeader: boolean | null\n}",
+      "code": "export interface PlanUnitState {\n  /** Logged plan mode. */\n  active: boolean\n  /** The selection's target mode; null when no selection is outstanding. */\n  wanted: boolean | null\n  /** The latest plan command awaiting its paired settlement. */\n  running: { commandId: CommandId; wanted: boolean } | null\n  /** Active state recorded by the latest `request/header`, or null. */\n  activeAtLastHeader: boolean | null\n}",
+      "sha256": "12634e389bf83e072ca98d233fb2a09f4e97c28d34f41ad65e97b357ce6323b9"
+    },
+    "11-20": {
+      "path": "packages/llm/token-meter/src/types.ts",
+      "start": 38,
+      "end": 54,
+      "raw": "export interface TokenSurfaceNode {\n  /** Durable sequence number of the surface event. */\n  readonly seq: SessionSeq\n  /**\n   * Request-pressure tokens for the exact message projected by this node under\n   * the measured route: image occurrences carry the route's declared visual\n   * price when the routed adapter declares one, and the fixed heuristic\n   * otherwise. Trigger, retention, and range selection all read this price.\n   */\n  readonly tokens: number\n  /**\n   * Fixed-heuristic tokens for the same message, independent of any route.\n   * The shadow-price protocol prices replacements with this value so the O(1)\n   * projection fold stays in agreement with its own appends.\n   */\n  readonly heuristicTokens: number\n}",
+      "code": "export interface TokenSurfaceNode {\n  /** Durable sequence number of the surface event. */\n  readonly seq: SessionSeq\n  /**\n   * Request-pressure tokens for the exact message projected by this node under\n   * the measured route: image occurrences carry the route's declared visual\n   * price when the routed adapter declares one, and the fixed heuristic\n   * otherwise. Trigger, retention, and range selection all read this price.\n   */\n  readonly tokens: number\n  /**\n   * Fixed-heuristic tokens for the same message, independent of any route.\n   * The shadow-price protocol prices replacements with this value so the O(1)\n   * projection fold stays in agreement with its own appends.\n   */\n  readonly heuristicTokens: number\n}",
+      "sha256": "7e4478b6b62d1237f24d62e7192fe3c7035498c14a954cb510d7439fb53a65e3"
+    },
+    "11-21": {
+      "path": "packages/llm/llm/src/call-config.ts",
+      "start": 23,
+      "end": 30,
+      "raw": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}",
+      "code": "export interface LlmCallConfig {\n  provider: string\n  model: string\n  reasoningEffort?: ReasoningEffortId\n  temperature?: number\n  maxTokens?: number\n  stop?: string[]\n}",
+      "sha256": "3ba4b8b646264e7e061193e4a5d2e4912d4207d6e4b989b7c8a5c6ea9137ab45"
+    },
+    "11-22": {
+      "path": "packages/compaction/compaction-basic/src/types.ts",
+      "start": 75,
+      "end": 80,
+      "raw": "export type ResolvedCompactSpec = Omit<ResolvedTargetPolicy, 'retainRatio' | 'retainTokens' | 'headroomTokens'> & {\n  /** Adapter-declared full window; token budgets below exclude reserved output tokens. */\n  readonly contextWindow: number\n  readonly thresholdTokens: number\n  readonly retainTokens: number\n}",
+      "code": "export type ResolvedCompactSpec = Omit<ResolvedTargetPolicy, 'retainRatio' | 'retainTokens' | 'headroomTokens'> & {\n  /** Adapter-declared full window; token budgets below exclude reserved output tokens. */\n  readonly contextWindow: number\n  readonly thresholdTokens: number\n  readonly retainTokens: number\n}",
+      "sha256": "b4b145077145b283072a0d85e0d694a5d4a3527f88d6d65d5f28675fd7f19383"
+    },
+    "12-18": {
+      "path": "packages/session/session-telemetry/src/index.ts",
+      "start": 65,
+      "end": 91,
+      "raw": "export interface SessionTelemetryRecord {\n  /** Canonical envelope without data; body carries the separately redacted payload. Absent for operational records. */\n  sourceEvent?: { sessionId: SessionId; envelope: Omit<SessionEvent, 'data'> }\n  /** Ledger (session-log mirror) or ops (operational signal) channel; backends keep the two under separate instrumentation scopes. */\n  channel: 'ledger' | 'ops'\n  /** Unix epoch milliseconds — the source event's append time for ledger records, the emission time for ops records. */\n  time: number\n  /** Pre-mapped alerting severity; see {@link SessionTelemetrySeverity}. */\n  severity: SessionTelemetrySeverity\n  /**\n   * Identity attributes, deliberately minimal: ledger records carry\n   * `session.id`, `session.format_version`, `event.type`, `event.seq`, plus optional\n   * `session.cwd` / `session.parent_id`; a seeded Session also carries\n   * `session.seed_length` from its exact inherited event count;\n   * ops records carry `telemetry.op`, `session.id`, and (for `agent-error`)\n   * `agent.id`, `turn`, `step`, `error.name`. Anything recoverable from the\n   * body is intentionally NOT duplicated here.\n   */\n  attributes: Record<string, string | number>\n  /**\n   * The complete payload: a deep copy of the session event's `data` for\n   * ledger records (JSON-serializable by `Session.append`'s own\n   * validation), or the op payload for ops records. Never mutated after\n   * handoff.\n   */\n  body: unknown\n}",
+      "code": "export interface SessionTelemetryRecord {\n  /** Canonical envelope without data; body carries the separately redacted payload. Absent for operational records. */\n  sourceEvent?: { sessionId: SessionId; envelope: Omit<SessionEvent, 'data'> }\n  /** Ledger (session-log mirror) or ops (operational signal) channel; backends keep the two under separate instrumentation scopes. */\n  channel: 'ledger' | 'ops'\n  /** Unix epoch milliseconds — the source event's append time for ledger records, the emission time for ops records. */\n  time: number\n  /** Pre-mapped alerting severity; see {@link SessionTelemetrySeverity}. */\n  severity: SessionTelemetrySeverity\n  /**\n   * Identity attributes, deliberately minimal: ledger records carry\n   * `session.id`, `session.format_version`, `event.type`, `event.seq`, plus optional\n   * `session.cwd` / `session.parent_id`; a seeded Session also carries\n   * `session.seed_length` from its exact inherited event count;\n   * ops records carry `telemetry.op`, `session.id`, and (for `agent-error`)\n   * `agent.id`, `turn`, `step`, `error.name`. Anything recoverable from the\n   * body is intentionally NOT duplicated here.\n   */\n  attributes: Record<string, string | number>\n  /**\n   * The complete payload: a deep copy of the session event's `data` for\n   * ledger records (JSON-serializable by `Session.append`'s own\n   * validation), or the op payload for ops records. Never mutated after\n   * handoff.\n   */\n  body: unknown\n}",
+      "sha256": "2a15df469e5f5a73a02a8a33af1d01beb2d3c62df2d478cf2704e616011ed9ed"
+    },
+    "12-19": {
+      "path": "packages/session/session-telemetry/src/coordinator.ts",
+      "start": 41,
+      "end": 45,
+      "raw": "interface PendingRecord {\n  readonly record: SessionTelemetryRecord\n  /** Ledger cursor advanced only after the backend accepts this record. */\n  readonly seq?: SessionSeqType\n}",
+      "code": "interface PendingRecord {\n  readonly record: SessionTelemetryRecord\n  /** Ledger cursor advanced only after the backend accepts this record. */\n  readonly seq?: SessionSeqType\n}",
+      "sha256": "6a52853405eb784d9e569563f7f1f082fc07bc9f2eb97824b7721ffff8aa2fc4"
+    },
+    "12-20": {
+      "path": "packages/session/session-telemetry/src/coordinator.ts",
+      "start": 33,
+      "end": 38,
+      "raw": "export interface SessionTelemetryCaptureOptions {\n  /** Follow live events, or wait for explicit capture; defaults to live. */\n  capture?: SessionTelemetryCapture\n  /** Include inherited fork history and stored history from earlier lifecycles; defaults to false. */\n  includeHistory?: boolean\n}",
+      "code": "export interface SessionTelemetryCaptureOptions {\n  /** Follow live events, or wait for explicit capture; defaults to live. */\n  capture?: SessionTelemetryCapture\n  /** Include inherited fork history and stored history from earlier lifecycles; defaults to false. */\n  includeHistory?: boolean\n}",
+      "sha256": "b4438a790463c4325f5385e026e432e331e83d40c91e80445af380d6130341b6"
+    },
+    "13-17": {
+      "path": "packages/subagent/subagent/src/types.ts",
+      "start": 271,
+      "end": 297,
+      "raw": "export interface SubagentResult {\n  /**\n   * The child's final assistant output is the content of its last non-empty\n   * assistant message. Empty-content messages, including usage-only messages,\n   * are skipped. Without a non-empty message, the output is its accumulated\n   * assistant text stream, or `[]` when the child produced neither.\n   */\n  readonly output: readonly ContentBlock[]\n  /**\n   * The structured result after a requested `outputSchema` was successfully\n   * satisfied. Requesting a schema does not guarantee presence: a provider can\n   * end with `stopReason: 'error'` when the child fails or finishes without a\n   * valid capture. The structured value is validated against the requested\n   * output schema by the provider; `unknown` here because the seam is\n   * schema-agnostic.\n   */\n  readonly structured?: unknown\n  /**\n   * Provider-authored, non-assistant failure detail for a non-`completed`\n   * result. Providers keep this text free of tool inputs, file contents,\n   * environment values, credentials, and raw protocol payloads, and limit it\n   * to 4096 UTF-8 bytes. Consumers present it separately from {@link output}.\n   */\n  readonly diagnostic?: string\n  /** Why the run ended. A non-`completed` reason means `output` may be partial. */\n  readonly stopReason: SubagentStopReason\n}",
+      "code": "export interface SubagentResult {\n  /**\n   * The child's final assistant output is the content of its last non-empty\n   * assistant message. Empty-content messages, including usage-only messages,\n   * are skipped. Without a non-empty message, the output is its accumulated\n   * assistant text stream, or `[]` when the child produced neither.\n   */\n  readonly output: readonly ContentBlock[]\n  /**\n   * The structured result after a requested `outputSchema` was successfully\n   * satisfied. Requesting a schema does not guarantee presence: a provider can\n   * end with `stopReason: 'error'` when the child fails or finishes without a\n   * valid capture. The structured value is validated against the requested\n   * output schema by the provider; `unknown` here because the seam is\n   * schema-agnostic.\n   */\n  readonly structured?: unknown\n  /**\n   * Provider-authored, non-assistant failure detail for a non-`completed`\n   * result. Providers keep this text free of tool inputs, file contents,\n   * environment values, credentials, and raw protocol payloads, and limit it\n   * to 4096 UTF-8 bytes. Consumers present it separately from {@link output}.\n   */\n  readonly diagnostic?: string\n  /** Why the run ended. A non-`completed` reason means `output` may be partial. */\n  readonly stopReason: SubagentStopReason\n}",
+      "sha256": "72c53f9063611ee6f456b1177be1e9377588c628acb7afc8423a2bc41c2bbd48"
+    },
+    "13-18": {
+      "path": "packages/core/agent/src/runtime-types.ts",
+      "start": 112,
+      "end": 119,
+      "raw": "export type PreStepDecision =\n  | { kind: 'reject' }\n  | {\n    kind: 'enter'\n    messages: UserMessage[]\n    /** Start a distinct model-message series before this step's admitted messages. */\n    startsRequestSeries?: true\n  }",
+      "code": "export type PreStepDecision =\n  | { kind: 'reject' }\n  | {\n    kind: 'enter'\n    messages: UserMessage[]\n    /** Start a distinct model-message series before this step's admitted messages. */\n    startsRequestSeries?: true\n  }",
+      "sha256": "dc33f31c9a8a1e0d2e732c366bf53be44a94b11e8847e8a212a8838682083745"
+    },
+    "14-19": {
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 10,
+      "end": 23,
+      "raw": "export interface EntryOptions {\n  /** Stable id inside the containing entry tree. */\n  id: string\n  /** Module specifier imported by the entry tree. */\n  name: string\n  /** Config passed to the plugin. */\n  config?: any\n  /** Marks this entry as a nested group. */\n  group?: boolean | null\n  /** Prevents this entry and descendants from running. */\n  disabled?: boolean | null\n  /** Required services or service intercept config for this entry. */\n  inject?: Inject | null\n}",
+      "code": "export interface EntryOptions {\n  /** Stable id inside the containing entry tree. */\n  id: string\n  /** Module specifier imported by the entry tree. */\n  name: string\n  /** Config passed to the plugin. */\n  config?: any\n  /** Marks this entry as a nested group. */\n  group?: boolean | null\n  /** Prevents this entry and descendants from running. */\n  disabled?: boolean | null\n  /** Required services or service intercept config for this entry. */\n  inject?: Inject | null\n}",
+      "sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b"
+    },
+    "14-20": {
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 184,
+      "end": 200,
+      "raw": "export class Fiber {\n  /** Unique id within the registry; 0 for the root fiber, `null` once disposed. */\n  public uid: number | null\n  /** The context this fiber's plugin runs in (extends the parent context). */\n  public readonly ctx: Context\n  /** The validated plugin config (updated by `update()`). */\n  public config: any\n  /** The raw plugin config, re-resolved before each activation. */\n  public _config: any\n  /** Current lifecycle state; transitions emit `internal/status`. */\n  public state = FiberState.PENDING\n  /** Dispose this fiber: unload the plugin, then settle once cleanup finished. */\n  public readonly dispose: () => Promise<void>\n  /** Snapshot of required service implementations while loaded; `undefined` otherwise. */\n  public store: Dict<Impl> | undefined\n  /** The in-flight load/unload transition, if one is currently running. */\n  public inertia: Promise<void> | undefined",
+      "code": "export class Fiber {\n  /** Unique id within the registry; 0 for the root fiber, `null` once disposed. */\n  public uid: number | null\n  /** The context this fiber's plugin runs in (extends the parent context). */\n  public readonly ctx: Context\n  /** The validated plugin config (updated by `update()`). */\n  public config: any\n  /** The raw plugin config, re-resolved before each activation. */\n  public _config: any\n  /** Current lifecycle state; transitions emit `internal/status`. */\n  public state = FiberState.PENDING\n  /** Dispose this fiber: unload the plugin, then settle once cleanup finished. */\n  public readonly dispose: () => Promise<void>\n  /** Snapshot of required service implementations while loaded; `undefined` otherwise. */\n  public store: Dict<Impl> | undefined\n  /** The in-flight load/unload transition, if one is currently running. */\n  public inertia: Promise<void> | undefined",
+      "sha256": "94590070c45667bebfa671a5c6a26f42593ae5214e38034dea94ad1538393f38"
+    },
+    "14-21": {
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 83,
+      "end": 93,
+      "raw": "export type Effect<T = any> =\n  | SyncEffect<T>\n  | AsyncEffect<T>\n\ntype SyncEffect<T = any> =\n  | Disposable<T>\n  | Iterable<Disposable<T>, void, void>\n\ntype AsyncEffect<T = any> =\n  | Promise<Disposable<T>>\n  | AsyncIterable<Disposable<T>, void, void>",
+      "code": "export type Effect<T = any> =\n  | SyncEffect<T>\n  | AsyncEffect<T>\n\ntype SyncEffect<T = any> =\n  | Disposable<T>\n  | Iterable<Disposable<T>, void, void>\n\ntype AsyncEffect<T = any> =\n  | Promise<Disposable<T>>\n  | AsyncIterable<Disposable<T>, void, void>",
+      "sha256": "5922a9a182945991ebbc84008775f1777cf50b772b86b79fdc0e86f84214695b"
+    },
+    "15-21": {
+      "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "start": 64,
+      "end": 67,
+      "raw": "interface TurnRecord {\n  summary: WorkspaceChangesSummary\n  sources: FileSources[]\n}",
+      "code": "interface TurnRecord {\n  summary: WorkspaceChangesSummary\n  sources: FileSources[]\n}",
+      "sha256": "1c27387823c01a8ca87aa79a64065ca8b8bec973d3985033ce23bd10abe89ce6"
+    },
+    "15-22": {
+      "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "start": 70,
+      "end": 84,
+      "raw": "interface TurnState {\n  readonly turn: number\n  /**\n   * The turn-start snapshot once it exists. `null` means no repository or no git, so the turn summarizes file-tool\n   * captures only; `'failed'` means the repository exists but its snapshot failed, so the turn records nothing.\n   */\n  baseline: Baseline | null | 'failed'\n  /** Content of each file-tool-mutated path before the turn's first mutation of it, by canonical absolute path. */\n  readonly captures: Map<string, Capture>\n  lastToolResultSeq: number\n  /** Log length when the latest record attempt started; `end()` skips a turn already attempted after its last tool result. */\n  attemptedAfterSeq: number\n  /** Sequence of the latest appended event, or -1. */\n  recordedAfterSeq: number\n}",
+      "code": "interface TurnState {\n  readonly turn: number\n  /**\n   * The turn-start snapshot once it exists. `null` means no repository or no git, so the turn summarizes file-tool\n   * captures only; `'failed'` means the repository exists but its snapshot failed, so the turn records nothing.\n   */\n  baseline: Baseline | null | 'failed'\n  /** Content of each file-tool-mutated path before the turn's first mutation of it, by canonical absolute path. */\n  readonly captures: Map<string, Capture>\n  lastToolResultSeq: number\n  /** Log length when the latest record attempt started; `end()` skips a turn already attempted after its last tool result. */\n  attemptedAfterSeq: number\n  /** Sequence of the latest appended event, or -1. */\n  recordedAfterSeq: number\n}",
+      "sha256": "59b81a967c398b093ac597264edf45e46ae33b79b464a1e4fd1eb248a025db77"
+    },
+    "15-23": {
+      "path": "packages/api/session-controller/src/types.ts",
+      "start": 507,
+      "end": 510,
+      "raw": "export interface SessionAssistantStreamBaseline {\n  readonly revision: number\n  readonly activeAttempt?: SessionAssistantStreamAttempt\n}",
+      "code": "export interface SessionAssistantStreamBaseline {\n  readonly revision: number\n  readonly activeAttempt?: SessionAssistantStreamAttempt\n}",
+      "sha256": "b61c69c971a51b0dd6bd6762d0d83ce7a95ea1fefa5a1316cab36d41d8b5be6b"
+    },
+    "15-24": {
+      "path": "packages/sdk/protocol/src/types.ts",
+      "start": 56,
+      "end": 59,
+      "raw": "export interface SessionPromptResult {\n  /** Identity of the queued user message. */\n  messageId: string\n}",
+      "code": "export interface SessionPromptResult {\n  /** Identity of the queued user message. */\n  messageId: string\n}",
+      "sha256": "e54af69fdeb246e5002dfb18929c23b8b90063b2d52ac48764489353431e402d"
+    },
+    "16-19": {
+      "path": "packages/session/session-persistence-jsonl/src/generation.ts",
+      "start": 122,
+      "end": 127,
+      "raw": "export interface PreparedJsonlMigration {\n  readonly sourceIdentity: JsonlPhysicalIdentity\n  readonly artifact: SessionFormatArtifact\n  /** Encode, verify, and exclusively publish once; every call shares the same success or failure. */\n  publish(): Promise<JsonlPhysicalIdentity>\n}",
+      "code": "export interface PreparedJsonlMigration {\n  readonly sourceIdentity: JsonlPhysicalIdentity\n  readonly artifact: SessionFormatArtifact\n  /** Encode, verify, and exclusively publish once; every call shares the same success or failure. */\n  publish(): Promise<JsonlPhysicalIdentity>\n}",
+      "sha256": "56b07f86f8a6c546c01bb574108f5d1f83d8a67286984bd2b7997d439fbbaccb"
+    },
+    "16-20": {
+      "path": "packages/boot/hmr/src/index.ts",
+      "start": 82,
+      "end": 87,
+      "raw": "export interface Reload {\n  filename: string\n  /** Original namespaces and URLs of all entry modules participating in this runtime replacement. */\n  modules: ReloadModules\n  runtime?: Plugin.Runtime | undefined\n}",
+      "code": "export interface Reload {\n  filename: string\n  /** Original namespaces and URLs of all entry modules participating in this runtime replacement. */\n  modules: ReloadModules\n  runtime?: Plugin.Runtime | undefined\n}",
+      "sha256": "c33eaef4b83050834c1b0b962aaefce8428f04aa71839f7a412a53a0738ba2b7"
+    },
+    "16-21": {
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 10,
+      "end": 23,
+      "raw": "export interface EntryOptions {\n  /** Stable id inside the containing entry tree. */\n  id: string\n  /** Module specifier imported by the entry tree. */\n  name: string\n  /** Config passed to the plugin. */\n  config?: any\n  /** Marks this entry as a nested group. */\n  group?: boolean | null\n  /** Prevents this entry and descendants from running. */\n  disabled?: boolean | null\n  /** Required services or service intercept config for this entry. */\n  inject?: Inject | null\n}",
+      "code": "export interface EntryOptions {\n  /** Stable id inside the containing entry tree. */\n  id: string\n  /** Module specifier imported by the entry tree. */\n  name: string\n  /** Config passed to the plugin. */\n  config?: any\n  /** Marks this entry as a nested group. */\n  group?: boolean | null\n  /** Prevents this entry and descendants from running. */\n  disabled?: boolean | null\n  /** Required services or service intercept config for this entry. */\n  inject?: Inject | null\n}",
+      "sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b"
+    },
+    "10-22": {
+      "path": "packages/plan/plan-mode/src/index.ts",
+      "start": 186,
+      "end": 186,
+      "raw": "  private readonly pendingIntents = new WeakMap<Session, { active: boolean; narrate: boolean }>()",
+      "code": "private readonly pendingIntents = new WeakMap<Session, { active: boolean; narrate: boolean }>()",
+      "sha256": "d388ecea0902233eadcdba70e416ca701f9eaeb9165375c1a0de14df1f5893ce"
+    },
+    "13-19": {
+      "path": "packages/core/agent/src/runtime-types.ts",
+      "start": 128,
+      "end": 161,
+      "raw": "export type AssistantStreamFrame =\n  | {\n    readonly type: 'start'\n    readonly attemptId: LlmAttemptId\n    /** Monotone within one attached Agent lifecycle; replacement restarts at 1. */\n    readonly revision: number\n    readonly turn: number\n    readonly step: number\n  }\n  | {\n    readonly type: 'chunk'\n    readonly attemptId: LlmAttemptId\n    readonly revision: number\n    /** Dense zero-based position within the attempt. */\n    readonly index: number\n    /** Safe-integer timestamp reused by the durable embedded stream. */\n    readonly time: number\n    readonly chunk: StreamChunk\n  }\n  | {\n    readonly type: 'end'\n    readonly attemptId: LlmAttemptId\n    readonly revision: number\n    /** Number of chunk frames emitted by this attempt. */\n    readonly index: number\n    /** Durable settlement committed before this notification, or live abandonment without one. */\n    readonly outcome:\n      | {\n        readonly kind: 'committed'\n        readonly eventType: 'assistant/message' | 'assistant/attempt'\n        readonly seq: SessionSeq\n      }\n      | { readonly kind: 'abandoned' }\n  }",
+      "code": "export type AssistantStreamFrame =\n  | {\n    readonly type: 'start'\n    readonly attemptId: LlmAttemptId\n    /** Monotone within one attached Agent lifecycle; replacement restarts at 1. */\n    readonly revision: number\n    readonly turn: number\n    readonly step: number\n  }\n  | {\n    readonly type: 'chunk'\n    readonly attemptId: LlmAttemptId\n    readonly revision: number\n    /** Dense zero-based position within the attempt. */\n    readonly index: number\n    /** Safe-integer timestamp reused by the durable embedded stream. */\n    readonly time: number\n    readonly chunk: StreamChunk\n  }\n  | {\n    readonly type: 'end'\n    readonly attemptId: LlmAttemptId\n    readonly revision: number\n    /** Number of chunk frames emitted by this attempt. */\n    readonly index: number\n    /** Durable settlement committed before this notification, or live abandonment without one. */\n    readonly outcome:\n      | {\n        readonly kind: 'committed'\n        readonly eventType: 'assistant/message' | 'assistant/attempt'\n        readonly seq: SessionSeq\n      }\n      | { readonly kind: 'abandoned' }\n  }",
+      "sha256": "7b4f0b1eda51c1da34da52786d0ed6d3c17bf2d131fefabab133208305bd36d3"
     }
   },
   "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。",

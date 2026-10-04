@@ -1,24 +1,31 @@
-# 限制回合数为什么仍可能失控：成本、延迟与预算
+# 限制 Turn 数为什么仍可能失控：成本、延迟与预算
 
 > 从源码理解 Agent Harness · 第 11 篇 · 成本、延迟与预算
 
 给 Agent 设置“最多执行三轮”，是否就能保证成本有限、几分钟内结束？如果第一轮不断重试，如果每轮都要摘要历史，如果子任务再调用模型，三轮这个数字便很难说明真正消耗了什么。
 
-DeepSeek Harness 有输出额度、目标回合数、重试策略、压缩次数和并发配额。它们各自有用，但约束对象不同。本文从资源消耗的实际层级出发，解释**为什么多个局部上限不会自动组成任务级预算**。
+DeepSeek Harness 有输出额度、Goal round 数、重试策略、压缩次数和并发配额。它们各自有用，但约束对象不同。本文从资源消耗的实际层级出发，解释**为什么多个局部上限不会自动组成任务级预算**。
+
+
+本文先画出消耗入口，再沿配置、准入、测量和恢复解释局部上限。主 Loop 的 attempt、压缩 summarizer 和 child driver 分别派发模型请求；LlmCallConfig 控制单次生成，goal/retry 控制各自计数，TokenMeasurement 控制上下文压力。统一任务账本最后作为扩展方案提出，明确与上述源码事实分开。这样每个数字都能对应计量对象与拦截位置。
 
 ## 一个任务可能产生多类调用
 
-Turn 中有 Step，Step 中有 attempt，工具结果可能使 Loop 继续下一 Step；child Agent 有自己的请求，压缩摘要也通过独立 LLM stream 调用。单看主 Agent 的回合数，无法覆盖全部模型使用。[步骤中的请求尝试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L398-L544) [独立摘要调用](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L120-L180) [子 Agent 的执行](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L158-L207)
+Turn 中有 Step，Step 中有 attempt，工具结果可能使 Loop 继续下一 Step；child Agent 有自己的请求，压缩摘要也通过独立 LLM stream 调用。单看主 Agent 的 Turn 数，无法覆盖全部模型使用。[步骤中的请求尝试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L398-L544) [独立摘要调用](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L120-L180) [子 Agent 的执行](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L158-L207)
 
-例如“修复缺陷并通过测试”启动一次自动回合，先读文件，再改代码，再分析失败测试；请求重试和上下文摘要可能发生在这些步骤之间。最终只增加一轮目标计数，模型请求却已经不止一次。
+例如“修复缺陷并通过测试”启动一次自动 Turn，先读文件，再改代码，再分析失败测试；请求重试和上下文摘要可能发生在这些步骤之间。最终只增加一轮目标计数，模型请求却已经不止一次。
 
-![成本、延迟与预算的机制图](assets/11-budgets.png)
-
-图1：上限约束不同执行对象。
 
 这张图列的是现有局部控制及其范围，统一任务预算是应用需要另行设计的能力。把图上的几个配置名称汇总成一个界面面板，不会改变它们在代码里的作用域。
 
+![图1：Budget 字段的单位与作用域](assets/11-budgets.png)
+
+图1：任务账本需连接完整调用树；正文将其列为扩展。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
+
 ### 第一步：从调用树找出所有消费入口
+
+先沿三个 caller 找出消费入口：主 Step 的 retry while、summarizeWithLlm() 的直接 stream、child.followup() 启动的独立 driver。它们共享 LLM 服务，却没有共同的 round 计数。
+
 
 ```typescript
 private async step(decision: Extract<PreparedStep, { kind: 'enter' }>): Promise<StepEndReason | null> {
@@ -53,7 +60,7 @@ private async step(decision: Extract<PreparedStep, { kind: 'enter' }>): Promise<
 
 [源码：`packages/core/agent-loop/src/agent.ts:398–425`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L398-L425)。
 
-同 Step 的 while 每次重新 prepareRequest，attempt 不是新 round。firstAttempt 只控制输入消息的首次提交，不阻止重试派发。因此目标回合数、Step 数与供应商请求数不能共用一个计数器。
+同 Step 的 while 每次重新 prepareRequest，attempt 不是新 round。firstAttempt 只控制输入消息的首次提交，不阻止重试派发。因此Goal round 数、Step 数与供应商请求数不能共用一个计数器。
 
 ```typescript
 const options: GenerateOptions = {
@@ -97,19 +104,48 @@ const result: Promise<SubagentResult> = (async () => {
 
 child.followup 与 whenIdle 启动另一个 Agent 执行链。若只统计父 Session 的 assistant/message，子调用可能缺失；业务账本需要明确父子关系和任务范围，不能把父响应一次当作一次模型调用。
 
-![图2：任务成本从调用树归集](assets/11-budgets-02.png)
-
-图2：企业总预算是扩展建议，不是默认全局账本。详见本节及相邻源码解读；图示省略其他分支。
 
 ## maxTokens 限制的是本次输出
 
+调用树已列出，接下来以其中一个 request 为单位检查参数。resolveCallWithInfo() 消费实际模型能力，prepareCall() 将解析结果交给本次 stream。
+
 精确模型路由解析可以补默认 maxTokens，也校验 reasoning effort。请求参数的输出上限有助于控制单次生成，但输入历史、其他 attempt、摘要和 child 调用并不因此停止消耗。[模型默认额度与能力解析](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L885-L918)
 
-max-tokens finish 也不是普通成功：Turn 会保留截断停止信息，摘要器则拒绝把截断摘要当作完整 checkpoint。主回答或摘要被截断，后续可能需要恢复，反而增加额外调用。[回合中的截断结果](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L296-L395) [摘要截断拒绝](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L196-L209)
+max-tokens finish 也不是普通成功：Turn 会保留截断停止信息，摘要器则拒绝把截断摘要当作完整 checkpoint。主回答或摘要被截断，后续可能需要恢复，反而增加额外调用。[Turn中的截断结果](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L296-L395) [摘要截断拒绝](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L196-L209)
 
 因此输出额度需要与任务类型匹配。无限增大可能增加单次消耗，过小又可能导致反复修复。源码规定的是控制位置，适合某类任务的额度仍需根据实际输入与完成质量评测。
 
+![图2：任务消耗沿调用目的归集](assets/11-budgets-02.png)
+
+图2：图示成本关联；统一账本在正文中作为扩展建议。三种模型消费路径分别核算，成本关联不表示三条顺序调用。
+
 ### 第二步：默认值在路由解析时补入
+
+对于任一实际调用，prepareCall() 先解析 provider/model 能力，再补缺省 maxTokens。本文用主请求说明该交接，摘要与 child 的消费量仍分别结算。
+
+一次实际生成的配置字段如下：
+
+```typescript
+export interface LlmCallConfig {
+  provider: string
+  model: string
+  reasoningEffort?: ReasoningEffortId
+  temperature?: number
+  maxTokens?: number
+  stop?: string[]
+}
+```
+
+[源码：`packages/llm/llm/src/call-config.ts:23–30`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/call-config.ts#L23-L30)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`provider` / `model`|实际调用路由|能力解析与计价来源|
+|`maxTokens` / `reasoningEffort`|单次生成限制|request 与模型校验|
+|`temperature` / `stop`|生成控制|调用配置比较|
+
+maxTokens 只属于这份调用，任务账本仍需要收集其他 request。provider/model 是测量和成本来源的关联键。
+
 
 ```typescript
 const defaulted = config.maxTokens === undefined && info.defaultMaxTokens !== undefined
@@ -190,15 +226,18 @@ function finishError(finish: FinishReason): Error | undefined {
 
 ## 目标额度不限制同一 Step 的重试
 
-maxGoalRounds 在目标准入和 user/message fold 中限制已接纳的自动回合。被拒绝的排队消息不计，已经进入某一回合的多个步骤与请求尝试也不各算新 round。[目标回合计数](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/fold.ts#L313-L331)
+maxGoalRounds 在目标准入和 user/message fold 中限制已接纳的自动 Turn。被拒绝的排队消息不计，已经进入某一 Turn 的多个步骤与请求尝试也不各算新 round。[目标Turn计数](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/fold.ts#L313-L331)
 
 normal retry 检查 maxRetries，但 always 不使用这项次数上限；maxDelayMs 只控制一次退避时长。一个请求可以一直停留在同一 Step，等待和重试，目标计数保持不变。[重试次数与延迟策略](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L188-L259)
 
-这不是配置名称写错，而是额度对象不同。目标额度防止自动回合无限推进，重试策略处理请求恢复；如果任务要求总时长或总调用数有限，还需要覆盖这两层的共同截止条件。
+这不是配置名称写错，而是额度对象不同。目标额度防止自动 Turn 无限推进，重试策略处理请求恢复；如果任务要求总时长或总调用数有限，还需要覆盖这两层的共同截止条件。
 
 工具 timeout 也只约束被包装的执行过程，协作式取消可能继续等待底层静止。超时配置不能直接等同于“任务必定在这个秒数内返回并释放全部资源”。[工具 deadline 与等待](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/timeout-policy/src/index.ts#L55-L81)
 
 ### 第三步：找到扣账事件，才能知道额度限制什么
+
+随后回到次数控制：goal fold 在已接纳 user/message 后推进 round，retry listener 则读取当前 Step 的 previousRetry；timeout 控制工具 signal。三种政策并列，彼此不代扣。
+
 
 ```typescript
 if (event.type === 'user/message') {
@@ -279,11 +318,10 @@ export function apply(ctx: Context): void {
 
 deadline 等下游协作结束后才返回。timeoutMs 是发出超时取消的政策，不是从按钮到全部资源释放的最大墙钟时间；不协作工具可能继续占用容量。
 
-![图3：四种上限的实际作用域](assets/11-budgets-03.png)
-
-图3：字段必须说明单位、范围与扣减时刻。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 输入测量与供应商用量不能混为账单
+
+次数与时间政策已经说明，下一步看它们应消费哪种量。TokenMeter 用于请求压力，TokenUsage 来自一次实际调用；从数据结构开始区分这两种口径。
 
 token meter 估算请求视图压力，用于决定是否压缩。供应商返回的 TokenUsage 则描述一次实际模型调用的计数，输入与缓存字段明确互斥。
 
@@ -321,7 +359,46 @@ inputTokens 是未缓存输入，cacheReadTokens 和 cacheWriteTokens 分别计�
 
 摘要有自己的 usage。仅聚合主 Loop 的正常 assistant 输出，会漏掉摘要或其他调用；只统计成功请求，也可能漏掉供应商对失败或部分输出的实际计量。系统需要明确数据缺失时是估计还是未知，而不是填零来获得漂亮总数。
 
+![图3：Budget 上限对应哪个 consumer](assets/11-budgets-03.png)
+
+图3：字段同时说明单位、范围和扣减事实。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：TokenMeter 给出请求压力估计，并保留口径
+
+接下来进入请求压力测量。TokenMeter 读取同路由 anchor 与 surface，交出 measurement；供应商 usage 的归一化是另一输入路径，只有可靠数据才可用于核算。
+
+measurement.nodes 为每个视图节点保留两种 token 口径：
+
+```typescript
+export interface TokenSurfaceNode {
+  /** Durable sequence number of the surface event. */
+  readonly seq: SessionSeq
+  /**
+   * Request-pressure tokens for the exact message projected by this node under
+   * the measured route: image occurrences carry the route's declared visual
+   * price when the routed adapter declares one, and the fixed heuristic
+   * otherwise. Trigger, retention, and range selection all read this price.
+   */
+  readonly tokens: number
+  /**
+   * Fixed-heuristic tokens for the same message, independent of any route.
+   * The shadow-price protocol prices replacements with this value so the O(1)
+   * projection fold stays in agreement with its own appends.
+   */
+  readonly heuristicTokens: number
+}
+```
+
+[源码：`packages/llm/token-meter/src/types.ts:38–54`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/token-meter/src/types.ts#L38-L54)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`seq`|durable 事件身份|选区与测量匹配|
+|`tokens`|当前 route 的请求价格|阈值与保留范围|
+|`heuristicTokens`|与 route 独立的估计|replacement shadow-price fold|
+
+换 route 会改变前一种价格；后一种保证 replacement 的投影与自身追加协议一致。二者都不是金额，usage 与供应商计费另行核对。
+
 
 ```typescript
 if (anchor !== undefined && optionalHeaderEquals(anchor.header, header)) {
@@ -410,6 +487,8 @@ usage 归一化拒绝非法计数及 reasoning 大于 output；缺失 total 时�
 
 ## 预留输出空间也是预算设计
 
+测量结果交给 compaction policy 后，窗口容量需要转换成可用输入与保留预算。下面沿 resolveCompactSpec() 到 prune／重测，说明为何阈值要扣除预留。
+
 compaction-basic 在压力路径解析模型窗口，结合输出预留生成压缩策略，再检查测量值。
 
 ```typescript
@@ -429,6 +508,30 @@ if (measurement.totalTokens < spec.thresholdTokens) return null
 压缩的结果还影响未来请求：较小视图可能降低后续输入量，也可能因遗漏信息增加恢复工作。评估是否值得，应该比较完整任务的成本与质量，而不是只看一次摘要节省多少 token。
 
 ### 第五步：压力阈值从窗口中扣除输出与安全余量
+
+measurement.totalTokens 交给压缩判断之前，resolveCompactSpec() 从实际窗口和输出预留生成阈值。compactIfNeeded() 用它先 prune、重测，再决定摘要。
+
+窗口解析后的压缩预算是 ResolvedCompactSpec：
+
+```typescript
+export type ResolvedCompactSpec = Omit<ResolvedTargetPolicy, 'retainRatio' | 'retainTokens' | 'headroomTokens'> & {
+  /** Adapter-declared full window; token budgets below exclude reserved output tokens. */
+  readonly contextWindow: number
+  readonly thresholdTokens: number
+  readonly retainTokens: number
+}
+```
+
+[源码：`packages/compaction/compaction-basic/src/types.ts:75–80`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/types.ts#L75-L80)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`contextWindow`|adapter 声明的总窗口|输入容量计算|
+|`thresholdTokens`|具体触发阈值|压力判断|
+|`retainTokens`|具体保留预算|选区|
+
+继承部分还保留目标 route、摘要参数与恢复次数。计算后的三个容量字段交给实际选区，而非让后续代码再次猜比例。
+
 
 ```typescript
 const messageBudgetTokens = contextWindow - reservedCompletionTokens
@@ -510,9 +613,6 @@ for (let attempt = 0; attempt <= spec.compactionRetries; attempt += 1) {
 
 先无模型 prune，重测后才选摘要范围，每轮摘要后再测。它避免一部分额外 LLM 调用，但摘要本身有成本、延迟与信息损失，参数应依据任务结果调优，不能仅追求 token 最少。
 
-![图4：计量与预算的判断出口](assets/11-budgets-04.png)
-
-图4：预留、结算与未知需要不同账本状态。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 延迟来自多种有意等待
 
@@ -523,6 +623,9 @@ for (let attempt = 0; attempt <= spec.compactionRetries; attempt += 1) {
 测量延迟时，应分开记录接纳、准备、派发、首字、结算和清理完成。否则一个慢工具与一次用户等待会被误归为模型慢，优化方向也会偏离真实原因。
 
 ### 第六步：延迟分解要覆盖恢复与结算
+
+现在回到一次恢复等待：llm/retry 与 retry-started 记录等待的两端。它解释请求数未增加时仍会累积延迟，其他 await 也应按自己的执行位置归集。
+
 
 ```typescript
   agent.session.append('llm/retry', eventData)
@@ -545,13 +648,22 @@ retry 先记录计划，再 cancellableDelay，之后记录 retry-started。等�
 
 ## 怎样增加真正的任务级预算
 
+前六节给出消费入口和局部数据契约。下面据此提出任务级账本，预留与结算是企业扩展设计，不是此前多个配置自然组成的运行事实。
+
 若产品需要硬额度，可以建立任务级资源账本，在请求、摘要和 child 准入时预留额度，结算时用可靠 usage 对账；达到条件后撤销自动推进并传播统一取消。还要定义用量未知、预留未结算和迟到结果的处理。这是新增设计建议，源码没有因此已经拥有统一金额控制器。
 
 预留与实际结算必须分开。并发请求若都只检查“现在还有预算”，可能同时通过而超额；取消后费用也可能继续结算。与作业 stopping 计数一样，额度回收应跟随真实生命周期，不能只跟随用户点击。
 
 低风险文本工具未必需要完整账本，配置有限 retry 和合理输出额度可能足够。需要财务或时间承诺的持续 Agent，则应建立覆盖所有调用目的和生命周期的策略。
 
+![图4：计量与预算的判断出口：状态与行动](assets/11-budgets-04.png)
+
+图4：预留、结算与未知需要不同账本状态。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第七步：企业预算采用预留、结算与未知三个状态
+
+最后以此前已找到的 dispatch consumer 为扩展位置，设计 task 级原子预留、usage 结算与未知状态。方案必须覆盖摘要和 child，并与现有局部准入一起工作。
+
 
 这是一项扩展建议，不是固定版本已经提供的全局账本。入口在可信的 LLM/工具 dispatch，依据 taskId、父子关系、route 和目的预留额度；回执到达后按实际 usage 结算；取消或连接丢失但无法证明未执行时，把预留转为未知待核对。
 
@@ -566,15 +678,19 @@ retry 先记录计划，再 cancellableDelay，之后记录 retry-started。等�
 
 ## 技术心得：预算首先是作用域与计量口径
 
-这次分析让我更明确，预算不是几个数字的集合，而是“谁在何时为哪些消耗负责”。回合数、attempt 数、估算 token、实际 usage 和金额都能有价值，但必须明确转换关系与缺失信息。
+### 给每个上限附上单位与消费点
 
-DSH 提供局部控制，优势是位置清楚、容易组合；不足是上层需要补跨调用预算与统一截止。研究没有真实价格测算、p95 延迟或容量压测；既有 retry、compaction 和生命周期测试只支持相关控制机制。下一篇会讨论怎样用事件与遥测观察这些真实执行阶段。
+maxTokens、round、previousRetry 和 deadline 对应不同对象。我的收获是，配置文档应同时写出范围、单位、读取位置和推进事实；使用者便能从源码判断一个数字究竟限制了什么。
 
-### 技术感悟：上限必须写清楚拦在哪里、算什么
+### 保留估计与实际计量的来源
 
-maxTokens、maxGoalRounds、maxRetries 和 maxConcurrentJobs 都有价值，但单位、范围、扣减点完全不同。写配置说明时应把这些内容放在字段旁边，不能让用户从“max”自行推断全局承诺。
+TokenSurfaceNode 的 route 价格、heuristic 价格与供应商 TokenUsage 用途不同。成本实践可以先保存 route、purpose、usage 来源与未知状态，再按明确的价格版本核算，避免压力估计在展示层被误当账单。
 
-DSH 的优势是保留配置与 measurement 来源，局限是这些局部控制没有自动汇总成企业财务政策。成本工程应先把调用树与未知用量表达正确，再做缓存、路由和压缩优化。本次未新增供应商账单对账或真实负载测试，原有测量与截断验证也不等于精确计费。
+### 将预算设计接到完整调用树
+
+主 attempt、摘要和 child 是三个具体消费入口。任务账本可以在它们的可信 dispatch 前原子预留，回执后幂等结算，未知用量保守保留；这是基于正文边界提出的扩展方案。
+
+对持续代码修复，优化应比较完成同一要求的总消耗与质量，再调整输出、retry 和 compaction。调用树与口径先清楚，优化数据才可解释。本轮保留既有测量验证，没有新增价格测算、账单对账或真实负载测试。
 
 ---
 

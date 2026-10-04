@@ -1,20 +1,23 @@
-# 任务何时才算完成：目标、回合与业务验收
+# 任务何时才算完成：目标、Turn 与业务验收
 
 > 从源码理解 Agent Harness · 第 01 篇 · 任务定义与完成语义
 
-让 Agent “修复一个缺陷，并确认回归测试通过”，看起来只有一个完成条件。运行起来之后，却会出现几种不同的结束：模型停止生成，某个工具执行完毕，当前回合正常关闭，清单全部打勾，目标被标为 complete，以及程序确实通过验收。它们发生在不同位置，依据也不同。
+让 Agent “修复一个缺陷，并确认回归测试通过”，看起来只有一个完成条件。运行起来之后，却会出现几种不同的结束：模型停止生成，某个工具执行完毕，当前 Turn 正常关闭，清单全部打勾，目标被标为 complete，以及程序确实通过验收。它们发生在不同位置，依据也不同。
 
 假设模型修改了文件，随后说“修复完成”，但没有执行测试。Loop 可以正常结束，todo 可以全部完成，Goal 也可以被模型标为 complete。我们仍然不能据此认定缺陷已经修复。反过来，测试可能已经通过，模型却还没有更新目标状态，系统于是继续自动运行。问题既涉及执行，也涉及判断：**谁有权宣布完成，宣布的是哪一种完成，运行时凭什么继续或停止？**
 
-本文沿着 DeepSeek Harness（下文简称 DSH）的源码回答这些问题。我们保持同一个例子：修复分页边界错误，验证 `pagination.spec.ts`，最多允许两个自动目标回合。重点追踪 GoalService、goal-round-driver 与 Agent Loop 之间的调用、事件和提交顺序，并把 todo、规划模式及结构化子任务放回各自的职责范围。
+本文沿着 DeepSeek Harness（下文简称 DSH）的源码回答这些问题。我们保持同一个例子：修复分页边界错误，验证 `pagination.spec.ts`，最多允许两个自动 Goal round。重点追踪 GoalService、goal-round-driver 与 Agent Loop 之间的调用、事件和提交顺序，并把 todo、规划模式及结构化子任务放回各自的职责范围。
 
 本文所有代码来自固定提交 `5badb15009ae1756c3afe0ae0cef1faafc290ccc`。代码是仅统一公共缩进的实现选段，前后条件会在正文解释；示例任务和事件演练用于说明机制，并不代表运行过真实模型修复任务。先建立完成语义，再沿一次任务往下读，才能理解那些看似繁琐的身份检查和异步重查为什么存在。
 
+
+本文追踪两条相接的链：Goal 服务用 goal/change 保存任务意图和 revision，goal-round-driver 取得执行资格、预留输入，再由 Agent Loop 接纳为 user/message。随后把 Turn 收束、目标状态、委派结果与业务验收放在各自边界解释。核心是同一份任务身份怎样穿过调度、等待与提交，而不是把某个 completed 字段当作所有层的共同答案。
+
 ## 先把完成拆成四个层次
 
-### 1. 回合正常结束：控制循环已经收束
+### 1. Turn 正常结束：控制循环已经收束
 
-在 DSH 中，一个 Turn 是一次回合，一次回合可以包含多个 Step；一个 Step 内还可能重试模型请求。这三个层级不能互换。模型给出一段没有工具调用的回答，通常意味着当前 Step 可以结束，但不等于整个任务已经验收。
+在 DSH 中，一个 Turn 表示一次由已接纳输入推进的执行周期，可以包含多个 Step；一个 Step 内还可能重试模型请求。这三个层级不能互换。模型给出一段没有工具调用的回答，通常意味着当前 Step 可以结束，但不等于整个任务已经验收。
 
 Loop 的关键判断在 `ReactLoopAgent.step()` 中：
 
@@ -34,19 +37,19 @@ return concluded ? { kind: 'completed' } : null
 
 如果存在工具调用，Loop 先等待 `executeToolCalls()`；传入的回调把工具附加上下文放进 `next-step` 队列。最后一行依据 `concluded` 返回 completed 或 null。null 表示还需要后续 Step；completed 表示当前步骤给出了结束候选。它仍然不是业务正确性的断言。
 
-这也解释了为什么不能只看模型供应商的结束字段：DSH 还会执行工具、消费追加上下文，并在回合停止前调用扩展钩子。`turn()` 检查 `nextStep`、执行 `agent/turn-stopping`，确认没有新的继续输入后才关闭回合；无论正常、阻塞还是错误分支，最终都会尝试追加 `turn/end`。[回合收束与 turn/end 的提交位置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L354-L389)
+这也解释了为什么不能只看模型供应商的结束字段：DSH 还会执行工具、消费追加上下文，并在 Turn 停止前调用扩展钩子。`turn()` 检查 `nextStep`、执行 `agent/turn-stopping`，确认没有新的继续输入后才关闭 Turn；无论正常、阻塞还是错误分支，最终都会尝试追加 `turn/end`。[Turn收束与 turn/end 的提交位置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L354-L389)
 
-还有一个容易漏掉的边界：第一批输入被钩子改写为空时，Loop 可以记录 completed，却根本没有发出模型请求。因此，`turn/end completed` 最准确的解释是“这次回合按运行时规则正常结束”，不能直接翻译为“模型完成了一项有效业务”。[空输入也能正常关闭回合](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L313-L327)
+还有一个容易漏掉的边界：第一批输入被钩子改写为空时，Loop 可以记录 completed，却根本没有发出模型请求。因此，`turn/end completed` 最准确的解释是“这次 Turn 按运行时规则正常结束”，不能直接翻译为“模型完成了一项有效业务”。[空输入也能正常关闭Turn](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L313-L327)
 
 ### 2. 目标和清单完成：有人提交了进度判断
 
-Goal 的 complete 是跨回合目标的生命周期状态；todo 的 completed 是当前清单某一项的状态。前者会阻止目标驱动器继续调度，后者便于模型组织当前工作和界面展示进展。它们都能成为结构化记录，但**被记录的判断，不会因此自动变成经过验证的事实**。
+Goal 的 complete 是跨 Turn 目标的生命周期状态；todo 的 completed 是当前清单某一项的状态。前者会阻止目标驱动器继续调度，后者便于模型组织当前工作和界面展示进展。它们都能成为结构化记录，但**被记录的判断，不会因此自动变成经过验证的事实**。
 
-例如“修复分页错误”的目标仍 active，第一回合只完成了定位，Loop 正常结束也合理。反之，模型把目标改成 complete，却遗漏空列表边界，生命周期更新也可能在接口层合法。运行时要保证状态转换合法，业务验证器要判断修复结果是否合格。这是两种不同责任。
+例如“修复分页错误”的目标仍 active，第一 Turn 只完成了定位，Loop 正常结束也合理。反之，模型把目标改成 complete，却遗漏空列表边界，生命周期更新也可能在接口层合法。运行时要保证状态转换合法，业务验证器要判断修复结果是否合格。这是两种不同责任。
 
 ### 3. 委派结果合规：结果符合约定的交付形态
 
-父 Agent 可以要求子 Agent 返回结构化结果。子 Agent 即使正常关闭回合，若没有捕获所要求的结构化值，驱动器也不会直接把它算作成功：
+父 Agent 可以要求子 Agent 返回结构化结果。子 Agent 即使正常关闭 Turn，若没有捕获所要求的结构化值，驱动器也不会直接把它算作成功：
 
 ```typescript
 if (structured !== undefined) {
@@ -72,26 +75,29 @@ return { output, stopReason }
 
 |层次|直接证据|可以判断什么|仍需检查什么|
 |---|---|---|---|
-|回合结束|`turn/end.reason`|本次执行如何收束|是否做了有效工作，业务是否正确|
+|Turn 结束|`turn/end.reason`|本次执行如何收束|是否做了有效工作，业务是否正确|
 |目标／清单状态|`goal/change`、`todo/write`|谁报告了哪种进展|报告依据是否充分|
 |委派交付|捕获的结构化值与 `stopReason`|交付形态与执行状态|字段内容及外部结果是否真实|
 |业务验收|验证命令、结果与产物身份|指定版本是否满足验收规则|规则是否覆盖真实需求|
 
-产品可以根据任务选择所需层次。文本润色可能只需要回合结束和用户可读输出；代码修复则需要进一步验证。这里的重点是保留不同证据的来源，避免一个 success 布尔值吞掉所有差别。
+产品可以根据任务选择所需层次。文本润色可能只需要 Turn 结束和用户可读输出；代码修复则需要进一步验证。保留这些证据的来源，可以让 success 状态对应明确的验收层次。
 
-![图2：目标回合的提交时序](assets/01-task-completion-02.png)
-
-图2：排队不是扣账；接纳后的目标消息才推进回合数。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 持续目标由状态服务和驱动器共同推进
 
+完成的四个层次确定之后，先从持续目标的状态与运行资格开始。Goal 服务保存 durable 状态，driver 管进程内自动续跑；后者读取前者，又把输入交给 Loop，形成一条可核对的消费链。
+
+![图1：Goal、Driver 与 Loop 的交接](assets/01-task-completion.png)
+
+图1：主线按交接展开；append 与 flush 是不同边界。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
+
 ### 第一步：先看状态放在哪里，谁负责消费它
+
+先建立状态地图：持久目标回答当前要求是什么，进程内 activation 回答现在是否允许自动推进。driver 的判断同时依赖两者，后面的创建与恢复都从这份分工出发。
+
 
 Goal 并不是 Loop 内部的一个循环标志。源码把能力拆成几个插件：`dsh-goal` 保存目标状态，`dsh-tool-goal` 向模型暴露控制工具，`dsh-command-goal` 提供命令入口，`dsh-goal-round-driver` 调度同一会话的自动续跑。基础 bundle 中能看到这些独立挂载项。只挂 GoalService，可以读写目标，但不会因此自动执行任务。[基础 bundle 中的目标服务、驱动器与命令挂载](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L313-L323) [模型目标工具的独立挂载](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L435-L438)
 
-![任务定义与完成语义的机制图](assets/01-task-completion.png)
-
-图1：目标续跑的接纳过程。
 
 图示只表达职责关系。进一步追踪代码，需要区分三组数据：
 
@@ -127,7 +133,30 @@ export type GoalActivation = 'armed' | 'disarmed'
 
 ### 第二步：从工具入口进入目标创建
 
-模型调用 `create_goal` 时，工具执行先取得当前调用的 Agent，再调用 `requireDirectHuman()`，最后把参数交给 `ctx.goals.create()`。权限来源并不是参数里写一句“用户允许”，而是当前根 Agent 的已接纳回合中存在 `source.kind === 'user'` 的消息。工具还检查真实 Agent 对象、running 状态与当前 initiator。[create_goal 的工具执行入口](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L222-L229) [调用者与当前回合的人类来源检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L48-L103)
+有了状态模型，再沿 tool-goal 的创建请求进入 Goal 服务 create()。create 生成新目标和 revision，后续 driver 读取的正是这份提交后的目标。
+
+创建与后续修改共享的身份契约是 GoalRef：
+
+```typescript
+export interface GoalRef {
+  /** Stable goal identity. */
+  readonly id: GoalId
+  /** Positive revision; every durable mutation increments it. */
+  readonly revision: number
+}
+```
+
+[源码：`packages/goal/goal/src/types.ts:20–25`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/types.ts#L20-L25)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`id`|稳定目标身份|create 后返回，变更时比较|
+|`revision`|当前 durable 修订号|expectCurrent() 的比较更新|
+
+id 表达同一个目标，revision 表达这一次要求。异步返回携带二者，才可判断结果是否仍对应当前工作。
+
+
+模型调用 `create_goal` 时，工具执行先取得当前调用的 Agent，再调用 `requireDirectHuman()`，最后把参数交给 `ctx.goals.create()`。权限来源并不是参数里写一句“用户允许”，而是当前根 Agent 的已接纳 Turn 中存在 `source.kind === 'user'` 的消息。工具还检查真实 Agent 对象、running 状态与当前 initiator。[create_goal 的工具执行入口](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L222-L229) [调用者与当前Turn的人类来源检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L48-L103)
 
 这条边界有两个条件。其一，它检查的是宿主提供的消息来源，没有实现自然语言意图分类器；用户输入是否表达长期目标，仍有模型按工具描述理解的部分。其二，非人类消息生产者必须显式提供自己的 source，因为省略 source 的普通 followup／steer 会使用 user。企业接入层不能把自动任务误标成人类输入，再期待这个工具替它完成身份认证。
 
@@ -157,7 +186,7 @@ create(agent: Agent, request: CreateGoalRequest): GoalView {
 
 按执行顺序读：
 
-1. `resolveCreateGoal()` 清理 objective，并把默认轮数补齐。目标内容不能是空字符串，maxGoalRounds 必须是正的安全整数；此版本默认值为 256。[创建参数的校验与规范化](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L198-L219) [默认目标回合数](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L243-L254)
+1. `resolveCreateGoal()` 清理 objective，并把默认轮数补齐。目标内容不能是空字符串，maxGoalRounds 必须是正的安全整数；此版本默认值为 256。[创建参数的校验与规范化](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L198-L219) [默认目标Turn数](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L243-L254)
 2. `prepareMutation()` 检查 Agent 是否仍是注册表中的那个对象，并读取严格目标投影与进程内状态。这比只比较 agent.id 更严格：相同 id 的旧实例不能操纵替换后的实例。[变更前的实例与投影校验](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L449-L480)
 3. 未完成的现有目标会导致 `GOAL_ALREADY_EXISTS`；active、paused、blocked 都不能被一次 create 悄悄替换。需要恢复或清理原目标。
 4. 新目标获得随机 id、revision 1、active 状态；`commitSnapshot()` 记录零轮数，并把本实例激活为 armed。
@@ -165,6 +194,9 @@ create(agent: Agent, request: CreateGoalRequest): GoalView {
 对我们的例子来说，这一步得到的是“目标存在且允许自动推进”，并没有执行测试，也没有启动一个隐藏线程。后续执行由驱动器响应事件推进。
 
 ### 第三步：修改目标必须带上精确 revision
+
+创建得到 GoalRef 后，修改目标必须携带它。expectCurrent() 是变更方法共用的身份检查，completionAuthority() 则从工具执行来源确定可以操作哪一个目标，两者共同约束旧回复。
+
 
 读取目标返回的 id 与 revision，不只是显示信息，也是后续更新的比较条件：
 
@@ -203,11 +235,14 @@ export function completionAuthority(ctx: Context, execution: GoalToolExecution):
 
 [源码：`packages/goal/tool-goal/src/authority.ts:111–118`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L111-L118)。
 
-有根 Agent 的当前直接人类输入时，工具取得 direct-human 权限；否则必须找到本回合已经接纳的 goal 消息，且它的 goalId、revision 和 round 与当前目标吻合。匹配失败就拒绝。[自动目标回合的精确匹配](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L86-L93)
+有根 Agent 的当前直接人类输入时，工具取得 direct-human 权限；否则必须找到本 Turn 已经接纳的 goal 消息，且它的 goalId、revision 和 round 与当前目标吻合。匹配失败就拒绝。[自动目标Turn的精确匹配](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L86-L93)
 
 这里回答的是“这个执行上下文能否提交完成”，没有检查它能否证明完成。服务级 API 与模型工具也有不同边界：可信宿主可直接调用服务；模型操作要经过上述来源规则。二次开发时需要明确使用的是哪一层接口。
 
 ### 第四步：重建目标不会自动恢复执行权限
+
+这里转到实例恢复支线：agent/created 重建目标 projection，却重新建立进程内资格。它与创建目标不是一次直接调用，二者在新 Agent 生命周期的 activation 处理处汇合。
+
 
 GoalService 的构造逻辑可以直接看到这一分离：
 
@@ -235,7 +270,38 @@ ctx.on('session/event', (session, event) => {
 
 还有一个接口差异：服务 `resume()` 可以恢复 paused 目标，模型 `update_goal action=resume` 却明确拒绝当前 paused 状态，要求用户通过宿主入口恢复。不能仅根据服务方法支持的状态，推断模型工具也有相同权限。[模型工具对 paused 恢复的额外限制](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L270-L289)
 
+![图2：Goal round 从预留到接纳](assets/01-task-completion-02.png)
+
+图2：排队、准入和 round 计量是不同边界。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第五步：驱动器在什么条件下才能调度
+
+driver 现在取得目标和资格，readyToDrive() 先判断能否推进；真正 drive() 在 checkpoint 的 await 之后再次读取身份，才进入输入预留。
+
+driver 的串行与取消信息保存在 DriverState：
+
+```typescript
+interface DriverState {
+  readonly agent: Agent
+  attempt: RoundAttempt | undefined
+  competingQueued: boolean
+  needsCheckpoint: boolean
+  requested: boolean
+  run: Promise<void> | undefined
+  stopping: boolean
+}
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:38–46`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L38-L46)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`agent` / `attempt`|所属实例与当前输入预留|drive() 和准入 listener|
+|`requested` / `run`|合并触发与串行 Promise|requestDrive()|
+|`needsCheckpoint` / `stopping`|持久屏障与退出意图|调度和释放路径|
+
+它属于精确 Agent 生命周期；Goal 服务的 durable 状态并不保存这些在途 Promise。
+
 
 驱动器先检查运行环境是否真的适合继续：
 
@@ -256,7 +322,7 @@ function readyAfterCheckpoint(state: DriverState): boolean {
 
 [源码：`packages/goal/goal-round-driver/src/index.ts:103–114`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L103-L114)。
 
-这五项条件分别挡住不同的问题：Fiber 必须 ACTIVE，避免插件卸载期间调度；stopping 必须为 false，避免本地清理已开始；注册表必须仍指向原 Agent 对象，避免旧生命周期继续工作；Agent 必须 idle，避免与在途回合重叠；没有竞争输入，避免自动目标抢占普通提示。
+这五项条件分别挡住不同的问题：Fiber 必须 ACTIVE，避免插件卸载期间调度；stopping 必须为 false，避免本地清理已开始；注册表必须仍指向原 Agent 对象，避免旧生命周期继续工作；Agent 必须 idle，避免与在途 Turn 重叠；没有竞争输入，避免自动目标抢占普通提示。
 
 `readyAfterCheckpoint()` 再加上 `!needsCheckpoint`。原因是 flush 等待期间，可能又发生了目标修改，需要处理新的检查点，不能拿一次已经过期的检查结果继续调度。
 
@@ -306,6 +372,31 @@ if (goal.roundsStarted >= goal.maxGoalRounds) {
 
 ### 第六步：先记录预留，再把续跑输入放入 inbox
 
+通过等待后的检查，drive() 形成下一轮的精确身份，并先保存 attempt，再 followup 入队。入队观察可能同步重入，因此 attempt 必须先于输入通知存在。
+
+同一份输入从预留到接纳，通过 RoundAttempt 追踪：
+
+```typescript
+interface RoundAttempt extends RoundIdentity {
+  readonly messageId: MessageId
+  readonly content: ContentBlock[]
+  phase: 'queued' | 'claimed' | 'admitted'
+  cancelled: boolean
+  stale: boolean
+}
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:29–35`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L29-L35)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`messageId` / `content`|本次入队输入|Inbox 匹配与清理|
+|`phase`|queued、claimed、admitted|不同接纳边界|
+|`cancelled` / `stale`|取消或失去当前身份|等待后的复核|
+
+继承的 goalId、revision、round 来自 RoundIdentity。phase 区分输入在哪里，标记则说明它是否仍有效；下一节正沿这份对象跟踪额度提交。
+
+
 得到当前目标之后，驱动器准备下一轮消息：
 
 ```typescript
@@ -338,6 +429,9 @@ try {
 
 ### 第七步：多个触发如何合并成一次串行驱动
 
+输入产生后，还可能收到多个新的驱动触发。requestDrive() 把这些触发交给同一份 run Promise 串行消费，避免对同一目标重复预留。
+
+
 创建目标、目标变化和 Agent 返回 idle 都可能触发调度。驱动器不为每个事件另开一条并发任务：
 
 ```typescript
@@ -366,9 +460,14 @@ function requestDrive(state: DriverState): void {
 
 这是单个 Agent 生命周期内的触发合并与串行调度，并不构成多主机队列。它降低了重复预留的可能，也让后续取消、目标修订和卸载可以围绕同一个 attempt 处理。
 
-## 回合额度在什么时刻扣除
+## Turn 额度在什么时刻扣除
+
+driver 已把带目标身份的输入排入 Inbox。额度接下来是否推进，取决于 claim、准入和 user/message 提交三个不同动作；这一段沿同一份 RoundAttempt 向内跟踪。
 
 ### 第八步：claimed 只是取得候选输入，仍然需要准入检查
+
+排队输入到了 Loop 的 claim 边界，driver 先把 attempt 标为 claimed。随后 agent/pre-step 检查候选输入的身份，claimed 到 admitted 之间仍有准入决策。
+
 
 inbox 中的消息进入 Loop 后，先被 claim。claim 会从队列取出这次候选输入，驱动器通过 `agent/inbox/claimed` 把 attempt 改成 claimed；它没有在这里增加 roundsStarted。随后 Loop 组装提示与工具，进入 `agent/pre-step` 的异步 waterfall，由各插件决定这个 Step 能不能接纳。[Loop 的 claim、组装与 pre-step 顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L267-L285) [入队、claim 和 discard 的驱动状态更新](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L299-L320)
 
@@ -401,6 +500,9 @@ inbox 中的消息进入 Loop 后，先被 claim。claim 会从队列取出这�
 
 ### 第九步：await 下游钩子之后，目标还必须是原来的目标
 
+pre-step 要等待下游治理，因此返回后再次按原 RoundAttempt 检查目标、revision、轮次与取消标记。通过这次检查的输入才有资格返回 enter。
+
+
 waterfall 中的 `next()` 可能执行其他异步插件。驱动器先检查，再 `await next()`，但没有假定检查结果在等待期间保持有效。下游返回 enter 之后，它再做一次身份校验：
 
 ```typescript
@@ -431,7 +533,7 @@ waterfall 中的 `next()` 可能执行其他异步插件。驱动器先检查，
 
 |时刻|操作|结果|
 |---|---|---|
-|T1|驱动器预留 G／revision 1／round 1|仍是 0 个已接纳目标回合|
+|T1|驱动器预留 G／revision 1／round 1|仍是 0 个已接纳Goal round|
 |T2|Loop claim 消息，第一次准入通过|只是候选取得了继续检查的资格|
 |T3|下游插件修改目标为 revision 2|当前定义已经变化，旧候选仍携带 revision 1|
 |T4|下游返回 enter，驱动器重新读取目标|revision 不匹配，拒绝旧候选|
@@ -442,7 +544,39 @@ waterfall 中的 `next()` 可能执行其他异步插件。驱动器先检查，
 
 必须保留这项机制的实际范围：两次检查覆盖的是驱动器包围的 pre-step 下游执行，随后还有请求准备等异步阶段。它不是把整个执行期锁成一个原子事务；目标后续变更、取消传播和日志一致性仍需要各自机制负责。日志检查也不能被描述成“所有副作用都尚未发生时的一道统一拦截器”。
 
+![图3：完成判断读取哪一层数据](assets/01-task-completion-03.png)
+
+图3：按证据选择完成语义，再组织产品状态。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第十步：从 enter 走到 user/message，才形成轮数事实
+
+enter 结果回到 step()，firstAttempt 控制 user/message 的单次提交；goal fold 消费该消息来源，再推进 roundsStarted。额度由实际接纳事实决定。
+
+Host 读取的 GoalView 合并了 durable 投影与 live 资格：
+
+```typescript
+export interface GoalView extends GoalSnapshot {
+  /** Highest admitted round number for this goal. */
+  readonly roundsStarted: number
+  /** Epoch milliseconds of the create mutation. */
+  readonly createdAt: number
+  /** Epoch milliseconds of the latest mutation. */
+  readonly updatedAt: number
+  /** Process-local continuation eligibility; never persisted. */
+  readonly activation: GoalActivation
+}
+```
+
+[源码：`packages/goal/goal/src/types.ts:90–99`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/types.ts#L90-L99)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`roundsStarted`|最高已接纳自动轮次|额度判断|
+|`activation`|进程内 continuation 资格|是否继续驱动|
+|`createdAt` / `updatedAt`|目标变更时间|Host 状态展示|
+
+GoalView 继承目标 snapshot，但 activation 不持久化。展示状态与重放状态因此有明确的组合关系。
+
 
 Loop 收到 enter 后，先记录 `step/start`，再进行模型路由准备；`agent/request` 和 `llm.prepareCall()` 都包含异步边界与取消检查。只有准备完成，才进入下面的提交片段：
 
@@ -470,7 +604,7 @@ firstAttempt = false
 
 第一行等待实际 prepared call。随后依据模型能力和 startsRequestSeries 计算 system prompt 的变化，按顺序追加 `system/message`。真正与目标计数相关的是 `if (firstAttempt)` 内的 `user/message` append：本次已接纳输入只在第一次 attempt 提交。
 
-接下来把 firstAttempt 改成 false；同一个 Step 的模型重试会继续 while，却不会再次追加这批用户输入。这就是为什么一次目标回合里的模型重试不应重复消耗目标回合额度。它可能消耗更多 token、更多工具时间，仍然只对应一次已接纳目标输入。[失败模型请求的 retry 分支](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L493-L509)
+接下来把 firstAttempt 改成 false；同一个 Step 的模型重试会继续 while，却不会再次追加这批用户输入。这就是为什么一次Goal round 里的模型重试不应重复消耗Goal round 额度。它可能消耗更多 token、更多工具时间，仍然只对应一次已接纳目标输入。[失败模型请求的 retry 分支](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L493-L509)
 
 目标 fold 对这个事件执行严格检查：
 
@@ -506,21 +640,30 @@ if (event.type === 'user/message') {
 
 ### 第十一步：达到上限与取消，应分别结算
 
-在两个自动回合的例子中，如果模型两次都只是输出文字，没有标记 complete，驱动器最终记录 blocked／round-limit；已接纳轮数为 2。最初触发目标创建的人类回合并不是额外的自动 round 1，普通用户输入也不会因为目标 active 就自动计入这项额度。
+接纳次数到达上限，或 Host 请求取消时，driver 与 Goal 服务分别处理执行和状态。这里转到结束支线，保留同一目标身份以解释为什么停止。
+
+
+在两个自动 Turn 的例子中，如果模型两次都只是输出文字，没有标记 complete，驱动器最终记录 blocked／round-limit；已接纳轮数为 2。最初触发目标创建的人类 Turn 并不是额外的自动 round 1，普通用户输入也不会因为目标 active 就自动计入这项额度。
 
 取消分支则看 attempt 阶段和精确 revision。驱动器观察 inbox discard、`turn/end aborted`，在 Agent 回到 idle 时判断是否应暂停；只有被取消预留仍对应当前目标，才调用 pause。用户如果已经暂停后立即 resume，revision 已变，旧取消不能再次暂停新目标。[取消后的 idle 结算与 revision 防护](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L258-L285) [会话事件对 admitted 与取消状态的更新](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L322-L345)
 
-宿主发起 pause 与模型在自己回合里调用 pause 也不同：运行中宿主暂停会 cancel 当前 Agent 并保留 inbox，避免模型继续行动；模型自己的 pause 则允许当前回合正常收束。这通过 currentInitiator 区分，不能把 phase 变化一律解释为立即杀死运行线程。[宿主暂停与模型暂停的执行差别](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L286-L297)
+宿主发起 pause 与模型在自己 Turn 里调用 pause 也不同：运行中宿主暂停会 cancel 当前 Agent 并保留 inbox，避免模型继续行动；模型自己的 pause 则允许当前 Turn 正常收束。这通过 currentInitiator 区分，不能把 phase 变化一律解释为立即杀死运行线程。[宿主暂停与模型暂停的执行差别](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L286-L297)
 
 卸载驱动器时，代码先设置 stopping、撤销 activation、把 attempt 标为 stale；必要时取消 Agent，等待 `whenIdle()` 和调度 run 结算，最后清空状态。监听器在这些等待结束之前仍保持，保证准入检查不会先消失。这个生命周期顺序和前面的身份检查共同防止卸载期间继续预留工作。它依赖运行组件响应取消，不保证撤回已经提交的业务副作用。[驱动器卸载时的关闭、取消与等待顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L438-L459)
 
-![图3：完成语义的四个层次](assets/01-task-completion-03.png)
-
-图3：层次之间有关联，不存在自动等价关系。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 提交事实之后，再发布通知
 
+消息提交改变已接纳的轮数，目标变更则由另一条 goal/change 链记录。下面回到 Goal 服务，检查状态提交如何与 activation 和观察通知对齐。
+
+![图4：续跑准入的三个出口：状态与行动](assets/01-task-completion-04.png)
+
+图4：拒绝、暂停与完成各有事实，不能只看 idle。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第十二步：goal/change 的提交还要协调进程内权限
+
+目标状态变化回到 Goal 服务 commit()，先与进程内 activation 协调，再追加 goal/change，通知基于已有事实发出。
+
 
 读到这里，再看 GoalService 的 commit，会发现它并不是普通的“append 然后 emit”。它同时协调持久快照和进程内 activation：
 
@@ -557,6 +700,9 @@ Session.append 本身的顺序也支持这个解释：先生成 JSON 快照、�
 
 ### 第十三步：重放检查不把非法日志悄悄变成合法状态
 
+最后沿重放支线回看 applyGoalProjection()：它使用同一事件协议恢复 durable 状态，异常日志明确失败；恢复不会重新执行曾经的目标工具。
+
+
 服务层校验合法状态转换之后，fold 仍会独立验证事件：非 create 变更必须正好推进一个 revision、保留轮数与 createdAt，updatedAt 不能倒退；pause、resume、complete、block 各有允许的 phase 转换。create 必须使用新 id、revision 1、active 和零轮数。[重放阶段的 revision、计数与生命周期约束](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/fold.ts#L192-L244) [create、clear 与快照的折叠规则](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/fold.ts#L271-L305)
 
 严格 fold 发现非法事件后，投影层如何处理？
@@ -588,7 +734,7 @@ export function applyGoalProjection(state: GoalProjectionState, event: SessionEv
 
 ## todo 和计划为什么不能替代目标验收
 
-### todo：清单投影随回合变化，清单内容是调用者报告
+### todo：清单投影随 Turn 变化，清单内容是调用者报告
 
 todo 的投影 apply 很短，但足以决定它适合做什么：
 
@@ -602,7 +748,7 @@ apply: (state, event) => {
 
 [源码：`packages/todo/tool-todo/src/index.ts:127–131`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/todo/tool-todo/src/index.ts#L127-L131)。
 
-`todo/write` 用整张新清单替换当前视图，`turn/start` 把它清空，其他事件保持原引用。这意味着 turn/end 之后，已完成清单可以留在界面上；下一个回合一旦开始，当前投影又变成 null。历史 todo/write 仍在 Session 日志中，清空的是当前展示投影。
+`todo/write` 用整张新清单替换当前视图，`turn/start` 把它清空，其他事件保持原引用。这意味着 turn/end 之后，已完成清单可以留在界面上；下一个 Turn 一旦开始，当前投影又变成 null。历史 todo/write 仍在 Session 日志中，清空的是当前展示投影。
 
 工具 body 再说明“完成”如何产生：
 
@@ -667,9 +813,6 @@ ctx.on('agent/pre-step', async (
 
 如果把这几种状态放到产品里，建议分别命名为“计划已批准”“正在执行”“目标报告完成”“验收通过”，并允许它们暂时不同步。这是基于机制分析的应用设计建议，DSH 没有在上述代码中提供统一业务验收状态机。
 
-![图4：续跑准入的三个出口](assets/01-task-completion-04.png)
-
-图4：拒绝、暂停与完成各有事实，不能只看 idle。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 这套设计的优势，以及应用需要补上的部分
 
@@ -713,7 +856,7 @@ complete(agent: Agent, ref: GoalRef): GoalView {
 
 它把允许的旧状态设为 active、paused、blocked，目标状态设为 complete，激活状态设为 disarmed，然后交给通用 transition。transition 检查真实 Agent、当前 revision 和允许的状态，再提交新快照。参数里没有测试结果，也没有等待验证任务的步骤。
 
-因此，服务能够拒绝一个过期 complete，却不能判定一个当前 revision 的 complete 是否在业务上正确。模型工具在获得 completionAuthority 后，同样直接调用 ctx.goals.complete。自动回合会通过 deferContext 补一条收尾说明，让后续输出汇总成果；这条说明是交互安排，不是独立验收，也不是强制撤回所有工具权限的业务屏障。[完成或阻塞后的服务调用与收尾上下文](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L313-L331)
+因此，服务能够拒绝一个过期 complete，却不能判定一个当前 revision 的 complete 是否在业务上正确。模型工具在获得 completionAuthority 后，同样直接调用 ctx.goals.complete。自动 Turn 会通过 deferContext 补一条收尾说明，让后续输出汇总成果；这条说明是交互安排，不是独立验收，也不是强制撤回所有工具权限的业务屏障。[完成或阻塞后的服务调用与收尾上下文](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L313-L331)
 
 对代码修复产品，更合理的做法是保存两项状态：Agent 报告的目标 phase，以及应用验证器给出的 acceptance。complete 后 acceptance 仍可为 failed 或 stale。产品可以把这种组合显示为“报告完成，验收未通过”，再由自己的调度政策决定重新打开目标、请求补充或停止自动执行。
 
@@ -721,7 +864,7 @@ complete(agent: Agent, ref: GoalRef): GoalView {
 
 ### 不足二：blocked 的硬检查弱于工具的自然语言政策
 
-模型工具的指导文字要求同一阻碍持续至少若干连续回合，默认阈值为 3。但实际硬检查如下：
+模型工具的指导文字要求同一阻碍持续至少若干连续 Turn，默认阈值为 3。但实际硬检查如下：
 
 ```typescript
 if (args.action === 'blocked' && authority.kind === 'goal-round'
@@ -744,15 +887,15 @@ const goal = args.action === 'complete'
 
 它检查 action 是 blocked、权限来自 goal-round，且 `authority.goal.roundsStarted` 是否低于阈值。到阈值后调用 block，写入 `model-reported` 和模型给出的说明。它没有持久保存每一轮的阻碍身份，也没有比较连续多轮是不是同一种条件。
 
-因此，代码能强制“自动回合中的模型不能过早自报阻塞”，不能强制“模型确实连续三轮遇到了同一个障碍”。直接人类权限的调用不会受到这条 model self-block 下限约束；driver 的 round-limit 或 prompt-rejected 也走服务路径，不受该模型工具阈值限制。
+因此，代码能强制“自动 Turn 中的模型不能过早自报阻塞”，不能强制“模型确实连续三轮遇到了同一个障碍”。直接人类权限的调用不会受到这条 model self-block 下限约束；driver 的 round-limit 或 prompt-rejected 也走服务路径，不受该模型工具阈值限制。
 
 这是源码研究中应特别留意的差别：工具描述中的政策、运行时能够检查的字段，以及业务事实分别是什么。如果企业要求确认同一错误持续出现，需要保存规范化阻碍码、证据和连续次数；仅把提示词写得更严格，不能补出这份状态。
 
-### 不足三：目标回合上限不能代替成本或时间预算
+### 不足三：Goal round 上限不能代替成本或时间预算
 
-maxGoalRounds 限制的是已接纳自动目标输入。一轮可以包含多个 Step，Step 可以重试请求，也可以执行多个耗时工具。用户普通回合和其他入口的工作还有各自计数范围。
+maxGoalRounds 限制的是已接纳自动目标输入。一轮可以包含多个 Step，Step 可以重试请求，也可以执行多个耗时工具。用户普通 Turn 和其他入口的工作还有各自计数范围。
 
-所以“最多两个自动回合”只能保证这一条续跑路径不会无限增加目标轮数，不能保证费用、调用次数、CPU 时间或总运行时长低于某个值。目标额度、模型 attempt 配额、工具截止时间和任务金额预算需要分别定义，再决定哪个限制到达时触发 block、cancel 或人工接管。
+所以“最多两个自动 Turn”只能保证这一条续跑路径不会无限增加目标轮数，不能保证费用、调用次数、CPU 时间或总运行时长低于某个值。目标额度、模型 attempt 配额、工具截止时间和任务金额预算需要分别定义，再决定哪个限制到达时触发 block、cancel 或人工接管。
 
 ### 应用实践：验收证据如何与任务身份绑定
 
@@ -773,29 +916,9 @@ maxGoalRounds 限制的是已接纳自动目标输入。一轮可以包含多个
 
 但这个流程还不是一个跨系统原子事务。目标比较更新可以检测目标修订，不能阻止另一个进程在检查后修改工作区，也不能自动把外部验收记录与 Session 事件同时提交。要加强保证，可以使用不可变产物、应用数据库事务或待核对状态；具体取舍取决于部署和业务系统。此处只提出实现原则，没有把示意流程描述为已测试的生产方案。
 
-## 技术心得：完成应当是一组可解释的事实
+### 从具体实现与既有证据复核这些判断
 
-### 第一，源码中的动词，比产品状态名称更能解释系统
-
-读完这条链路，我更关注 create、claim、append、flush、complete 各自做了什么。create 建立目标，claim 取得候选，append 记录接纳，flush 执行存储检查点，complete 改变目标状态。它们都可能表现为界面上的一个小标记，但代码中的提交边界和失败后果截然不同。
-
-当系统显示“完成”而用户说“根本没有做完”，第一步不应只是改提示词。应先问：记录的是 Loop completed、Goal complete、todo completed，还是验收 passed？分清依据，才能知道要修复调度、权限、结果交付，还是验证规则。
-
-### 第二，异步正确性要保护一份具体工作，而不只是一个对象名
-
-驱动器保留 goalId、revision、round、messageId 和 content，在等待后重新核对。这里值得借鉴的是对“哪一份输入还有效”的重视：同一个 Agent 仍然活着，不代表刚才预留的要求仍然有效；同一轮号仍然连续，也不代表内容与权限没有变化。
-
-这种认识适用于数据库迁移、发布流水线、工单处理等系统。异步验证的结果返回时，必须确认它针对的需求、产物和权限仍然是当前版本。代码里多一次检查，解决的是等待期间现实已经变化的问题。
-
-### 第三，保守停止必须留下可解释的状态
-
-flush 失败后，目标可能仍 active，activation 却变成 disarmed；额度耗尽则写入 blocked／round-limit。这两种停止有不同原因：前者撤销继续行动的进程内权限，后者把预算边界记成目标生命周期事实。
-
-应用如果把二者都显示为“失败”，就会丢掉恢复所需的信息。保留 durable phase、activation、错误来源与验收结论，才能向操作者解释“工作未完成，但为什么暂时没有继续”，也才能决定是否允许恢复。
-
-### 用已有测试反向核对我们的解读
-
-下面这段测试直接展示自动回合额度的含义：
+下面保留原有的目标工具 complete／blocked 实现和轮次测试。前两段对应状态提交的真实入口，测试则核对已接纳输入与 durable round cap 的关系；它们作为前文结论的具体复核依据，不计为本轮新运行。
 
 ```typescript
 it('admits exact numbered rounds until the durable round cap', async () => {
@@ -827,24 +950,21 @@ it('admits exact numbered rounds until the durable round cap', async () => {
 
 [源码：`packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts:194–218`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts#L194-L218)。
 
-adapter 两次都只返回文字；没有 complete 工具调用。测试创建上限为 2 的目标，等待目标 blocked；断言模型请求为两次，真正 admitted 的轮号为 `[1, 2]`，原因码是 round-limit。最后的 `request/header` 断言也说明第二轮是新的请求系列。
+## 技术心得：完成应当是一组可解释的事实
 
-这段测试支持“续跑按接纳轮数计数，达到上限进入 blocked”。它没有验证分页修复、真实供应商调用或业务测试成功。测试名称里出现完成目标的字样，也不能扩大断言实际证明的范围。
+### 从提交事实定义完成
 
-其他关键解释可与同一基线下的已有测试对照：
+step() 的结束理由、goal/change 的状态和子任务结构化结果各自保存一层判断。阅读这些提交点后，我会先为应用写出完成条件，再选择对应证据：循环事实用于确认执行收束，目标事实用于还原进展，测试与产物用于验收实际要求。
 
-|要核对的判断|测试观察与断言|证据位置|
-|---|---|---|
-|旧目标消息不能冒用新 revision|入队后修改目标，实际接纳的是新 revision；轮数仍为 1|[排队预留因目标编辑失效的测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts#L452-L472)|
-|异步钩子后要重新检查目标|下游修改 objective，最后只发出一个新要求下的请求|[下游修改后的准入重查测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts#L474-L492)|
-|检查点失败不能继续自动请求|注入 session/flush 失败，目标 active、activation disarmed、请求为零|[持久检查点失败测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts#L569-L578)|
-|取消旧回合不能再次暂停已恢复目标|宿主 pause 后立即 resume，旧回合收束不覆盖新 revision|[暂停与立即恢复的竞争测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts#L371-L389)|
-|同步观察者看到完整的新目标|观察者在 session/event 内读取 goals.get，结果等于 create 返回值|[目标与 activation 的同步观察测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/tests/goal.spec.ts#L476-L494)|
-|blocked 下限检查的是已接纳轮数|前两轮返回阈值错误，第三轮允许 block 并生成收尾上下文|[模型自报阻塞下限的测试](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/tests/tool-goal.spec.ts#L602-L640)|
+### 用 revision 保护具体工作
 
-这些用例已经在同一提交的 V08 中执行：goal 35、goal-round-driver 53、tool-goal 23 项通过；相关 todo、plan 和结构化子任务路径在 V10 中验证。本次是第一篇的源码深度改写，重新核验代码摘录和文稿，没有新增或重跑行为测试，也不增加累计通过数。
+GoalRef 和 RoundAttempt 让等待前后的判断始终指向同一份任务要求。这个收获可直接用于企业审批和长任务：把工作 id、revision 与结果一同传递，返回时检查身份，再决定接纳或停止。
 
-通过这条链路，我们可以得到一个可操作的设计原则：让模型报告行动与判断，让运行时限定接纳与生命周期，让业务验证器保存外部结果。任务是否完成，由明确规则解释这些事实之间的关系。下一篇再沿 Loop 往里走，详细分析一条已接纳输入怎样变成多次模型请求、工具执行与回合结算。
+### 把调度、接纳与计量分开
+
+requestDrive() 合并触发，attempt 先于入队建立，roundsStarted 在 user/message 后推进。三处设计分别解决重复驱动、重入观察和精确计量。新增自动续跑策略时，我会沿用这些现有边界，而把任务级成本与业务验收作为独立契约补充。
+
+对代码修复任务，务实的完成记录可以连接目标 revision、最后的 Turn、测试退出码和 diff。这样进度报告与验收材料具有同一工作身份，研究所得也能转成可以检查的实现要求。
 
 ---
 

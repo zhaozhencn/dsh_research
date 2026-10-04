@@ -6,6 +6,9 @@
 
 研究 DeepSeek Harness 的持久化，首先应区分：**会话事实、派生视图、运行对象和外部记忆，不能靠同一种恢复承诺覆盖。** 本文从重启场景出发，分析 Session 与 JSONL 如何协作，以及它们刻意保留的不确定性。
 
+
+恢复链的整体顺序是：Session 同步追加事实，持久 consumer 缓冲事件，JSONL handle 在操作链中顺序写入；resume 先取得写所有权，再读取有效前缀、补逻辑闭合并重建实例。fork 是另一条消费历史前缀的支线，live stream、job 和 diff 缓存则各有自己的来源。本文以提交、写入、所有权和重建四个边界解释重启后的能力。
+
 ## 先识别状态由谁拥有
 
 Session 事件记录用户输入、模型输出、工具调用、目标变更等事实。projection 从这些事件折叠出当前状态，surface 决定模型请求使用哪些历史节点。两者可以根据日志重新建立，但并不意味着所有进程对象都可重建。[Session 事实日志](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/index.ts#L718-L775) [投影注册与重建](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-projection/src/index.ts#L253-L355)
@@ -14,11 +17,15 @@ live assistant 字块、自动目标的进程内 activation、jobs-local 记录�
 
 因此“所有历史都保存了”不是足够精确的产品说明。应列出恢复对象、数据来源、重建方式及不能恢复的部分，让用户知道哪些动作仍需重新确认。
 
-![记忆、状态与持久化的机制图](assets/05-state-persistence.png)
 
-图1：会话持久化与恢复。
+![图1：Session 事实如何进入恢复实例](assets/05-state-persistence.png)
+
+图1：写入与读取是相接的两条路径；历史工具不重做。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：先列恢复对象，再找它的唯一事实来源
+
+先区分可从 Session 事件重建的 projection 与依赖活实例的对象。ProjectionRegistry.register() 规定 projection 的版本与归属，恢复因此有明确的数据解释器。
+
 
 Session、projection、live stream 和 producer 应分别问“数据在哪里”。projection 的注册代码说明它不是任意缓存键：
 
@@ -59,9 +66,6 @@ stateVersion 必须合法；首次注册建立按 Session 弱引用的 cells，�
 |本地测试进程|jobs／producer 活实例|外部查询或独立进程监管，不能由日志造出 handle|
 |产物引用与差异|领域事件加实际存储|不可变内容归档与权限，不只保存字符串路径|
 
-![图2：事件从内存走到 JSONL](assets/05-state-persistence-02.png)
-
-图2：存储屏障不包办远端业务事务。详见本节及相邻源码解读；图示省略其他分支。
 
 ## Session.append 提交了什么
 
@@ -99,6 +103,9 @@ try {
 这段代码没有等待磁盘。持久 provider 订阅 live 事件后，事件可能先进入缓冲，再通过有界批处理写入文件。需要区分 live Session.append、持久 handle.append 与 sessions.flush，三个名字相近，却承担不同的完成条件。
 
 ### 第二步：冻结的是提交事实，不是整个存储系统
+
+Session.append() 先快照并校验事件，再 log.push 和通知。持久 consumer 消费这个已提交事件，enqueueLive() 把复制后的值放进缓冲，连接内存与存储两层。
+
 
 ```typescript
 const dataSnapshot = snapshotJsonValue(data)
@@ -147,6 +154,8 @@ enqueueLive(event: SessionEvent, reportBackgroundFailure: (error: unknown) => vo
 
 ## JSONL handle 把写入变成有序操作
 
+Session 追加返回后，事件已经进入内存事实和 live writer。现在沿 buffered 数据继续进入 handle 的操作链，检查何时推进 durable cursor、何时结束写所有权。
+
 JSONL handle 的显式 append 会在入队前校验并快照整个 batch，再通过自身操作链执行 persistContiguous。flush 同样进入这条链，并在空会话尚未物化时保存 header。
 
 ```typescript
@@ -184,7 +193,43 @@ flush(options?: SessionHandleFlushOptions): Promise<void> {
 
 create 先建立 pending handle，首次 append 或显式 flush 才物化存储。一个尚未物化的会话可能随进程退出而消失。close 则反复排空 live 缓冲，等待操作链，再释放内核 lease 和进程 claim；即使清理失败，也要避免把会话身份永久卡在进程内。[JSONL 创建和打开](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L314-L435) [handle 写入、flush 与关闭](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/storage.ts#L187-L263)
 
+![图2：JSONL writer 的批写与屏障](assets/05-state-persistence-02.png)
+
+图2：接受、批写、屏障和关闭各有完成条件。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第三步：操作链保证顺序，错误返回与链健康分开
+
+显式 append 和 live drain 都通过 enqueueChain() 排队。前一阶段进入 buffered 的事件，要等对应操作真正执行后才推进写入位置。
+
+JSONL handle 推进的是 StorageHandleState：
+
+```typescript
+export interface StorageHandleState {
+  /** The stored next-seq (the logical end this handle knows). */
+  cursor: number
+  /** Whether the session has a durable artifact yet. */
+  materialized: boolean
+  /** Torn-tail truncation point, consumed by the first new append. */
+  tornTruncateTo?: number | undefined
+  /** Complete events recovered from the torn final frame; the first mutation rewrites them durably. */
+  recoveredTail?: SessionEvent[] | undefined
+  /** Exact fork-inherited prefix length stored with the log; `0` when unseeded. */
+  inheritedEventCount: SessionLogOffset
+  /** The validated stored prefix from a write open, served to reads until the first append. */
+  primed?: SessionHandleReadResult | undefined
+}
+```
+
+[源码：`packages/session/session-persistence-jsonl/src/storage.ts:64–77`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/storage.ts#L64-L77)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`cursor` / `materialized`|已知 durable 尾部与是否有实际 artifact|连续写入与首次物化|
+|`tornTruncateTo` / `recoveredTail`|物理尾部修补材料|首次新写入前处理|
+|`primed` / `inheritedEventCount`|读取快照与 fork 前缀长度|恢复读取与文件编码|
+
+只有对应存储操作完成，相关标记才推进或清除。这份结构让 drain、flush 和恢复读取共享准确的存储位置。
+
 
 ```typescript
 private enqueueChain(op: () => Promise<void>): Promise<void> {
@@ -207,6 +252,9 @@ private async run(operation: string, op: () => Promise<void>): Promise<void> {
 next 接在前一个 chain 后执行；把内部 chain 设为 next.catch 以保持链可继续，而返回的 next 仍会向调用者拒绝。catch 在这里不是吞掉用户可见错误，而是防止一次失败永久毒化排队基础设施。run 入队前和真正执行前都 assertOpen，覆盖排队期间 close 的变化。
 
 ### 第四步：实时批次失败必须保留原顺序
+
+drainBuffered() 取出当前批次，再调用 persistContiguous()。前者保留失败批次的顺序，后者核对 cursor、处理尾部修补并推进 materialized 状态。
+
 
 ```typescript
 this.drainPaused = false
@@ -263,6 +311,9 @@ private async persistContiguous(batch: readonly SessionEvent[]): Promise<void> {
 只允许 write access；取得 lease 后检查从 cursor 开始连续。若文件尾部曾损坏，先完成 truncate 和 recoveredTail 写回，再 persist 当前 batch。cursor、materialized 与 observedLength 在成功后推进；失败步骤对应的待修复标记只有实际完成才清除。
 
 ### 第五步：create、flush 与 close 各自有可观察语义
+
+沿同一 handle 回看创建和关闭：create() 建立 pending，flush 物化并排空，close() 等待缓冲和操作链后释放 lease。这三项完成条件属于同一资源的不同阶段。
+
 
 ```typescript
 if (this.tracker.hasPending(snapshot.id) || await this.findLog(snapshot.id, options?.signal) !== undefined) {
@@ -322,11 +373,10 @@ if (failures[0] !== undefined) throw failures[0]
 
 即使 lease.release 失败，也继续 releaseHandle，释放进程内 claim；有多个错误时 AggregateError 保留两份原因。关闭不是把对象从 Map 删除，而是排空、解锁、释放身份与报告失败的协议。
 
-![图3：状态的四种寿命](assets/05-state-persistence-03.png)
-
-图3：恢复承诺应逐对象说明。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 写所有权为什么需要两层检查
+
+操作链约束同一 handle 的写入顺序，跨 handle 的排他由 open(write) 与 lease 负责。下面先看写方如何取得身份，再看锁住的资源是否仍是当前路径。
 
 写 open 先取得进程内 claim，随后取得跨进程 kernel lease，占用冲突报告 `SessionAlreadyOwnedError`。前者防止本进程重复占有，后者处理其他进程的竞争，两者解决不同范围的问题。
 
@@ -334,7 +384,14 @@ POSIX 实现使用原生 flock，锁随句柄和进程生命周期释放。活�
 
 这种设计适合本地文件的单 writer 管理。若换成多主机数据库存储，不能仅实现相同方法名，还需要重新定义所有权、并发写入、提交可见性与恢复语义；接口相同不代表一致性要求相同。
 
+![图3：恢复对象的数据与寿命](assets/05-state-persistence-03.png)
+
+图3：恢复承诺按对象与来源分别定义。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第六步：进程内 claim 要先于跨进程打开
+
+恢复需要 write handle，因此 open(write) 在读取前取得 claimWrite。异步查找和 lease 成功后，再把 cursor 与已验证日志带入 handle。
+
 
 ```typescript
 this.tracker.claimWrite(id)
@@ -367,6 +424,9 @@ try {
 claimWrite 在异步 findLog 与 acquireLease 前取得，阻止同进程并发 resume。lease 成功后重新 requireStoredLog，必要时在锁内发布迁移；构造 handle 时带当前 cursor、尾部修复状态和读出的 primed log。所有权不是读完旧文件之后才申请，否则两个恢复器会基于同一旧状态作决定。
 
 ### 第七步：锁住 inode 之后，还要确认路径仍指向它
+
+open() 所需的跨进程 lease 由 SessionWriteLease.acquire() 建立。POSIX 分支在取得内核锁后核对 inode，确保随后写入使用同一资源。
+
 
 ```typescript
 for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -415,6 +475,9 @@ session-checkpoint-policy 在 LLM stream、顶层 tools/execute 和 pre-step 前
 
 ### 第八步：副作用前的屏障阻止执行超越尚未保存的记录
 
+这里转到执行前的 checkpoint consumer：LLM、工具和 pre-step 的 hook 等待 sessions.flush，使用的是前面说明的持久屏障，再把控制权交还原执行链。
+
+
 ```typescript
 ctx.on('llm/stream', (options, next): AsyncIterable<StreamChunk> => {
   if (options.sessionId === undefined) return next()
@@ -445,11 +508,10 @@ llm/stream 有 sessionId 且能找到 Session 时经过 afterCheckpoint；顶层
 
 这也解释为何持久错误应 fail closed：前置 flush 拒绝时，不能继续派发 adapter 或 body，再只给 UI 一个保存失败警告。该政策只保护实际经过这些接缝的路径；直接旁路或独立外部生产者需另定义自己的屏障。
 
-![图4：恢复时怎样解释缺口](assets/05-state-persistence-04.png)
-
-图4：恢复和 fork 都不会重做历史工具。详见本节及相邻源码解读；图示省略其他分支。
 
 ## resume 和 fork 都不会重做历史
+
+写入与 checkpoint 确定了存储中的已知前缀，resume 接下来消费这份前缀。它重建历史并补边界，后续新输入才启动新的执行。
 
 resume 以写方式打开存储，读取有效前缀，识别未闭合的 Turn／Step／工具调用，追加必要 closers，再准备 Session、选项与投影，执行 setup 并发布实例。恢复本身不调用模型，后续唤醒才进入执行。[Agent 恢复入口](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/index.ts#L807-L866) [未闭合事件修复](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/repair.ts#L14-L97)
 
@@ -460,6 +522,34 @@ fork 复制包含指定边界的历史前缀，再追加 seed 和分支闭合事
 物理文件尾部不完整与逻辑事件未闭合也要分开处理。前者读有效前缀并在后续写操作修复存储；后者补足事件结构。把两者统一叫“恢复成功”，会掩盖实际上恢复到了哪个位置。
 
 ### 第九步：先取得写权，再读有效日志并补闭合事实
+
+resumeWith() 先 open(write)，再 read 与 interruptedTurnClosers，追加必要闭合后交给 prepare/setup。存储读取的输出成为新 Session 的 seed，而不是重新派发历史操作。
+
+重建 Session 时传递的是恢复选项，而不只是一组 messages：
+
+```typescript
+export interface RestoredSessionOptions {
+  /** Events that are independently owned or already deeply frozen. */
+  readonly seed: SessionEvent[]
+  /** Independently owned storage metadata to validate and freeze in place. */
+  readonly meta: SessionHeader
+  /** Exact number of fork-inherited leading events decoded from storage. */
+  readonly inheritedEventCount: SessionLogOffset
+  /** Aliasing state carried from the operation that produced the seed. */
+  readonly eventState: SessionSeedEventState
+}
+```
+
+[源码：`packages/core/session/src/types.ts:172–181`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/types.ts#L172-L181)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`seed`|已读取的 SessionEvent 数组|prepare 重建历史|
+|`meta` / `inheritedEventCount`|会话 header 与分支继承前缀|恢复身份与 fork 边界|
+|`eventState`|detached 或 shared-frozen|对象接纳时的复制与冻结政策|
+
+seed 与 eventState 一起说明事件内容和对象共享语义，meta 与 inheritedEventCount 保留会话及分支身份。prepare 消费这些输入重建投影；运行资源随后由实例生命周期重新组织。
+
 
 ```typescript
 handle = await raceAbortCall(
@@ -491,7 +581,14 @@ await this.appendUnstoredSuffix(stored, preparation.session)
 
 open(write) 在 read 前完成，且与调用方、owner 和工厂取消联动；迟到取得的废弃 handle 要 close。read 返回物理有效前缀，interruptedTurnClosers 生成逻辑闭合，append closers 后才 prepare 新 Session。meta、inheritedEventCount 和 eventState 一起带入，不能仅拷贝 messages。
 
+![图4：恢复时怎样解释缺口：状态与行动](assets/05-state-persistence-04.png)
+
+图4：恢复和 fork 都不会重做历史工具。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第十步：结果缺失时，恢复器保留不知道的内容
+
+逻辑闭合进入 ToolCallRecovery.results() 与 openTurnClosers()。它们消费已记录的 call/result 和边界事件，按本地已知状态形成确定性的补充事实。
+
 
 ```typescript
 const text = CLOSER_TEXT[this.cause.kind]
@@ -556,6 +653,9 @@ return closers
 
 ### 第十一步：fork 继承过去，不复制运行权
 
+fork 是历史读取的另一消费者：buildForkSeed() 取到指定边界的前缀，并以 forked 原因闭合。它与 resume 的后续 driver 生命周期分别建立。
+
+
 ```typescript
 export function buildForkSeed(events: readonly SessionEvent[], boundary: SessionSeqType): SessionEvent[] {
   const prefix = events.slice(0, boundary + 1)
@@ -583,6 +683,9 @@ workspace-changes 把 Turn 身份写入日志，却将完整 summary 和 sources
 会话格式本身由静态 catalog 负责历史 codec 和迁移，当前 writer 为 4。普通读取不为了升级覆写旧文件，迁移写入发布新 generation；前代保持，当前 generation 仍可追加。数据兼容与运行恢复是两个问题，后续部署篇会专门展开。[格式 catalog](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-format-catalog/src/generated.ts#L16-L48) [generation 解析](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L1446-L1482)
 
 ### 第十二步：一个 seq 可以只是引用身份，未必保存全部内容
+
+最后转到产物缓存支线：workspace recorder 用事件 seq 索引 TurnRecord，但丰富的 diff 内容另存在 records 和临时资源。恢复能力要沿该对象自己的来源判断。
+
 
 ```typescript
 const event = this.session.append('workspace/changes', { turn: state.turn })
@@ -612,19 +715,19 @@ state.recordedAfterSeq = event.seq
 
 ## 技术心得：恢复能力要按对象承诺
 
-这套设计的优势是事实、模型视图和运行对象分工清楚，重放不重做副作用，写锁和 checkpoint 各有明确职责。代价则是应用要承担多种状态的整合，不能对用户只说一句“支持断点续跑”。
+### 从事实来源定义恢复对象
 
-我的技术心得是：恢复能力应该表达为“从什么事实重建什么对象”，并明确缺失结果。对于低风险对话，恢复日志已经足够；对于交易、后台构建和长期产物，则需要另外的查询与持久协议。
+ProjectionRegistry、surface 与 Session seed 说明哪些状态可以由日志重建。我会把恢复需求写成对象清单：目标与历史从事件恢复，job 从生产者或监管服务查询，diff 和产物从各自的存储读取。每项能力都有明确来源，验收也能逐项执行。
 
-此前 JSONL、lease、migration 与 resume／repair 测试验证本机临时数据下的选定行为。它们没有证明停电零损失、跨主机并发存储、外部 MCP 可用性或所有后台资源重启恢复。保持这些边界，才能让持久化成为可信的工程能力。
+### 把保存动作拆成可等待的阶段
 
-### 技术感悟：持久化是一组不同的完成条件
+append、buffered drain、flush 和 close 依次管理接受、批写、屏障和资源释放。这个划分帮助产品选择准确的保存信号，也帮助 provider 实现者定位失败发生在快照、写入还是排空。
 
-这次逐段阅读，我把 append、drain、flush、close 和 resume 看成不同承诺。append 保存会话内事实，drain 推进批写，flush 建立当前后端屏障，close 结束所有权，resume 重建执行所依赖的历史。统一叫“保存”会让产品难以解释失败落在哪一层。
+### 先取得所有权，再使用恢复材料
 
-优势是日志、投影与未知结果都有清楚来源，单 writer 和有序操作链限制了状态竞争。局限是本地锁与 JSONL 不承担跨机事务，恢复过程不重造外部资源，内存视图也不能替代产物归档。
+claimWrite 与 lease 在 read 之前建立，cursor 和尾部状态在锁内解释。对企业存储，复用接口时也应同步定义写方所有权、连续事件与版本可见性；数据后端的选择随后服务这些契约。
 
-企业实现可据此制作恢复契约表：每个对象列出身份、事实来源、写屏障、过期政策、查询与补偿。先定义这些项目，再选择数据库、对象存储或外部监管服务，才能让“可恢复”成为可验证的具体承诺。本文沿用既有持久与租约测试证据，没有新增跨机或跨平台实测。
+半小时任务恢复的务实交付，可以包含恢复到的 seq、当前目标 revision、未知工具结果和可查询产物。按这些具体对象展示进展，用户和下一次执行都能从同一份事实出发。
 
 ---
 

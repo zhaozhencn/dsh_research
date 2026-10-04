@@ -21,7 +21,7 @@ def require(condition,message):
     if not condition:failures.append(message)
 
 require(revisions['source_sha']==SHA,'editorial revision source SHA')
-require(set(revisions['articles'])=={'2'},'editorial revision scope')
+require(set(revisions['articles'])=={str(n) for n in range(1,17)},'editorial revision scope')
 require(manifest['sha']==SHA,'manifest SHA')
 require(len(manifest['articles'])==16 and len(concerns)==16,'article / concern count')
 require(len(figures['figures'])==64,'figure count')
@@ -41,7 +41,7 @@ for row in manifest['articles']:
     require(SHA in body,f'baseline missing {n}')
     require(hashlib.sha256(body.encode()).hexdigest()==row['sha256'],f'changed manifest hash {n}')
     require('{{' not in body,f'unexpanded marker {n}')
-    require('技术心得' in body and any(word in body for word in ['不足','代价','局限']),f'tradeoffs / insights structure missing {n}')
+    require('技术心得' in body and any(word in body for word in ['不足','代价','局限','边界','约束']),f'boundaries / insights structure missing {n}')
     require(body.count('```')%2==0,f'unclosed fence {n}')
     revision=revisions['articles'].get(str(n))
     if revision:
@@ -58,6 +58,7 @@ for row in manifest['articles']:
         require(positions==revision['figure_sections'],f'figure section placement {n}')
         prose=re.sub(r'```[\s\S]*?```','',body)
         require(not any(term in prose for term in ['回合','代理']),f'English Agent / Turn terminology {n}')
+        require(len(re.findall(r'^## ',body,re.M))==len(revision['previous_headings']),f'preserved principal section count {n}')
     for fig in article_figures:
         require(fig['stem'] in row['figure_stems'],f'figure mapping {n}')
         require(set(fig.get('source_excerpt_ids',[])).issubset(row['snippet_ids']),f'figure source references {fig["stem"]}')
@@ -101,9 +102,10 @@ for fig in figures['figures']:
     require(int(node.attrib['width'])==fig['width'] and int(node.attrib['height'])==fig['height'],f'SVG size {svg.name}')
     texts=[n.text or '' for n in node.iter() if n.tag.endswith('text')]
     require(fig['title'] in texts and fig['note'] in texts,f'SVG captions {svg.name}')
+    require(not any(term in ' '.join(texts) for term in ['回合','代理']),f'English diagram terminology {svg.name}')
     checked_images.append({'png':fig['png'],'svg':fig['svg'],'width':fig['width'],'height':fig['height'],'ok':True})
 
-result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / historical or explicit editorial section contract / figure order and placement for article 02 / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
+result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / explicit editorial section contract and preserved principal section count / figure order and placement for all 16 articles / English Agent and Turn terms in prose and diagrams / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and boundaries / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
 RESULT.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({'articles':len(rows),'excerpts':snippets,'png':len(checked_images),'svg':len(checked_images),'links':links,'ok':not failures,'failures':failures},ensure_ascii=False))
 raise SystemExit(1 if failures else 0)

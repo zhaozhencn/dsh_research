@@ -6,19 +6,46 @@
 
 DeepSeek Harness 在这些层次提供不同检查。研究其安全设计，需要沿一次敏感操作追踪，而不是把“有审批”和“有 sandbox”加在一起便宣布安全。**每项措施限制哪一种主体、资源和动作，必须说清楚。**
 
+
+本文沿敏感工具的执行资格展开：scoped tool view 决定模型可见能力，pre-execute 与 ApprovalService 决定这次调用能否继续，文件和执行 provider 约束实际资源。Scope/realm 负责组合与寿命，目标工具再检查受控来源，Host 入口检查请求可信性。后几项是相邻边界，并非一次文件调用必经的全部函数；下面明确各自主体、输入和返回决定。
+
 ## 沿一次文件写入看权限链
 
 设想 Agent 要修改工作区外的配置文件。它先需要看见相关工具，调用进入 runtime 后通过 pre-execute 决策，可能需要审批，再经过 guard 和取消检查，最终文件 provider 还必须校验目标。某一层 allow，不代表其余层全部放行。[工具限制与 guard](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1063-L1155) [准备和执行顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1493-L1699)
 
-![权限与安全边界的机制图](assets/09-security.png)
-
-图1：一次敏感操作的检查层次。
 
 这种分层可以把策略选择与具体执行约束分开：应用规则决定是否应当询问用户，审批记录一次明确决定，provider 检查真正的路径或进程访问。审计时也能分别说明，是工具不可见、策略拒绝、用户拒绝，还是底层目标不合法。
 
 模型提示中的“不要访问某目录”仍有价值，但属于行为指导。它不能替代实际资源检查，更不能成为识别用户身份和租户资源归属的证据。
 
+![图1：敏感文件操作的执行资格](assets/09-security.png)
+
+图1：文件主线；进程 confinement 使用独立 provider。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
+
 ### 第一步：可见、准入和实际访问分别检查
+
+restrict() 先贡献工具视图，guardReason() 在准备时消费当前限制；prepare 的等待返回后检查 callerSignal。模型看见能力与一次调用取得派发资格，因而有不同判断点。
+
+工具可见性使用可组合的 ToolRestriction：
+
+```typescript
+export interface ToolRestriction {
+  /** Global tool names that stay visible; everything else is removed. */
+  readonly allow?: readonly string[]
+  /** Global tool names removed from visibility. */
+  readonly deny?: readonly string[]
+}
+```
+
+[源码：`packages/core/tools/src/index.ts:700–705`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L700-L705)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`allow`|保留的全局工具名|scoped view|
+|`deny`|移除的全局工具名|祖先与局部限制合成|
+
+它描述模型可见的工具集合；body 的实际路径权限由资源 provider 检查。两层协议都要保留。
+
 
 ```typescript
 restrict(filter: ToolRestriction): () => void {
@@ -84,11 +111,10 @@ guardReason 先看全局，再走 Agent 层链，首个拒绝即返回。局部�
 
 准备阶段等待结束后，原 callerSignal 取消仍阻止 dispatch。安全决策不仅是“某时刻允许过”，还包括当前执行是否仍有资格开始。把校验都移到注册时会错过参数、资源和生命周期变化。
 
-![图2：敏感写操作的权限链](assets/09-security-02.png)
-
-图2：授权检查必须沿实际操作执行。详见本节及相邻源码解读；图示省略其他分支。
 
 ## ask 没有通道时，为什么必须拒绝
+
+tool runtime 没有被可见性或 guard 拒绝后，pre-execute 仍可返回 ask。下面沿这条分支进入 ApprovalService，再把决定交回该次工具执行。
 
 ToolRuntime 对 ask 使用 ApprovalService。没有审批服务，或者没有 Agent 来提供 Session 审计和界面路由，都直接 deny。
 
@@ -116,7 +142,43 @@ if (exec.agent === undefined) {
 
 审批还需要处理等待期间的取消与卸载。迟到的回复不能让已经失效的执行继续，记录 decided 也不能脱离实际请求身份。否则审计中看似存在同意，授权却对应了错误生命周期。
 
+![图2：敏感文件 write 的资格链](assets/09-security-02.png)
+
+图2：进程 runner 属于另一资源路径，正文单独说明。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第二步：批准来自受控服务结果，而不是模型文本
+
+pre-execute 返回 ask 时，runtime 组装请求交给 ApprovalService.request()。服务先检查 policy，再分派 answerer；结果与取消一起竞争结算，runtime 消费明确 outcome。
+
+answerer 消费明确的请求结构，而不是一段“用户已同意”的文本：
+
+```typescript
+export interface ApprovalRequestEvent {
+  /** Agent identity projected to the corresponding Client Context in transit. */
+  readonly agent: Agent
+  /** Tool whose operation requires a decision. */
+  readonly toolName: string
+  /** Exact tool call being decided, when available. */
+  readonly callId?: ToolCallId
+  /** Human-readable reason supplied by the asker. */
+  readonly reason?: string
+  /** Localized presentation only; never persisted in approval audit events. */
+  readonly displayReason?: { readonly en: string; readonly [locale: string]: string }
+  /** Cancellation lifetime of the pending request. */
+  readonly signal?: AbortSignal
+}
+```
+
+[源码：`packages/interaction/user-approval/src/types.ts:63–76`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/interaction/user-approval/src/types.ts#L63-L76)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`agent` / `callId` / `toolName`|审批所属实例和可选精确调用|scope 分派及审计关联|
+|`reason` / `displayReason`|判断解释与本地展示|审计内容和 UI|
+|`signal`|这次等待的有效期|取消结算|
+
+请求中的 Agent 身份来自受控执行上下文。返回的 allowed-once 只授权本次执行；Host 的真实用户身份需在可信控制层连接。
+
 
 原文的 ask 分支先检查 approval 服务与调用 Agent。
 
@@ -179,6 +241,8 @@ return await new Promise<ApprovalOutcome>((resolve) => {
 
 ## 资源限制应该落到真实操作处
 
+合法批准使执行可以继续，body 随后调用实际 provider。这里以 fs-sandbox 为文件操作路径，sandbox-local 则是进程执行的另一资源约束支线。
+
 fs-sandbox 在 writeText 中先检查 target，再委派实际写入。
 
 ```typescript
@@ -202,6 +266,9 @@ override async writeText(
 跨平台能力还依赖实际实现。研究读到平台链和 enforcement 描述，不能替代目标 OS 上的越界路径、符号链接、后代进程和退出验证。本次没有完成 Linux／Windows confinement 实测。
 
 ### 第三步：新解析的目标必须就是接下来写入的目标
+
+取得本次资格后，文件 body 调用 fs provider。checkedTarget() 重新解析待写对象并返回 fresh，write/edit 将这份对象交给真实操作；进程则使用 sandbox runner 的独立路径。
+
 
 ```typescript
 private async checkedTarget(target: FsTarget, sandboxPolicy?: SandboxExecutionPolicy): Promise<FsTarget> {
@@ -271,11 +338,10 @@ const PLATFORM_CHAINS: Record<string, readonly SelectedRunner['runner'][]> = {
 
 平台先选择 runner 链，Linux 的多候选需要探测，darwin 与 Windows 单候选按配置进入执行。不能把统一 mode 名称解释为各平台保证完全相同；runner 的 enforcement、文件系统语义与不支持路径必须分别验收。
 
-![图3：安全边界分别管理什么](assets/09-security-03.png)
-
-图3：一层通过不能替另一层出具安全保证。详见本节及相邻源码解读；图示省略其他分支。
 
 ## Scope 与 realm 管理能力组合，不隔离不可信代码
+
+资源 provider 已说明，下面回到插件装配层，解释这些规则的服务如何被找到、由谁释放。Scope/realm 是组合关系，不是上一节的进程 confinement 实现。
 
 Cordis realm 解析服务 symbol，HarnessScope 过滤事件载体和注册可见性。子作用域继承祖先贡献，祖先可以观察子事件；资源归属调用 Context 的 Fiber effect。[HarnessScope 的传播](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/scope/src/index.ts#L1-L180) [服务提供与解析](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/cordis/src/reflect.ts#L277-L327)
 
@@ -283,7 +349,14 @@ Cordis realm 解析服务 symbol，HarnessScope 过滤事件载体和注册可�
 
 如果产品要加载不可信第三方插件，需要进程或其他执行隔离、明确 IPC 协议和资源授权，而不是复用逻辑 scope 的名称来作安全承诺。这是新增工程要求，不是对 scope 现有用途的否定。
 
+![图3：安全规则在不同层执行](assets/09-security-03.png)
+
+图3：各层保存自己的检查对象与撤销责任。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：组合边界管理注册与寿命
+
+这里切到服务组合：createScope() 建立 Fiber 归属，realm symbol 参与服务解析，dispose 撤销贡献并等待依赖。它管理第三步所用组件的装配寿命。
+
 
 ```typescript
 export function bindScopeParent(key: ScopeKey, parent: ScopeKey): ScopeParentBinding {
@@ -347,13 +420,37 @@ realm symbol 决定服务槽位，provider dispose 会通知依赖并等待它�
 
 ## 模型生成的指令不能变成人类授权
 
-目标工具会检查消息来源与权限：当前直接人类输入、自动目标回合和其他来源拥有不同权力。子 Agent 写出的“用户批准”文本，不会因为内容像一条人类消息就获得 root 用户权限。[目标工具的来源权限](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L48-L117) [目标操作的实际限制](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L207-L331)
+接下来转到修改目标的敏感工具：它消费 ToolRunContext 和 Session 来源事实，独立检查当前执行身份。此前审批或 scope 的存在不会自动替它生成直接人类来源。
+
+目标工具会检查消息来源与权限：当前直接人类输入、自动目标 Turn 和其他来源拥有不同权力。子 Agent 写出的“用户批准”文本，不会因为内容像一条人类消息就获得 root 用户权限。[目标工具的来源权限](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L48-L117) [目标操作的实际限制](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/index.ts#L207-L331)
 
 这项区分对 prompt injection 很重要。来源应来自受控消息元信息与执行身份，不能从自然语言自述反推。MCP server 指令也只是有来源的提示段，注册进 prompt 不等于授权，亦不表示已经有完整恶意内容识别。[MCP 服务指令的进入方式](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/mcp/mcp-client/src/server-context.ts#L28-L40)
 
 源码提供一些来源与执行限制，不应因此宣称已经通用解决了提示注入。输入内容识别、数据泄漏防护、工具风险策略和外部访问还需按产品目标分别设计与验证。
 
 ### 第五步：授权依赖来源与精确执行身份
+
+目标工具的来源检查是另一执行 consumer。goalToolExecution() 固定 live Agent 与开放 Turn 的事件截面，authority 方法据此判断 direct-human 或匹配的 goal-round。
+
+目标工具认证成功后的交接对象是 GoalToolExecution：
+
+```typescript
+export interface GoalToolExecution {
+  readonly agent: Agent
+  readonly events: readonly SessionEvent[]
+  readonly openTurnStartSeq: SessionSeq
+}
+```
+
+[源码：`packages/goal/tool-goal/src/authority.ts:12–16`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L12-L16)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`agent`|同一 live Agent 对象|registry 与 driver 检查|
+|`events` / `openTurnStartSeq`|不可变日志截面和当前 Turn 起点|当前已接纳来源检查|
+
+authority 扫描的是受控事件元信息；自然语言内容不改变 source.kind。保存开放边界也防止旧 Turn 的同意被当作当前授权。
+
 
 ```typescript
 export function goalToolExecution(ctx: Context, exec: ToolRunContext): GoalToolExecution {
@@ -393,7 +490,7 @@ function isMatchingGoalRound(execution: GoalToolExecution, goal: GoalView): bool
 
 [源码：`packages/goal/tool-goal/src/authority.ts:80–92`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/tool-goal/src/authority.ts#L80-L92)。
 
-直接人类来源必须是 root 当前 Turn 中已接纳 user/message；目标回合则匹配 goalId、revision、round。内容写着“用户同意”不会改变 source.kind。Host 发自动消息也必须显式标注来源，因为缺省 followup/steer 来源是 user，误用会扩大权力。
+直接人类来源必须是 root 当前 Turn 中已接纳 user/message；目标 Turn 则匹配 goalId、revision、round。内容写着“用户同意”不会改变 source.kind。Host 发自动消息也必须显式标注来源，因为缺省 followup/steer 来源是 user，误用会扩大权力。
 
 ```typescript
 export function registerServerContext(ctx: Context, server: string, connection: ServerContext): void {
@@ -415,9 +512,6 @@ export function registerServerContext(ctx: Context, server: string, connection: 
 
 MCP instructions 注册为有来源的 prompt 段，帮助模型理解服务器能力。它没有把外部自然语言提升为授权证明，也没有自动识别全部 prompt injection。策略应由可信 provider 和 Host 执行，模型文本只作为待解释数据。
 
-![图4：审批和来源的安全出口](assets/09-security-04.png)
-
-图4：自然语言内容不能升级为系统授权。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 控制面安全与执行面安全要分别验收
 
@@ -427,7 +521,14 @@ Host API trust、浏览器启动 token 与本地凭据权限检查属于控制�
 
 建立企业权限矩阵时，应逐 API 检查读取、写入、订阅与导出，逐 provider 检查实际资源访问，再检查不同生命周期的授权撤销。不能从一项本地审批测试推导整套多租户安全。
 
+![图4：审批和来源的安全出口：状态与行动](assets/09-security-04.png)
+
+图4：自然语言内容不能升级为系统授权。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第六步：请求可信与资源权限是两张检查表
+
+最后切到控制入口和凭据读取：api-request-trust 检查请求来源，credentials-local 检查文件权限。它们保护调用与配置来源，产品还需要将主体映射到具体 Session 和资源。
+
 
 ```typescript
 export function isTrustedApiRequest(request: ConnectionTrustRequest, trustedHosts: readonly string[]): boolean {
@@ -491,23 +592,21 @@ POSIX 读取前拒绝 group/other 权限，Windows 不假造 mode 验证。这�
 
 验收应分别覆盖 API 入口来源、用户身份映射、Agent 可用能力、具体资源范围、执行隔离与撤销后的等待路径。任一层通过都不能替另一层出具证明。
 
-## 优势、不足与技术心得
+## 技术心得：沿执行资格组织安全责任
 
-这套分层的优势是缺审批通道时拒绝 ask，授权有日志，路径与执行限制落到 provider，逻辑 scope 也能精确组合能力。安全判断不必全塞进模型提示或单个工具。
+### 为每一层写清主体、动作和资源
 
-不足是应用必须把各层接成完整策略，默认组合、provider 选择、来源身份与控制授权任何一项理解错误，都可能使产品承诺扩大。逻辑 scope 不隔离不可信插件，本地认证不自动等于企业身份，平台源码不代表全平台验证。
+ToolRestriction、ApprovalRequestEvent 与 fresh target 各保存不同检查对象。我会据此为敏感操作建立可读记录：哪个 Agent 提出哪次调用、收到什么决定、实际访问哪个目标。这样政策与资源效果能够逐层复核。
 
-我从研究中得到的技术心得是：安全能力应当用“谁对什么动作拥有哪种权力”描述，而不是用一串组件名称描述。审批限制的是本次敏感调用，sandbox 限制的是执行资源，Session 授权限制的是控制访问；这些义务需要协作，也应分别测试。
+### 在等待返回处保持同一资格
 
-此前审批用例验证选定 fail-closed 行为，目标权限用例验证来源限制；真实企业租户系统与跨平台沙箱未实测。下一篇会继续讨论：即使权限正确，怎样控制一个 Agent 何时主动继续、何时让用户接管。
+approval cancellation、callerSignal 检查与目标 revision 校验共同体现了有效期。企业扩展可以把参数摘要和策略版本加入审批关联，再在实际操作前复核，让迟到回复仍指向原来的那次工作。
 
-### 技术感悟：安全链最容易断在“等了一会儿”之后
+### 用组合边界安排责任
 
-这些实现的优势是拒绝语义保守，来源与对象身份明确，资源检查靠近实际操作。局限是插件同进程、平台执行保证有差异、企业身份与跨租户凭据尚需应用接线。
+Scope/realm 能准确挂接能力与清理；资源 provider 和控制面则执行各自权限。把这份分工落实到配置、实现和验收，团队会更容易说明某个规则由谁维护，发生撤销时由谁等待在途工作结束。
 
-真正的安全审查应从一个写操作逆向追踪：写入目标来自哪次解析，审批对应哪些参数，等待后请求是否取消，谁提供凭据，Scope 卸载之后旧代码是否还持有引用。这样的证据链比罗列若干 security 插件更能暴露问题。
-
-原有权限、审批、沙箱与目标授权测试验证选定路径。本次源码扩写不新增渗透测试，也不把本机保护提升为多租户生产隔离结论。
+对代码修复 Agent，安全研究最终应回到一次具体写入：从模型可见工具，经本次决定，到受约束的实际资源。本文提供源码上的追踪路径；原有受控验证保留，企业身份与目标平台隔离应按部署另行验收。
 
 ---
 

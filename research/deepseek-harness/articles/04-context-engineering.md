@@ -6,6 +6,9 @@ Agent 修改代码时，读过的文件、工具输出、旧计划和失败测�
 
 上下文工程因此需要回答两个问题：怎样从会话事实构造本次请求，以及输入过长后怎样改变这份视图。DeepSeek Harness 把事件日志、surface、projection 和模型 messages 分开，压缩也通过事件提交新视图。**原始历史保留什么，与当前模型看到什么，是两项不同责任。**
 
+
+上下文工程在 DSH 中是一条数据转换链：Session 事件形成 surface，preStep 组装 PromptAssembly，请求从当前视图派生 messages；压力策略读取测量与路由，必要时选择历史区间、调用摘要器，再用日志提交新的 checkpoint。本文沿输入视图、选区身份、摘要结果和提交事实解释这条链，窗口错误恢复作为单独支线展开。
+
 ## 从事实到请求，需要四种表示
 
 Session 日志记录发生了什么，包括用户输入、请求配置、模型输出、工具结果和压缩事实。surface 是当前参与模型请求的历史节点视图；它可以保留、追加或替换一部分节点。projection 则按事件维护系统提示、运行上下文或业务状态，`deriveMessages` 将当前视图转换为请求消息。[会话事件追加](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/index.ts#L718-L775) [请求消息派生](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/index.ts#L856-L904) [提示词与上下文投影](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/runtime-context.ts#L88-L164)
@@ -14,11 +17,15 @@ Session 日志记录发生了什么，包括用户输入、请求配置、模型
 
 DSH 的分层让替换视图成为明确动作。它并不自动判断哪些信息最有价值，而是提供可记录、可重建的处理机制；信息选择仍取决于插件策略、摘要质量和实际任务。
 
-![上下文工程的机制图](assets/04-context-engineering.png)
 
-图1：上下文压力处理支线。
+![图1：Compaction 如何改变请求视图](assets/04-context-engineering.png)
+
+图1：测量、选区、摘要与提交分别保存依据。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：日志保存原事实，请求由当前 surface 派生
+
+先从 deriveMessages() 确认模型历史的数据来源。它消费当前 surface，而 surface 是事实日志派生的执行视图，后面的压缩改变的是这一视图。
+
 
 ```typescript
 deriveMessages(): Message[] {
@@ -52,9 +59,6 @@ deriveMessages 先取得 surface.nodes 和 contentGeneration。代际发生变�
 
 原事实与请求视图的分离，也允许压缩不破坏审计：被摘要替换的工具输出仍可由原事件定位。它不意味着日志永远都能被当前 provider 原样发送，附件、私有状态和工具能力还需模型边界投影。
 
-![图2：压力压缩的执行步骤](assets/04-context-engineering-02.png)
-
-图2：原始事实保留，优化发生在模型视图。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 上下文组装发生在什么时刻
 
@@ -65,6 +69,29 @@ deriveMessages 先取得 surface.nodes 和 contentGeneration。代际发生变�
 同一 Step 重试通常不重新执行 preStep，也不重新消费 inbox。attempt 每次重新准备请求，从当时 surface 派生消息；如果恢复器压缩了历史，下一 attempt 能使用新的视图，但普通 assembly 不会因此无条件全部重做。扩展开发者要分清“步骤前上下文”与“每次请求派生”。[Step 内重试循环](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L398-L544) [每次请求的构建](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L547-L686)
 
 ### 第二步：组装、接纳和派生发生在不同边界
+
+回到调用顺序：turn() 调用 preStep() 取得 assembly 和准入消息，step() 再提交输入并派生 request。RuntimeContextProjection 在这次组装中决定需要追加的 context。
+
+组装阶段交接的是 PromptAssembly：
+
+```typescript
+export interface PromptAssembly {
+  sections: AssembledSection[]
+  contexts: AssembledContext[]
+  tools: ToolSchema[]
+  variables: Record<string, string | undefined>
+}
+```
+
+[源码：`packages/core/system-prompt/src/index.ts:118–123`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/system-prompt/src/index.ts#L118-L123)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`sections` / `contexts`|尚待渲染的提示与上下文段|renderPrompt / renderContextSections|
+|`tools` / `variables`|工具 schema 与渲染变量|本 Step 的请求构造|
+
+它承载组装结果，Session surface 承载历史视图；两者在 step() 构建 request 时汇合。
+
 
 ```typescript
 const claimed = this.inbox.claim(target, position.turn)
@@ -113,13 +140,22 @@ project(current: string, sections: readonly ContextSnapshotSection[]): UserMessa
 
 ## 先量化压力，再选择处理方式
 
+请求视图已经形成，自动维护接下来读取实际路由和 TokenMeasurement。只有达到政策条件，才从测量进入裁剪和摘要；下面跟踪触发判断怎样转换为具体选区。
+
 compaction-basic 使用 token meter 测量当前 surface，再结合精确模型窗口、输出预留和策略阈值判断压力。保留输出空间是必要的：请求能容纳全部输入，不代表还剩足够额度生成有效答案。
 
 处理可以先做无需模型的工具结果裁剪，随后重测。如果压力消失，便不必再花一次摘要调用；仍有压力才选取摘要范围。窗口溢出的恢复路径也可以先裁剪，但其选区与普通压力路径的尾部保留策略并不完全相同。[压力测量、裁剪与摘要路径](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/index.ts#L278-L346)
 
 这一机制的价值是让恢复动作与实际输入联系起来。只是调用过 compact 方法不够；选不到区域、裁剪无效或窗口信息缺失，都可能意味着请求仍然没有可用的恢复依据。
 
+![图2：compactRegion 的选区与提交](assets/04-context-engineering-02.png)
+
+图2：选区身份穿过异步摘要，提交保留来源关系。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第三步：按实际路由和输出预留计算压力
+
+自动维护进入 compactIfNeeded()，先取得 routedTarget，再用 TokenMeter 测量当前视图。resolveModelInfo() 与 resolveCompactSpec() 将窗口和输出预留带入阈值判断。
+
 
 ```typescript
 const target = routedTarget(agent.session)
@@ -158,6 +194,9 @@ resolveModelInfo 是异步查询；返回后检查没有活动压缩。未知 co
 
 ### 第四步：先做低成本裁剪，再判断是否需要摘要
 
+压力通过判断后，compactIfNeeded() 先运行可选 pruner 并重测，再选择区间调用 compactRegion()。它消费上一阶段的 measurement，而不是固定删掉最后若干条消息。
+
+
 ```typescript
 // Once pressure qualifies, land the model-free pass before choosing a
 // summary range, then remeasure through the singleton replay fold.
@@ -187,11 +226,10 @@ for (let attempt = 0; attempt <= spec.compactionRetries; attempt += 1) {
 
 overflow 支线与普通 pressure 不同：供应商已经确认窗口不足，可以绕过普通阈值与尾部保留政策，尝试一份有效缩减。裁剪 provider 可不挂载，这也是独立组合的边界。[窗口溢出下的可选裁剪与选区](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/index.ts#L289-L302)
 
-![图3：请求输入的四种表示](assets/04-context-engineering-03.png)
-
-图3：压缩不等于删除审计日志。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 选区必须尊重工具历史的结构
+
+裁剪后的测量仍显示压力时，策略需要把“保留多少”转换成合法的历史区间。选区同时维护 token 口径与 tool-call/result 配对，供异步摘要前后复核。
 
 保留最后若干 token，并不等于可以从任意消息位置切开历史。工具调用与结果需要配对，否则下一模型可能看到悬空的 tool-call。下面的选区片段会检查尾部边界之前的配对情况，必要时继续向前移动。
 
@@ -216,7 +254,37 @@ return { start: first, end: cutoff }
 
 例如一次读取请求有三条工具结果，选区不能只保留 assistant 的调用而移除某个结果。对工具密集任务，结构正确比机械保留固定条数更重要，因为模型不仅需要文本，也需要知道各个结果属于什么操作。
 
+![图3：从事实到模型输入的四种表示](assets/04-context-engineering-03.png)
+
+图3：每种表示服务一种用途，并以身份关联。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第五步：测量结果必须对应同一份 nodes
+
+selectCompactableRange() 把测量映射到当前 nodes，先核对 seq，再算保留位置。位置只是候选边界，后续 pairing 检查还要使调用与结果保持完整。
+
+选区进入摘要前扩展为 PreparedCompaction：
+
+```typescript
+interface PreparedCompaction extends SurfaceSelection {
+  readonly measurement: TokenMeasurement
+  readonly selectedNodes: TokenMeasurement['nodes']
+  readonly shadowedTokenCount: number
+  /** Route-priced total of the selected span; the shrink comparison's unit. */
+  readonly shadowedRouteTokenCount: number
+  readonly input: SummarizationInput
+}
+```
+
+[源码：`packages/compaction/compaction-basic/src/region.ts:42–49`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L42-L49)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`measurement` / `selectedNodes`|对应选区的计量快照|稳定性与收缩检查|
+|`shadowedTokenCount` / `shadowedRouteTokenCount`|节点及路由口径的大小|摘要记录与缩减比较|
+|`input`|由选区生成的 SummarizationInput|摘要器|
+
+它继承 SurfaceSelection 的 start/end、索引和 shadowedSeqs。保存选区身份与计量快照，返回时才有准确的比较对象。
+
 
 ```typescript
 const pricedNodes = measurement.nodes
@@ -251,6 +319,9 @@ pricedNodes 来自 tokenMeter，但先比较长度与每个 seq，拒绝过期�
 
 ### 第六步：异步摘要期间，选区外变化与选区内变化区别处理
 
+选区交给摘要器后可能发生 await，assertSelectedSpanStable() 在返回时再次确认旧区间。这里先看提交所需的身份条件，下一节再展开真正的摘要调用。
+
+
 ```typescript
 let current: SurfaceSelection
 try {
@@ -278,6 +349,8 @@ validateSurfaceRegion 再确认原区间仍存在并连续；shadowedSeqs 必须
 
 ## 摘要如何成为可重放的 checkpoint
 
+合法选区确定后，compactRegion 的事务路径把它准备为摘要输入；摘要返回再校验同一范围并提交，确保新 checkpoint 能与旧事实建立关系。
+
 压缩先追加 `compaction/start`，准备并直接调用 LLM 摘要器；它具有独立路由、maxTokens 和 usage，不是创建另一个 Agent。摘要结束后检查内容、取消状态和选区稳定性，再提交压缩正文与 end。[压缩过程和错误收尾](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L173-L268) [摘要模型调用](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L120-L180)
 
 提交包含两种事实：`compaction/summary` 保存摘要、来源范围和调用信息；带 surfaceOp 的 `user/message` 将选区替换为 checkpoint。历史事件没有因此被当场删除，重放日志也不需要重新询问摘要模型。[摘要与视图替换的提交](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L470-L509)
@@ -285,6 +358,34 @@ validateSurfaceRegion 再确认原区间仍存在并连续；shadowedSeqs 必须
 空文本、error、aborted 和 max-tokens finish 都不能被当成完整摘要。截断摘要可能遗漏任务约束，如果继续把它作为可靠 checkpoint，后续执行看起来正常，实际信息却已经损坏。保守拒绝这些结算，是上下文质量控制的一部分。[摘要失败与截断检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L196-L209)
 
 ### 第七步：打开压缩边界后，才等待摘要器
+
+compactRegion() 建立 compaction/start，再 prepareCompaction() 和 summarizeCompaction()；返回时检查 signal 与 stability，才进入 commitCompactionBody()。
+
+压缩调用者通过事务选项说明运行场景：
+
+```typescript
+interface CompactionTransactionOptions {
+  /** `current-turn` derives a numbered owner; `null` writes a standalone bracket. */
+  readonly owner: 'current-turn' | null
+  /** Surface relationship that must survive asynchronous summarization. */
+  readonly stability: 'whole-surface' | 'selected-span'
+  /** Optional durability checkpoint after a successfully closed bracket. */
+  readonly flush?: () => Promise<void>
+  /** Manual command that initiated this transaction, when present. */
+  readonly sourceCommandId?: CommandId
+}
+```
+
+[源码：`packages/compaction/compaction-basic/src/region.ts:55–64`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L55-L64)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`owner`|当前 Turn 或独立操作|start/end 归属|
+|`stability`|whole-surface 或 selected-span|await 后稳定性检查|
+|`flush` / `sourceCommandId`|可选持久屏障与命令来源|关闭及审计关联|
+
+同一个 compact 操作由自动压力维护、窗口恢复或人工命令发起时，使用的稳定性和错误政策可以不同；调用者必须一起阅读。
+
 
 ```typescript
 const compactionId = CompactionId(randomUUID())
@@ -308,6 +409,8 @@ let stage: TransactionFailure['stage'] = 'summary'
 [源码：`packages/compaction/compaction-basic/src/region.ts:204–219`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L204-L219)。
 
 生成 compactionId，记录所属 Turn 和可选 commandId，然后追加 compaction/start。start 与前面的活动检查同步相邻，因此日志中的开放边界能被其他操作发现。随后选择稳定规则并准备失败阶段标记：summary 与 commit 分开，便于解释错误发生在哪里。
+
+compaction/start 已提交，下面继续沿 compactRegion() 的 try 分支。prepareCompaction() 把选区变成摘要材料，await summarizeCompaction() 返回后复核稳定性，再交给 commitCompactionBody()；下一步会进入摘要器的模型调用。
 
 ```typescript
 try {
@@ -335,7 +438,10 @@ try {
 
 prepareCompaction 形成待摘要输入；await summarizeCompaction 后先检查取消和稳定性，才执行 commitCompactionBody。closing 设为 true 后尝试 end；不能因为摘要文本已经生成，就对外宣布一次完整压缩成功。
 
-### 第八步：摘要是辅助 LLM 调用，不是一个新的 Agent 回合
+### 第八步：摘要是辅助 LLM 调用，不是一个新的 Agent Turn
+
+summarizeCompaction() 所需的模型摘要由 summarizeWithLlm() 提供。它直接调用 LLM，返回 SummaryResult 给 compaction 路径；不创建新的 Agent driver。
+
 
 ```typescript
 const options: GenerateOptions = {
@@ -396,6 +502,9 @@ error、aborted 抛出 LlmError；max-tokens 也明确拒绝，因为截断结�
 
 ### 第九步：摘要记录与替换用户消息都进入日志
 
+SummaryResult 通过完整性和稳定性检查后，commitCompactionBody() 追加 summary 与替换消息。sourceEventSeqs 把新 checkpoint 关联到被替换范围和本次摘要。
+
+
 ```typescript
 const summaryEvent = session.append('compaction/summary', {
   compactionId: startEvent.data.compactionId,
@@ -424,9 +533,6 @@ compaction/summary 记录文本、被遮盖的 seq、token 数、路由及 usage
 
 这里两次 append 同步执行，避免中间 yield；它仍不是数据库事务式全回滚。如果 summary 已追加但 checkpoint 或 end 失败，日志要保留异常边界以便恢复解释。错误分支至多再尝试一次 compaction/end，关闭失败会保留 unmatched start。[压缩错误、关闭失败与刷新失败](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/region.ts#L240-L270)
 
-![图4：窗口恢复的判断依据](assets/04-context-engineering-04.png)
-
-图4：摘要完整与摘要语义正确还需分别评估。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 窗口错误重试需要“进展证明”
 
@@ -446,7 +552,14 @@ return { kind: 'retry' }
 
 replaceGeneration 提供的是视图变化证据，不是摘要语义正确的证明。它解决“恢复动作有没有落地”，业务信息是否完整还依赖摘要策略和评测；两项判断不能混淆。
 
+![图4：窗口恢复的判断依据：状态与行动](assets/04-context-engineering-04.png)
+
+图4：摘要完整与摘要语义正确还需分别评估。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第十步：先记录代际，再判断恢复是否真正改变请求视图
+
+这里转到供应商窗口溢出的恢复支线：request-error listener 调用同一压缩能力，并比较 replaceGeneration。只有请求视图真实前进，才返回 retry 进入原 Step 的新 attempt。
+
 
 ```typescript
 if (failure.code !== CONTEXT_WINDOW_EXCEEDED_CODE || signal.aborted) return next()
@@ -523,19 +636,19 @@ try {
 
 ## 技术心得：优化应针对视图，审计应保留事实
 
-上下文分析让我看到一种可迁移的设计原则：当同一批数据同时服务执行与追溯时，应允许它们拥有不同表示。事实日志尽量回答发生了什么，请求视图回答现在需要什么；优化操作必须留下能解释两者关系的记录。
+### 用不同表示服务不同读者
 
-另一个收获是，恢复策略应检查实际进展。重试次数、摘要调用次数只是动作统计，只有输入视图改变，才构成窗口恢复的直接依据。这个思路也适用于缓存重建、状态迁移和任务修复。
+日志保留行动事实，surface 决定当前历史，PromptAssembly 组织提示，request.messages 交给模型。我的收获是，把数据表示与用途一起定义，再用 seq 和 replacement 事实连接它们，既便于执行优化，也便于回看优化前的过程。
 
-V10 的 105 项 compaction 用例验证受控摘要下的压力、溢出、失败与取消路径。它们没有证明真实模型摘要保持全部业务信息，也没有测量生产任务的最优压缩阈值。下一篇将进一步区分：这些上下文视图、会话事实和长期记忆究竟怎样被保存。
+### 让异步优化带着材料身份返回
 
-### 技术感悟：优化本身也需要一份可解释的协议
+PreparedCompaction 保存选区和计量快照，摘要返回后重新检查原区间。这个实践可用于任何后台重写：先记录处理哪份材料，完成后确认它仍适用，再提交替换结果。
 
-压缩值得学习的部分不止“请模型总结”：先定义材料身份，再定义可替换边界，等待后重查，最后用日志连接旧事实和新视图。缺少任何一环，都可能出现摘要看似合理、实际替换对象已经变化的问题。
+### 以视图进展决定恢复
 
-还有一个实用认识：自动压力维护可以失败后继续主回合，供应商确认的窗口溢出却必须看恢复是否有进展；同一个 compact API 在不同触发场景承担不同政策。阅读调用者比仅阅读方法名更重要。
+pruner 之后重新测量，窗口恢复比较 replaceGeneration，二者都检查动作实际带来的改变。应用策略可以进一步保存关键约束，并用任务集对比摘要前后的目标、结论和待办，形成执行压力与信息质量两份评测。
 
-原有 105 项受控 compaction 用例支持选定压力、溢出和取消链，本轮增加的是这些链路的逐段解读。真实摘要质量、最优阈值和完整生产成本仍需独立任务评测。
+对持续代码修复，务实的目标是让模型保留当前任务、关键失败和未完成工作，同时让 Session 仍可追溯原始工具结果。本文的选区、稳定性与提交协议给出了实现这一目标的基础。
 
 ---
 

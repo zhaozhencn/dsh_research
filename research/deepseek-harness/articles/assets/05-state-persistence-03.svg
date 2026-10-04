@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1060" viewBox="0 0 1200 1060">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>状态的四种寿命</title>
-<desc>恢复承诺应逐对象说明</desc>
+<title>恢复对象的数据与寿命</title>
+<desc>恢复承诺按对象与来源分别定义</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">05 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">状态的四种寿命</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">恢复对象的数据与寿命</text>
 <rect x="80" y="178" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="178" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">持久事实</text>
-<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">Session JSONL</text>
-<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">恢复后可重放</text>
+<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Ledger</text>
+<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">Session JSONL / seed</text>
+<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">resume 消费有效事件前缀</text>
 <rect x="80" y="360" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="360" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">可重建投影</text>
-<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">fold / projection</text>
-<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">版本与事件游标约束</text>
+<text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Projection</text>
+<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">fold / stateVersion</text>
+<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">按已安装解释器重建状态</text>
 <rect x="80" y="542" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="542" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">进程运行态</text>
-<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">inbox / activation / jobs</text>
-<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">不能由历史自动复活</text>
+<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Live state</text>
+<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">activation / jobs / driver</text>
+<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">重新组织运行资格与管理对象</text>
 <rect x="80" y="724" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="724" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">临时展示态</text>
-<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">workspace diff sources</text>
-<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">重启或 dispose 后可丢失</text>
-<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">恢复承诺应逐对象说明</text>
+<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Diff source</text>
+<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">TurnRecord / scratch</text>
+<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">丰富内容有自己的存储来源</text>
+<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">恢复承诺按对象与来源分别定义</text>
 <text x="600" y="1024" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
 </svg>

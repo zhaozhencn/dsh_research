@@ -225,3 +225,22 @@ git diff --check
 [本轮复核](../validation/agent-loop-refinement-review.json)记录编辑前提交、保留结构、新增摘录位置与hash、实际命令和限制。对照编辑基线，其他15篇正文及120个PNG／SVG文件未变；上游SHA与checkout保持原状。初次渲染通过，语义复核后明确 running Phase、request.messages 与获准 retry，再次完整重建；保留[初次绘图](../validation/agent-loop-refinement-diagrams-initial.log)和[最终绘图](../validation/agent-loop-refinement-diagrams.log)。最终检查记录见[正文日志](../validation/agent-loop-refinement-column.log)、[完整材料日志](../validation/agent-loop-refinement-artifacts.log)、[差异检查](../validation/agent-loop-refinement-diff-check.log)、[专栏结果](../validation/column-check.json)及[材料结果](../validation/artifact-check.json)。
 
 本轮没有新增或重跑runtime测试及类型编译，不改变历史测试统计。文稿和图示检查验证原文、定位、结构及资产一致性；语义另由单一执行者复核，没有真实模型任务、公众号编辑器预览或发布，也没有独立SVG浏览器渲染。
+
+## 其余15篇同步完善：衔接、核心数据与图文组织
+
+本次按第02篇的优化标准修改第01、03—16篇，源码仍固定为`5badb15009ae1756c3afe0ae0cef1faafc290ccc`。各篇补充开头的整体说明，以前一阶段输出、caller／callee、交接数据与返回决定连接步骤；不同生命周期和独立分支明确标出切换位置。关键步骤新增48段核心数据与状态原文，配合字段、用途和消费位置解读，全系列现有364段摘录。结尾分别提炼与正文对应的实践收获，具体实现边界仍保留在分析中。
+
+15篇保留各自主体章节数量、原步骤顺序及所有既有摘录，标题按英文术语与心得主题作必要调整。四张图依正文关注点重新分布，60张PNG和60张SVG重绘，保留Agent、Turn、Step、attempt及源码标识；调用时序、并列数据对象和成本关联分别表达。第02篇正文与其8个PNG／SVG文件对照编辑基线逐字节未变。历史结构基线和验证批次不改写；新旧标题及图片位置由[现行编辑约定](../validation/column-editorial-revisions.json)明确记录。
+
+```sh
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+node research/deepseek-harness/validation/check-artifacts.mjs
+git diff --check
+```
+
+[逐篇复核记录](../validation/series-refinement-review.json)保存编辑前提交、文稿hash、新增结构与固定SHA原文范围、保留检查、图片分布和实际命令。单一执行者复核字段与caller、consumer的关系，查看四组图片总览，特别检查文件写入与进程confinement分路、prepared registration的闭包归属、scheduler真实方法、结构化capture的最终结算及预算图的成本关联。绘图脚本从同一几何定义生成PNG／SVG，并检查文字宽度与纵向边界。
+
+本轮编辑辅助脚本首次解析出现UTF-8编码声明问题，保留[初次制作日志](../validation/series-refinement-authoring-initial.log)，显式声明编码后生成成功；这是文稿制作问题，不是runtime失败。[首次重建](../validation/series-refinement-diagrams-initial.log)通过，语义复核后修正部分源码标签与衔接文案，再[完整重建](../validation/series-refinement-diagrams.log)。[首次正文检查](../validation/series-refinement-column-initial.log)通过；最终输出见[正文日志](../validation/series-refinement-column.log)、[完整材料日志](../validation/series-refinement-artifacts.log)、[差异检查](../validation/series-refinement-diff-check.log)、[专栏结果](../validation/column-check.json)和[材料结果](../validation/artifact-check.json)。
+
+没有新增或重跑runtime测试、类型编译、真实模型或部署实验。此前同一SHA的37个去重测试文件、1520 passed、1个条件skip保留为历史证据。文稿检查证明原文、定位、结构及资产一致性，语义判断另行复核；未在公众号编辑器预览或发布，未进行独立SVG浏览器渲染，上游checkout保持原SHA且无改动。

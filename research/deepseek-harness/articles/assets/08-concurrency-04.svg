@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1140" viewBox="0 0 1200 1140">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>额度何时可以归还</title>
+<title>额度何时可以归还：状态与行动</title>
 <desc>stopping 不是 finished，取消不是资源释放</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">08 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">额度何时可以归还</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">额度何时可以归还：状态与行动</text>
 <rect x="130" y="175" width="940" height="110" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="600" y="241" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">根据资格、已知事实与生命周期分别判断</text>
+<text x="600" y="241" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">依据执行身份、当前状态与已提交事实选择</text>
 <path d="M600,285 L600,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <path d="M220,312 L980,312" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <path d="M220,312 L220,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -38,7 +38,7 @@
 <path d="M980,312 L980,352" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="980,352 972,338 988,338" fill="#6f8aa5"/>
 <rect x="815" y="352" width="330" height="630" rx="18" fill="#fff6ed" stroke="#cedcea" stroke-width="2"/>
-<text x="980" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">子 Agent</text>
+<text x="980" y="416" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Child Agent</text>
 <text x="980" y="507" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">父取消或结果到达</text>
 <path d="M842,531 L1118,531" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <text x="980" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#16324e">停止 child driver</text>

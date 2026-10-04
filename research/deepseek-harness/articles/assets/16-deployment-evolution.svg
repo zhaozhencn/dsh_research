@@ -1,28 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1730" viewBox="0 0 1200 1730">
 <rect width="100%" height="100%" fill="#f6f8fb"/>
 <text x="600" y="61" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">16 / 从源码理解 Agent Harness</text>
-<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">升级需要分别处理的对象</text>
+<text x="600" y="135" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="52" fill="#182d49">Deployment 变化的三类对象</text>
 <rect x="80" y="190" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="258" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">代码与配置</text>
-<text x="600.0" y="315" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">profile、Entry 与 HMR</text>
+<text x="600.0" y="258" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Entry / Reload</text>
+<text x="600.0" y="315" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">候选配置、模块与运行树</text>
 <rect x="80" y="403" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="471" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">激活与失败审计</text>
-<text x="600.0" y="528" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">局部恢复不是全树事务</text>
+<text x="600.0" y="471" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Activation audit</text>
+<text x="600.0" y="528" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">准备、等待和审计决定新组合是否可用</text>
 <line x1="600" y1="354" x2="600" y2="393" stroke="#7390ac" stroke-width="4"/><polygon points="600,393 591,379 609,379" fill="#7390ac"/>
 <rect x="80" y="650" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="718" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">在途实例</text>
-<text x="600.0" y="775" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">Agent、provider 和生产者</text>
+<text x="600.0" y="718" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Fiber / live Agent</text>
+<text x="600.0" y="775" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">旧 driver、provider 和 producer</text>
 <rect x="80" y="863" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="931" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">停止接纳并排空</text>
-<text x="600.0" y="988" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">不能只替换注册就释放资源</text>
+<text x="600.0" y="931" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Drain / release</text>
+<text x="600.0" y="988" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">先停止新增，再等待既有工作结束</text>
 <line x1="600" y1="814" x2="600" y2="853" stroke="#7390ac" stroke-width="4"/><polygon points="600,853 591,839 609,839" fill="#7390ac"/>
 <rect x="80" y="1110" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="1178" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">会话数据</text>
-<text x="600.0" y="1235" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">codec、迁移、generation</text>
+<text x="600.0" y="1178" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">PreparedJsonlMigration</text>
+<text x="600.0" y="1235" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">sourceIdentity / artifact / publish</text>
 <rect x="80" y="1323" width="1040" height="154" rx="18" fill="white" stroke="#c5d1df" stroke-width="2"/>
-<text x="600.0" y="1391" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">旧格式与新状态兼容</text>
-<text x="600.0" y="1448" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">保留前代不等于任意降级</text>
+<text x="600.0" y="1391" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="46" fill="#182d49">Successor generation</text>
+<text x="600.0" y="1448" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">取得写所有权后发布转换结果</text>
 <line x1="600" y1="1274" x2="600" y2="1313" stroke="#7390ac" stroke-width="4"/><polygon points="600,1313 591,1299 609,1299" fill="#7390ac"/>
-<text x="600" y="1604" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">入口验证、数据兼容和外部副作用分别承担义务</text>
+<text x="600" y="1604" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#516781">代码注册、实例寿命和状态兼容分别验收</text>
 <text x="600" y="1659" text-anchor="middle" font-family="Heiti SC, PingFang SC, sans-serif" font-size="34" fill="#657a92">研究基线 5badb15009ae · 机制示意，非全量调用图</text>
 </svg>

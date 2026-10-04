@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1060" viewBox="0 0 1200 1060">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>请求输入的四种表示</title>
-<desc>压缩不等于删除审计日志</desc>
+<title>从事实到模型输入的四种表示</title>
+<desc>每种表示服务一种用途，并以身份关联</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">04 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">请求输入的四种表示</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">从事实到模型输入的四种表示</text>
 <rect x="80" y="178" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="178" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">事件日志</text>
-<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">append-only 事实</text>
-<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">用于审计与恢复</text>
+<text x="222" y="256" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Session log</text>
+<text x="740" y="236" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">append-only events / seq</text>
+<text x="740" y="291" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">保存恢复与审计依据</text>
 <rect x="80" y="360" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="360" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
 <text x="222" y="438" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Surface</text>
-<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">可重放的消息视图</text>
-<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">由 append / replace 等构造</text>
+<text x="740" y="418" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">append / replace view</text>
+<text x="740" y="473" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">决定当前可见历史</text>
 <rect x="80" y="542" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="542" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">上下文段</text>
-<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">系统与运行时信息</text>
-<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">按边界投影、替换或追加</text>
+<text x="222" y="620" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Prompt</text>
+<text x="740" y="600" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">PromptAssembly</text>
+<text x="740" y="655" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">sections、contexts、tools 与 variables</text>
 <rect x="80" y="724" width="1040" height="152" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
 <rect x="80" y="724" width="285" height="152" rx="18" fill="#e7eff9" stroke="#cedcea" stroke-width="2"/>
-<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">LLM request</text>
-<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">路由适配后的输入</text>
-<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">本次能力与工具 schema</text>
-<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">压缩不等于删除审计日志</text>
+<text x="222" y="802" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="38" fill="#16324e">Request</text>
+<text x="740" y="782" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="36" fill="#16324e">GenerateOptions.messages</text>
+<text x="740" y="837" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="31" fill="#526b85">消费本次 route 的能力投影</text>
+<text x="600" y="976" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">每种表示服务一种用途，并以身份关联</text>
 <text x="600" y="1024" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
 </svg>

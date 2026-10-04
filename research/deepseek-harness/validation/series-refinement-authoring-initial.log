@@ -1,0 +1,1 @@
+SyntaxError: Non-UTF-8 code starting with '\xe5' in file /Users/zz/prj/dsh_research/.sources/series-refinement/profiles-first.py on line 30, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details

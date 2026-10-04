@@ -8,6 +8,9 @@ DeepSeek Harness 把模型接入分成路由选择、能力解析、单次调用
 
 本文从一次代码修复任务切换模型的场景出发，分析这一机制如何工作，以及它能解决哪些兼容问题。
 
+
+整体接线可以分为装配与执行：插件用 registerAdapter() 提供 provider 路由；Loop 提出配置并调用 prepareCall()；LLM runtime 固定 registration、能力和 config，再通过绑定的 stream 入口派发。消息、附件与 replayState 在发送边界投影，失败再以 finish 返回 Loop。本文先解释契约，再沿注册、准备、派发和返回逐层展开。
+
 ## 接口统一之后，差异仍然存在
 
 模型服务的共同部分可以抽象为输入消息、工具定义、流式块和结束原因。差异则包括 reasoning effort 是否支持、哪些 effort 合法、默认输出额度、上下文窗口、图像模态，以及系统提示和工具定义能否在历史中更新。
@@ -16,7 +19,14 @@ DeepSeek Harness 把模型接入分成路由选择、能力解析、单次调用
 
 例如应用统一提供 high reasoning 选项，某个模型却不支持相应 effort。源码会拒绝不支持的取值，而不是悄悄丢弃它。这样调用者能区分“已按要求执行”和“服务降级执行”。代价是应用必须处理能力错误，也需要为不同模型提供适当选项。
 
+![图1：PreparedLlmCall 的绑定与派发](assets/03-model-adaptation.png)
+
+图1：从准备到发送使用同一次 registration。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
+
 ### 第一步：能力不是 provider 的一个笼统标签
+
+先看 adapter 返回的精确模型契约，再看 normalizeModelInfo() 如何检查它。后续 prepareCall() 将调用这个规范化方法，确保能力身份对应本次 provider/model。
+
 
 ```typescript
 /** Exact-route model metadata resolved by its owning adapter. */
@@ -87,23 +97,22 @@ if (systemPromptUpdate !== undefined && systemPromptUpdate !== 'in-history') {
 
 上下文窗口必须是正整数；systemPromptUpdate 只接受当前实现认识的模式。代码复制能力信息再交给下游，避免 adapter 后来修改对象造成一次调用内能力漂移。能力校验提高可解释性，却不能证明远端供应商始终按声明行为，需要用真实模型再验证。
 
-![图2：路由与调用的绑定时序](assets/03-model-adaptation-02.png)
-
-图2：未来注册改变，不自动改写已准备调用。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 路由选择和调用绑定是两个阶段
 
+能力对象已经明确，接下来把它接到可查找的 provider 路由。注册发生在插件装配期，prepareCall 则发生在每个 attempt；两种生命周期在 registration 的捕获位置连接。
+
 Agent Loop 在 `agent/request` waterfall 中允许插件调整 provider、model 及配置。这个阶段回答“这次用谁”；`LlmRuntime.prepareCall` 则读取 adapter 注册，等待 adapter 准备调用，规范模型信息和默认值，固定配置，然后返回 PreparedCall。[Loop 的请求准备](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L547-L686) [LLM 调用准备](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L929-L1018)
 
-![模型接入与能力适配的机制图](assets/03-model-adaptation.png)
-
-图1：一次模型调用的绑定过程。
 
 这里的等待不是无关紧要的细节。模型能力可能需要异步读取；同一时间配置刷新或 HMR 可能替换注册。如果请求先按旧模型能力组织历史，发送时又取新 adapter，就会产生组合错误：每个对象单独都正确，组合却不是一次一致的调用。
 
 PreparedCall 持有本次 registration、解析后的配置和能力，把它们一起交给发送入口。它冻结的是这次调用的选择，不代表整个 Session 此后永远使用这一模型，也不代表所有插件都不能再影响请求。重试可以重新准备，但一个已经准备好的 attempt 不能随意改换配置。
 
 ### 第二步：注册拥有路由，销毁必须释放自己仍拥有的路由
+
+能力由实现提供，registry 则把实现挂到 provider。registerAdapter() 返回管理注册的 handle，其 disposer 属于注册上下文；后续请求据此捕获 registration。
+
 
 ```typescript
 registerAdapter(providers: string[], adapter: LlmAdapter): AdapterRegistrationHandle {
@@ -129,7 +138,34 @@ registerAdapter(providers: string[], adapter: LlmAdapter): AdapterRegistrationHa
 
 owned 集合记录此 registration 当前管理的 provider；released 与 owned 分开，因为 replace([]) 可以留下一个活着却没有路由的注册。effect 的销毁闭包删除当前 owned、清空集合并通知更新。把卸载简单写成删除最初 providers 数组，会漏掉动态 replace 之后新增的路由。
 
+![图2：prepareCall 到绑定 stream 的交接](assets/03-model-adaptation-02.png)
+
+图2：准备结果是一次调用的完整执行描述。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第三步：能力查询与一次调用绑定的契约不同
+
+路由可查找后，resolveCallConfig() 提供配置查询，prepareCall() 则保留发送能力。Loop 使用后者，把异步解析的结果交给当前 attempt。
+
+adapter 一侧先返回 PreparedAdapterCall：
+
+```typescript
+export interface PreparedAdapterCall {
+  /** Exact model metadata from the same adapter generation as {@link stream}. */
+  readonly model: LlmResolvedModelInfo
+  /** Dispatch through that generation without re-reading dynamic connection facts. */
+  stream(options: GenerateOptions): AsyncIterable<StreamChunk>
+}
+```
+
+[源码：`packages/llm/llm/src/index.ts:195–200`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L195-L200)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`model`|当前 adapter generation 的模型信息|normalizeModelInfo()|
+|`stream(options)`|使用同一 generation 派发|runtime 绑定的发送入口|
+
+模型信息与发送能力一起返回，等待能力解析时 registry 变化也不会把两次选择混用。
+
 
 ```typescript
 async resolveCallConfig(config: LlmCallConfig, signal?: AbortSignal): Promise<LlmCallConfig> {
@@ -226,6 +262,48 @@ async prepareCall(config: LlmCallConfig, signal?: AbortSignal): Promise<Prepared
 
 ### 第四步：单次句柄既检查次数，也检查实际请求配置
 
+prepareCall() 返回后，stream() 消费这个一次性调用对象；它继续进入 streamWithRegistration()，保持配置与派发实现一致。这里沿发送边界补充第二次配置检查。
+
+提供给 Loop 的完整交接结构是 PreparedLlmCall：
+
+```typescript
+export interface PreparedLlmCall {
+  /** Detached, deep-frozen config with any adapter-owned default materialized. */
+  readonly config: LlmCallConfig
+  /** Immutable retry policy captured with the adapter registration. */
+  readonly retryPolicy: ResolvedRetryPolicy
+  /** Detached context metadata resolved with the registration-bound call. */
+  readonly context?: LlmModelContext
+  /** Exact model modalities captured with the adapter dispatch generation. */
+  readonly inputModalities?: readonly ModelModality[]
+  /** Exact model system prompt update mode captured with the adapter dispatch generation. */
+  readonly systemPromptUpdate?: SystemPromptUpdate
+  /** Exact model tool update mode captured with the adapter dispatch generation. */
+  readonly toolUpdate?: ToolUpdate
+  /** Config fields materialized by the captured adapter rather than proposed by the caller. */
+  readonly adapterDefaults: LlmCallConfigAdapterDefaults
+  /**
+   * Dispatch this call once through the registration captured during
+   * preparation. The request's call-config fields must match {@link config};
+   * reuse or mismatch fails with `INVALID_PREPARED_CALL`.
+   * @param options - fully assembled request carrying the prepared config.
+   * @returns the chunk stream, including the `llm/stream` waterfall.
+   */
+  stream(options: GenerateOptions): AsyncIterable<StreamChunk>
+}
+```
+
+[源码：`packages/llm/llm/src/index.ts:169–192`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L169-L192)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`config` / `adapterDefaults`|实际参数与默认值来源|历史记录及配置比较|
+|`context` / `inputModalities`|窗口与输入能力|压力计算和消息投影|
+|`retryPolicy` / `stream()`|恢复策略与一次派发能力|失败处理及本 attempt 发送|
+
+它不是一份可无限重用的客户端。每次 retry 都重新 prepare，以取得属于新 attempt 的调用描述。
+
+
 原文片段中，dispatched 在校验成功后、派发之前设为 true。这是一次调用消费，不是“等网络成功才算使用”。网络失败之后应重新 prepare 新 attempt，而不是用同一个句柄重新发送。
 
 发送边界还有一次配置检查：
@@ -251,6 +329,32 @@ prepared 存在时，options 必须与 resolvedConfig 一致；否则抛 INVALID
 这项校验比较的是 route 与采样／输出控制，不等于对每个 messages 字节做签名。它防止换模型、换 maxTokens 等配置漂移；输入投影、中间件的消息职责仍需另行理解。[配置逐字段比较](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/call-config.ts#L46-L61)
 
 ### 第五步：默认值的来源必须能被后续步骤辨认
+
+默认生成参数是在 prepareCall() 调用 resolveCallWithInfo() 时解析的。这里回看这一步，解释 resolvedConfig 与 adapterDefaults 为什么必须一起保留。
+
+配置解析消费的字段来自 LlmCallConfig：
+
+```typescript
+export interface LlmCallConfig {
+  provider: string
+  model: string
+  reasoningEffort?: ReasoningEffortId
+  temperature?: number
+  maxTokens?: number
+  stop?: string[]
+}
+```
+
+[源码：`packages/llm/llm/src/call-config.ts:23–30`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/call-config.ts#L23-L30)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`provider` / `model`|精确路由|registration 与能力校验|
+|`reasoningEffort` / `maxTokens`|生成要求|模型能力与默认值解析|
+|`temperature` / `stop`|生成控制|请求配置一致性比较|
+
+这些参数进入 request，与 messages 的来源不同。先确定配置，再按对应能力组织历史，才形成可解释的一次调用。
+
 
 ```typescript
 const defaulted = config.maxTokens === undefined && info.defaultMaxTokens !== undefined
@@ -286,11 +390,10 @@ maxTokens 未指定才使用 defaultMaxTokens。reasoning 不存在而调用者�
 
 这带来两项收益：配置日志能解释真正发送了什么；切换路由时可以区分旧模型默认与人类明确选择。代价是应用必须处理 capability error，并为不同型号刷新可选项。把所有模型统一提供相同滑块但悄悄忽略参数，会损坏这份可解释性。
 
-![图3：三种数据不应合并](assets/03-model-adaptation-03.png)
-
-图3：统一输入结构仍需保存供应商差异。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 历史属于会话，私有状态属于 adapter
+
+调用配置已经绑定，下一件事是决定这次 adapter 实际接收哪些历史。下面进入发送视图支线，它消费已准备的能力与 Session 派生消息。
 
 在模型切换场景中，历史文本通常仍有价值，供应商私有 replayState 却不能直接带到另一种实现。DSH 在 adapter 边界过滤不属于当前 adapter 的状态。
 
@@ -318,13 +421,23 @@ return Object.isFrozen(options) ? deepFreeze(filtered) : filtered
 
 附件也经过投影。内部内容引用不等于供应商原生输入；runtime 会处理文件引用，按输入模态调整图像内容，并根据工具更新能力组织历史。模型接口统一，只能统一共同语义，不能承诺全部信息无损迁移。[附件、模态与 adapter 派发](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L1047-L1114)
 
+![图3：模型输入中的来源与绑定](assets/03-model-adaptation-03.png)
+
+图3：配置、历史投影与派发通过 prepared call 连接。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第六步：共同内容延续，私有 replayState 按实现身份过滤
+
+准备结果进入 streamWithRegistration() 后，forAdapter() 过滤当前实现无法解释的 replayState。这是 request 视图处理，原 Session 事实仍保留。
+
 
 原文 forAdapter 的两个 early return 保留非 assistant 消息与没有 replayState 的消息。真正有私有状态时，检查历史 provider 当前注册的 adapter 是否就是此次 adapter；不是则重建 source，保留通用来源，移除私有状态。最后只在有变更时构造新 options。
 
 这不是把原日志删除。过滤作用于本次派发视图，历史仍能说明旧模型产生过什么。也不能认为同名 provider 永远兼容旧 replayState：实现对象变化会影响判定。
 
 ### 第七步：文件、图像与工具更新在最终 adapter 边界投影
+
+同一发送路径还依次投影 file、image 与 tool updates，必要时用 fileReadPath() 映射资源路径；最后把 projectedOptions 交给绑定的 adapterCall.stream()。
+
 
 ```typescript
 // Files are never dispatched natively: every route receives handle text.
@@ -380,11 +493,16 @@ private fileReadPath(ref: FileAttachmentRef): string | undefined {
 
 ## 能力变化为什么会影响 prompt 历史
 
+前一节解释最终发送的投影，这里回到请求构造之前的 prompt 提交。二者并非按文章顺序连续执行，而是共同消费同一次 preparedCall 的能力。
+
 SystemPromptProjection 和工具历史会根据路由能力选择处理方式。某些路由支持工具定义更新，另一些需要在请求中重新组织声明或 prompt series。因而增加一个工具，不只是当前 tools 数组多一项，也可能改变模型应该看到的历史。
 
 本基线相关提交 H02 修复了支持 toolUpdate 的路由仍不必要重建 prompt 的路径。研究这种变化，应比较实际 diff 和调用条件，不能把旧问题直接当作当前缺陷。这里的工程启示是：能力解析不只是 UI 上的“支持／不支持”标签，它参与请求历史的构造。[系统提示与上下文投影](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/runtime-context.ts#L88-L164) [H02 实际差异](../validation/history-prompt-tool-update.patch)
 
 ### 第八步：同样的提示变化，在不同能力下生成不同事实
+
+能力不仅作用于发送；Loop 在 buildRequest 之前调用 SystemPromptProjection.project()，消费相同的 systemPromptUpdate、toolUpdate 决定历史事实。此处是准备到请求构建的另一消费点。
+
 
 ```typescript
 project(rendered: string, input: SystemPromptDecisionInput): SystemPromptCommit[] {
@@ -411,6 +529,8 @@ project(rendered: string, input: SystemPromptDecisionInput): SystemPromptCommit[
 
 能力因此影响缓存和历史形状，而不只是显示标签。一个不支持中途 system 的路由，不能复用后置提示的语义；一个支持工具更新的路由也不一定需要每次工具变化都重建 prompt。H02 的实际补丁应放回这些条件判断理解。
 
+上一个片段展示 SystemPromptProjection.project() 的内部规则，下面回到 step() 对它的调用现场。step 消费返回的 commits，将 system/message 追加到 Session，再继续 buildRequest()；这说明能力如何改变请求构造前的历史。
+
 ```typescript
 const startsRequestSeries = firstAttempt && decision.startsRequestSeries === true
 const commits = this.systemPrompt.project(renderedPrompt, {
@@ -430,9 +550,6 @@ project 使用 preparedCall 的实际能力；工具变化且 toolUpdate 缺失�
 
 应用接入检查可以列出三种场景：同路由追加工具、切换不支持历史更新的路由、清空系统提示。验证最终供应商消息与日志关系，才能发现“接口调用成功但旧指令仍在”的问题。
 
-![图4：模型接缝的失败归属](assets/03-model-adaptation-04.png)
-
-图4：错误分类必须对应实际抛错边界。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 异常应该在哪一层规范化
 
@@ -442,7 +559,14 @@ adapter 派发或迭代器推进的异常，在 LLM 边界规范为失败 finish
 
 `prepareRequest` 对 `NO_ADAPTER` 还保留直接 stream／中间件路径，用于不同扩展组合；这不意味着最终 adapter 派发无需实现。SDK 的 initialize 则采用更明确的入口检查：验证参数，确认或延迟挂载 deepseek-official，再 resolveCallConfig，成功后才开放请求。任意 provider 不享有相同自动挂载保证。[SDK 初始化的路由校验](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/server/src/server.ts#L137-L170)
 
+![图4：模型接缝的失败归属：状态与行动](assets/03-model-adaptation-04.png)
+
+图4：错误分类必须对应实际抛错边界。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第九步：供应商错误变成 finish，插件错误保留异常来源
+
+请求交给 adapter 后，streamWithRegistration() 保护创建与 iterator.next()，失败通过 adapterFailureChunk() 返回 finish，供 Loop 的 request-error 处理。
+
 
 ```typescript
   const stream = dispatch(this.forAdapter(projectedOptions, adapter))
@@ -456,6 +580,8 @@ adapter 派发或迭代器推进的异常，在 LLM 边界规范为失败 finish
 [源码：`packages/llm/llm/src/index.ts:1080–1085`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L1080-L1085)。
 
 dispatch、异步迭代器构造处的异常被转为 adapterFailureChunk，形成流协议的终止事实。但取得 iterator 之后，还要保护每一次 next：
+
+现在回到发送主线。streamWithRegistration() 已构造 projectedOptions 并取得 adapter iterator，下面逐次消费 iterator.next()；供应商读取失败被规范为 finish，consumer 在 yield 处的失败则保持自己的归属。
 
 ```typescript
 let completed = false
@@ -510,6 +636,9 @@ normalizeLlmFailure 保留规范化失败事实，signal.aborted 或 ABORTED 分
 
 ### 第十步：产品初始化还要验证实际 adapter 已挂载
 
+最后回到产品入口的装配检查：SDK initialize() 在开放 prompt 前验证 adapter 与配置。它与单次 prepareCall() 是不同入口，但共用 LLM 服务的能力解析契约。
+
+
 ```typescript
 if (!this.hasAdapterFor(provider)) {
   if (provider !== 'deepseek-official') throw new Error(`no adapter registered for provider "${provider}"`)
@@ -557,19 +686,19 @@ SDK 缺少 deepseek-official adapter 时可延迟挂载；任意其他 provider 
 
 ## 技术心得：抽象应保存差异的来源
 
-这次研究让我更认可一种模型抽象：共同字段统一，差异显式描述，私有状态明确归属。它不追求把所有模型包装成完全相同的对象，而是让上层在可理解的条件下使用共同能力。
+### 保存一次调用的完整描述
 
-一旦差异来自模型能力，调用者就能做有依据的选择；一旦差异被藏在 adapter 内的默认回退中，调用者就很难知道自己到底获得了什么。对需要审计和复现的 Agent，后者尤其不利。
+prepareCall() 把 registration、config、能力和 stream 一起固定。我的收获是，异步解析之后应交接完整执行描述；这样构造请求与真正发送使用同一依据，也方便解释等待期间的注册变化。
 
-现有 V05、请求重建和 SDK 用例支持受控路由下的选定行为，未连接真实供应商验证所有模态与网络异常。因此本文讨论的是架构与实现依据，不以离线通过替代供应商兼容认证。下一篇将继续分析：这些路由选择如何作用于模型每次真正看到的上下文。
+### 保留默认值与私有状态的来源
 
-### 技术感悟：一次执行描述比一个动态名字更可靠
+adapterDefaults 区分调用者要求与模型默认，forAdapter() 区分共同历史与实现私有 replayState。接入新模型时，可以分别验证显式参数、默认参数和历史迁移，得到比单纯“接口能调用”更具体的兼容结论。
 
-我从 prepareCall 学到的不是“多冻结几层对象”，而是把异步解析得到的能力、默认值和实际执行入口作为一份描述保存。否则再严格的接口也可能在发送前查到另一份注册。这个原则同样适用于数据库连接、远端工具和可替换存储 provider。
+### 用同一能力贯通构造和派发
 
-forAdapter 又提醒我们：能够延续的共同事实，与必须由原实现解释的私有状态，应该分开拥有。通用抽象越透明，产品越容易判断切换时损失了什么，而不是把不兼容隐藏为偶发模型异常。
+system prompt、tools 与附件都消费实际路由能力。企业模型策略可据此把可选项、消息投影和测试样例按 provider/model 组织：受控测试核对 Harness 契约，真实调用核对远端行为。
 
-这些源代码解释延续原基线的受控路由证据，本次没有重新运行模型或扩大兼容认证。若企业需要路由故障切换，还要另定义健康、成本、数据驻留和重试边界；PreparedCall 只解决此 attempt 的调用一致性。
+对代码修复任务，切换模型后应能解释当前请求用哪份配置、携带哪份历史、由哪个实现派发。本文给出的绑定与投影路径，正是落实这三项检查的接线依据。
 
 ---
 

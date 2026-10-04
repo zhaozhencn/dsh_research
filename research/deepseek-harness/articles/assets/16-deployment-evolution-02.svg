@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1240" viewBox="0 0 1200 1240">
 <rect width="100%" height="100%" fill="#f5f8fc"/>
-<title>产品启动与退出的边界</title>
-<desc>启动成功和业务成功应分别验收</desc>
+<title>profile 启动到 readiness 的等待</title>
+<desc>退出使用独立的 transport 与 owner 排空链</desc>
 <text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">16 / 从源码理解 Agent Harness</text>
-<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">产品启动与退出的边界</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">profile 启动到 readiness 的等待</text>
 <rect x="350" y="190" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="247" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">环境和代理准备</text>
-<text x="735" y="292" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">同一启动快照供配置使用</text>
+<text x="735" y="247" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">runProfile</text>
+<text x="735" y="292" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">准备 Proxy 和启动配置</text>
 <text x="151" y="257" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Launcher</text>
 <rect x="272" y="224" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="265" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">1</text>
@@ -15,8 +15,8 @@
 <path d="M300,280 L300,376" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,376 292,362 308,362" fill="#6f8aa5"/>
 <rect x="350" y="342" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="399" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">挂载根 Include</text>
-<text x="735" y="444" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">prepare → Loader → 插件树</text>
+<text x="735" y="399" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">Loader / host prepare</text>
+<text x="735" y="444" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">构造运行环境与宿主能力</text>
 <text x="151" y="409" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Boot</text>
 <rect x="272" y="376" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="417" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">2</text>
@@ -25,9 +25,9 @@
 <path d="M300,432 L300,528" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,528 292,514 308,514" fill="#6f8aa5"/>
 <rect x="350" y="494" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="551" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">等待完整激活</text>
-<text x="735" y="596" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">await 后重查 live 服务</text>
-<text x="151" y="561" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Audit</text>
+<text x="735" y="551" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">root Include</text>
+<text x="735" y="596" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">按 Entry 配置挂载插件树</text>
+<text x="151" y="561" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Loader</text>
 <rect x="272" y="528" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="569" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">3</text>
 <path d="M328,556 L350,556" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -35,9 +35,9 @@
 <path d="M300,584 L300,680" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,680 292,666 308,666" fill="#6f8aa5"/>
 <rect x="350" y="646" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="703" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">提交产品 ready</text>
-<text x="735" y="748" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">不是单插件 ACTIVE</text>
-<text x="151" y="713" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Readiness</text>
+<text x="735" y="703" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">await activation</text>
+<text x="735" y="748" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">等待后复核 root 与 Loader</text>
+<text x="151" y="713" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Boot</text>
 <rect x="272" y="680" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="721" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">4</text>
 <path d="M328,708 L350,708" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -45,9 +45,9 @@
 <path d="M300,736 L300,832" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,832 292,818 308,818" fill="#6f8aa5"/>
 <rect x="350" y="798" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="855" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">响应并 flush</text>
-<text x="735" y="900" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">停止接纳、排空 transport</text>
-<text x="151" y="865" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Shutdown</text>
+<text x="735" y="855" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">required plugin checks</text>
+<text x="735" y="900" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">审计必需服务和激活问题</text>
+<text x="151" y="865" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Audit</text>
 <rect x="272" y="832" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="873" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">5</text>
 <path d="M328,860 L350,860" fill="none" stroke="#6f8aa5" stroke-width="4"/>
@@ -55,13 +55,13 @@
 <path d="M300,888 L300,984" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="300,984 292,970 308,970" fill="#6f8aa5"/>
 <rect x="350" y="950" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
-<text x="735" y="1007" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">有序释放</text>
-<text x="735" y="1052" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">Agent / Scope / persistence / proxy</text>
-<text x="151" y="1017" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Root</text>
+<text x="735" y="1007" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">commit product ready</text>
+<text x="735" y="1052" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">未取消且 root ACTIVE 才提交</text>
+<text x="151" y="1017" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Readiness</text>
 <rect x="272" y="984" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
 <text x="300" y="1025" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">6</text>
 <path d="M328,1012 L350,1012" fill="none" stroke="#6f8aa5" stroke-width="4"/>
 <polygon points="350,1012 336,1004 336,1020" fill="#6f8aa5"/>
-<text x="600" y="1163" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">启动成功和业务成功应分别验收</text>
+<text x="600" y="1163" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">退出使用独立的 transport 与 owner 排空链</text>
 <text x="600" y="1211" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
 </svg>

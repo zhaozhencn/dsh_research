@@ -1,0 +1,1261 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "editorial_baseline_commit": "78f7c18da1e3f61e9f2a0cec8b549b6b684b0953",
+  "mode": "Same-SHA refinement of the other 15 articles following article 02; single executor; no upstream update.",
+  "scope": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "changes": [
+    "Add an overview joining the main caller, data and return paths.",
+    "Bridge each numbered step through its input, previous producer and next consumer; mark independent branches explicitly.",
+    "Add 48 fixed-SHA core data/state excerpts with field explanations and consumption points.",
+    "Rewrite endings as practical lessons grounded in the body; preserve substantive boundaries in the implementation discussion.",
+    "Redraw and reposition 60 PNG/SVG pairs with English technical terms and source identifiers."
+  ],
+  "preservation": {
+    "article_02_and_its_eight_image_files_byte_identical": true,
+    "all_existing_316_excerpts_retained": true,
+    "all_principal_section_counts_and_numbered_step_sequences_preserved": true,
+    "historical_structure_and_validation_records_unchanged": true,
+    "source_checkout_clean": true
+  },
+  "counts": {
+    "changed_articles": 15,
+    "added_core_data_excerpts": 48,
+    "current_series_excerpts": 364,
+    "changed_png": 60,
+    "changed_svg": 60,
+    "total_png": 64,
+    "total_svg": 64
+  },
+  "articles": [
+    {
+      "number": 1,
+      "file": "articles/01-task-completion.md",
+      "title": "任务何时才算完成：目标、Turn 与业务验收",
+      "sha256": "6a9bb78585f5474d4415294ab8637792465bb68557c6ab204c37adf9281e4868",
+      "principal_sections": 7,
+      "step_count": 13,
+      "existing_excerpts_retained": 23,
+      "added_excerpts": 4,
+      "current_excerpts": 27,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "GoalRef",
+          "path": "packages/goal/goal/src/types.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "DriverState",
+          "path": "packages/goal/goal-round-driver/src/index.ts"
+        },
+        {
+          "step": 6,
+          "symbol": "RoundAttempt",
+          "path": "packages/goal/goal-round-driver/src/index.ts"
+        },
+        {
+          "step": 10,
+          "symbol": "GoalView",
+          "path": "packages/goal/goal/src/types.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "01-27",
+          "path": "packages/goal/goal/src/types.ts",
+          "start": 20,
+          "end": 25,
+          "sha256": "daed4002b84a1a2d6270cdd789c3735087eebef178bf221e25c3645604b5eb80"
+        },
+        {
+          "id": "01-26",
+          "path": "packages/goal/goal-round-driver/src/index.ts",
+          "start": 38,
+          "end": 46,
+          "sha256": "080531f314cc41fd89316d6a4a0eaa4f1564dd71ee6ddeee9d042929af69e079"
+        },
+        {
+          "id": "01-25",
+          "path": "packages/goal/goal-round-driver/src/index.ts",
+          "start": 29,
+          "end": 35,
+          "sha256": "4217e3a6612a740840f4c7d0a25ad49809c65ceaf79e2ff8659ec7b8f6b4d34c"
+        },
+        {
+          "id": "01-24",
+          "path": "packages/goal/goal/src/types.ts",
+          "start": 90,
+          "end": 99,
+          "sha256": "36b459519a60c757e666dad3d45566bd3dc76e57a991d4040825087384158690"
+        }
+      ],
+      "figure_sections": [
+        2,
+        2,
+        3,
+        4
+      ],
+      "figure_order": [
+        "01-task-completion",
+        "01-task-completion-02",
+        "01-task-completion-03",
+        "01-task-completion-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/01-task-completion.png",
+        "research/deepseek-harness/articles/assets/01-task-completion.svg",
+        "research/deepseek-harness/articles/assets/01-task-completion-02.png",
+        "research/deepseek-harness/articles/assets/01-task-completion-02.svg",
+        "research/deepseek-harness/articles/assets/01-task-completion-03.png",
+        "research/deepseek-harness/articles/assets/01-task-completion-03.svg",
+        "research/deepseek-harness/articles/assets/01-task-completion-04.png",
+        "research/deepseek-harness/articles/assets/01-task-completion-04.svg"
+      ]
+    },
+    {
+      "number": 2,
+      "file": "articles/02-agent-loop.md",
+      "title": "一次输入如何推进为多步执行：拆解 Agent Loop",
+      "sha256": "0ee9e1d1c23b8eac2623aa7bde40f6445856fbf49360b90c22344ebebb023a11",
+      "principal_sections": 7,
+      "step_count": 14,
+      "existing_excerpts_retained": 38,
+      "added_excerpts": 0,
+      "current_excerpts": 38,
+      "core_data": [],
+      "new_source_excerpts": [],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "02-agent-loop",
+        "02-agent-loop-02",
+        "02-agent-loop-03",
+        "02-agent-loop-04"
+      ],
+      "changed_image_files": []
+    },
+    {
+      "number": 3,
+      "file": "articles/03-model-adaptation.md",
+      "title": "接入不同模型：路由绑定、能力解析与消息适配",
+      "sha256": "5ec4f679be81f3607534fc297c87eddc55fca64d3fa1acdaeb128ed3c763fd6e",
+      "principal_sections": 8,
+      "step_count": 10,
+      "existing_excerpts_retained": 18,
+      "added_excerpts": 3,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 3,
+          "symbol": "PreparedAdapterCall",
+          "path": "packages/llm/llm/src/index.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "PreparedLlmCall",
+          "path": "packages/llm/llm/src/index.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "LlmCallConfig",
+          "path": "packages/llm/llm/src/call-config.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "03-21",
+          "path": "packages/llm/llm/src/index.ts",
+          "start": 195,
+          "end": 200,
+          "sha256": "a5a5e7f91b5bac30f25bbb8e040e4413f00f9dc9ee3bb99b86e3f08d7152bc57"
+        },
+        {
+          "id": "03-20",
+          "path": "packages/llm/llm/src/index.ts",
+          "start": 169,
+          "end": 192,
+          "sha256": "3242def8d8a010c0e8743bb397319c8c00632ee0322dbfa58e2d4364c9a7031f"
+        },
+        {
+          "id": "03-19",
+          "path": "packages/llm/llm/src/call-config.ts",
+          "start": 23,
+          "end": 30,
+          "sha256": "3ba4b8b646264e7e061193e4a5d2e4912d4207d6e4b989b7c8a5c6ea9137ab45"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "03-model-adaptation",
+        "03-model-adaptation-02",
+        "03-model-adaptation-03",
+        "03-model-adaptation-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/03-model-adaptation.png",
+        "research/deepseek-harness/articles/assets/03-model-adaptation.svg",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-02.png",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-02.svg",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-03.png",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-03.svg",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-04.png",
+        "research/deepseek-harness/articles/assets/03-model-adaptation-04.svg"
+      ]
+    },
+    {
+      "number": 4,
+      "file": "articles/04-context-engineering.md",
+      "title": "模型每次究竟看到什么：上下文组装与压缩",
+      "sha256": "968fdbe971a25f193290fb3d6230e41dc9244f519f8eeb67034a8e6e5fb57336",
+      "principal_sections": 8,
+      "step_count": 10,
+      "existing_excerpts_retained": 17,
+      "added_excerpts": 3,
+      "current_excerpts": 20,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "PromptAssembly",
+          "path": "packages/core/system-prompt/src/index.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "PreparedCompaction",
+          "path": "packages/compaction/compaction-basic/src/region.ts"
+        },
+        {
+          "step": 7,
+          "symbol": "CompactionTransactionOptions",
+          "path": "packages/compaction/compaction-basic/src/region.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "04-20",
+          "path": "packages/core/system-prompt/src/index.ts",
+          "start": 118,
+          "end": 123,
+          "sha256": "0c4a38f70776ab6c1ceaff5f896f8d442233409805d275e496d51a7b4b832626"
+        },
+        {
+          "id": "04-19",
+          "path": "packages/compaction/compaction-basic/src/region.ts",
+          "start": 42,
+          "end": 49,
+          "sha256": "91ffb61c1e966b1566ba27cc6fc9d05a64abcab6b87433fa1f5676ff0e20f9ae"
+        },
+        {
+          "id": "04-18",
+          "path": "packages/compaction/compaction-basic/src/region.ts",
+          "start": 55,
+          "end": 64,
+          "sha256": "0761e319ca408f7c2328859af5c727799c21648852604124a2484e32b1052452"
+        }
+      ],
+      "figure_sections": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "figure_order": [
+        "04-context-engineering",
+        "04-context-engineering-02",
+        "04-context-engineering-03",
+        "04-context-engineering-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/04-context-engineering.png",
+        "research/deepseek-harness/articles/assets/04-context-engineering.svg",
+        "research/deepseek-harness/articles/assets/04-context-engineering-02.png",
+        "research/deepseek-harness/articles/assets/04-context-engineering-02.svg",
+        "research/deepseek-harness/articles/assets/04-context-engineering-03.png",
+        "research/deepseek-harness/articles/assets/04-context-engineering-03.svg",
+        "research/deepseek-harness/articles/assets/04-context-engineering-04.png",
+        "research/deepseek-harness/articles/assets/04-context-engineering-04.svg"
+      ]
+    },
+    {
+      "number": 5,
+      "file": "articles/05-state-persistence.md",
+      "title": "进程重启之后：Agent 的状态、记忆与持久化",
+      "sha256": "772989d1722d7068c82d1695ca04a12dd219fb24505410c9c5006fa850b7e77c",
+      "principal_sections": 8,
+      "step_count": 12,
+      "existing_excerpts_retained": 19,
+      "added_excerpts": 2,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 3,
+          "symbol": "StorageHandleState",
+          "path": "packages/session/session-persistence-jsonl/src/storage.ts"
+        },
+        {
+          "step": 9,
+          "symbol": "RestoredSessionOptions",
+          "path": "packages/core/session/src/types.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "05-21",
+          "path": "packages/session/session-persistence-jsonl/src/storage.ts",
+          "start": 64,
+          "end": 77,
+          "sha256": "133c2cd7f5a6399cf542b3120a298368d934663ee8a20a2780242da832bf471e"
+        },
+        {
+          "id": "05-20",
+          "path": "packages/core/session/src/types.ts",
+          "start": 172,
+          "end": 181,
+          "sha256": "2e862f32e13eeea57dca6f3c0430e7645e5d5227a4ac1e0b3771bdc50ab9062c"
+        }
+      ],
+      "figure_sections": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "figure_order": [
+        "05-state-persistence",
+        "05-state-persistence-02",
+        "05-state-persistence-03",
+        "05-state-persistence-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/05-state-persistence.png",
+        "research/deepseek-harness/articles/assets/05-state-persistence.svg",
+        "research/deepseek-harness/articles/assets/05-state-persistence-02.png",
+        "research/deepseek-harness/articles/assets/05-state-persistence-02.svg",
+        "research/deepseek-harness/articles/assets/05-state-persistence-03.png",
+        "research/deepseek-harness/articles/assets/05-state-persistence-03.svg",
+        "research/deepseek-harness/articles/assets/05-state-persistence-04.png",
+        "research/deepseek-harness/articles/assets/05-state-persistence-04.svg"
+      ]
+    },
+    {
+      "number": 6,
+      "file": "articles/06-tool-runtime.md",
+      "title": "一次工具调用的完整生命周期：从参数到结果",
+      "sha256": "34073be46653d506f1130133afc621321e905514047e6eb9cb6044c057b8b702",
+      "principal_sections": 8,
+      "step_count": 10,
+      "existing_excerpts_retained": 21,
+      "added_excerpts": 4,
+      "current_excerpts": 25,
+      "core_data": [
+        {
+          "step": 3,
+          "symbol": "ToolExecutionInput",
+          "path": "packages/core/tools/src/index.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "ScheduledToolPreparation",
+          "path": "packages/core/tools/src/index.ts"
+        },
+        {
+          "step": 7,
+          "symbol": "ToolExecutionSuccess",
+          "path": "packages/core/tools/src/index.ts"
+        },
+        {
+          "step": 8,
+          "symbol": "PreToolDecision",
+          "path": "packages/core/tools/src/index.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "06-25",
+          "path": "packages/core/tools/src/index.ts",
+          "start": 326,
+          "end": 352,
+          "sha256": "2ba1c19a497ed3de51564e9723da7721e052c9f7595560f107113f9d3c9eab4e"
+        },
+        {
+          "id": "06-24",
+          "path": "packages/core/tools/src/index.ts",
+          "start": 445,
+          "end": 449,
+          "sha256": "48c127dcaf5181b04cca29e785919d1858ff7eebc262b35cfcd77eedc60b22c9"
+        },
+        {
+          "id": "06-23",
+          "path": "packages/core/tools/src/index.ts",
+          "start": 572,
+          "end": 582,
+          "sha256": "c573e9ddd6e2703902a2c0fe5c40ad25d452c361b168d7e7dfe6073e41abcde2"
+        },
+        {
+          "id": "06-22",
+          "path": "packages/core/tools/src/index.ts",
+          "start": 607,
+          "end": 611,
+          "sha256": "2489ace25df8d258a107d3b8416570e319279c061db7b5bd906af09475b6b26d"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "figure_order": [
+        "06-tool-runtime",
+        "06-tool-runtime-02",
+        "06-tool-runtime-03",
+        "06-tool-runtime-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/06-tool-runtime.png",
+        "research/deepseek-harness/articles/assets/06-tool-runtime.svg",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-02.png",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-02.svg",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-03.png",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-03.svg",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-04.png",
+        "research/deepseek-harness/articles/assets/06-tool-runtime-04.svg"
+      ]
+    },
+    {
+      "number": 7,
+      "file": "articles/07-reliability.md",
+      "title": "失败之后如何继续：重试、取消与副作用一致性",
+      "sha256": "06fb9714d6d2bdf67536779342bcac31909bdfa0ab67ae183a768d00257c6c0b",
+      "principal_sections": 8,
+      "step_count": 6,
+      "existing_excerpts_retained": 16,
+      "added_excerpts": 3,
+      "current_excerpts": 19,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "RetryStateEntry",
+          "path": "packages/llm/llm-retry/src/index.ts"
+        },
+        {
+          "step": 2,
+          "symbol": "LlmRetryStartedEventData",
+          "path": "packages/llm/llm-retry/src/types.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "ToolCallRecovery",
+          "path": "packages/core/session/src/repair.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "07-18",
+          "path": "packages/llm/llm-retry/src/index.ts",
+          "start": 104,
+          "end": 107,
+          "sha256": "224995b038a15b3e294cdef2f945868880550c7eb87f13da869c79d3c5f40c66"
+        },
+        {
+          "id": "07-19",
+          "path": "packages/llm/llm-retry/src/types.ts",
+          "start": 43,
+          "end": 48,
+          "sha256": "b8e281a0b6de1811dbe54da6907ca20dc3761cbd40fc25418ab1395cc645766d"
+        },
+        {
+          "id": "07-17",
+          "path": "packages/core/session/src/repair.ts",
+          "start": 109,
+          "end": 115,
+          "sha256": "f7289eccd74d0689dba16b7f38d10e79c305c91e7716d7292b53bfdd83f955f8"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "figure_order": [
+        "07-reliability",
+        "07-reliability-02",
+        "07-reliability-03",
+        "07-reliability-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/07-reliability.png",
+        "research/deepseek-harness/articles/assets/07-reliability.svg",
+        "research/deepseek-harness/articles/assets/07-reliability-02.png",
+        "research/deepseek-harness/articles/assets/07-reliability-02.svg",
+        "research/deepseek-harness/articles/assets/07-reliability-03.png",
+        "research/deepseek-harness/articles/assets/07-reliability-03.svg",
+        "research/deepseek-harness/articles/assets/07-reliability-04.png",
+        "research/deepseek-harness/articles/assets/07-reliability-04.svg"
+      ]
+    },
+    {
+      "number": 8,
+      "file": "articles/08-concurrency.md",
+      "title": "哪些工作可以同时执行：工具、作业与子 Agent 调度",
+      "sha256": "68f885bcd5c8ed09e35e944c8853891325eb0fc7283a830ed1adc2f1afd4d4e0",
+      "principal_sections": 8,
+      "step_count": 6,
+      "existing_excerpts_retained": 20,
+      "added_excerpts": 4,
+      "current_excerpts": 24,
+      "core_data": [
+        {
+          "step": 1,
+          "symbol": "PlannedCall",
+          "path": "packages/core/agent-loop/src/tool-calls.ts"
+        },
+        {
+          "step": 3,
+          "symbol": "Slot",
+          "path": "packages/core/agent-loop/src/tool-calls.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "ProducerState",
+          "path": "packages/jobs/jobs-local/src/index.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "TrackedJob",
+          "path": "packages/jobs/jobs-local/src/index.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "08-24",
+          "path": "packages/core/agent-loop/src/tool-calls.ts",
+          "start": 21,
+          "end": 24,
+          "sha256": "ef3c7b31f1ff405e39affd620df323cbc0dd6577564a98f1b9c579ee19b4dfba"
+        },
+        {
+          "id": "08-23",
+          "path": "packages/core/agent-loop/src/tool-calls.ts",
+          "start": 27,
+          "end": 31,
+          "sha256": "5a63dd8890f5fd1f46269d77433f0fb266a1f2887a22caab4fb83262bb93f520"
+        },
+        {
+          "id": "08-22",
+          "path": "packages/jobs/jobs-local/src/index.ts",
+          "start": 68,
+          "end": 73,
+          "sha256": "1101753c6c8440369bf0b584e53e757af26b00899279a3440633c7344deeeb21"
+        },
+        {
+          "id": "08-21",
+          "path": "packages/jobs/jobs-local/src/index.ts",
+          "start": 76,
+          "end": 116,
+          "sha256": "e1958e250e14afd053e89f51342ef67446bd7c3fd81a303d3af53ca46c31f211"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "08-concurrency",
+        "08-concurrency-02",
+        "08-concurrency-03",
+        "08-concurrency-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/08-concurrency.png",
+        "research/deepseek-harness/articles/assets/08-concurrency.svg",
+        "research/deepseek-harness/articles/assets/08-concurrency-02.png",
+        "research/deepseek-harness/articles/assets/08-concurrency-02.svg",
+        "research/deepseek-harness/articles/assets/08-concurrency-03.png",
+        "research/deepseek-harness/articles/assets/08-concurrency-03.svg",
+        "research/deepseek-harness/articles/assets/08-concurrency-04.png",
+        "research/deepseek-harness/articles/assets/08-concurrency-04.svg"
+      ]
+    },
+    {
+      "number": 9,
+      "file": "articles/09-security.md",
+      "title": "模型的行动权限从哪里来：审批、作用域与沙箱",
+      "sha256": "36f4f748c6d03805f1f7c51e7ce29379d24f968938b2de1d2a7b74ffbf9730d2",
+      "principal_sections": 7,
+      "step_count": 6,
+      "existing_excerpts_retained": 18,
+      "added_excerpts": 3,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 1,
+          "symbol": "ToolRestriction",
+          "path": "packages/core/tools/src/index.ts"
+        },
+        {
+          "step": 2,
+          "symbol": "ApprovalRequestEvent",
+          "path": "packages/interaction/user-approval/src/types.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "GoalToolExecution",
+          "path": "packages/goal/tool-goal/src/authority.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "09-21",
+          "path": "packages/core/tools/src/index.ts",
+          "start": 700,
+          "end": 705,
+          "sha256": "969753d42747973d054ffd95b067ee2aa4f1e7a7635c6e8ff989beda85a09079"
+        },
+        {
+          "id": "09-20",
+          "path": "packages/interaction/user-approval/src/types.ts",
+          "start": 63,
+          "end": 76,
+          "sha256": "c5010cf648cd52417192fccce4d62ae4e31584fdc27c8b8de04551be4e7b9db9"
+        },
+        {
+          "id": "09-19",
+          "path": "packages/goal/tool-goal/src/authority.ts",
+          "start": 12,
+          "end": 16,
+          "sha256": "421f60034052d4bdcde0b85f3ee7cdb251d72befa9f6f093be8f47a18f4ad6f8"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "09-security",
+        "09-security-02",
+        "09-security-03",
+        "09-security-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/09-security.png",
+        "research/deepseek-harness/articles/assets/09-security.svg",
+        "research/deepseek-harness/articles/assets/09-security-02.png",
+        "research/deepseek-harness/articles/assets/09-security-02.svg",
+        "research/deepseek-harness/articles/assets/09-security-03.png",
+        "research/deepseek-harness/articles/assets/09-security-03.svg",
+        "research/deepseek-harness/articles/assets/09-security-04.png",
+        "research/deepseek-harness/articles/assets/09-security-04.svg"
+      ]
+    },
+    {
+      "number": 10,
+      "file": "articles/10-autonomy.md",
+      "title": "如何控制自动推进：规划模式、目标续跑与人工接管",
+      "sha256": "c4c1b0c1f676ed6f63f223a146014adbfe3142640d4d86fe772c2c1eb6ecc8b8",
+      "principal_sections": 7,
+      "step_count": 6,
+      "existing_excerpts_retained": 19,
+      "added_excerpts": 3,
+      "current_excerpts": 22,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "pendingIntents",
+          "path": "packages/plan/plan-mode/src/index.ts"
+        },
+        {
+          "step": 3,
+          "symbol": "PlanUnitState",
+          "path": "packages/plan/plan-mode/src/types.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "RoundAttempt",
+          "path": "packages/goal/goal-round-driver/src/index.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "10-22",
+          "path": "packages/plan/plan-mode/src/index.ts",
+          "start": 186,
+          "end": 186,
+          "sha256": "d388ecea0902233eadcdba70e416ca701f9eaeb9165375c1a0de14df1f5893ce"
+        },
+        {
+          "id": "10-21",
+          "path": "packages/plan/plan-mode/src/types.ts",
+          "start": 27,
+          "end": 36,
+          "sha256": "12634e389bf83e072ca98d233fb2a09f4e97c28d34f41ad65e97b357ce6323b9"
+        },
+        {
+          "id": "10-20",
+          "path": "packages/goal/goal-round-driver/src/index.ts",
+          "start": 29,
+          "end": 35,
+          "sha256": "4217e3a6612a740840f4c7d0a25ad49809c65ceaf79e2ff8659ec7b8f6b4d34c"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "10-autonomy",
+        "10-autonomy-02",
+        "10-autonomy-03",
+        "10-autonomy-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/10-autonomy.png",
+        "research/deepseek-harness/articles/assets/10-autonomy.svg",
+        "research/deepseek-harness/articles/assets/10-autonomy-02.png",
+        "research/deepseek-harness/articles/assets/10-autonomy-02.svg",
+        "research/deepseek-harness/articles/assets/10-autonomy-03.png",
+        "research/deepseek-harness/articles/assets/10-autonomy-03.svg",
+        "research/deepseek-harness/articles/assets/10-autonomy-04.png",
+        "research/deepseek-harness/articles/assets/10-autonomy-04.svg"
+      ]
+    },
+    {
+      "number": 11,
+      "file": "articles/11-budgets.md",
+      "title": "限制 Turn 数为什么仍可能失控：成本、延迟与预算",
+      "sha256": "82dc6b59e6de16f4a5a601bb0cf75c0f2b905fc2b18785e60de3dc2f6b547be5",
+      "principal_sections": 8,
+      "step_count": 7,
+      "existing_excerpts_retained": 18,
+      "added_excerpts": 3,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "LlmCallConfig",
+          "path": "packages/llm/llm/src/call-config.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "TokenSurfaceNode",
+          "path": "packages/llm/token-meter/src/types.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "ResolvedCompactSpec",
+          "path": "packages/compaction/compaction-basic/src/types.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "11-21",
+          "path": "packages/llm/llm/src/call-config.ts",
+          "start": 23,
+          "end": 30,
+          "sha256": "3ba4b8b646264e7e061193e4a5d2e4912d4207d6e4b989b7c8a5c6ea9137ab45"
+        },
+        {
+          "id": "11-20",
+          "path": "packages/llm/token-meter/src/types.ts",
+          "start": 38,
+          "end": 54,
+          "sha256": "7e4478b6b62d1237f24d62e7192fe3c7035498c14a954cb510d7439fb53a65e3"
+        },
+        {
+          "id": "11-22",
+          "path": "packages/compaction/compaction-basic/src/types.ts",
+          "start": 75,
+          "end": 80,
+          "sha256": "b4b145077145b283072a0d85e0d694a5d4a3527f88d6d65d5f28675fd7f19383"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        7
+      ],
+      "figure_order": [
+        "11-budgets",
+        "11-budgets-02",
+        "11-budgets-03",
+        "11-budgets-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/11-budgets.png",
+        "research/deepseek-harness/articles/assets/11-budgets.svg",
+        "research/deepseek-harness/articles/assets/11-budgets-02.png",
+        "research/deepseek-harness/articles/assets/11-budgets-02.svg",
+        "research/deepseek-harness/articles/assets/11-budgets-03.png",
+        "research/deepseek-harness/articles/assets/11-budgets-03.svg",
+        "research/deepseek-harness/articles/assets/11-budgets-04.png",
+        "research/deepseek-harness/articles/assets/11-budgets-04.svg"
+      ]
+    },
+    {
+      "number": 12,
+      "file": "articles/12-observability.md",
+      "title": "如何还原 Agent 的行动：事实日志与反馈授权遥测",
+      "sha256": "1d895a3ad82d7e9947b42a2ff994d44c8a7d60c80bfee5df2fb16ab78464cfeb",
+      "principal_sections": 7,
+      "step_count": 6,
+      "existing_excerpts_retained": 17,
+      "added_excerpts": 3,
+      "current_excerpts": 20,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "SessionTelemetryCaptureOptions",
+          "path": "packages/session/session-telemetry/src/coordinator.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "SessionTelemetryRecord",
+          "path": "packages/session/session-telemetry/src/index.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "PendingRecord",
+          "path": "packages/session/session-telemetry/src/coordinator.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "12-20",
+          "path": "packages/session/session-telemetry/src/coordinator.ts",
+          "start": 33,
+          "end": 38,
+          "sha256": "b4438a790463c4325f5385e026e432e331e83d40c91e80445af380d6130341b6"
+        },
+        {
+          "id": "12-18",
+          "path": "packages/session/session-telemetry/src/index.ts",
+          "start": 65,
+          "end": 91,
+          "sha256": "2a15df469e5f5a73a02a8a33af1d01beb2d3c62df2d478cf2704e616011ed9ed"
+        },
+        {
+          "id": "12-19",
+          "path": "packages/session/session-telemetry/src/coordinator.ts",
+          "start": 41,
+          "end": 45,
+          "sha256": "6a52853405eb784d9e569563f7f1f082fc07bc9f2eb97824b7721ffff8aa2fc4"
+        }
+      ],
+      "figure_sections": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "figure_order": [
+        "12-observability",
+        "12-observability-02",
+        "12-observability-03",
+        "12-observability-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/12-observability.png",
+        "research/deepseek-harness/articles/assets/12-observability.svg",
+        "research/deepseek-harness/articles/assets/12-observability-02.png",
+        "research/deepseek-harness/articles/assets/12-observability-02.svg",
+        "research/deepseek-harness/articles/assets/12-observability-03.png",
+        "research/deepseek-harness/articles/assets/12-observability-03.svg",
+        "research/deepseek-harness/articles/assets/12-observability-04.png",
+        "research/deepseek-harness/articles/assets/12-observability-04.svg"
+      ]
+    },
+    {
+      "number": 13,
+      "file": "articles/13-evaluation.md",
+      "title": "如何证明 Agent 运行正确：契约测试与业务验收",
+      "sha256": "7d7649c70c443774a6e97637d25c63ff7885fa262a81ca172505dea341a32780",
+      "principal_sections": 8,
+      "step_count": 7,
+      "existing_excerpts_retained": 16,
+      "added_excerpts": 3,
+      "current_excerpts": 19,
+      "core_data": [
+        {
+          "step": 4,
+          "symbol": "AssistantStreamFrame",
+          "path": "packages/core/agent/src/runtime-types.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "PreStepDecision",
+          "path": "packages/core/agent/src/runtime-types.ts"
+        },
+        {
+          "step": 6,
+          "symbol": "SubagentResult",
+          "path": "packages/subagent/subagent/src/types.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "13-19",
+          "path": "packages/core/agent/src/runtime-types.ts",
+          "start": 128,
+          "end": 161,
+          "sha256": "7b4f0b1eda51c1da34da52786d0ed6d3c17bf2d131fefabab133208305bd36d3"
+        },
+        {
+          "id": "13-18",
+          "path": "packages/core/agent/src/runtime-types.ts",
+          "start": 112,
+          "end": 119,
+          "sha256": "dc33f31c9a8a1e0d2e732c366bf53be44a94b11e8847e8a212a8838682083745"
+        },
+        {
+          "id": "13-17",
+          "path": "packages/subagent/subagent/src/types.ts",
+          "start": 271,
+          "end": 297,
+          "sha256": "72c53f9063611ee6f456b1177be1e9377588c628acb7afc8423a2bc41c2bbd48"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "13-evaluation",
+        "13-evaluation-02",
+        "13-evaluation-03",
+        "13-evaluation-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/13-evaluation.png",
+        "research/deepseek-harness/articles/assets/13-evaluation.svg",
+        "research/deepseek-harness/articles/assets/13-evaluation-02.png",
+        "research/deepseek-harness/articles/assets/13-evaluation-02.svg",
+        "research/deepseek-harness/articles/assets/13-evaluation-03.png",
+        "research/deepseek-harness/articles/assets/13-evaluation-03.svg",
+        "research/deepseek-harness/articles/assets/13-evaluation-04.png",
+        "research/deepseek-harness/articles/assets/13-evaluation-04.svg"
+      ]
+    },
+    {
+      "number": 14,
+      "file": "articles/14-plugin-lifecycle.md",
+      "title": "插件如何安全参与运行：依赖、事件与生命周期",
+      "sha256": "166e43030e9a7312942a89f94be652e4832649ee98d055c48afdf75a2ab9fff3",
+      "principal_sections": 7,
+      "step_count": 6,
+      "existing_excerpts_retained": 18,
+      "added_excerpts": 3,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 3,
+          "symbol": "Effect",
+          "path": "vendor/cordis/src/fiber.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "Fiber",
+          "path": "vendor/cordis/src/fiber.ts"
+        },
+        {
+          "step": 6,
+          "symbol": "EntryOptions",
+          "path": "vendor/loader/src/config/entry.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "14-21",
+          "path": "vendor/cordis/src/fiber.ts",
+          "start": 83,
+          "end": 93,
+          "sha256": "5922a9a182945991ebbc84008775f1777cf50b772b86b79fdc0e86f84214695b"
+        },
+        {
+          "id": "14-20",
+          "path": "vendor/cordis/src/fiber.ts",
+          "start": 184,
+          "end": 200,
+          "sha256": "94590070c45667bebfa671a5c6a26f42593ae5214e38034dea94ad1538393f38"
+        },
+        {
+          "id": "14-19",
+          "path": "vendor/loader/src/config/entry.ts",
+          "start": 10,
+          "end": 23,
+          "sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b"
+        }
+      ],
+      "figure_sections": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "figure_order": [
+        "14-plugin-lifecycle",
+        "14-plugin-lifecycle-02",
+        "14-plugin-lifecycle-03",
+        "14-plugin-lifecycle-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle.png",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle.svg",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-02.png",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-02.svg",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-03.png",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-03.svg",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-04.png",
+        "research/deepseek-harness/articles/assets/14-plugin-lifecycle-04.svg"
+      ]
+    },
+    {
+      "number": 15,
+      "file": "articles/15-interaction-deliverables.md",
+      "title": "如何把执行结果交给用户：协议、重连与交付物",
+      "sha256": "93a1ef5858ef7dadb634e169db84d170583991cccae038dcea1c12df83d76819",
+      "principal_sections": 7,
+      "step_count": 6,
+      "existing_excerpts_retained": 20,
+      "added_excerpts": 4,
+      "current_excerpts": 24,
+      "core_data": [
+        {
+          "step": 1,
+          "symbol": "SessionPromptResult",
+          "path": "packages/sdk/protocol/src/types.ts"
+        },
+        {
+          "step": 2,
+          "symbol": "SessionAssistantStreamBaseline",
+          "path": "packages/api/session-controller/src/types.ts"
+        },
+        {
+          "step": 4,
+          "symbol": "TurnState",
+          "path": "packages/deliverables/workspace-changes/src/recorder.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "TurnRecord",
+          "path": "packages/deliverables/workspace-changes/src/recorder.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "15-24",
+          "path": "packages/sdk/protocol/src/types.ts",
+          "start": 56,
+          "end": 59,
+          "sha256": "e54af69fdeb246e5002dfb18929c23b8b90063b2d52ac48764489353431e402d"
+        },
+        {
+          "id": "15-23",
+          "path": "packages/api/session-controller/src/types.ts",
+          "start": 507,
+          "end": 510,
+          "sha256": "b61c69c971a51b0dd6bd6762d0d83ce7a95ea1fefa5a1316cab36d41d8b5be6b"
+        },
+        {
+          "id": "15-22",
+          "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+          "start": 70,
+          "end": 84,
+          "sha256": "59b81a967c398b093ac597264edf45e46ae33b79b464a1e4fd1eb248a025db77"
+        },
+        {
+          "id": "15-21",
+          "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+          "start": 64,
+          "end": 67,
+          "sha256": "1c27387823c01a8ca87aa79a64065ca8b8bec973d3985033ce23bd10abe89ce6"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "figure_order": [
+        "15-interaction-deliverables",
+        "15-interaction-deliverables-02",
+        "15-interaction-deliverables-03",
+        "15-interaction-deliverables-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables.png",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables.svg",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-02.png",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-02.svg",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-03.png",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-03.svg",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-04.png",
+        "research/deepseek-harness/articles/assets/15-interaction-deliverables-04.svg"
+      ]
+    },
+    {
+      "number": 16,
+      "file": "articles/16-deployment-evolution.md",
+      "title": "Agent 系统如何持续演进：部署、兼容与状态迁移",
+      "sha256": "0ad0e46cc438b88d2e2dfe26336f1aa6f459ec52e69c2ebc325e81163c0dd497",
+      "principal_sections": 8,
+      "step_count": 7,
+      "existing_excerpts_retained": 18,
+      "added_excerpts": 3,
+      "current_excerpts": 21,
+      "core_data": [
+        {
+          "step": 2,
+          "symbol": "EntryOptions",
+          "path": "vendor/loader/src/config/entry.ts"
+        },
+        {
+          "step": 3,
+          "symbol": "Reload",
+          "path": "packages/boot/hmr/src/index.ts"
+        },
+        {
+          "step": 5,
+          "symbol": "PreparedJsonlMigration",
+          "path": "packages/session/session-persistence-jsonl/src/generation.ts"
+        }
+      ],
+      "new_source_excerpts": [
+        {
+          "id": "16-21",
+          "path": "vendor/loader/src/config/entry.ts",
+          "start": 10,
+          "end": 23,
+          "sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b"
+        },
+        {
+          "id": "16-20",
+          "path": "packages/boot/hmr/src/index.ts",
+          "start": 82,
+          "end": 87,
+          "sha256": "c33eaef4b83050834c1b0b962aaefce8428f04aa71839f7a412a53a0738ba2b7"
+        },
+        {
+          "id": "16-19",
+          "path": "packages/session/session-persistence-jsonl/src/generation.ts",
+          "start": 122,
+          "end": 127,
+          "sha256": "56b07f86f8a6c546c01bb574108f5d1f83d8a67286984bd2b7997d439fbbaccb"
+        }
+      ],
+      "figure_sections": [
+        1,
+        2,
+        4,
+        7
+      ],
+      "figure_order": [
+        "16-deployment-evolution",
+        "16-deployment-evolution-02",
+        "16-deployment-evolution-03",
+        "16-deployment-evolution-04"
+      ],
+      "changed_image_files": [
+        "research/deepseek-harness/articles/assets/16-deployment-evolution.png",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution.svg",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-02.png",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-02.svg",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-03.png",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-03.svg",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-04.png",
+        "research/deepseek-harness/articles/assets/16-deployment-evolution-04.svg"
+      ]
+    }
+  ],
+  "editorial_review": [
+    "Review core type fields against provider and consuming functions at the pinned commit.",
+    "Separate retry waterfall branches, cooperative cancellation and crash repair.",
+    "Keep filesystem write and process confinement as separate provider paths.",
+    "Describe prepared registration as captured state, not a public PreparedLlmCall.registration field.",
+    "Use actual scheduler prepare/dispatch methods and attachStructuredRuntime identifier.",
+    "Keep cost association distinct from direct call order; label the enterprise ledger as a proposal.",
+    "Review all four image contact sheets and final source-linked labels; additionally inspect final 08 scheduler, 09 filesystem qualification and 14 registration images at full size. Text width/height guards pass on final render."
+  ],
+  "authoring_record": {
+    "initial_failure": "series-refinement-authoring-initial.log",
+    "resolution": "Added an explicit UTF-8 declaration to the local authoring helper, then generated the source-backed text successfully.",
+    "scope": "Editorial helper parsing; no runtime test or source checkout failure."
+  },
+  "validation": [
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py",
+      "exit_code": 0,
+      "log": "series-refinement-diagrams.log",
+      "scope": "64 PNG/SVG pairs rebuilt; 60 changed pairs; article 02 byte-identical; shared geometry and text bounds."
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+      "exit_code": 0,
+      "log": "series-refinement-column.log",
+      "result": "column-check.json",
+      "scope": "16 articles; 364 exact source/local fixture excerpts; 64 PNG and 64 SVG; section counts, terminology, image order/placement and 780 links."
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": "series-refinement-artifacts.log",
+      "result": "artifact-check.json",
+      "scope": "30 Markdown files; 1652 links; 1254 fixed-SHA source links; 149 anchors; 16 Mermaid parse checks; clean source checkout."
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log": "series-refinement-diff-check.log",
+      "scope": "Whitespace errors in the working diff."
+    }
+  ],
+  "existing_runtime_evidence": {
+    "unique_files": 37,
+    "passed": 1520,
+    "conditional_skip": 1,
+    "new_runtime_test_runs": 0,
+    "new_typecheck_runs": 0,
+    "description": "Previously executed same-SHA evidence; not counted as this editorial run."
+  },
+  "limits": [
+    "Structural checks and field tables do not certify semantic conclusions or business correctness.",
+    "Original excerpts are partial source selections, not standalone runnable programs.",
+    "No new real-model, browser, cross-platform sandbox, multi-tenant, collector, load or rolling-deployment tests.",
+    "No WeChat editor preview, external publication or independent SVG browser rendering."
+  ],
+  "complete": true
+}

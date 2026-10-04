@@ -6,19 +6,26 @@
 
 DeepSeek Harness 将 Session 事实日志、assistant 实时流、Session telemetry 和 product analytics 分开。本文沿一次问题排查解释这些链路，重点分析反馈授权遥测，以及**为什么后端交接成功不等于远端已持久接收**。
 
+
+整体观测链由本地与外发两部分组成。Session.append() 提交 ledger，assistant stream 独立提供 live frame；默认 OTel reporter 在合法反馈后调用 coordinator.captureSession()，选取授权前缀，复制成 SessionTelemetryRecord，经过 record waterfall 再交给 sink。最后以一次缺失交付调查连接工具 outcome、声明和实际文件。本文逐层区分产生、捕获、交接与接收，说明每条记录可以回答什么。
+
 ## 四种记录回答四类问题
 
-Session ledger 记录回合、请求、工具、审批与领域事件，用来重建状态和还原操作。assistant live stream 提供低延迟字块与当前 attempt；Session telemetry 将选定记录外发；产品分析则关注自己的启用条件、身份和产品事件。[会话事实追加](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/index.ts#L718-L775) [实时输出结算](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/assistant-stream.ts#L45-L110) [遥测能力的组合](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/telemetry/otel/src/index.ts#L14-L34) [产品分析上报](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/client/product-analytics/src/index.ts#L76-L100)
+Session ledger 记录 Turn、请求、工具、审批与领域事件，用来重建状态和还原操作。assistant live stream 提供低延迟字块与当前 attempt；Session telemetry 将选定记录外发；产品分析则关注自己的启用条件、身份和产品事件。[会话事实追加](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/index.ts#L718-L775) [实时输出结算](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/assistant-stream.ts#L45-L110) [遥测能力的组合](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/telemetry/otel/src/index.ts#L14-L34) [产品分析上报](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/client/product-analytics/src/index.ts#L76-L100)
 
 一个 collector 不可用，不应推导本地事实停止记录；关闭遥测，也不意味着用户看不到实时输出。反过来，界面显示了一段文本，不代表文本已经进入持久日志，或发送到外部。
 
 把这些职责分开有助于定位问题。先确认本地操作事实，再检查是否有外发授权和捕获，再检查队列及传输。若一开始就只搜索远端日志，可能把“未被授权上传”误判成“工具没有执行”。
 
-![可观测性与审计的机制图](assets/12-observability.png)
 
-图1：反馈授权的 Session 遥测。
+![图1：Feedback 到 telemetry handoff](assets/12-observability.png)
+
+图1：handoff 之后还有独立传输与 collector 接收。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：先确定观察对象与提交点
+
+先从 Session.append() 找到 durable 事实的本地接纳点，再切到 AssistantStreamAttempt 的 start/push/settle。两条发布路径在 committed end 的 seq 处关联，abandoned 则没有这一结算。
+
 
 ```typescript
 const dataSnapshot = snapshotJsonValue(data)
@@ -106,11 +113,10 @@ abandon(): void {
 
 settle 先 append，再发 committed end；abandon 则结束实时展示而不追加最终消息。两种结束要在客户端区别呈现。产品分析与 telemetry 又是外发渠道，不能由 live stream 直接推断远端有完整审计。
 
-![图2：反馈授权的外发顺序](assets/12-observability-02.png)
-
-图2：默认不是普通 Session 事件实时全量上传。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 默认 Session OTel 为什么不是实时全量追踪
+
+本地提交与实时输出已区分，下面进入外发装配。OTel reporter 选择 capture 模式并解释授权事件，coordinator 只是它调用的通用捕获机制。
 
 base 配置采用反馈授权捕获。OTel reporter 组合通用 coordinator 时明确指定 on-demand 和 includeHistory，而不是持续订阅每个普通事件并自动上报。用户提交新的反馈，才为相应会话前缀提供捕获依据。[默认遥测配置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L188-L216) [反馈授权与捕获](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry-otel/src/index.ts#L218-L250)
 
@@ -135,6 +141,29 @@ function isFeedback(session: Session, event: SessionEvent): boolean {
 fork 继承的旧反馈不能自动成为新 Session 的授权。reporter 还要求通知中的事件确实是 canonical log 中同一对象；直接 emit 一个同名事件，不会替代真正的反馈提交。离线反馈路径也从已提交快照重建并限制捕获边界，不把恢复产生的生命周期标记一并冒充该次提交。[canonical 反馈身份检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry-otel/src/index.ts#L218-L250)
 
 ### 第二步：默认授权规则在 reporter 组合时落地
+
+默认外发由 OTel reporter 的构造和 listener 组合决定：DISABLED 提前结束，合法 feedback 则调用 on-demand coordinator。下面说明装配值与授权检查如何约束捕获。
+
+backend 在组合时决定捕获政策：
+
+```typescript
+export interface SessionTelemetryCaptureOptions {
+  /** Follow live events, or wait for explicit capture; defaults to live. */
+  capture?: SessionTelemetryCapture
+  /** Include inherited fork history and stored history from earlier lifecycles; defaults to false. */
+  includeHistory?: boolean
+}
+```
+
+[源码：`packages/session/session-telemetry/src/coordinator.ts:33–38`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/coordinator.ts#L33-L38)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`capture`|live 或 on-demand|是否连续订阅|
+|`includeHistory`|是否包含历史与继承前缀|读取范围|
+
+默认值来自通用 coordinator，但 OTel consumer 显式选择 on-demand 与 includeHistory。阅读最终 consumer 才能确定产品实际行为。
+
 
 ```typescript
 constructor(ctx: Context, config: Config) {
@@ -204,13 +233,22 @@ emit(_record: SessionTelemetryRecord): void {}
 
 ## 捕获的是授权前缀，不是单独反馈文本
 
+reporter 已确认一次授权，captureSession() 接下来确定读取起点与 throughSeq 上限。下面保持在同一捕获调用内部，追踪范围如何转换为逐项记录。
+
 coordinator.captureSession 从已有交接游标后读取日志，限定 throughSeq，逐事件复制和处理。第一次授权可能包含之前的请求、工具与历史上下文，后续对同一活 Session 的捕获再从游标继续。[授权前缀与逐事件捕获](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/coordinator.ts#L151-L164)
 
 这意味着用户提交反馈时，隐私范围不仅是那几句反馈文字。应用应根据实际捕获策略决定需要脱敏哪些字段，怎样向用户解释记录范围，以及 collector 如何保留和删除数据。本文没有验证线上保存政策。
 
 游标是以 Session 对象为键的模块级 WeakMap，跟随同一对象的进程内生命周期，有助于 reporter 重挂后避免重复交接；它不是跨重启的 durable ACK 记录。新的对象、新的进程或 detached 恢复不能自然继承这份状态，因此不能承诺全局 exactly-once 外发。[进程内交接游标](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/coordinator.ts#L45-L58)
 
+![图2：coordinator 的捕获与 handoff](assets/12-observability-02.png)
+
+图2：on-demand 捕获由最终 OTel consumer 明确选择。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第三步：游标决定增量，throughSeq 决定授权范围
+
+captureSession() 消费合法授权的 throughSeq，从 handoffCursor 后开始读取。逐事件调用 captureEvent()，每项失败由局部 containment 处理；整段不是原子交接。
+
 
 ```typescript
 /**
@@ -254,11 +292,10 @@ captureSession(session: Session, throughSeq?: SessionSeqType): void {
 
 初次授权可能带上之前的请求与工具结果。面向用户的反馈提示应说明捕获范围与脱敏政策，而不是仅写“发送这段意见”。fork 继承的反馈受 inheritedEventCount 限制，不能替新会话授予上传权限。
 
-![图3：四种观测对象](assets/12-observability-03.png)
-
-图3：观察到成功仍要说明在哪一层。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 复制、脱敏和交接的真实顺序
+
+选定的每个 canonical event 进入 captureEvent()，从 Session 对象复制为独立 record。脱敏 waterfall 消费副本，backend 接受后才推进交接游标。
 
 captureEvent 对 envelope 与 data 做副本，构造 ledger record，经过 `session-telemetry/record` waterfall，再交给 backend。后端可能稍后序列化，副本避免外部处理直接引用会话对象。脱敏发生在捕获时，on-demand 模式不能把它理解为事件追加时已经清洗。[事件复制与 redaction](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/coordinator.ts#L180-L217)
 
@@ -279,7 +316,75 @@ private deliver(session: Session, pending: PendingRecord): void {
 
 deliver 先 backend.emit，再更新游标。这个游标只能说明“交给后端”，不能说明 collector 接收、存储、建立索引或满足审计保留。后端本身还有队列额度、请求字节限制和停机期限，最终是 best-effort 外发。[导出容量与停机边界](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry-otel/README.md#L30-L80) [ledger、ops 与交接语义](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/subsystems/session-telemetry.md#L24-L60)
 
+![图3：观测对象各自回答什么](assets/12-observability-03.png)
+
+图3：记录来源和确认阶段一同解释。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：捕获时复制，再执行当前脱敏政策
+
+captureEvent() 将 envelope 与 data 复制成 SessionTelemetryRecord，再调用 record waterfall。deliver() 消费其返回值，backend.emit 接受后更新 cursor；后端排队以后还有独立传输。
+
+复制完成后，脱敏与 backend 共用以下 outbound 契约：
+
+```typescript
+export interface SessionTelemetryRecord {
+  /** Canonical envelope without data; body carries the separately redacted payload. Absent for operational records. */
+  sourceEvent?: { sessionId: SessionId; envelope: Omit<SessionEvent, 'data'> }
+  /** Ledger (session-log mirror) or ops (operational signal) channel; backends keep the two under separate instrumentation scopes. */
+  channel: 'ledger' | 'ops'
+  /** Unix epoch milliseconds — the source event's append time for ledger records, the emission time for ops records. */
+  time: number
+  /** Pre-mapped alerting severity; see {@link SessionTelemetrySeverity}. */
+  severity: SessionTelemetrySeverity
+  /**
+   * Identity attributes, deliberately minimal: ledger records carry
+   * `session.id`, `session.format_version`, `event.type`, `event.seq`, plus optional
+   * `session.cwd` / `session.parent_id`; a seeded Session also carries
+   * `session.seed_length` from its exact inherited event count;
+   * ops records carry `telemetry.op`, `session.id`, and (for `agent-error`)
+   * `agent.id`, `turn`, `step`, `error.name`. Anything recoverable from the
+   * body is intentionally NOT duplicated here.
+   */
+  attributes: Record<string, string | number>
+  /**
+   * The complete payload: a deep copy of the session event's `data` for
+   * ledger records (JSON-serializable by `Session.append`'s own
+   * validation), or the op payload for ops records. Never mutated after
+   * handoff.
+   */
+  body: unknown
+}
+```
+
+[源码：`packages/session/session-telemetry/src/index.ts:65–91`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/index.ts#L65-L91)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`sourceEvent` / `channel`|canonical 来源或无 seq 的 ops|来源保留与 ledger/ops 区分|
+|`time` / `severity` / `attributes`|时间、严重性和最小身份|后端索引与告警|
+|`body`|独立 payload 副本|redaction 与序列化|
+
+ledger 的 envelope 与 body 分开，允许清洗数据而保留来源身份。ops 刻意没有 ledger seq，consumer 不应把它计为同一事件日志。
+
+交给 backend 前，record 与可推进位置包装为 PendingRecord：
+
+```typescript
+interface PendingRecord {
+  readonly record: SessionTelemetryRecord
+  /** Ledger cursor advanced only after the backend accepts this record. */
+  readonly seq?: SessionSeqType
+}
+```
+
+[源码：`packages/session/session-telemetry/src/coordinator.ts:41–45`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry/src/coordinator.ts#L41-L45)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`record`|经过捕获及政策处理的记录|backend.emit|
+|`seq`|可选 ledger 交接位置|emit 成功后的 cursor 更新|
+
+seq 表示本地已交接位置，ops 不提供这个字段。远端接收确认需要自己的协议，不能从该游标推导。
+
 
 ```typescript
 private captureEvent(session: Session, event: SessionEvent): void {
@@ -364,6 +469,8 @@ ctx.effect(() => async () => {
 
 ## 怎样用事件还原一次缺失交付物
 
+外发边界已经说明，下面回到本地调查。tool-present 的通知 observer 与 Loop append 是不同 producer，需要先按身份关联，再比较各自提交位置。
+
 回到报告找不到的例子。先检查批准是否形成 approval/decided，再检查模式变更是否形成 plan/mode，再看工具调用和最终结果，最后单独确认 deliverables/presented。
 
 这些不是固定按名称排列的时序。present 在 tools/result 观察阶段追加声明，可能先于 Loop 记录 tool/result；应按 seq 和 callId 还原过程，而不能先画一条想象顺序再找证据。观察者失败也不改变既定工具 outcome，所以工具成功不能单独证明声明存在。[交付声明提交](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/tool-present/src/index.ts#L70-L108) [工具观察者的错误包含](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1694-L1713)
@@ -373,6 +480,9 @@ ctx.effect(() => async () => {
 DSH_TELEMETRY_DISABLED 会提前返回，不构建相应 reporter；产品分析又有独立开关和身份条件。运维界面应显示这些实际模式，避免用户期待每一步都存在远端 trace。[禁用模式的提前退出](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry-otel/src/index.ts#L151-L162)
 
 ### 第五步：以 seq 和调用身份重建，不先假设名称顺序
+
+现在以缺失文件切到业务调查：工具 finalize 发 tools/result，present observer 可追加声明，Loop 再追加规范 tool/result。不同事实以 callId 和 seq 连接，不按事件名称猜先后。
+
 
 ```typescript
 // WeakMap-keyable view.
@@ -435,9 +545,6 @@ const commitReady = async (): Promise<void> => {
 
 Loop 完成 finalize 后才 append tool/result，再接纳追加上下文。若声明 observer 抛错，工具消息仍可能存在；若 append result 失败，已有声明也不会自动回滚。各条事实分别回答不同问题。
 
-![图4：记录缺失的三种解释](assets/12-observability-04.png)
-
-图4：缺 trace、缺声明与业务失败不能混为一谈。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 审计要求更强时，需要增加什么
 
@@ -445,7 +552,14 @@ Loop 完成 finalize 后才 append tool/result，再接纳追加上下文。若�
 
 可能的改造方向是，将关键审计流写入专用持久通道，保存接收水位并定义重试和去重，再与可选产品遥测分开。它会增加运维与数据治理责任，不能把“全部上传”无条件当作成熟度提升。
 
+![图4：记录缺失的三种解释：状态与行动](assets/12-observability-04.png)
+
+图4：缺 trace、缺声明与业务失败不能混为一谈。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第六步：强审计需要新的提交协议
+
+上述 ledger 与 handoff 各自说明了一层提交。若应用需要更强审计，可在可信业务事务建立 outbox、幂等交付与 durable ACK；以下是扩展协议，不能反推默认 reporter 已拥有它。
+
 
 若要求不可抵赖审计，建议在可信业务入口生成 operationId，把业务变更、回执和 outbox 写入同一事务；独立转发器用稳定记录 id 幂等交付，并保留 durable ACK 与失败重放。这个方案是企业扩展建议，不能写成 OTel 默认保证。
 
@@ -460,19 +574,19 @@ Loop 完成 finalize 后才 append tool/result，再接纳追加上下文。若�
 
 ## 技术心得：观测信息也有来源和提交语义
 
-这套设计的优势是本地执行不依赖远端 collector，反馈授权明确，记录副本与异常包含减少观察链对运行的干扰。它的不足也来自选择：默认不是完整实时 trace，默认 seam 不替代脱敏，后端交接不替代强持久审计。
+### 为观测结论标出所在层
 
-我的技术心得是，观测数据同样需要解释“来自哪里、何时确认、当前走到哪一层”。日志方法返回、record 入队和远端持久保存，不能用一个 uploaded 状态混合表示。这一原则在消息队列和审计系统中同样适用。
+ledger seq、live revision、PendingRecord.seq 和远端查询各自说明一种事实。我的收获是，排错记录要同时写来源和确认阶段；这样缺少远端 trace 时，可以先检查授权和捕获，而不立即否定本地执行。
 
-V08 的 coordinator 34、OTel 42、egress 4 项验证受控后端与授权路径；未连接线上 collector，也未验证其数据治理。下一篇会进一步讨论：测试怎样证明这些局部语义，而不夸大为整体业务正确。
+### 用副本连接来源与政策
 
-### 技术感悟：观察到的事实仍要问“在哪一层”
+SessionTelemetryRecord 将 canonical envelope 与 body 分开，record waterfall 只处理外发副本。企业可据此为脱敏政策建立版本与样例，同时保留可靠关联字段，让调试所需信息和数据治理要求一起落到实现。
 
-源码把 ledger、live attempt、ops 与产品分析分开，是为了服务不同问题。把它们合并成一个“日志系统”会丢掉授权边界、提交点与缺失原因。
+### 从一次交付调查组织证据
 
-我的研究习惯是对每条观测结论追问来源、复制、脱敏、交接和确认。尤其是在排查任务失败时，缺少 trace 可能只是禁用或未授权，并不证明任务未执行；存在成功工具记录也不证明交付物完整。
+tool outcome、deliverables/presented 与当前文件分别回答执行、声明和访问问题。以 callId、seq 连接它们，再追踪 handoff 与 sink，能够把用户的一句“文件找不到”转换成具体检查路径。
 
-本次保留原有 telemetry、present 和 Session 测试证据，未新增 collector 故障、远端留存或强审计实验。可观测性接缝清晰的优势，不能消除 best-effort 外发与进程内游标的局限。
+可观测性的价值在于帮助决定下一步，而非只增加记录数量。本文给出这些记录的真实 producer 和 consumer；本轮保留既有遥测验证，没有新增线上 collector 或强审计实验。
 
 ---
 

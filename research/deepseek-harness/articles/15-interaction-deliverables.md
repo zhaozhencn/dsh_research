@@ -6,6 +6,9 @@
 
 DeepSeek Harness 把命令接纳、事实订阅、实时输出、文件声明和工作区记录分成不同能力。本文围绕一次代码修复交付，说明**用户看到的完成状态应来自对应事实，而不能只从一条 RPC 响应推导**。
 
+
+用户请求在本文穿过三类边界：SDK prompt 处理附件并把输入交给 Inbox，snapshot/journal/live stream 用各自基线恢复展示，present 与 workspace recorder 分别建立文件声明和修改记录。结果内容可能存于真实文件、Git snapshot 或临时捕获资源。本文先沿接纳，再分别展开订阅与产物两条消费支线，最后将可核验事实映射为用户状态。
+
 ## messageId 证明接纳，不证明任务完成
 
 SDK prompt 先确认初始化，取得或创建 Session，在附件处理前后检查 live Agent，再 followup 并返回 messageId。
@@ -37,11 +40,32 @@ return { messageId: message.id }
 
 这也影响失败重试。若命令已经被接纳，客户端因为响应丢失再发送，可能产生第二条输入。carrier 重连恢复与业务命令重发应该分别设计，不能只用统一网络重试覆盖。
 
-![交互协议与交付物的机制图](assets/15-interaction-deliverables.png)
 
-图1：三种用户可见结果。
+![图1：交互结果的身份与内容来源](assets/15-interaction-deliverables.png)
+
+图1：接纳、声明与可访问内容共同组成交付链。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：提示提交跨过附件准入之后才进入 inbox
+
+SDK.prompt() 先取得记录并两次检查 live Agent，附件返回后 followup() 把输入交给 next-turn。driver 的 preStep() 再决定接纳，messageId 是连接这些状态的输入身份。
+
+SDK 给调用方的回执只携带输入身份：
+
+```typescript
+export interface SessionPromptResult {
+  /** Identity of the queued user message. */
+  messageId: string
+}
+```
+
+[源码：`packages/sdk/protocol/src/types.ts:56–59`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/protocol/src/types.ts#L56-L59)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`messageId`|排队的 user message id|客户端关联输入与服务器事实|
+
+它不命名最后 assistant/message、Turn end 或交付文件。产品可以先确认接纳，再由订阅更新运行与完成状态。
+
 
 ```typescript
 async prompt(params: SessionPromptParams): Promise<SessionPromptResult> {
@@ -115,11 +139,10 @@ private async turn(): Promise<boolean> {
 
 Turn 开始后还经过 preStep，reject 可以生成 blocked 边界且没有 Step。SDK 提交成功、Turn 已启动和模型已派发是三个时刻，UI 状态应与相应证据匹配。
 
-![图2：从提示接纳到文件声明](assets/15-interaction-deliverables-02.png)
-
-图2：用户状态应绑定到对应证据。详见本节及相邻源码解读；图示省略其他分支。
 
 ## snapshot、journal 和 live stream 各有什么职责
+
+messageId 已把命令与排队输入关联，接下来切到客户端订阅。订阅消费 Session 和 live 状态，不是 prompt() 直接调用的下一函数；baseline 是重新连接的起点。
 
 RemoteSnapshotStream 每个连接 generation 先取得完整 baseline，再应用 delta；重试期间保留旧视图，直到新 baseline 替换。RemoteJournalStream 检查起始 cursor 不倒退，忽略已覆盖重复记录，拒绝部分重叠，结合分页和 follow 补缺口。[snapshot baseline 消费](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/api/gateway/src/client/snapshot-stream.ts#L67-L94) [journal 游标与补偿](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/api/gateway/src/client/journal-stream.ts#L261-L391)
 
@@ -129,7 +152,32 @@ assistant-stream 使用连续 revision，snapshot 附带 activeAttempt，帮助�
 
 协议错误也与网络载体丢失不同。游标重叠或非法 revision 可能需要终止当前订阅，不能无限吞掉再重连，否则页面展示会与真实历史悄悄偏离。
 
+![图2：prompt 从附件准入到输入接纳](assets/15-interaction-deliverables-02.png)
+
+图2：订阅和交付是后续 consumer，正文分别展开。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第二步：重新连接先建立基线，再处理增量
+
+排队与运行事实交给订阅 consumer。snapshot stream 每个 generation 先建立 baseline，journal 用 cursor 补缺口，assistant accumulator 用 revision/nextIndex 保持当前前缀。
+
+重新连接的 live 输出使用 SessionAssistantStreamBaseline：
+
+```typescript
+export interface SessionAssistantStreamBaseline {
+  readonly revision: number
+  readonly activeAttempt?: SessionAssistantStreamAttempt
+}
+```
+
+[源码：`packages/api/session-controller/src/types.ts:507–510`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/api/session-controller/src/types.ts#L507-L510)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`revision`|当前 attached Agent 的发布位置|后续 frame 连续性|
+|`activeAttempt`|可选的在途 attempt 前缀|恢复正在展示的输出|
+
+attempt 另有 attemptId、startedAfterSeq 和 nextIndex，连接 durable 位置与 live chunk。baseline 服务重连展示，最终正文仍以规范 settlement 为依据。
+
 
 ```typescript
 private async consume(): Promise<void> {
@@ -280,6 +328,8 @@ snapshot 携带 revision 和 activeAttempt 的当前前缀，让重连客户端�
 
 ## 声明文件交付，需要独立事件
 
+订阅负责呈现事实，交付声明由运行中的 present 工具产生。这里回到 tool body → pending → tools/result observer，追踪界面后来看到的声明来源。
+
 present 工具检查目标存在且为常规文件，收集待展示引用，在最终工具结果观察阶段写 `deliverables/presented`。
 
 ```typescript
@@ -303,6 +353,9 @@ pending 以执行对象关联，结果错误时不声明。tool outcome 已确�
 排查交付时还要注意顺序。声明在 tools/result 通知中追加，可能先于 Loop 自己记录 tool/result。消费者按 seq 和 callId 关联，而不是假设所有成功结果之后才存在领域声明。
 
 ### 第三步：文件检查产生暂存意图，最终结果才确认声明
+
+现在回到执行中的 present 工具：body 校验文件，保存以 exec 为 key 的 pending；finalized tools/result observer 消费它并追加 deliverables/presented。
+
 
 ```typescript
 async execute(args, exec) {
@@ -365,11 +418,10 @@ for (const callback of callbacks) {
 
 观察错误被包含、不改变已定 outcome，异步 observer 也不阻塞 Loop。因此“present 工具成功”与“声明事件存在”应独立查询，文件当前可访问性还需第三个检查。长期下载和版本固定需要企业对象存储扩展。
 
-![图3：交互数据的不同寿命](assets/15-interaction-deliverables-03.png)
-
-图3：重连基线不能替代长期内容归档。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 工作区变化先捕获基线，再确认本 Turn 的修改
+
+present 指定文件，workspace recorder 则从另一组事件描述修改。它消费 Turn start、mutation capture 与 tool/result，按基线计算本 Turn 的 delta。
 
 workspace-changes 在 Turn 开始排队获取基线，相关工具执行前捕获路径，观察最终工具结果，在 turn-stopping 计算差异并记录。它尝试区分用户既有未提交变化与本 Turn 拥有的修改，而非简单展示当前 git diff。[基线、路径与结果观察](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L128-L187) [owned delta 的计算](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L303-L333)
 
@@ -377,7 +429,44 @@ workspace-changes 在 Turn 开始排队获取基线，相关工具执行前捕�
 
 缺少基线、没有对应工具结果、超出支持范围或嵌套仓库路径，都可能限制记录。完整本地 Git 状态可以辅助比较，却不能从一次 Turn 的结果自动推导所有外部修改来源。
 
+![图3：交互与交付的数据结构](assets/15-interaction-deliverables-03.png)
+
+图3：每类数据有自己的更新协议与保存寿命。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：变更归属依据 Turn 基线与具体捕获
+
+另一个产物 consumer 是 workspace recorder：start() 建立 TurnState 并抓基线，capture() 排队保存 mutation 前内容，observe() 接入 tool/result，record() 再计算并建立 sources。
+
+工作区记录在同一 Turn 内积累这些状态：
+
+```typescript
+interface TurnState {
+  readonly turn: number
+  /**
+   * The turn-start snapshot once it exists. `null` means no repository or no git, so the turn summarizes file-tool
+   * captures only; `'failed'` means the repository exists but its snapshot failed, so the turn records nothing.
+   */
+  baseline: Baseline | null | 'failed'
+  /** Content of each file-tool-mutated path before the turn's first mutation of it, by canonical absolute path. */
+  readonly captures: Map<string, Capture>
+  lastToolResultSeq: number
+  /** Log length when the latest record attempt started; `end()` skips a turn already attempted after its last tool result. */
+  attemptedAfterSeq: number
+  /** Sequence of the latest appended event, or -1. */
+  recordedAfterSeq: number
+}
+```
+
+[源码：`packages/deliverables/workspace-changes/src/recorder.ts:70–84`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L70-L84)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`baseline`|Git tree、无仓库或 failed|决定可计算的差异|
+|`captures`|第一次 mutation 前的内容|归属比较|
+|`lastToolResultSeq` / `attemptedAfterSeq` / `recordedAfterSeq`|执行反馈与记录位置|何时重算、避免重复尝试|
+
+旧 Turn 的排队工作保留旧对象，新 Turn 使用 freshState。baseline failed 与无 Git 不同，前者不能冒充一份空基线。
+
 
 ```typescript
 start(turn: number): void {
@@ -460,7 +549,7 @@ private async record(state: TurnState, signal: AbortSignal): Promise<void> {
 
 [源码：`packages/deliverables/workspace-changes/src/recorder.ts:303–325`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L303-L325)。
 
-record 要求基线有效且有工具结果，比较 before/after tree 得到本回合 delta，并保留可读来源。它比直接 git diff HEAD 更接近 Agent 所做修改；并发外部编辑仍需要审查，不能据快照证明每个字节的唯一作者。
+record 要求基线有效且有工具结果，比较 before/after tree 得到本 Turn delta，并保留可读来源。它比直接 git diff HEAD 更接近 Agent 所做修改；并发外部编辑仍需要审查，不能据快照证明每个字节的唯一作者。
 
 ```typescript
 // Captured paths the snapshots do not cover are compared from their copies.
@@ -495,6 +584,8 @@ for (const absolute of captured) {
 
 ## 日志里的 changes 为什么不能恢复完整 diff
 
+record() 已建立 TurnRecord，后续 diff consumer 要从它的 sources 读取 before/after。下面沿这条查询路径区分持久标记与丰富内容的实际存放位置。
+
 下面片段显示持久事实与具体记录分开：日志追加 workspace/changes 仅携带 turn，summary 和后续内容存在 records 索引。
 
 ```typescript
@@ -524,6 +615,27 @@ records 和临时 Git／捕获资源由 recorder 持有，dispose 清理索引�
 这是临时交付视图的生命周期，不应自动称为数据损坏。问题出在产品若承诺“永远可看旧 diff”，却只组合这项临时记录能力。要实现长期版本化产物，就需要另存内容、清单、hash 和来源版本。
 
 ### 第五步：持久事件与内存来源有不同寿命
+
+TurnRecord 建立之后，readSide() 根据 ContentSource 读取临时文件或 Git snapshot。dispose() 清理这些资源，日志中的 workspace/changes 则保留自己的事件寿命。
+
+提交标记之后，可查询的丰富记录保存为 TurnRecord：
+
+```typescript
+interface TurnRecord {
+  summary: WorkspaceChangesSummary
+  sources: FileSources[]
+}
+```
+
+[源码：`packages/deliverables/workspace-changes/src/recorder.ts:64–67`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L64-L67)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`summary`|可展示的文件变化概要|changes 卡片|
+|`sources`|与 summary.files 对齐的两侧来源|diff 查询与内容读取|
+
+sources 来自 FileSources：可读取的 before/after，或 binary/oversized 的拒绝原因。事件仅保存 turn，重新打开完整 diff 还依赖这些来源。
+
 
 原文 append 只写 turn，summary/sources 进入 records Map。恢复 Session 可以知道当时记录过 changes，不能仅凭该事件恢复完整差异。
 
@@ -559,19 +671,23 @@ async dispose(): Promise<void> {
 
 dispose abort 队列、clear records、await chain、删除 scratch。资源回收正确意味着旧卡片来源可能不再查询。企业要永久保留 diff，应额外保存内容对象、摘要与版本身份，并将引用写入可重放事件。
 
-![图4：三种常见结果缺口](assets/15-interaction-deliverables-04.png)
-
-图4：交付可靠性包含状态文案与内容保存责任。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 怎样建立更准确的用户状态
 
-可以把用户流程拆成几种可核验状态：消息已接纳、输入已消费、回合运行中、循环已结算、声明了交付文件、业务检查通过。网络连接状态另行展示，不把重连成功当作任务成功。
+可以把用户流程拆成几种可核验状态：消息已接纳、输入已消费、Turn 运行中、循环已结算、声明了交付文件、业务检查通过。网络连接状态另行展示，不把重连成功当作任务成功。
 
 报告文件和工作区差异也应分开：前者是明确展示的文件引用，后者是一次 Turn 的修改记录。若需要下载，应确认当前文件版本；若需要审阅旧 diff，应确认对应临时或持久数据仍存在。
 
 这些是基于现有协议和产物机制的产品设计建议，不是 DSH 当前界面全部已经提供的状态。良好界面应减少用户理解内部 seq 的负担，但其判断依据不能缺失。
 
+![图4：三种常见结果缺口：状态与行动](assets/15-interaction-deliverables-04.png)
+
+图4：交付可靠性包含状态文案与内容保存责任。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第六步：把产品状态绑定到独立证据
+
+最后将前五步的身份与提交事实映射为产品状态：messageId 对应接纳，committed 回答对应历史，presented 对应声明，独立产物检查对应验收。
+
 
 |用户状态|依据|允许展示的承诺|
 |---|---|---|
@@ -584,23 +700,21 @@ dispose abort 队列、clear records、await chain、删除 scratch。资源回�
 
 这不是要求 UI 展示所有实现细节，而是给状态文案正确证据。普通用户可以只看到清楚的阶段说明，排错面板再展开 seq、callId 与 revision。结束信号不应替代交付验收。
 
-## 优势、不足与技术心得
+## 技术心得：将用户状态连接到可访问结果
 
-优势是命令身份、事实 journal 和实时状态分开，重连先建立 baseline，交付声明与工具结果可以关联，工作区比较也考虑原有修改。各类消费者有明确数据来源。
+### 用输入身份连接用户操作
 
-不足是 live 输出无法自然变成持久历史，文件引用不自动归档，workspace diff 依赖运行缓存。业务命令去重、跨设备产物、长期审阅和强访问控制还需要应用补充。协议测试通过也不等于真实网络和浏览器已验证。
+SessionPromptResult.messageId 与后续 user/message 给排队输入建立关联。我会让产品分别确认接纳、消费和运行，并把连接恢复与命令重发分开处理，使用户看到的状态有明确来源。
 
-我的技术心得是，交付不是最后一句回答，而是从执行事实到用户可访问结果的一条链。消息接纳、结果结算、产物声明、内容保存和权限访问都应有负责方。遗漏任一环节，用户就可能看到“成功”却拿不到结果。
+### 让重连从可解释基线开始
 
-此前 transport／assistant-stream 测试、V08 present 10 项和 V10 workspace 16 项支持选定本地路径。浏览器、真实网络和远端文件分发未实测。最后一篇将讨论怎样在版本升级和部署过程中保持这些状态语义。
+snapshot generation、journal cursor 与 live revision 分别校验不同增量。它们帮助客户端保留旧视图并安全替换，也提示我们为协议错误提供明确状态，避免界面在不一致数据上继续展示完成。
 
-### 技术感悟：交互的诚实来自状态分层
+### 给交付内容安排自己的保存责任
 
-DSH 的优势是实时展示、历史一致性、文件声明和变更来源有独立协议；不足是观察通知可能失败、丰富 diff 来源非持久、文件声明不包办长久访问与业务验收。
+present 声明文件，TurnRecord 保存修改来源，readSide 读取实际版本。需要长期审阅时，应用可另存内容对象、hash 与访问身份，再将持久引用写入可重放事件；这属于产物扩展设计。
 
-设计产品时，我会先列出用户一句“已经好了”背后需要哪些事实，再决定按钮与状态文案。让用户区分等待、停止结算和已交付，比展示一个没有明确含义的绿色 completed 更可靠。
-
-本次沿固定源码深化，沿用原有 gateway、present、workspace 与 SDK 记录；没有新增浏览器视觉验收或重启后持久 diff 实验，企业保存方案明确作为建议。
+对代码修复，用户最终需要拿到可访问文件和可解释的变更，而非只看到回答结束。本文把接纳、展示、声明与内容来源接成检查路径；本轮沿用既有协议与产物验证，未新增浏览器或远端分发实测。
 
 ---
 

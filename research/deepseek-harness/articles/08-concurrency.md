@@ -6,6 +6,9 @@
 
 DeepSeek Harness 提供单 Agent driver、工具分组调度、jobs-local 和子 Agent 容量控制。本文按执行对象拆解这些机制，说明**局部并发策略怎样组合，以及它们为什么还不是统一的全局调度系统**。
 
+
+并发在本文有三个不同对象。工具调用经 executeToolCalls() 分组，runGroup() 让 body 重叠，再按模型顺序提交；后台 job 由 registry 连接 producer、输出 pump 与 owner；child 由 SubagentRuntime 和 driver 管理创建、结果与 dispose。单 Agent driver 是这些工作的发起控制链，局部额度沿各自生命周期释放。下面按这张对象地图分别追踪。
+
 ## 先确定并发发生在哪一层
 
 同一个 Agent 由单一 driver 推进，输入追加进入 inbox，不启动第二条并行 Turn 控制链。多个 Agent 则可以各自运行，可能共享模型和执行 provider。[单 Agent 输入与 driver](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L154-L241)
@@ -14,11 +17,33 @@ DeepSeek Harness 提供单 Agent driver、工具分组调度、jobs-local 和子
 
 例如并发读三份文件、后台执行一次构建、让子 Agent 审阅修改，涉及至少三种调度对象。某一对象完成，不表示其他对象释放了模型调用、文件句柄或进程资源。
 
-![并发、调度与资源治理的机制图](assets/08-concurrency.png)
 
-图1：三套局部资源治理。
+![图1：并发对象、提交和释放](assets/08-concurrency.png)
+
+图1：局部额度以各自对象的实际生命周期为依据。先按这张主线图建立对象地图，再结合下面的 caller、数据和返回路径展开。
 
 ### 第一步：区分驱动器、工具池、作业与子 Agent
+
+wakeDriver() 保持一个 Agent 的 driver 唯一；该 driver 在 Step 中调用 executeToolCalls()，为每个模型 call 建立 PlannedCall。并发对象从这里开始分层。
+
+模型调用进入调度器时，交接为 PlannedCall：
+
+```typescript
+interface PlannedCall {
+  block: ToolCallBlock
+  exec: ToolExecutionInput
+}
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:21–24`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L21-L24)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`block`|模型原始调用及 id|call 顺序与日志|
+|`exec`|解析参数、Agent 与 signal|prepare / dispatch|
+
+模型顺序保留在数组位置，exec 各自独立；包装器修改某次 signal 不会替换整组输入。
+
 
 ```typescript
 private wakeDriver(wakeAfterAbort = false): void {
@@ -67,11 +92,10 @@ const planned: PlannedCall[] = toolCalls.map(block => ({
 
 每个工具调用有独立 exec，但初始共用 Step signal。exec.signal 可以被包装器替换，因此调用者 signal 与包装 signal 必须分开记。后台作业另有 owner 与 producer.done，子 Agent 则拥有独立 session 和 handle，不能直接塞进同一个 Promise 池就认为生命周期受控。
 
-![图2：工具池的生产与提交时序](assets/08-concurrency-02.png)
-
-图2：并行的是 body，提交仍保持模型顺序。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 工具并发先看安全声明
+
+单 driver 已明确，接下来进入它在一个 Step 内调用的 executeToolCalls()。这条路径先分类实际参数的 executionMode，再进入受限 body 池。
 
 工具显式声明 isConcurrencySafe 才有资格并行，默认采用独占方式。maxParallelToolCalls 默认 10，可用 volatile 配置更新；独占调用形成屏障，尚未执行的调用之后会重新分类。[默认工具并行度](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/constants.ts#L1-L6) [工具分组和调度](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L60-L290)
 
@@ -79,7 +103,14 @@ const planned: PlannedCall[] = toolCalls.map(block => ({
 
 prepare 和审批按顺序 await，body 可以重叠。这意味着并行度是派发上限，实际吞吐仍会受授权等待、provider 和外部服务限制。调大数值，并不会让所有前置阶段同时运行。
 
+![图2：runGroup 的派发与有序提交](assets/08-concurrency-02.png)
+
+图2：执行完成顺序与模型历史顺序分开管理。从 caller 的交接对象追到 consumer，具体分支结合正文源码阅读。
+
 ### 第二步：运行时根据实际参数重读安全模式
+
+PlannedCall 进入外层分组，executionMode() 从真实参数判定 parallel 或 exclusive。runGroup() 在实际启动前再次检查模式，再通过 fillPool() 依序 prepare、允许 body 重叠。
+
 
 ```typescript
 if (userPresentCall) {
@@ -161,6 +192,8 @@ fillPool 按 maxParallelToolCalls 填槽，后续调用在启动前再次检查�
 
 ## 并行完成，为什么还要按顺序提交
 
+并行组能够重叠派发以后，runGroup() 还要将不同完成时间变成稳定历史。下面保持在同一个函数内部，解释槽位、游标与 commitReady() 的关系。
+
 调度器为模型调用建立 slots，记录已经启动的序号与结果。commitReady 只推进连续可用的前序槽位。
 
 ```typescript
@@ -191,6 +224,28 @@ const commitReady = async (): Promise<void> => {
 取消后不继续补派发，已启动工作要 drain；未开始的槽位报告 `TOOL_ABORTED_BEFORE_DISPATCH`。调度失败也先等待在途派发，之后把异常交给 owning Step 修复。这提供局部完整性，不提供跨工具事务回滚。
 
 ### 第三步：完成顺序与历史顺序使用两种游标
+
+已派发 body 的 Promise 只将结果存入 Slot；runGroup() 的 commitReady() 再推进 committed。下面从接纳游标、结果槽位到日志提交，沿同一调度器解释。
+
+body 结算后使用 Slot 等待有序 finalization：
+
+```typescript
+interface Slot {
+  exec: ToolRunContext
+  result: ToolExecutionResult
+  needsPost: boolean
+}
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:27–31`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L27-L31)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`exec` / `result`|本次执行身份与 outcome|finalize 与 tool/result|
+|`needsPost`|是否仍应进入结果治理|commitReady 的 post 分支|
+
+Slot 可以已存在而尚未提交。committed 只越过连续槽位，执行完成与历史可见因此是两个时刻。
+
 
 ```typescript
 const { session } = ctx.agents.requireInitiator()
@@ -299,11 +354,10 @@ const startCall = async (index: number): Promise<void> => {
 
 race 只用于知道哪个在途工作已结算；catch 后 allSettled 才向外抛。取消不启动余项，而为余项补未派发结果。局部并发并没有放弃清理责任，也不因 B 早完成就允许 B 抢先改写上下文。
 
-![图3：三种资源拥有者](assets/08-concurrency-03.png)
-
-图3：局部额度不能自动组合成集群全局上限。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 后台作业在注册前验证可管理性
+
+工具可能启动后台生产者，此时长期工作由 jobs-local 接管。这里切到 registry 注册路径，job 的额度与释放不沿工具槽位计算。
 
 jobs-local 是进程内 registry。注册前验证精确 live owner、控制端可达性以及当前额度，先分配身份，再运行生产者启动函数；只有启动返回，才提交 job 记录并启动输出 pump。[作业准入、启动与提交](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L206-L280)
 
@@ -311,7 +365,34 @@ jobs-local 是进程内 registry。注册前验证精确 live owner、控制端�
 
 作业访问也有 Session 所有权约束：owned job 只能由对应 Session 访问，无 owner 的共享桶则另行处理。这是本地服务检查，不等于企业用户身份系统。[作业 owner、额度与访问](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L378-L409)
 
+![图3：并发资源的 owner 与完成点](assets/08-concurrency-03.png)
+
+图3：先明确管理责任，再决定配额释放位置。表中对象并列展示用途与寿命，层次之间以源码所示身份关联。
+
 ### 第四步：准入需要 owner、控制器和容量同时成立
+
+这里切到后台 job 注册：工具或其他 consumer 提供 starter 给 registry.register()。registry 先验证 owner 和 controller，再启动 producer，提交 TrackedJob 后才启动 pump。
+
+starter 之前与登记之后共享同一份 ProducerState：
+
+```typescript
+interface ProducerState {
+  /** Live progress line until settlement clears it. */
+  progress: string | undefined
+  /** The committed registry record; undefined exactly during the starter call. */
+  job: TrackedJob | undefined
+}
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:68–73`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L68-L73)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`progress`|生产者最新进展|JobHandle 更新|
+|`job`|已提交记录；启动时为 undefined|starter → registry 的提交交接|
+
+starter 先写进共享 state，store.set 后绑定记录。这样启动期 progress 不丢失，也不会提前制造正常注册事实。
+
 
 ```typescript
 }
@@ -413,6 +494,65 @@ owner 或服务卸载时，registry 取消、等待、清理记录。生产者�
 
 ### 第五步：额度以权威状态计算，不随取消按钮提前释放
 
+register() 提交后的 TrackedJob 持续接收 producer 与 pump 状态。kill/cleanup 将它推进 stopping，settle 需要生产者与输出尾部完成，activeJobCount 因而仍计入它。
+
+登记记录连接 owner、输出和最终结算，关键字段如下：
+
+```typescript
+interface TrackedJob {
+  id: JobId
+  kind: JobKind
+  label: string
+  outputLimitBytes: number | undefined
+  /** Exact lifecycle owner; session-id authorization is derived from it. */
+  owner: Agent | undefined
+  cancel: (reason?: string) => void
+  status: JobStatus
+  ring: OutputRing
+  /** The model's consuming cursor; {@link JobRegistry.readAt} never moves it. */
+  modelCursor: number
+  /** Whether the first post-settlement read already handed out `result`. */
+  resultDelivered: boolean
+  /** Producer-shared progress line and commit binding. */
+  state: ProducerState
+  /** Terminal reason; a recorded kill reason is merged in at settlement. */
+  detail: string | undefined
+  result: string | undefined
+  startedAt: number
+  finishedAt: number | undefined
+  /** Reason recorded by {@link JobRegistry.kill}, merged into a `killed` settlement's detail. */
+  killReason: string | undefined
+  /** Set once a kill or teardown cancel ran; settlement reports it as the cause. */
+  settleCause: JobSettleCause | undefined
+  /** Resolves once the terminal record is committed and announced. */
+  settled: Promise<void>
+  /** Resolver for {@link settled}, called by the first effective settlement. */
+  markSettled: () => void
+  /** Removable resolvers for live waits; timeout/abort unregister before the job settles. */
+  waitResolvers: Set<() => void>
+  /** The registry-owned pump over the spec's pull sources, when it named any. */
+  pump: PumpHandle | undefined
+  /**
+   * The spill file each pull source reported on its latest read, by source
+   * index; an entry is undefined while that source keeps none. Source
+   * metadata rather than per-chunk metadata, so it survives ring eviction and
+   * follows a source that withdraws its file.
+   */
+  spillPaths: (string | undefined)[]
+}
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:76–116`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L76-L116)。
+
+|核心字段|保存的信息|使用位置|
+|---|---|---|
+|`owner` / `status`|精确归属与 running/stopping/terminal|准入、访问与清理|
+|`ring` / `modelCursor` / `pump`|输出保留、消费和拉取|读取与输出尾部排空|
+|`settled` / `markSettled`|terminal 提交后的完成信号|等待者和 owner cleanup|
+
+producerDone 与 pump.done 分别表示生产者和输出结束；settled 在 terminal 记录提交后兑现。额度释放和对外访问由不同身份规则决定。
+
+
 ```typescript
 /** Count authoritative active records for one exact owner or the shared unowned bucket. */
 private activeJobCount(owner: Agent | undefined): number {
@@ -480,11 +620,10 @@ private async disposeOwned(owner: Agent): Promise<void> {
 
 owner Scope 清理先取消所属作业、等待所有 settled，再 drop。取消函数抛错时服务会强制失败并报告潜在 orphan；取消返回却永不 settle 仍可能卡住。工程上需要可强制结束的执行环境，而不是只增加一个本地超时 Promise。
 
-![图4：额度何时可以归还](assets/08-concurrency-04.png)
-
-图4：stopping 不是 finished，取消不是资源释放。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 子 Agent 是独立生命周期，不能只当函数
+
+job 的 producer 和 pump 已说明，接下来切到委派路径。child 不是 registry 中同一种 job：它另有 Agent 生命周期、结果协议和 handle 释放。
 
 SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 负责创建 child、挂载输出契约、连接父级 signal、等待 idle 并读取本次结果。dispose 还要释放 handle，等待结果 Promise，撤销父 signal listener。[委派容量配置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent/src/index.ts#L189-L202) [父子取消和结果等待](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L158-L207)
 
@@ -492,7 +631,14 @@ SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 
 
 这些额度也没有自动相加为任务级资源上限。一个父 Agent 可以持有 job，还可以启动 child，child 又可能调用多个工具。若产品需要统一资源治理，应明确额度归属、传播、累积和回收规则。
 
+![图4：额度何时可以归还：状态与行动](assets/08-concurrency-04.png)
+
+图4：stopping 不是 finished，取消不是资源释放。各分支基于自己的证据返回决定，不按完成文案推断下一动作。
+
 ### 第六步：容量、父信号、结果与 handle 各有归属
+
+最后切到子 Agent 的委派 consumer：SubagentRuntime 先核对容量，in-process driver 发布 child、连接父 signal、提交输入并 whenIdle；读取 result 之后仍要 dispose handle。
+
 
 ```typescript
 /** Host configuration for continuable subagent capacity. */
@@ -612,17 +758,19 @@ dispose 同时等待 handle.dispose 与 result，分别报告结果通道和释�
 
 ## 技术心得：配额应该跟随资源的真实生命周期
 
-最有价值的收获是 stopping 仍计活跃这一细节。它体现了一个普遍原则：资源不是在“要求停止”时释放，而是在实际工作静止、管理责任结束后释放。
+### 将运行、提交与释放分别计时
 
-另一个收获是执行顺序与提交顺序可以不同。并发让工作重叠，有序提交让消费者稳定；两者之间的等待和缓存应成为明确成本，而不是实现中的意外。
+Slot、committed 与 TrackedJob.settled 让我看到三个不同完成点：body 结束、结果成为历史、管理责任结束。调优时分别测量它们，才能解释前序等待、输出排空和退出耗时。
 
-V10 的 jobs 83 项和 structured child 30 项，加上既有工具调度测试，验证选定受控生命周期。它们没有测量公平性、生产吞吐或远程节点能力。下一篇将从同样的 owner 与 scope 分层，进一步分析行动权限。
+### 用 owner 连接额度和清理
 
-### 技术感悟：并发正确性包含提交与释放
+job 在 stopping 仍占额度，owner cleanup 等待 settled；child 的 result 之后仍有 handle.dispose。新增执行对象时，我会先确定谁负责取消和等待，再决定在哪个事实出现后释放配额。
 
-阅读 slots、committed、stopping 与 handle.dispose 后，会发现并发并不止是多任务同时启动。还有结果以什么顺序成为事实、取消后谁仍然占资源、释放错误由谁收集。
+### 从局部协议组织企业治理
 
-我会用“接纳、运行、结算、释放”四个时刻审查任何并发组件。局部槽位可在结算后释放，外部进程容量则要在确认退出后释放，二者不能共享未经解释的 done。原有工具池、作业和子 Agent 验证支持这些限定路径；本次没有新增多节点负载或进程强终止验证。
+工具池的模式重查、job 的登记提交、child 的父 signal 接线提供了具体扩展位置。企业层可为这些准入补任务和租户身份，统一资源预留；释放仍依据各自真实终点，避免一个通用 done 隐去差异。
+
+对修复任务，并发读取、后台构建和 child 审阅可以分别提速，也能分别说明提交与释放状态。本文帮助建立这份对象地图；既有受控测试支持所述路径，本轮未新增吞吐或多节点压测。
 
 ---
 

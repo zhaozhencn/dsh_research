@@ -5,10 +5,10 @@
       "number": 1,
       "file": "articles/01-task-completion.md",
       "concern": "任务定义与完成语义",
-      "code_excerpts": 23,
+      "code_excerpts": 27,
       "illustrations": 4,
       "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 10464
+      "cjk_characters_excluding_code_links": 10947
     },
     {
       "number": 2,
@@ -23,133 +23,133 @@
       "number": 3,
       "file": "articles/03-model-adaptation.md",
       "concern": "模型接入与能力适配",
-      "code_excerpts": 18,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 4936
+      "cjk_characters_excluding_code_links": 5716
     },
     {
       "number": 4,
       "file": "articles/04-context-engineering.md",
       "concern": "上下文工程",
-      "code_excerpts": 17,
+      "code_excerpts": 20,
       "illustrations": 4,
       "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 4681
+      "cjk_characters_excluding_code_links": 5494
     },
     {
       "number": 5,
       "file": "articles/05-state-persistence.md",
       "concern": "记忆、状态与持久化",
-      "code_excerpts": 19,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 4529
+      "cjk_characters_excluding_code_links": 5326
     },
     {
       "number": 6,
       "file": "articles/06-tool-runtime.md",
       "concern": "工具与执行环境契约",
-      "code_excerpts": 21,
+      "code_excerpts": 25,
       "illustrations": 4,
       "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 4416
+      "cjk_characters_excluding_code_links": 5274
     },
     {
       "number": 7,
       "file": "articles/07-reliability.md",
       "concern": "可靠性恢复与副作用一致性",
-      "code_excerpts": 16,
+      "code_excerpts": 19,
       "illustrations": 4,
       "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 3922
+      "cjk_characters_excluding_code_links": 4641
     },
     {
       "number": 8,
       "file": "articles/08-concurrency.md",
       "concern": "并发、调度与资源治理",
-      "code_excerpts": 20,
+      "code_excerpts": 24,
       "illustrations": 4,
       "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 3571
+      "cjk_characters_excluding_code_links": 4332
     },
     {
       "number": 9,
       "file": "articles/09-security.md",
       "concern": "权限与安全边界",
-      "code_excerpts": 18,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 3401
+      "cjk_characters_excluding_code_links": 4066
     },
     {
       "number": 10,
       "file": "articles/10-autonomy.md",
       "concern": "自主性控制与人工干预",
-      "code_excerpts": 19,
+      "code_excerpts": 22,
       "illustrations": 4,
       "evidence_refs": 13,
-      "cjk_characters_excluding_code_links": 3297
+      "cjk_characters_excluding_code_links": 3834
     },
     {
       "number": 11,
       "file": "articles/11-budgets.md",
       "concern": "成本、延迟与预算",
-      "code_excerpts": 18,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 3583
+      "cjk_characters_excluding_code_links": 4451
     },
     {
       "number": 12,
       "file": "articles/12-observability.md",
       "concern": "可观测性与审计",
-      "code_excerpts": 17,
+      "code_excerpts": 20,
       "illustrations": 4,
       "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 3217
+      "cjk_characters_excluding_code_links": 3853
     },
     {
       "number": 13,
       "file": "articles/13-evaluation.md",
       "concern": "评测与质量保障",
-      "code_excerpts": 16,
+      "code_excerpts": 19,
       "illustrations": 4,
       "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 3726
+      "cjk_characters_excluding_code_links": 4474
     },
     {
       "number": 14,
       "file": "articles/14-plugin-lifecycle.md",
       "concern": "扩展机制与生命周期",
-      "code_excerpts": 18,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 3163
+      "cjk_characters_excluding_code_links": 3747
     },
     {
       "number": 15,
       "file": "articles/15-interaction-deliverables.md",
       "concern": "交互协议与交付物",
-      "code_excerpts": 20,
+      "code_excerpts": 24,
       "illustrations": 4,
       "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 3342
+      "cjk_characters_excluding_code_links": 4004
     },
     {
       "number": 16,
       "file": "articles/16-deployment-evolution.md",
       "concern": "部署、兼容性与版本演进",
-      "code_excerpts": 18,
+      "code_excerpts": 21,
       "illustrations": 4,
       "evidence_refs": 18,
-      "cjk_characters_excluding_code_links": 3676
+      "cjk_characters_excluding_code_links": 4308
     }
   ],
   "article_count": 16,
-  "source_excerpt_count": 316,
-  "checked_links": 737,
-  "checked_source_links": 562,
+  "source_excerpt_count": 364,
+  "checked_links": 780,
+  "checked_source_links": 604,
   "figures": [
     {
       "png": "articles/assets/01-task-completion.png",
@@ -604,7 +604,7 @@
   "svg_count": 64,
   "source_checkout_clean": true,
   "existing_runtime_tests": "Reused previously executed same-SHA evidence; no new behavior-test runs claimed.",
-  "checks": "16 concern mapping / historical or explicit editorial section contract / figure order and placement for article 02 / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
+  "checks": "16 concern mapping / explicit editorial section contract and preserved principal section count / figure order and placement for all 16 articles / English Agent and Turn terms in prose and diagrams / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and boundaries / PNG decode / SVG XML and dimensions / checkout status",
   "limits": [
     "Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.",
     "Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.",
