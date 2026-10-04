@@ -1,0 +1,8 @@
+- insert:
+    - id: research-sum
+      name: research-sum-tool
+    - id: research-route
+      name: research-route-policy
+      config:
+        provider: mock
+        model: policy

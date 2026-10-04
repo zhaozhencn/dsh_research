@@ -1,0 +1,67 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "markdown_files": 12,
+  "checked_links": 345,
+  "checked_source_links": 262,
+  "evidence_anchors": 77,
+  "workspace_members": 341,
+  "pnpm_projects": 342,
+  "mermaid_version": "11.16.0",
+  "diagrams": [
+    {
+      "file": "01-architecture.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "03-extension-practices.md",
+      "index": 1,
+      "ok": true
+    }
+  ],
+  "source_checkout_clean": true,
+  "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status",
+  "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
+  "failures": [],
+  "ok": true
+}

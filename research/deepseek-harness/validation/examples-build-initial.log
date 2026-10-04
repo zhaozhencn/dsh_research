@@ -1,0 +1,65 @@
+ℹ tsdown v0.22.2 powered by rolldown v1.1.1
+ℹ entry: ../../research/deepseek-harness/examples/sum-tool/index.ts
+ℹ target: node24
+ℹ tsconfig: tsconfig.json
+ℹ Build start
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/index.mjs                                                                 1.04 kB │ gzip:  0.56 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/index.mjs              51.99 kB │ gzip: 14.75 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/py-types.mjs           35.85 kB │ gzip: 13.80 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/index.mjs                 30.70 kB │ gzip:  8.10 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/ptc.mjs                23.62 kB │ gzip:  7.63 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/schemastery/src/index.mjs               23.15 kB │ gzip:  5.85 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/json-schema.mjs        20.20 kB │ gzip:  5.63 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/util/values/src/partial-json.mjs      19.77 kB │ gzip:  5.57 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/fiber.mjs                    16.27 kB │ gzip:  4.97 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/ts-types.mjs           12.35 kB │ gzip:  4.50 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/schema.mjs             12.10 kB │ gzip:  3.50 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/reflect.mjs                   9.88 kB │ gzip:  3.18 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/utils.mjs                     8.40 kB │ gzip:  2.51 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/content.mjs                7.58 kB │ gzip:  2.50 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/util/values/src/index.mjs              7.35 kB │ gzip:  2.26 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/events.mjs                    6.84 kB │ gzip:  2.28 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/registry.mjs                  6.51 kB │ gzip:  2.29 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/typert/protocol/src/index.mjs          6.47 kB │ gzip:  2.26 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/scope/src/store.mjs               6.45 kB │ gzip:  2.11 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/logger.mjs                    5.92 kB │ gzip:  2.39 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/types.mjs                   5.45 kB │ gzip:  1.90 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/sandbox/sandbox/src/escalation.mjs     5.18 kB │ gzip:  2.15 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/retry-policy.mjs           4.83 kB │ gzip:  1.62 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/context.mjs                   4.00 kB │ gzip:  1.58 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cordis/src/service.mjs                   3.82 kB │ gzip:  1.47 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/adapter-failure.mjs        3.59 kB │ gzip:  1.25 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/time.mjs                    3.14 kB │ gzip:  1.08 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/scope/src/index.mjs               2.56 kB │ gzip:  1.17 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/error.mjs                  2.00 kB │ gzip:  1.06 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/volatile.mjs                1.72 kB │ gzip:  0.77 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/misc.mjs                    1.31 kB │ gzip:  0.59 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/message.mjs                1.31 kB │ gzip:  0.51 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/typert/protocol/src/remote-error.mjs   1.07 kB │ gzip:  0.59 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/string.mjs                  0.99 kB │ gzip:  0.46 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/call-config.mjs            0.81 kB │ gzip:  0.46 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/util/crypto/src/index.mjs              0.55 kB │ gzip:  0.35 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/attribution.mjs            0.49 kB │ gzip:  0.32 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/util/brand/src/index.mjs               0.34 kB │ gzip:  0.22 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/util/timeout/src/index.mjs             0.20 kB │ gzip:  0.18 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/vendor/cosmokit/src/index.mjs                   0.12 kB │ gzip:  0.08 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/assistant-stream.mjs       0.08 kB │ gzip:  0.08 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/llm/llm/src/assembler.mjs              0.08 kB │ gzip:  0.08 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/sandbox/sandbox/src/index.mjs          0.08 kB │ gzip:  0.08 kB
+ℹ ../../research/deepseek-harness/examples/sum-tool/lib/.sources/deepseek-harness/packages/core/tools/src/testing.mjs             0.03 kB │ gzip:  0.05 kB
+ℹ 44 files, total: 356.19 kB
+✔ Build complete in 57ms
+ℹ tsdown v0.22.2 powered by rolldown v1.1.1
+ℹ entry: ../../research/deepseek-harness/examples/route-policy/index.ts
+ℹ target: node24
+ℹ tsconfig: tsconfig.json
+ℹ Build start
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/index.mjs                                                    0.85 kB │ gzip: 0.48 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/schemastery/src/index.mjs  23.15 kB │ gzip: 5.85 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/cosmokit/src/types.mjs      5.45 kB │ gzip: 1.90 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/cosmokit/src/time.mjs       3.14 kB │ gzip: 1.08 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/cosmokit/src/volatile.mjs   1.72 kB │ gzip: 0.77 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/cosmokit/src/misc.mjs       1.08 kB │ gzip: 0.51 kB
+ℹ ../../research/deepseek-harness/examples/route-policy/lib/.sources/deepseek-harness/vendor/cosmokit/src/index.mjs      0.10 kB │ gzip: 0.07 kB
+ℹ 7 files, total: 35.49 kB
+✔ Build complete in 14ms

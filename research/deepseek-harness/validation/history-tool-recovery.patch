@@ -1,0 +1,90 @@
+commit 6a6f350b9437cf24e34a34f39ee4dfd107897d0c
+Author:     Tianyi Cui <53024+tianyicui@users.noreply.github.com>
+AuthorDate: Sat Sep 19 12:47:40 2026 +0800
+Commit:     Tianyi Cui <53024+tianyicui@users.noreply.github.com>
+CommitDate: Fri Sep 25 23:48:44 2026 +0800
+
+    fix(agent-loop): settle pending tool results before failed steps close
+
+diff --git a/packages/core/agent-loop/src/agent.ts b/packages/core/agent-loop/src/agent.ts
+index bcd7ad17a8..2f68565cef 100644
+--- a/packages/core/agent-loop/src/agent.ts
++++ b/packages/core/agent-loop/src/agent.ts
+@@ -28,7 +28,7 @@ import { assertNever, deepFreeze } from '@deepseek-ai/dsh-util-values'
+ import type { Scope } from '@deepseek-ai/dsh-scope'
+ import { createScope } from '@deepseek-ai/dsh-scope'
+ import type { EpochHeader, RequestContext, Session, SessionId, SessionSeq, TurnEndReason, UserMessage } from '@deepseek-ai/dsh-session'
+-import { canonicalHeader, headerEquals } from '@deepseek-ai/dsh-session'
++import { canonicalHeader, headerEquals, ToolCallRecovery } from '@deepseek-ai/dsh-session'
+ import { joinContextSections, renderContextSections, renderPrompt } from '@deepseek-ai/dsh-system-prompt'
+ import type { PromptAssembly } from '@deepseek-ai/dsh-system-prompt'
+ import type {} from '@deepseek-ai/dsh-session-projection'
+@@ -328,6 +328,10 @@ export class ReactLoopAgent implements Agent {
+         signal.throwIfAborted()
+         this.session.append('step/start', { turn, step })
+         phase.step = step
++        const toolRecovery = new ToolCallRecovery()
++        const stopRecovery = this.ctx.on('session/event', (session, event) => {
++          if (session === this.session) toolRecovery.observe(event)
++        })
+         try {
+           // max-tokens is sticky: once any step hits the ceiling, later steps
+           // that complete normally must not downgrade the turn outcome.
+@@ -335,7 +339,20 @@ export class ReactLoopAgent implements Agent {
+           // max-tokens stays sticky: a later completed step must not
+           // downgrade the turn outcome.
+           if (turnEnds === null || turnEnds.kind !== 'max-tokens') turnEnds = stepEnd
++        } catch (error: unknown) {
++          try {
++            for (const event of toolRecovery.results()) {
++              this.session.append('tool/result', event.data, {
++                surfaceOp: 'append',
++                ...event.sourceEventSeqs === undefined ? {} : { sourceEventSeqs: event.sourceEventSeqs },
++              })
++            }
++          } catch (recoveryError: unknown) {
++            throw new AggregateError([error, recoveryError], 'Step failed and its pending tool results could not be recorded', { cause: error })
++          }
++          throw error
+         } finally {
++          stopRecovery()
+           this.session.append('step/end', { turn, step })
+         }
+         signal.throwIfAborted()
+diff --git a/packages/core/agent-loop/src/tool-calls.ts b/packages/core/agent-loop/src/tool-calls.ts
+index f1f6256cb1..c12de68d19 100644
+--- a/packages/core/agent-loop/src/tool-calls.ts
++++ b/packages/core/agent-loop/src/tool-calls.ts
+@@ -6,8 +6,8 @@
+  * and drains started calls.
+  *
+  * Abort records synthetic error results for skipped calls so replay stays
+- * valid. A terminal scheduler failure preserves already-recorded `tool/call`
+- * events without fabricating results.
++ * valid. A terminal scheduler failure rejects after draining; the owning step
++ * records conservative recovery results before closing.
+  * @module dsh-agent-loop/tool-calls
+  */
+ 
+@@ -45,8 +45,8 @@ interface GroupOutcome {
+  * the signal still aborted after accepting started-call context through the
+  * caller-supplied acceptor (the machine stages it in its next-step inbox for the
+  * step boundary). An internal scheduler failure stops new dispatches, drains
+- * already-started dispatches, and rejects with the first failure without
+- * fabricating tool results.
++ * already-started dispatches, and rejects with the first failure. The owning
++ * step supplies error results for requests without a committed outcome.
+  * The committed step's AgentLoop driver boundary supplies the initiating Agent
+  * that becomes each explicit {@link ToolExecutionInput.agent}.
+  *
+@@ -116,8 +116,8 @@ function parseArguments(raw: string): unknown {
+  * drain and remains for the caller's next barrier. Results and contexts commit
+  * in model order. Abort stops starts, drains and commits started calls, accepts
+  * their contexts into the owning batch, records results for skipped calls, and
+- * returns an aborted outcome. Scheduler failure drains dispatches without
+- * committing synthetic recovery results.
++ * returns an aborted outcome. Scheduler failure drains dispatches and rejects
++ * for the owning step to record recovery results.
+  */
+ async function runGroup(
+   ctx: Context,

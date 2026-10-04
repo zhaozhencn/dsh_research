@@ -1,0 +1,125 @@
+vendor/cordis/src/context.ts(66,5): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type '(value: any) => value is Context'.
+  Property '[SymbolConstructor.toPrimitive]' does not exist on type '(value: any) => value is Context'.
+vendor/cordis/src/context.ts(67,5): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Context'.
+vendor/cordis/src/context.ts(76,5): error TS2412: Type 'undefined' is not assignable to type 'string' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the type of the target.
+vendor/cordis/src/events.ts(144,16): error TS7053: Element implicitly has an 'any' type because expression of type '"unshift" | "push"' can't be used to index type 'DisposableList<Function>'.
+  Property 'unshift' does not exist on type 'DisposableList<Function>'.
+vendor/cordis/src/events.ts(149,23): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+vendor/cordis/src/events.ts(152,24): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+vendor/cordis/src/events.ts(290,7): error TS2322: Type '{ prepend: boolean | undefined; }' is not assignable to type 'boolean | EventOptions | undefined'.
+  Type '{ prepend: boolean | undefined; }' is not assignable to type 'EventOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'prepend' are incompatible.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+vendor/cordis/src/events.ts(301,50): error TS2345: Argument of type 'boolean | EventOptions | undefined' is not assignable to parameter of type 'EventOptions'.
+  Type 'undefined' is not assignable to type 'EventOptions'.
+vendor/cordis/src/events.ts(315,29): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+vendor/cordis/src/fiber.ts(20,3): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'TypeError'.
+vendor/cordis/src/fiber.ts(253,56): error TS2339: Property 'ctx' does not exist on type 'EffectRunner<string>'.
+vendor/cordis/src/fiber.ts(253,66): error TS2339: Property 'config' does not exist on type 'EffectRunner<string>'.
+vendor/cordis/src/fiber.ts(259,42): error TS2339: Property 'ctx' does not exist on type 'EffectRunner<string>'.
+vendor/cordis/src/fiber.ts(259,52): error TS2339: Property 'config' does not exist on type 'EffectRunner<string>'.
+vendor/cordis/src/fiber.ts(451,13): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Disposable<any>'.
+  Property '["./context.ts".Context.effect]' does not exist on type 'Disposable<any>'.
+vendor/cordis/src/fiber.ts(452,30): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Disposable<any>'.
+  Property '["./context.ts".Context.effect]' does not exist on type 'Disposable<any>'.
+vendor/cordis/src/fiber.ts(570,35): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Disposable<any>'.
+  Property '["./context.ts".Context.effect]' does not exist on type 'Disposable<any>'.
+vendor/cordis/src/fiber.ts(592,11): error TS18048: 'impl' is possibly 'undefined'.
+vendor/cordis/src/fiber.ts(593,32): error TS18048: 'impl' is possibly 'undefined'.
+vendor/cordis/src/logger.ts(59,35): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+vendor/cordis/src/logger.ts(79,50): error TS7053: Element implicitly has an 'any' type because expression of type '"errors"' can't be used to index type 'Error'.
+  Property 'errors' does not exist on type 'Error'.
+vendor/cordis/src/logger.ts(122,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+vendor/cordis/src/logger.ts(257,23): error TS2379: Argument of type '{ name: string; level: number | undefined; meta: { fiber: WeakRef<any>; }; }' is not assignable to parameter of type 'LoggerOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'level' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+vendor/cordis/src/reflect.ts(149,36): error TS7053: Element implicitly has an 'any' type because expression of type 'symbol' can't be used to index type 'Context'.
+vendor/cordis/src/reflect.ts(155,24): error TS7053: Element implicitly has an 'any' type because expression of type 'symbol' can't be used to index type 'Context'.
+vendor/cordis/src/reflect.ts(188,43): error TS7053: Element implicitly has an 'any' type because expression of type 'symbol' can't be used to index type 'Context'.
+vendor/cordis/src/reflect.ts(254,33): error TS6133: 'error' is declared but its value is never read.
+vendor/cordis/src/reflect.ts(256,29): error TS2538: Type 'undefined' cannot be used as an index type.
+vendor/cordis/src/reflect.ts(288,13): error TS2375: Type '{ name: string; value: any; fiber: Fiber; check: (() => boolean) | undefined; }' is not assignable to type 'Impl' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'check' are incompatible.
+    Type '(() => boolean) | undefined' is not assignable to type '() => boolean'.
+      Type 'undefined' is not assignable to type '() => boolean'.
+vendor/cordis/src/reflect.ts(289,22): error TS2538: Type 'undefined' cannot be used as an index type.
+vendor/cordis/src/reflect.ts(290,81): error TS2538: Type 'undefined' cannot be used as an index type.
+vendor/cordis/src/reflect.ts(292,18): error TS2538: Type 'undefined' cannot be used as an index type.
+vendor/cordis/src/reflect.ts(298,27): error TS2538: Type 'undefined' cannot be used as an index type.
+vendor/cordis/src/reflect.ts(332,7): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Context'.
+  Property '["./context.ts".Context.filter]' does not exist on type 'Context'.
+vendor/cordis/src/reflect.ts(348,70): error TS2532: Object is possibly 'undefined'.
+vendor/cordis/src/reflect.ts(368,40): error TS6133: 'error' is declared but its value is never read.
+vendor/cordis/src/reflect.ts(370,16): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Context'.
+vendor/cordis/src/reflect.ts(373,29): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cordis/src/reflect.ts(378,48): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'PropertyKey'.
+  Type 'undefined' is not assignable to type 'PropertyKey'.
+vendor/cordis/src/reflect.ts(385,41): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(target: any, propertyKey: PropertyKey, value: any, receiver?: any): boolean', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'PropertyKey'.
+      Type 'undefined' is not assignable to type 'PropertyKey'.
+  Overload 2 of 2, '(target: object, propertyKey: PropertyKey, value: any, receiver?: any): boolean', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'PropertyKey'.
+      Type 'undefined' is not assignable to type 'PropertyKey'.
+vendor/cordis/src/registry.ts(301,24): error TS2379: Argument of type '{ inject: Inject<Dict>; apply: Plugin.Function<void>; name: string | undefined; }' is not assignable to parameter of type 'Plugin<any>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ inject: Inject<Dict>; apply: Plugin.Function<void>; name: string | undefined; }' is not assignable to type 'Object<any>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'name' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+vendor/cordis/src/registry.ts(326,7): error TS2375: Type '{ name: string | undefined; callback: Function; fibers: DisposableList<Fiber>; Config: StandardSchemaV1<any, any> | undefined; }' is not assignable to type 'Runtime' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'name' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+vendor/cordis/src/registry.ts(327,36): error TS2345: Argument of type 'Runtime | undefined' is not assignable to parameter of type 'Runtime'.
+  Type 'undefined' is not assignable to type 'Runtime'.
+vendor/cordis/src/registry.ts(330,78): error TS2345: Argument of type 'Runtime | undefined' is not assignable to parameter of type 'Runtime | null'.
+  Type 'undefined' is not assignable to type 'Runtime | null'.
+vendor/cordis/src/service.ts(43,14): error TS7053: Element implicitly has an 'any' type because expression of type '"provide"' can't be used to index type 'Function'.
+  Property 'provide' does not exist on type 'Function'.
+vendor/cordis/src/service.ts(50,9): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Service<T>'.
+  Property '["./service.ts".Service.invoke]' does not exist on type 'Service<T>'.
+vendor/cordis/src/service.ts(57,42): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Service<T>'.
+  Property '["./service.ts".Service.check]' does not exist on type 'Service<T>'.
+vendor/cordis/src/service.ts(67,9): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Service<T>'.
+  Property '["./service.ts".Service.invoke]' does not exist on type 'Service<T>'.
+vendor/cordis/src/service.ts(68,46): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Service<T>'.
+  Property '["./service.ts".Service.tracker]' does not exist on type 'Service<T>'.
+vendor/cordis/src/service.ts(97,9): error TS7053: Element implicitly has an 'any' type because expression of type '"Config"' can't be used to index type 'Service<T>'.
+  Property 'Config' does not exist on type 'Service<T>'.
+vendor/cordis/src/service.ts(98,14): error TS7053: Element implicitly has an 'any' type because expression of type '"Config"' can't be used to index type 'Service<T>'.
+  Property 'Config' does not exist on type 'Service<T>'.
+vendor/cordis/src/utils.ts(92,17): error TS7023: 'joinPrototype' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
+vendor/cordis/src/utils.ts(94,9): error TS7022: 'result' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+vendor/cordis/src/utils.ts(122,19): error TS7053: Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type '{}'.
+  Property '["./service.ts".Service.tracker]' does not exist on type '{}'.
+vendor/cordis/src/utils.ts(170,7): error TS7053: Element implicitly has an 'any' type because expression of type 'symbol' can't be used to index type 'Context'.
+vendor/cordis/src/utils.ts(228,35): error TS7053: Element implicitly has an 'any' type because expression of type '"ctx"' can't be used to index type '(...args: any[]) => any'.
+  Property 'ctx' does not exist on type '(...args: any[]) => any'.
+vendor/cordis/src/utils.ts(229,40): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+vendor/cordis/src/utils.ts(254,29): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cordis/src/utils.ts(259,10): error TS2532: Object is possibly 'undefined'.
+vendor/cordis/src/utils.ts(274,47): error TS7006: Parameter 'reason' implicitly has an 'any' type.
+vendor/cosmokit/src/time.ts(44,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cosmokit/src/time.ts(45,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cosmokit/src/time.ts(46,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cosmokit/src/time.ts(47,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cosmokit/src/time.ts(48,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+vendor/cosmokit/src/types.ts(51,37): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+vendor/schemastery/src/index.ts(219,3): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'TypeError'.
+vendor/schemastery/src/index.ts(266,7): error TS2412: Type 'Schema<any, any, "plain">[] | undefined' is not assignable to type 'Schema<any, any, "plain">[]' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the type of the target.
+  Type 'undefined' is not assignable to type 'Schema<any, any, "plain">[]'.
+vendor/schemastery/src/index.ts(267,7): error TS2412: Type 'Dict<Schema<any, any, "plain">, string> | undefined' is not assignable to type 'Dict<Schema<any, any, "plain">>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the type of the target.
+  Type 'undefined' is not assignable to type 'Dict<Schema<any, any, "plain">>'.
+vendor/schemastery/src/index.ts(538,7): error TS2322: Type 'Schema<any, any, "plain"> | undefined' is not assignable to type 'Schema<any, any, "plain">'.
+  Type 'undefined' is not assignable to type 'Schemastery<any, any, "plain">'.

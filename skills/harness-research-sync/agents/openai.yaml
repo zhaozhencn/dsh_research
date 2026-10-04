@@ -1,0 +1,4 @@
+interface:
+  display_name: "Harness 源码研究与版本同步"
+  short_description: "研究 Harness 源码并按版本差异同步架构、运行机制与扩展报告"
+  default_prompt: "使用 $harness-research-sync 将现有 DeepSeek Harness 研究同步到官方最新版本，独立完成证据更新、增量验证和三篇报告。"

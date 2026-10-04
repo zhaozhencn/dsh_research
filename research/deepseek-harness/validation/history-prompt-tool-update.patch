@@ -1,0 +1,48 @@
+commit f6848ee921c0aaffda388961c2e992c7e83ceeb8
+Author:     Tianyi Cui <53024+tianyicui@users.noreply.github.com>
+AuthorDate: Wed Sep 23 15:52:23 2026 +0800
+Commit:     Tianyi Cui <53024+tianyicui@users.noreply.github.com>
+CommitDate: Wed Sep 23 22:40:40 2026 +0800
+
+    fix(agent-loop): preserve prompt history during supported tool updates
+    
+    Tool changes previously forced prompt consolidation even when the prepared
+    route could activate new tools through history. Rewriting the first system
+    message, or clearing an earlier appended prompt, reset the declaration
+    series and turned additions into immediate declarations.
+    
+    Only routes without toolUpdate need that tool-triggered consolidation.
+    Capable routes append the full changed prompt and keep existing messages.
+    Explicit series starts, surface replacements, and unsupported prompt
+    routes still consolidate; retained-name definition changes still rebuild
+    tool declarations in Session.
+    
+    Cover both update modes and reset paths, and pin the combined prompt/tool
+    transition through the shipped headless profile with shared schema goldens.
+
+diff --git a/packages/core/agent-loop/src/agent.ts b/packages/core/agent-loop/src/agent.ts
+index baf99f49be..bcd7ad17a8 100644
+--- a/packages/core/agent-loop/src/agent.ts
++++ b/packages/core/agent-loop/src/agent.ts
+@@ -394,7 +394,7 @@ export class ReactLoopAgent implements Agent {
+         inHistory: preparedCall?.systemPromptUpdate === 'in-history',
+         startsSeries: startsRequestSeries
+           || this.requestSurfaceGeneration !== this.session.surface.contentGeneration
+-          || this.toolsChanged(assembly.tools),
++          || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),
+       })
+       for (const { message, intent } of commits) {
+         this.session.append('system/message', { turn, step, message }, intent)
+diff --git a/packages/core/agent-loop/src/runtime-context.ts b/packages/core/agent-loop/src/runtime-context.ts
+index b2b95853fe..cb959b055a 100644
+--- a/packages/core/agent-loop/src/runtime-context.ts
++++ b/packages/core/agent-loop/src/runtime-context.ts
+@@ -43,7 +43,7 @@ export interface SystemPromptDecisionInput {
+   /**
+    * Whether prompt admission must consolidate: a pre-step listener declared a
+    * new series, the surface changed since the last request, or assembled tools
+-   * differ from the logged header. Tool changes alone need not replace a node.
++   * changed on a route without tool-update support.
+    */
+   startsSeries: boolean
+ }

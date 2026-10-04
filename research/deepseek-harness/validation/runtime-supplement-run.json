@@ -1,0 +1,45 @@
+{
+  "id": "V10",
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "cwd": "/Users/zz/prj/dsh_research/.sources/deepseek-harness",
+  "command": "DSH_TELEMETRY_DISABLED=1 corepack pnpm exec vitest run packages/plan/plan-mode/tests/plan-mode.spec.ts packages/todo/tool-todo/tests/integration.spec.ts packages/jobs/jobs-local/tests/jobs.spec.ts packages/subagent/subagent-in-process-driver/tests/structured.spec.ts packages/deliverables/workspace-changes/tests/plugin.spec.ts packages/compaction/compaction-basic/tests/compaction-basic.spec.ts --maxWorkers=2 --reporter=json --outputFile=/Users/zz/prj/dsh_research/research/deepseek-harness/validation/runtime-supplement-tests.json > /Users/zz/prj/dsh_research/research/deepseek-harness/validation/runtime-supplement-tests.log 2>&1",
+  "exit_code": 0,
+  "start_time_utc": "2026-10-04T04:49:42.232000+00:00",
+  "success": true,
+  "files": [
+    {
+      "path": "packages/compaction/compaction-basic/tests/compaction-basic.spec.ts",
+      "passed": 105,
+      "failed": 0
+    },
+    {
+      "path": "packages/deliverables/workspace-changes/tests/plugin.spec.ts",
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "path": "packages/jobs/jobs-local/tests/jobs.spec.ts",
+      "passed": 83,
+      "failed": 0
+    },
+    {
+      "path": "packages/plan/plan-mode/tests/plan-mode.spec.ts",
+      "passed": 66,
+      "failed": 0
+    },
+    {
+      "path": "packages/subagent/subagent-in-process-driver/tests/structured.spec.ts",
+      "passed": 30,
+      "failed": 0
+    },
+    {
+      "path": "packages/todo/tool-todo/tests/integration.spec.ts",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "passed": 302,
+  "failed": 0,
+  "skipped": 0,
+  "limits": "受控模型／摘要／生产者；workspace 使用真实本地 Git 与 subprocess。未验证真实供应商、线上 collector、UI E2E、全仓覆盖率或生产吞吐。"
+}

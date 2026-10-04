@@ -1,0 +1,32 @@
+{
+  "id": "V08",
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "command": "DSH_TELEMETRY_DISABLED=1 corepack pnpm exec vitest run packages/goal/goal/tests/goal.spec.ts packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts packages/goal/tool-goal/tests/tool-goal.spec.ts packages/session/session-telemetry/tests/telemetry.spec.ts packages/session/session-telemetry-otel/tests/otel.spec.ts packages/session/session-telemetry-otel/tests/egress.spec.ts packages/deliverables/tool-present/tests/present.spec.ts --maxWorkers=2 --reporter=json --outputFile=/Users/zz/prj/dsh_research/research/deepseek-harness/validation/architecture-supplement-tests.json > /Users/zz/prj/dsh_research/research/deepseek-harness/validation/architecture-supplement-tests.log 2>&1",
+  "cwd": "/Users/zz/prj/dsh_research/.sources/deepseek-harness",
+  "exit_code": 0,
+  "started_at": "2026-10-04T03:16:49.717000+00:00",
+  "expected": "选定的目标状态／续跑、权限、反馈授权遥测、文件声明契约正常与失败路径通过",
+  "actual": {
+    "files": 7,
+    "passed": 201,
+    "failed": 0,
+    "skipped": 0
+  },
+  "outcome": "passed",
+  "log_path": "validation/architecture-supplement-tests.log",
+  "result_path": "validation/architecture-supplement-tests.json",
+  "test_files": [
+    "packages/goal/goal/tests/goal.spec.ts",
+    "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+    "packages/goal/tool-goal/tests/tool-goal.spec.ts",
+    "packages/session/session-telemetry/tests/telemetry.spec.ts",
+    "packages/session/session-telemetry-otel/tests/otel.spec.ts",
+    "packages/session/session-telemetry-otel/tests/egress.spec.ts",
+    "packages/deliverables/tool-present/tests/present.spec.ts"
+  ],
+  "limits": [
+    "固定 SHA 的选定源码测试；不是全仓测试或覆盖率",
+    "测试使用可控模型／传输；不证明真实模型、线上 collector、UI 或发布安装",
+    "原研究日志保持原样；本批次与其测试文件不重复"
+  ]
+}

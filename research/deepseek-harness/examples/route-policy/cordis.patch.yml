@@ -1,0 +1,6 @@
+- insert:
+    - id: research-route
+      name: research-route-policy
+      config:
+        provider: mock
+        model: policy

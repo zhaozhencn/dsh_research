@@ -1,0 +1,14 @@
+{
+  "research_date": "2026-10-04T07:17:19.479174+08:00",
+  "repository": "https://github.com/deepseek-ai/deepseek-harness",
+  "branch": "master",
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "clone_path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "node": "v24.19.0",
+  "python": "3.9.6",
+  "packageManager": "pnpm@11.7.0",
+  "tracked_files": 14208,
+  "workspace_packages": 341,
+  "pnpm_projects_including_root": 342
+}

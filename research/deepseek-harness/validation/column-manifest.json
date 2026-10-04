@@ -1,0 +1,737 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "articles": [
+    {
+      "number": 1,
+      "file": "articles/01-task-completion.md",
+      "title": "任务何时才算完成：目标、回合与业务验收",
+      "concern": "任务定义与完成语义",
+      "evidence_ids": [
+        "E80",
+        "E144",
+        "E78",
+        "E81",
+        "E82",
+        "E122",
+        "E124",
+        "E85",
+        "E125",
+        "E121",
+        "E120"
+      ],
+      "snippet_ids": [
+        "01-1",
+        "01-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "1db7e0c02274311202a03276db3ad319da1e94bc80a8926ad1970f768b7d8150"
+    },
+    {
+      "number": 2,
+      "file": "articles/02-agent-loop.md",
+      "title": "一次输入如何推进为多步执行：拆解 Agent Loop",
+      "concern": "Agent Loop 与执行模型",
+      "evidence_ids": [
+        "E16",
+        "E17",
+        "E74",
+        "E19",
+        "E66",
+        "E20",
+        "E22",
+        "E30",
+        "E24",
+        "E23",
+        "E21",
+        "E128"
+      ],
+      "snippet_ids": [
+        "02-1",
+        "02-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "6bf40969397e0c9a4db895794c26f3a0db40bc957d1e8d13d0396faaa3f2b0f7"
+    },
+    {
+      "number": 3,
+      "file": "articles/03-model-adaptation.md",
+      "title": "接入不同模型：路由绑定、能力解析与消息适配",
+      "concern": "模型接入与能力适配",
+      "evidence_ids": [
+        "E89",
+        "E90",
+        "E22",
+        "E30",
+        "E127",
+        "E29",
+        "E139",
+        "E91"
+      ],
+      "snippet_ids": [
+        "03-1",
+        "03-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "ab1f180a8ad4bac4d997069f42c0a0fe1a96add6c569517cbcd0770a0f5737e2"
+    },
+    {
+      "number": 4,
+      "file": "articles/04-context-engineering.md",
+      "title": "模型每次究竟看到什么：上下文组装与压缩",
+      "concern": "上下文工程",
+      "evidence_ids": [
+        "E26",
+        "E27",
+        "E29",
+        "E128",
+        "E117",
+        "E21",
+        "E22",
+        "E130",
+        "E131",
+        "E132",
+        "E134",
+        "E133",
+        "E135",
+        "E129"
+      ],
+      "snippet_ids": [
+        "04-1",
+        "04-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "e11c52e8934a83dcd7071ddcf7ff6923b1c4f24fe8742f813588099c0dee29e7"
+    },
+    {
+      "number": 5,
+      "file": "articles/05-state-persistence.md",
+      "title": "进程重启之后：Agent 的状态、记忆与持久化",
+      "concern": "记忆、状态与持久化",
+      "evidence_ids": [
+        "E26",
+        "E28",
+        "E78",
+        "E97",
+        "E94",
+        "E39",
+        "E40",
+        "E41",
+        "E38",
+        "E18",
+        "E43",
+        "E44",
+        "E111",
+        "E112",
+        "E42",
+        "E67"
+      ],
+      "snippet_ids": [
+        "05-1",
+        "05-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "d9e3320ae478d031dd2239fbff4da738ce5036452662393f2b2f3af6f1e8cbbf"
+    },
+    {
+      "number": 6,
+      "file": "articles/06-tool-runtime.md",
+      "title": "一次工具调用的完整生命周期：从参数到结果",
+      "concern": "工具与执行环境契约",
+      "evidence_ids": [
+        "E32",
+        "E34",
+        "E69",
+        "E23",
+        "E33",
+        "E36",
+        "E138",
+        "E124",
+        "E109",
+        "E50",
+        "E51",
+        "E52",
+        "E95",
+        "E137"
+      ],
+      "snippet_ids": [
+        "06-1",
+        "06-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "ca51a10d923c318f6b353a5f22d6230663b9b5fd0da663eb172f811e7da21927"
+    },
+    {
+      "number": 7,
+      "file": "articles/07-reliability.md",
+      "title": "失败之后如何继续：重试、取消与副作用一致性",
+      "concern": "可靠性恢复与副作用一致性",
+      "evidence_ids": [
+        "E127",
+        "E21",
+        "E31",
+        "E136",
+        "E129",
+        "E19",
+        "E24",
+        "E35",
+        "E43",
+        "E38"
+      ],
+      "snippet_ids": [
+        "07-1",
+        "07-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "63c0dd4a39bd9514c3dc9bf5bd2a05700f654ed509d737b3c99840221046b63b"
+    },
+    {
+      "number": 8,
+      "file": "articles/08-concurrency.md",
+      "title": "哪些工作可以同时执行：工具、作业与子 Agent 调度",
+      "concern": "并发、调度与资源治理",
+      "evidence_ids": [
+        "E19",
+        "E71",
+        "E23",
+        "E141",
+        "E142",
+        "E98",
+        "E99",
+        "E143"
+      ],
+      "snippet_ids": [
+        "08-1",
+        "08-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "65df582c4d7644c22708b9a86dd2856bc57d7526bf7abf4e6a3a907dffa7e9a5"
+    },
+    {
+      "number": 9,
+      "file": "articles/09-security.md",
+      "title": "模型的行动权限从哪里来：审批、作用域与沙箱",
+      "concern": "权限与安全边界",
+      "evidence_ids": [
+        "E69",
+        "E33",
+        "E138",
+        "E36",
+        "E49",
+        "E50",
+        "E51",
+        "E48",
+        "E03",
+        "E83",
+        "E84",
+        "E96",
+        "E53",
+        "E54",
+        "E55"
+      ],
+      "snippet_ids": [
+        "09-1",
+        "09-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "465c120f980ac9d2db525d312a2c58e4dd72e607f0185d8800771ed4124e14da"
+    },
+    {
+      "number": 10,
+      "file": "articles/10-autonomy.md",
+      "title": "如何控制自动推进：规划模式、目标续跑与人工接管",
+      "concern": "自主性控制与人工干预",
+      "evidence_ids": [
+        "E81",
+        "E86",
+        "E36",
+        "E19",
+        "E87",
+        "E128",
+        "E125",
+        "E122",
+        "E82",
+        "E123",
+        "E78",
+        "E100",
+        "E126"
+      ],
+      "snippet_ids": [
+        "10-2",
+        "10-1"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "51415b7fd5a65a68c6ac17247c3a7b1fee289863a666850c70345e75e22c5713"
+    },
+    {
+      "number": 11,
+      "file": "articles/11-budgets.md",
+      "title": "限制回合数为什么仍可能失控：成本、延迟与预算",
+      "concern": "成本、延迟与预算",
+      "evidence_ids": [
+        "E21",
+        "E134",
+        "E143",
+        "E90",
+        "E20",
+        "E135",
+        "E121",
+        "E31",
+        "E35",
+        "E130",
+        "E23",
+        "E38",
+        "E71",
+        "E119",
+        "E99",
+        "E88"
+      ],
+      "snippet_ids": [
+        "11-1",
+        "11-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "e0475a349b64d24370e7ca7103174f975f75ec1c8229d3f8832b333cebb49f6e"
+    },
+    {
+      "number": 12,
+      "file": "articles/12-observability.md",
+      "title": "如何还原 Agent 的行动：事实日志与反馈授权遥测",
+      "concern": "可观测性与审计",
+      "evidence_ids": [
+        "E26",
+        "E24",
+        "E105",
+        "E106",
+        "E114",
+        "E103",
+        "E148",
+        "E149",
+        "E101",
+        "E104",
+        "E118",
+        "E109",
+        "E137",
+        "E102",
+        "E147"
+      ],
+      "snippet_ids": [
+        "12-2",
+        "12-1"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "63ce446bf4536171bb7cfc0682a6479b9e82cecbefbc79fb6f6b3ea01d951e3c"
+    },
+    {
+      "number": 13,
+      "file": "articles/13-evaluation.md",
+      "title": "如何证明 Agent 运行正确：契约测试与业务验收",
+      "concern": "评测与质量保障",
+      "evidence_ids": [
+        "E80",
+        "E107",
+        "E35",
+        "E98",
+        "E43",
+        "E82",
+        "E140",
+        "E92",
+        "E144",
+        "E108"
+      ],
+      "snippet_ids": [
+        "13-1",
+        "13-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "38f96dad61ffcf34cbb69985817736cf015b691cd05fb071f13ce0fdd8c7769a"
+    },
+    {
+      "number": 14,
+      "file": "articles/14-plugin-lifecycle.md",
+      "title": "插件如何安全参与运行：依赖、事件与生命周期",
+      "concern": "扩展机制与生命周期",
+      "evidence_ids": [
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E65",
+        "E137",
+        "E05",
+        "E48",
+        "E17",
+        "E31",
+        "E82",
+        "E140",
+        "E07",
+        "E13",
+        "E14",
+        "E64"
+      ],
+      "snippet_ids": [
+        "14-1",
+        "14-2"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "1b6eebdf9d8e96ab6d6975074d200c3fa2a12db504f48ebb83673513ee50dd4b"
+    },
+    {
+      "number": 15,
+      "file": "articles/15-interaction-deliverables.md",
+      "title": "如何把执行结果交给用户：协议、重连与交付物",
+      "concern": "交互协议与交付物",
+      "evidence_ids": [
+        "E140",
+        "E46",
+        "E45",
+        "E47",
+        "E109",
+        "E137",
+        "E145",
+        "E146",
+        "E111",
+        "E112",
+        "E113"
+      ],
+      "snippet_ids": [
+        "15-2",
+        "15-1",
+        "15-3"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "9f2714068ba7800be2ed4ee6bbd83c3096c1314ed7f74f09bec3f201a1888f9b"
+    },
+    {
+      "number": 16,
+      "file": "articles/16-deployment-evolution.md",
+      "title": "Agent 系统如何持续演进：部署、兼容与状态迁移",
+      "concern": "部署、兼容性与版本演进",
+      "evidence_ids": [
+        "E09",
+        "E10",
+        "E12",
+        "E75",
+        "E07",
+        "E13",
+        "E64",
+        "E14",
+        "E15",
+        "E25",
+        "E116",
+        "E67",
+        "E39",
+        "E73",
+        "E72",
+        "E74",
+        "E60",
+        "E42"
+      ],
+      "snippet_ids": [
+        "16-2",
+        "16-1"
+      ],
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "sha256": "c61db52d9d12b456b918207e86c44d5a803eeba92dac19f3561dd54637d4b87f"
+    }
+  ],
+  "snippets": {
+    "01-1": {
+      "evidence_id": "E121",
+      "path": "packages/goal/goal/src/fold.ts",
+      "start": 321,
+      "end": 331,
+      "raw": "  if (event.type === 'user/message') {\n    const source = goalSource(event.data.source)\n    if (source === undefined) return\n    const current = state.goal\n    if (current === undefined || current.phase !== 'active' || source.goalId !== current.id\n      || source.revision !== current.revision || source.round !== state.roundsStarted + 1\n      || source.round > current.maxGoalRounds) {\n      throw new Error(`goal round at session event ${event.seq} is not the next admitted round of the active goal`)\n    }\n    state.roundsStarted = source.round\n  }",
+      "code": "if (event.type === 'user/message') {\n  const source = goalSource(event.data.source)\n  if (source === undefined) return\n  const current = state.goal\n  if (current === undefined || current.phase !== 'active' || source.goalId !== current.id\n    || source.revision !== current.revision || source.round !== state.roundsStarted + 1\n    || source.round > current.maxGoalRounds) {\n    throw new Error(`goal round at session event ${event.seq} is not the next admitted round of the active goal`)\n  }\n  state.roundsStarted = source.round\n}",
+      "sha256": "c5dc45ab23b59e3c8866a0d9c16ad4c23871bc702e35e53cbae07c44259c5408"
+    },
+    "01-2": {
+      "evidence_id": "E120",
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 610,
+      "end": 625,
+      "raw": "    const ref = goalChangeRef(change)\n    runtime.pendingActivation = { offset: agent.session.seq, activation }\n    try {\n      const event = agent.session.append('goal/change', change)\n      /* v8 ignore next -- Session.append returns the event committed at the pre-append seq. */\n      if (SessionSeq(runtime.pendingActivation.offset) === event.seq) runtime.activation = activation\n    } finally {\n      runtime.pendingActivation = undefined\n    }\n    const goal = this.view(this.state(agent.session), runtime)\n    const notification: GoalChanged = {\n      operation: change.operation,\n      ref: { ...ref },\n      ...goal === undefined ? {} : { goal },\n    }\n    agentEvents(this.ctx, agent).emit('goal/changed', { change: notification })",
+      "code": "const ref = goalChangeRef(change)\nruntime.pendingActivation = { offset: agent.session.seq, activation }\ntry {\n  const event = agent.session.append('goal/change', change)\n  /* v8 ignore next -- Session.append returns the event committed at the pre-append seq. */\n  if (SessionSeq(runtime.pendingActivation.offset) === event.seq) runtime.activation = activation\n} finally {\n  runtime.pendingActivation = undefined\n}\nconst goal = this.view(this.state(agent.session), runtime)\nconst notification: GoalChanged = {\n  operation: change.operation,\n  ref: { ...ref },\n  ...goal === undefined ? {} : { goal },\n}\nagentEvents(this.ctx, agent).emit('goal/changed', { change: notification })",
+      "sha256": "3019c0d5c47681aca2893adf94ed24483c6cf09ec9379463247d396d7d802227"
+    },
+    "02-1": {
+      "evidence_id": "E128",
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 271,
+      "end": 285,
+      "raw": "    const claimed = this.inbox.claim(target, position.turn)\n    const assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\n    signal.throwIfAborted()\n    const sections = renderContextSections(assembly)\n    const context = this.runtimeContext.project(joinContextSections(sections), sections)\n    const decision = await this.dispatch.waterfall(\n      'agent/pre-step', { messages: claimed, ...position, signal },\n      (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n        kind: 'enter',\n        messages: context === undefined ? claimed : [...claimed, context],\n      }),\n    )\n    signal.throwIfAborted()\n    if (decision.kind === 'reject') return decision\n    return { ...decision, assembly }",
+      "code": "const claimed = this.inbox.claim(target, position.turn)\nconst assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))\nsignal.throwIfAborted()\nconst sections = renderContextSections(assembly)\nconst context = this.runtimeContext.project(joinContextSections(sections), sections)\nconst decision = await this.dispatch.waterfall(\n  'agent/pre-step', { messages: claimed, ...position, signal },\n  (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({\n    kind: 'enter',\n    messages: context === undefined ? claimed : [...claimed, context],\n  }),\n)\nsignal.throwIfAborted()\nif (decision.kind === 'reject') return decision\nreturn { ...decision, assembly }",
+      "sha256": "29fa44064b0f8cd555b26a190d048fb616a71b558e7ae55ee5c74b169835057c"
+    },
+    "02-2": {
+      "evidence_id": "E20",
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 356,
+      "end": 365,
+      "raw": "          this.session.append('step/end', { turn, step })\n        }\n        signal.throwIfAborted()\n        if (turnEnds && this.inbox.nextStep.length === 0) {\n          await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n          signal.throwIfAborted()\n        }\n        if (turnEnds && this.inbox.nextStep.length === 0) break\n        target = 'next-step'\n      }",
+      "code": "    this.session.append('step/end', { turn, step })\n  }\n  signal.throwIfAborted()\n  if (turnEnds && this.inbox.nextStep.length === 0) {\n    await this.dispatch.serial('agent/turn-stopping', { turn, signal })\n    signal.throwIfAborted()\n  }\n  if (turnEnds && this.inbox.nextStep.length === 0) break\n  target = 'next-step'\n}",
+      "sha256": "fef83235d2394c866e71e6cc1db3b6b63d4c439ed9249d2100d509901103dc42"
+    },
+    "03-1": {
+      "evidence_id": "E30",
+      "path": "packages/llm/llm/src/index.ts",
+      "start": 947,
+      "end": 977,
+      "raw": "    return Object.freeze({\n      config: resolvedConfig,\n      retryPolicy: registration.retryPolicy,\n      adapterDefaults,\n      ...context === undefined ? {} : { context },\n      ...modelInfo.inputModalities === undefined\n        ? {}\n        : { inputModalities: Object.freeze([...modelInfo.inputModalities]) },\n      ...modelInfo.systemPromptUpdate === undefined ? {} : { systemPromptUpdate: modelInfo.systemPromptUpdate },\n      ...modelInfo.toolUpdate === undefined ? {} : { toolUpdate: modelInfo.toolUpdate },\n      stream: (options: GenerateOptions): AsyncIterable<StreamChunk> => {\n        if (dispatched) {\n          throw new LlmError('a prepared LLM call can only be dispatched once', 'INVALID_PREPARED_CALL')\n        }\n        if (!callConfigEquals(options, resolvedConfig)) {\n          throw new LlmError(\n            'prepared LLM call config changed before adapter dispatch',\n            'INVALID_PREPARED_CALL',\n          )\n        }\n        dispatched = true\n        return this.streamWithRegistration(options, {\n          registration,\n          config: resolvedConfig,\n          modelInfo,\n          dispatch: options => adapterCall.stream(options),\n        })\n      },\n    })\n  }\n",
+      "code": "  return Object.freeze({\n    config: resolvedConfig,\n    retryPolicy: registration.retryPolicy,\n    adapterDefaults,\n    ...context === undefined ? {} : { context },\n    ...modelInfo.inputModalities === undefined\n      ? {}\n      : { inputModalities: Object.freeze([...modelInfo.inputModalities]) },\n    ...modelInfo.systemPromptUpdate === undefined ? {} : { systemPromptUpdate: modelInfo.systemPromptUpdate },\n    ...modelInfo.toolUpdate === undefined ? {} : { toolUpdate: modelInfo.toolUpdate },\n    stream: (options: GenerateOptions): AsyncIterable<StreamChunk> => {\n      if (dispatched) {\n        throw new LlmError('a prepared LLM call can only be dispatched once', 'INVALID_PREPARED_CALL')\n      }\n      if (!callConfigEquals(options, resolvedConfig)) {\n        throw new LlmError(\n          'prepared LLM call config changed before adapter dispatch',\n          'INVALID_PREPARED_CALL',\n        )\n      }\n      dispatched = true\n      return this.streamWithRegistration(options, {\n        registration,\n        config: resolvedConfig,\n        modelInfo,\n        dispatch: options => adapterCall.stream(options),\n      })\n    },\n  })\n}\n",
+      "sha256": "47d023878f6c52c45ce2ee312a60457000b8fbb439a8ffb8d7c22d00deddf4b8"
+    },
+    "03-2": {
+      "evidence_id": "E91",
+      "path": "packages/llm/llm/src/index.ts",
+      "start": 986,
+      "end": 998,
+      "raw": "    const messages: RequestMessage[] = options.messages.map((message) => {\n      if (message.role !== 'assistant') return message\n      const source = message.source\n      if (source.replayState === undefined) return message\n      if (this.adapters.get(source.provider)?.adapter === adapter) return message\n      return freezeMessage({\n        ...message,\n        source: { kind: 'model', provider: source.provider, model: source.model },\n      })\n    })\n    if (messages.every((message, index) => message === options.messages[index])) return options\n    const filtered = { ...options, messages }\n    return Object.isFrozen(options) ? deepFreeze(filtered) : filtered",
+      "code": "const messages: RequestMessage[] = options.messages.map((message) => {\n  if (message.role !== 'assistant') return message\n  const source = message.source\n  if (source.replayState === undefined) return message\n  if (this.adapters.get(source.provider)?.adapter === adapter) return message\n  return freezeMessage({\n    ...message,\n    source: { kind: 'model', provider: source.provider, model: source.model },\n  })\n})\nif (messages.every((message, index) => message === options.messages[index])) return options\nconst filtered = { ...options, messages }\nreturn Object.isFrozen(options) ? deepFreeze(filtered) : filtered",
+      "sha256": "9c9a44c09dc3b73f02cff168ca8d63ba0f5075fcd6ec764378b5bb00e3f4779a"
+    },
+    "04-1": {
+      "evidence_id": "E131",
+      "path": "packages/compaction/compaction-basic/src/region.ts",
+      "start": 143,
+      "end": 154,
+      "raw": "  while (keepFromIdx > firstIdx) {\n    // oxlint-disable-next-line typescript/no-non-null-assertion\n    if (toolPairingBalancedBefore(session, surfaceNodes[keepFromIdx]!)) break\n    keepFromIdx -= 1\n  }\n  if (keepFromIdx <= firstIdx) return null\n\n  // oxlint-disable-next-line typescript/no-non-null-assertion\n  const first = surfaceNodes[firstIdx]!\n  // oxlint-disable-next-line typescript/no-non-null-assertion\n  const cutoff = surfaceNodes[keepFromIdx - 1]!\n  return { start: first, end: cutoff }",
+      "code": "while (keepFromIdx > firstIdx) {\n  // oxlint-disable-next-line typescript/no-non-null-assertion\n  if (toolPairingBalancedBefore(session, surfaceNodes[keepFromIdx]!)) break\n  keepFromIdx -= 1\n}\nif (keepFromIdx <= firstIdx) return null\n\n// oxlint-disable-next-line typescript/no-non-null-assertion\nconst first = surfaceNodes[firstIdx]!\n// oxlint-disable-next-line typescript/no-non-null-assertion\nconst cutoff = surfaceNodes[keepFromIdx - 1]!\nreturn { start: first, end: cutoff }",
+      "sha256": "723be92c678eaf1adea325a099d0247e732f7987c552e2f714488dd8414fb0f6"
+    },
+    "04-2": {
+      "evidence_id": "E129",
+      "path": "packages/compaction/compaction-basic/src/index.ts",
+      "start": 229,
+      "end": 233,
+      "raw": "      if (signal.aborted\n        || agent.session.surface.replaceGeneration <= generation) return next()\n      if (result !== null) logResult(result, 'context overflow recovery')\n      this.overflowRetries.set(agent, retries + 1)\n      return { kind: 'retry' }",
+      "code": "if (signal.aborted\n  || agent.session.surface.replaceGeneration <= generation) return next()\nif (result !== null) logResult(result, 'context overflow recovery')\nthis.overflowRetries.set(agent, retries + 1)\nreturn { kind: 'retry' }",
+      "sha256": "e7c422b6bfd68a04dd8a59825cfaffccced7d229d815d8cb4ad0bbccc3af711e"
+    },
+    "05-1": {
+      "evidence_id": "E26",
+      "path": "packages/core/session/src/index.ts",
+      "start": 747,
+      "end": 768,
+      "raw": "    validateSessionEventData(event, `session event \"${type}\" at seq ${event.seq}`)\n    this.surfaceManager.validateNext(event as SessionEvent)\n\n    if (entry !== undefined) entry.appending = true\n    try {\n      let callbacks: SessionCallback[] | undefined\n      const callbackArgs: unknown[] = [this, event]\n      if (entry !== undefined) {\n        callbacks = collectSessionCallbacks(entry.emitCtx, [entry.carrier, 'session/event', ...callbackArgs])\n      }\n      this.log.push(event as SessionEvent)\n      this.eventsSnapshot = undefined\n      if (callbacks !== undefined && entry !== undefined) {\n        invokeContainedSessionObservers(entry.emitCtx, 'session/event', entry.id, callbackArgs, callbacks)\n      }\n      return event\n    } finally {\n      if (entry !== undefined) {\n        entry.appending = false\n        if (entry.detachRequested && !entry.announcing) entry.detach()\n      }\n    }",
+      "code": "validateSessionEventData(event, `session event \"${type}\" at seq ${event.seq}`)\nthis.surfaceManager.validateNext(event as SessionEvent)\n\nif (entry !== undefined) entry.appending = true\ntry {\n  let callbacks: SessionCallback[] | undefined\n  const callbackArgs: unknown[] = [this, event]\n  if (entry !== undefined) {\n    callbacks = collectSessionCallbacks(entry.emitCtx, [entry.carrier, 'session/event', ...callbackArgs])\n  }\n  this.log.push(event as SessionEvent)\n  this.eventsSnapshot = undefined\n  if (callbacks !== undefined && entry !== undefined) {\n    invokeContainedSessionObservers(entry.emitCtx, 'session/event', entry.id, callbackArgs, callbacks)\n  }\n  return event\n} finally {\n  if (entry !== undefined) {\n    entry.appending = false\n    if (entry.detachRequested && !entry.announcing) entry.detach()\n  }\n}",
+      "sha256": "1b60fc64da82334fa2605bef96f2265e26293dfe3432a68e06e2e1465699b957"
+    },
+    "05-2": {
+      "evidence_id": "E40",
+      "path": "packages/session/session-persistence-jsonl/src/storage.ts",
+      "start": 187,
+      "end": 212,
+      "raw": "  async append(events: readonly SessionEvent[], options?: SessionHandleAppendOptions): Promise<void> {\n    this.assertOpen('append')\n    // Validate and deep-snapshot the batch HERE, before queueing behind the\n    // chain, so the checked value is exactly the value persisted.\n    const batch = materializeAppendBatch(events)\n    return this.run('append', async () => {\n      options?.signal?.throwIfAborted()\n      await this.persistContiguous(batch)\n    })\n  }\n\n  /**\n   * Durability barrier; materializes the artifact when nothing has been\n   * appended yet, so an explicitly flushed empty session survives this process.\n   * @param options - optional cancellation observed before the barrier starts.\n   */\n  flush(options?: SessionHandleFlushOptions): Promise<void> {\n    return this.run('flush', async () => {\n      options?.signal?.throwIfAborted()\n      if (this.access !== 'write') throw new SessionReadOnlyError(this.id, 'flush')\n      if (this.state.materialized) return // appends are durable on resolution\n      await this.ensureLease()\n      await this.storage.persistHeader(this.header, this.state.inheritedEventCount)\n      this.state.materialized = true\n    })\n  }",
+      "code": "async append(events: readonly SessionEvent[], options?: SessionHandleAppendOptions): Promise<void> {\n  this.assertOpen('append')\n  // Validate and deep-snapshot the batch HERE, before queueing behind the\n  // chain, so the checked value is exactly the value persisted.\n  const batch = materializeAppendBatch(events)\n  return this.run('append', async () => {\n    options?.signal?.throwIfAborted()\n    await this.persistContiguous(batch)\n  })\n}\n\n/**\n * Durability barrier; materializes the artifact when nothing has been\n * appended yet, so an explicitly flushed empty session survives this process.\n * @param options - optional cancellation observed before the barrier starts.\n */\nflush(options?: SessionHandleFlushOptions): Promise<void> {\n  return this.run('flush', async () => {\n    options?.signal?.throwIfAborted()\n    if (this.access !== 'write') throw new SessionReadOnlyError(this.id, 'flush')\n    if (this.state.materialized) return // appends are durable on resolution\n    await this.ensureLease()\n    await this.storage.persistHeader(this.header, this.state.inheritedEventCount)\n    this.state.materialized = true\n  })\n}",
+      "sha256": "a26efae507b2486ffae61461b11c4759ed613a586e0b71e1efa0092cc76d19da"
+    },
+    "06-1": {
+      "evidence_id": "E33",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1504,
+      "end": 1520,
+      "raw": "      const carrier = scopeTarget(this, exec.agent)\n      const gate = await this.ctx.waterfall(\n        carrier, 'tools/pre-execute', exec,\n        () => Promise.resolve<PreToolDecision>({ kind: 'allow' }),\n      )\n      const askResolution = gate.kind === 'ask'\n        ? await this.serviceAsk(exec, gate)\n        : { decision: gate, approvalCancelled: false }\n      const { decision } = askResolution\n      if (this.callerCancelled(exec) && askResolution.approvalCancelled) {\n        return await next({ kind: 'post-result', exec, result: toolAbortedBeforeDispatchResult() })\n      }\n      if (decision.kind === 'cancel') {\n        return await next({ kind: 'post-result', exec, result: toolAbortedBeforeDispatchResult() })\n      }\n      const denialReason = decision.kind === 'allow' ? this.guardReason(exec) : decision.reason\n      const denialInfo = decision.kind === 'deny' ? decision.info : undefined",
+      "code": "const carrier = scopeTarget(this, exec.agent)\nconst gate = await this.ctx.waterfall(\n  carrier, 'tools/pre-execute', exec,\n  () => Promise.resolve<PreToolDecision>({ kind: 'allow' }),\n)\nconst askResolution = gate.kind === 'ask'\n  ? await this.serviceAsk(exec, gate)\n  : { decision: gate, approvalCancelled: false }\nconst { decision } = askResolution\nif (this.callerCancelled(exec) && askResolution.approvalCancelled) {\n  return await next({ kind: 'post-result', exec, result: toolAbortedBeforeDispatchResult() })\n}\nif (decision.kind === 'cancel') {\n  return await next({ kind: 'post-result', exec, result: toolAbortedBeforeDispatchResult() })\n}\nconst denialReason = decision.kind === 'allow' ? this.guardReason(exec) : decision.reason\nconst denialInfo = decision.kind === 'deny' ? decision.info : undefined",
+      "sha256": "0bbec5880e11318f5b940335829947a960b5d6a41e07a4f21d43eaeffd444b5c"
+    },
+    "06-2": {
+      "evidence_id": "E137",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1697,
+      "end": 1713,
+      "raw": "    // WeakMap-keyable view.\n    Object.freeze(exec)\n    const { name: toolName, callId } = exec\n    const reportFailure = (error: unknown): void => {\n      this.ctx.logger.warn(`tool \"${toolName}\" (${callId}): tools/result observer failed: ${errorMessage(error)}`)\n    }\n    const callbacks = this.ctx.events.dispatch('emit', [\n      scopeTarget(this, exec.agent), 'tools/result', exec, result,\n    ])\n    for (const callback of callbacks) {\n      try {\n        const returned: unknown = callback(exec, result)\n        void Promise.resolve(returned).catch(reportFailure)\n      } catch (error: unknown) {\n        reportFailure(error)\n      }\n    }",
+      "code": "// WeakMap-keyable view.\nObject.freeze(exec)\nconst { name: toolName, callId } = exec\nconst reportFailure = (error: unknown): void => {\n  this.ctx.logger.warn(`tool \"${toolName}\" (${callId}): tools/result observer failed: ${errorMessage(error)}`)\n}\nconst callbacks = this.ctx.events.dispatch('emit', [\n  scopeTarget(this, exec.agent), 'tools/result', exec, result,\n])\nfor (const callback of callbacks) {\n  try {\n    const returned: unknown = callback(exec, result)\n    void Promise.resolve(returned).catch(reportFailure)\n  } catch (error: unknown) {\n    reportFailure(error)\n  }\n}",
+      "sha256": "06a31a3d785349543dd724b31b36d21b66340bbaeea634b239e385f1948abf26"
+    },
+    "07-1": {
+      "evidence_id": "E31",
+      "path": "packages/llm/llm-retry/src/index.ts",
+      "start": 219,
+      "end": 224,
+      "raw": "    const policyKey = retryPolicyKey(policy)\n    const retryState = ctx.sessionProjections.stateOf(agent.session, 'llmRetry') as LlmRetryState\n    const previous = retryState[retryStateKey(provider, policyKey)]\n    const previousRetry = previous?.retry ?? 0\n    if (policy.mode === 'normal' && previousRetry >= policy.maxRetries) return next()\n    const retry = previousRetry + 1",
+      "code": "const policyKey = retryPolicyKey(policy)\nconst retryState = ctx.sessionProjections.stateOf(agent.session, 'llmRetry') as LlmRetryState\nconst previous = retryState[retryStateKey(provider, policyKey)]\nconst previousRetry = previous?.retry ?? 0\nif (policy.mode === 'normal' && previousRetry >= policy.maxRetries) return next()\nconst retry = previousRetry + 1",
+      "sha256": "81ff738d8c1b548b33c73d942eca8bda5a05618fb5e59da1f64de6ee3403a33a"
+    },
+    "07-2": {
+      "evidence_id": "E43",
+      "path": "packages/core/session/src/repair.ts",
+      "start": 14,
+      "end": 18,
+      "raw": "/** Recovery code for an assistant tool request that never reached a recorded call start. */\nexport const TOOL_NOT_STARTED = 'TOOL_NOT_STARTED'\n\n/** Recovery code for a recorded tool call whose completed outcome was not durably recorded. */\nexport const TOOL_OUTCOME_UNKNOWN = 'TOOL_OUTCOME_UNKNOWN'",
+      "code": "/** Recovery code for an assistant tool request that never reached a recorded call start. */\nexport const TOOL_NOT_STARTED = 'TOOL_NOT_STARTED'\n\n/** Recovery code for a recorded tool call whose completed outcome was not durably recorded. */\nexport const TOOL_OUTCOME_UNKNOWN = 'TOOL_OUTCOME_UNKNOWN'",
+      "sha256": "c6fa04ce6d4228c608c3ea9890de389cac35c065e900c51b350f7c99126eb744"
+    },
+    "08-1": {
+      "evidence_id": "E23",
+      "path": "packages/core/agent-loop/src/tool-calls.ts",
+      "start": 146,
+      "end": 161,
+      "raw": "  // `committed` advances only across contiguous model-order slots.\n  const commitReady = async (): Promise<void> => {\n    while (committed < group.length) {\n      const slot = slots[committed]\n      if (slot === undefined) break\n      const call = group[committed]\n      const result = slot.needsPost\n        ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)\n        : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)\n      // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index\n      appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)\n      for (const context of result.additionalContexts ?? []) acceptContext(context)\n      concluded ||= result.concludesTurn === true\n      committed++\n    }\n  }",
+      "code": "// `committed` advances only across contiguous model-order slots.\nconst commitReady = async (): Promise<void> => {\n  while (committed < group.length) {\n    const slot = slots[committed]\n    if (slot === undefined) break\n    const call = group[committed]\n    const result = slot.needsPost\n      ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)\n      : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)\n    // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index\n    appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)\n    for (const context of result.additionalContexts ?? []) acceptContext(context)\n    concluded ||= result.concludesTurn === true\n    committed++\n  }\n}",
+      "sha256": "993ab6d75d9a4896b83759c544d61620deb06b25a1a139bbde86c666685fa5e7"
+    },
+    "08-2": {
+      "evidence_id": "E142",
+      "path": "packages/jobs/jobs-local/src/index.ts",
+      "start": 384,
+      "end": 391,
+      "raw": "  /** Count authoritative active records for one exact owner or the shared unowned bucket. */\n  private activeJobCount(owner: Agent | undefined): number {\n    let count = 0\n    for (const job of this.store.values()) {\n      if (job.owner === owner && (job.status === 'running' || job.status === 'stopping')) count += 1\n    }\n    return count\n  }",
+      "code": "/** Count authoritative active records for one exact owner or the shared unowned bucket. */\nprivate activeJobCount(owner: Agent | undefined): number {\n  let count = 0\n  for (const job of this.store.values()) {\n    if (job.owner === owner && (job.status === 'running' || job.status === 'stopping')) count += 1\n  }\n  return count\n}",
+      "sha256": "2167b0967d3edba860141bb19674db60aa06ff20f939a3144c5a7122b66746a5"
+    },
+    "09-1": {
+      "evidence_id": "E138",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1731,
+      "end": 1743,
+      "raw": "    const approval = this.ctx.get('approval')\n    if (approval === undefined) {\n      return {\n        decision: { kind: 'deny', reason: ask.reason ?? `tool \"${exec.name}\" requires approval (not yet supported)` },\n        approvalCancelled: false,\n      }\n    }\n    if (exec.agent === undefined) {\n      return {\n        decision: { kind: 'deny', reason: `tool \"${exec.name}\" requires approval, but the call has no agent to route it through` },\n        approvalCancelled: false,\n      }\n    }",
+      "code": "const approval = this.ctx.get('approval')\nif (approval === undefined) {\n  return {\n    decision: { kind: 'deny', reason: ask.reason ?? `tool \"${exec.name}\" requires approval (not yet supported)` },\n    approvalCancelled: false,\n  }\n}\nif (exec.agent === undefined) {\n  return {\n    decision: { kind: 'deny', reason: `tool \"${exec.name}\" requires approval, but the call has no agent to route it through` },\n    approvalCancelled: false,\n  }\n}",
+      "sha256": "3591ca80a6a5c7fad449d8bae8d1b0b1d02954564516a4ecbb50a709d396b012"
+    },
+    "09-2": {
+      "evidence_id": "E50",
+      "path": "packages/fs/fs-sandbox/src/index.ts",
+      "start": 80,
+      "end": 88,
+      "raw": "  override async writeText(\n    target: FsTarget,\n    content: string,\n    expected?: FsWriteIntent,\n    signal?: AbortSignal,\n    sandboxPolicy?: SandboxExecutionPolicy,\n  ): Promise<FsWriteOutcome> {\n    return super.writeText(await this.checkedTarget(target, sandboxPolicy), content, expected, signal)\n  }",
+      "code": "override async writeText(\n  target: FsTarget,\n  content: string,\n  expected?: FsWriteIntent,\n  signal?: AbortSignal,\n  sandboxPolicy?: SandboxExecutionPolicy,\n): Promise<FsWriteOutcome> {\n  return super.writeText(await this.checkedTarget(target, sandboxPolicy), content, expected, signal)\n}",
+      "sha256": "3f407ea12f5855a1b84f7f122635306be254ab9793655698de387cd530fc510a"
+    },
+    "10-1": {
+      "evidence_id": "E125",
+      "path": "packages/plan/plan-mode/src/index.ts",
+      "start": 196,
+      "end": 213,
+      "raw": "    ctx.on('agent/pre-step', async (\n      { agent, signal },\n      next,\n    ): Promise<PreStepDecision> => {\n      const decision = await next()\n      const pending = this.pendingIntents.get(agent.session)\n      if (decision.kind === 'reject' || signal.aborted || pending === undefined) return decision\n      const narration = this.narration(agent.session, pending.active)\n      try {\n        this.onBoundary(agent.session)\n      } catch (error) {\n        ctx.logger.warn('dsh-plan-mode: failed to append selected plan mode at step start: %o', error)\n        return decision\n      }\n      return !pending.narrate || narration === undefined\n        ? decision\n        : { ...decision, messages: [...decision.messages, narration] }\n    })",
+      "code": "ctx.on('agent/pre-step', async (\n  { agent, signal },\n  next,\n): Promise<PreStepDecision> => {\n  const decision = await next()\n  const pending = this.pendingIntents.get(agent.session)\n  if (decision.kind === 'reject' || signal.aborted || pending === undefined) return decision\n  const narration = this.narration(agent.session, pending.active)\n  try {\n    this.onBoundary(agent.session)\n  } catch (error) {\n    ctx.logger.warn('dsh-plan-mode: failed to append selected plan mode at step start: %o', error)\n    return decision\n  }\n  return !pending.narrate || narration === undefined\n    ? decision\n    : { ...decision, messages: [...decision.messages, narration] }\n})",
+      "sha256": "6bac779782d053924f59cf59ed5185a624661d74d1f3d0ab3932fdb382b4bf17"
+    },
+    "10-2": {
+      "evidence_id": "E126",
+      "path": "packages/plan/plan-mode/src/index.ts",
+      "start": 340,
+      "end": 352,
+      "raw": "        const reviewItems = answer.answers.filter(entry => entry.id === REVIEW_ID)\n        const item = reviewItems.length === 1 ? reviewItems[0] : undefined\n        if (item?.selected.length !== 1 || item.selected[0] !== APPROVE_LABEL || item.custom !== undefined) {\n          const feedback = item?.custom ?? ''\n          throw new Error(feedback === ''\n            ? 'The user chose to keep planning; revise the plan and present it again.'\n            : `The user chose to keep planning; their feedback: ${feedback}`)\n        }\n        // Keep plan guidance for the rest of this assistant tool batch. The\n        // silent selection is appended at the next accepted in-turn pre-step,\n        // before its request assembly.\n        this.pendingIntents.set(agent.session, { active: false, narrate: false })\n        return { approved: true }",
+      "code": "const reviewItems = answer.answers.filter(entry => entry.id === REVIEW_ID)\nconst item = reviewItems.length === 1 ? reviewItems[0] : undefined\nif (item?.selected.length !== 1 || item.selected[0] !== APPROVE_LABEL || item.custom !== undefined) {\n  const feedback = item?.custom ?? ''\n  throw new Error(feedback === ''\n    ? 'The user chose to keep planning; revise the plan and present it again.'\n    : `The user chose to keep planning; their feedback: ${feedback}`)\n}\n// Keep plan guidance for the rest of this assistant tool batch. The\n// silent selection is appended at the next accepted in-turn pre-step,\n// before its request assembly.\nthis.pendingIntents.set(agent.session, { active: false, narrate: false })\nreturn { approved: true }",
+      "sha256": "21ddb76b3530776ce33d7b9eae5f35d0a86a3fed227c46aa160e4b6b5a8bb4ae"
+    },
+    "11-1": {
+      "evidence_id": "E88",
+      "path": "packages/llm/llm/src/types.ts",
+      "start": 167,
+      "end": 189,
+      "raw": "/**\n * Token accounting for one model call (cache fields are optional).\n *\n * Counts are DISJOINT: `inputTokens` is uncached input only; cached input is\n * reported separately as `cacheReadTokens`/`cacheWriteTokens` (billed input =\n * sum of the three). Adapters whose providers fold cache hits into a total\n * prompt count (DeepSeek's `prompt_tokens`) subtract them out.\n */\nexport interface TokenUsage {\n  inputTokens: number\n  outputTokens: number\n  /**\n   * Exact full-call total including aggregate prompt and output tokens.\n   *\n   * Adapters preserve a provider total or derive it from authoritative\n   * aggregate prompt/output counters; they omit it when unavailable or\n   * inconsistent.\n   */\n  totalTokens?: number\n  cacheReadTokens?: number\n  cacheWriteTokens?: number\n  reasoningTokens?: number\n}",
+      "code": "/**\n * Token accounting for one model call (cache fields are optional).\n *\n * Counts are DISJOINT: `inputTokens` is uncached input only; cached input is\n * reported separately as `cacheReadTokens`/`cacheWriteTokens` (billed input =\n * sum of the three). Adapters whose providers fold cache hits into a total\n * prompt count (DeepSeek's `prompt_tokens`) subtract them out.\n */\nexport interface TokenUsage {\n  inputTokens: number\n  outputTokens: number\n  /**\n   * Exact full-call total including aggregate prompt and output tokens.\n   *\n   * Adapters preserve a provider total or derive it from authoritative\n   * aggregate prompt/output counters; they omit it when unavailable or\n   * inconsistent.\n   */\n  totalTokens?: number\n  cacheReadTokens?: number\n  cacheWriteTokens?: number\n  reasoningTokens?: number\n}",
+      "sha256": "8e1922e9d70714011f13f39848ee80917b71d8dad950582a0f44bebac9ba62f9"
+    },
+    "11-2": {
+      "evidence_id": "E130",
+      "path": "packages/compaction/compaction-basic/src/index.ts",
+      "start": 313,
+      "end": 319,
+      "raw": "    }\n    const spec = resolveCompactSpec(\n      policy,\n      info.context.contextWindow,\n      reservedCompletionTokens(agent, info.defaultMaxTokens),\n    )\n    if (measurement.totalTokens < spec.thresholdTokens) return null",
+      "code": "}\nconst spec = resolveCompactSpec(\n  policy,\n  info.context.contextWindow,\n  reservedCompletionTokens(agent, info.defaultMaxTokens),\n)\nif (measurement.totalTokens < spec.thresholdTokens) return null",
+      "sha256": "431db2fe832d5ae7a19498dba018a908383341776eb768810045a3b84a0cd6e2"
+    },
+    "12-1": {
+      "evidence_id": "E101",
+      "path": "packages/session/session-telemetry/src/coordinator.ts",
+      "start": 206,
+      "end": 213,
+      "raw": "    return this.ctx.waterfall('session-telemetry/record', record, () => record)\n  }\n\n  /** Hand one redacted record to the backend, then advance its ledger cursor. */\n  private deliver(session: Session, pending: PendingRecord): void {\n    this.backend.emit(pending.record)\n    if (pending.seq !== undefined) handoffCursor.set(session, pending.seq)\n  }",
+      "code": "  return this.ctx.waterfall('session-telemetry/record', record, () => record)\n}\n\n/** Hand one redacted record to the backend, then advance its ledger cursor. */\nprivate deliver(session: Session, pending: PendingRecord): void {\n  this.backend.emit(pending.record)\n  if (pending.seq !== undefined) handoffCursor.set(session, pending.seq)\n}",
+      "sha256": "e4e6403fbc57c3c06636e1bc8596437fd79a0c63ae462e4b10fc0c8d91fee0c6"
+    },
+    "12-2": {
+      "evidence_id": "E147",
+      "path": "packages/session/session-telemetry-otel/src/index.ts",
+      "start": 45,
+      "end": 53,
+      "raw": "function isFeedback(session: Session, event: SessionEvent): boolean {\n  if (event.seq < session.inheritedEventCount) return false\n  switch (event.type) {\n    case 'feedback/record': return true\n    case 'feedback/message-put':\n    case 'feedback/message-delete': return event.data.sessionId === session.id\n    default: return false\n  }\n}",
+      "code": "function isFeedback(session: Session, event: SessionEvent): boolean {\n  if (event.seq < session.inheritedEventCount) return false\n  switch (event.type) {\n    case 'feedback/record': return true\n    case 'feedback/message-put':\n    case 'feedback/message-delete': return event.data.sessionId === session.id\n    default: return false\n  }\n}",
+      "sha256": "9846f802f5c893bfb74ac1c91d6541519c461ea16bebb93b6e53be9edae31d48"
+    },
+    "14-1": {
+      "evidence_id": "E06",
+      "path": "vendor/cordis/src/events.ts",
+      "start": 235,
+      "end": 242,
+      "raw": "    const cbs = this.dispatch('waterfall', args)\n    const inner = args.pop()\n    const next = () => {\n      const cb = cbs.shift() ?? inner\n      return cb(...args)\n    }\n    args.push(next)\n    return next()",
+      "code": "const cbs = this.dispatch('waterfall', args)\nconst inner = args.pop()\nconst next = () => {\n  const cb = cbs.shift() ?? inner\n  return cb(...args)\n}\nargs.push(next)\nreturn next()",
+      "sha256": "ea6e68bc3b297ddc28ec4de73bab4a0a16f00c7f9017ddcac2b307f5dbe766a1"
+    },
+    "14-2": {
+      "evidence_id": "E04",
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 675,
+      "end": 696,
+      "raw": "  private async _unload() {\n    await Promise.all(this._disposables.clear().map(async (dispose) => {\n      try {\n        await composeError(async (info) => {\n          await Promise.resolve()\n          info.error = new Error()\n          await runDisposable(dispose)\n        }, this._runner.getOuterStack)\n      } catch (reason) {\n        this.ctx.logger.error(reason)\n      }\n    }))\n    this.store = undefined\n    this._updateState(() => {\n      if (this._runner.epoch === INACTIVE) {\n        this.inertia = undefined\n      } else {\n        this.inertia = this._reload()\n        return FiberState.LOADING\n      }\n    })\n  }",
+      "code": "private async _unload() {\n  await Promise.all(this._disposables.clear().map(async (dispose) => {\n    try {\n      await composeError(async (info) => {\n        await Promise.resolve()\n        info.error = new Error()\n        await runDisposable(dispose)\n      }, this._runner.getOuterStack)\n    } catch (reason) {\n      this.ctx.logger.error(reason)\n    }\n  }))\n  this.store = undefined\n  this._updateState(() => {\n    if (this._runner.epoch === INACTIVE) {\n      this.inertia = undefined\n    } else {\n      this.inertia = this._reload()\n      return FiberState.LOADING\n    }\n  })\n}",
+      "sha256": "8fe276e97414d7dc68cb8215a154d981c94d1cc284156269589c18f0eadbe346"
+    },
+    "15-1": {
+      "evidence_id": "E109",
+      "path": "packages/deliverables/tool-present/src/index.ts",
+      "start": 100,
+      "end": 108,
+      "raw": "  ctx.on('tools/result', (exec, result) => {\n    const delivery = pending.get(exec)\n    pending.delete(exec)\n    if (delivery === undefined || result.isError) return\n    const { session, turn, files } = delivery\n    session.append('deliverables/presented', {\n      turn, callId: exec.callId, files,\n    })\n  })",
+      "code": "ctx.on('tools/result', (exec, result) => {\n  const delivery = pending.get(exec)\n  pending.delete(exec)\n  if (delivery === undefined || result.isError) return\n  const { session, turn, files } = delivery\n  session.append('deliverables/presented', {\n    turn, callId: exec.callId, files,\n  })\n})",
+      "sha256": "5f06b3a00589655129d2c53f494d308773edfe8d5ebc3fa546734c19638ea734"
+    },
+    "15-2": {
+      "evidence_id": "E140",
+      "path": "packages/sdk/server/src/server.ts",
+      "start": 179,
+      "end": 194,
+      "raw": "    if (!this.initialized) throw new Error('SDK server is not initialized')\n    const rec = await this.getOrCreateSession(params.sessionId)\n    // An agent-loop-only reload disposes the loop's agents while this record\n    // survives; a retained agent accepts followup() silently, so validate the\n    // record against the live registry before delivery.\n    this.assertLiveAgent(rec, params.sessionId)\n    const content = await durablePromptContent(this.ctx, params.contentBlocks)\n    // Attachment admission crosses an async boundary where shutdown or an\n    // agent-loop reload may detach the retained handle.\n    this.assertLiveAgent(rec, params.sessionId)\n    const message = createUserMessage({\n      content,\n      source: { kind: 'user' },\n    })\n    rec.handle.agent.followup(message)\n    return { messageId: message.id }",
+      "code": "if (!this.initialized) throw new Error('SDK server is not initialized')\nconst rec = await this.getOrCreateSession(params.sessionId)\n// An agent-loop-only reload disposes the loop's agents while this record\n// survives; a retained agent accepts followup() silently, so validate the\n// record against the live registry before delivery.\nthis.assertLiveAgent(rec, params.sessionId)\nconst content = await durablePromptContent(this.ctx, params.contentBlocks)\n// Attachment admission crosses an async boundary where shutdown or an\n// agent-loop reload may detach the retained handle.\nthis.assertLiveAgent(rec, params.sessionId)\nconst message = createUserMessage({\n  content,\n  source: { kind: 'user' },\n})\nrec.handle.agent.followup(message)\nreturn { messageId: message.id }",
+      "sha256": "2dd50c556f96858260f7dbf98aa5c36ddeea9a9f26fb0f0685afacf47d383e2b"
+    },
+    "15-3": {
+      "evidence_id": "E111",
+      "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "start": 353,
+      "end": 369,
+      "raw": "    if (sorted.length === 0 && state.recordedAfterSeq < 0) return\n    const event = this.session.append('workspace/changes', { turn: state.turn })\n    const kept = sorted.slice(0, this.env.maxFiles)\n    this.records.set(event.seq, {\n      summary: {\n        turn: state.turn,\n        cwd: this.cwd,\n        files: kept.map(entry => entry.file),\n        total: sorted.length,\n        added: sorted.reduce((sum, entry) => sum + entry.file.added, 0),\n        deleted: sorted.reduce((sum, entry) => sum + entry.file.deleted, 0),\n        ...snapshot === undefined ? {} : { snapshot },\n      },\n      sources: kept.map(entry => entry.sources),\n    })\n    state.recordedAfterSeq = event.seq\n  }",
+      "code": "  if (sorted.length === 0 && state.recordedAfterSeq < 0) return\n  const event = this.session.append('workspace/changes', { turn: state.turn })\n  const kept = sorted.slice(0, this.env.maxFiles)\n  this.records.set(event.seq, {\n    summary: {\n      turn: state.turn,\n      cwd: this.cwd,\n      files: kept.map(entry => entry.file),\n      total: sorted.length,\n      added: sorted.reduce((sum, entry) => sum + entry.file.added, 0),\n      deleted: sorted.reduce((sum, entry) => sum + entry.file.deleted, 0),\n      ...snapshot === undefined ? {} : { snapshot },\n    },\n    sources: kept.map(entry => entry.sources),\n  })\n  state.recordedAfterSeq = event.seq\n}",
+      "sha256": "15eb6be77f46464d2c0cf2b6d7bd8040ed67605765993ed138f1973b4780a157"
+    },
+    "16-1": {
+      "evidence_id": "E42",
+      "path": "packages/session/session-format-catalog/src/generated.ts",
+      "start": 16,
+      "end": 48,
+      "raw": "export const sessionFormatCatalogOptions: SessionFormatCatalogOptions = {\n  currentVersion: 4,\n  codecs: [\n    releasedV0SessionFormatCodec,\n    releasedV1SessionFormatCodec,\n    releasedV2SessionFormatCodec,\n    releasedV3SessionFormatCodec,\n    releasedV4SessionFormatCodec,\n  ],\n  currentEncoder: releasedV4SessionFormatCodec,\n  migrations: [\n    sessionFormatV0ToV1,\n    sessionFormatV1ToV2,\n    sessionFormatV2ToV3,\n    sessionFormatV3ToV4,\n  ],\n  restoreCurrent(artifact) {\n    const restored = restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)\n    validateInstalledCurrentSessionArtifact(restored)\n    return restored\n  },\n  restoreTransformedCurrent(artifact) {\n    return restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)\n  },\n  restoreCurrentHeader(header) {\n    assertReleasedV4Header(header)\n    validateInstalledCurrentSessionHeader(header)\n    return header\n  },\n}\n\n/** Physical codec dispatch and complete adjacent chain, independent of mounted plugins. */\nexport const sessionFormatCatalog = createSessionFormatCatalog(sessionFormatCatalogOptions)",
+      "code": "export const sessionFormatCatalogOptions: SessionFormatCatalogOptions = {\n  currentVersion: 4,\n  codecs: [\n    releasedV0SessionFormatCodec,\n    releasedV1SessionFormatCodec,\n    releasedV2SessionFormatCodec,\n    releasedV3SessionFormatCodec,\n    releasedV4SessionFormatCodec,\n  ],\n  currentEncoder: releasedV4SessionFormatCodec,\n  migrations: [\n    sessionFormatV0ToV1,\n    sessionFormatV1ToV2,\n    sessionFormatV2ToV3,\n    sessionFormatV3ToV4,\n  ],\n  restoreCurrent(artifact) {\n    const restored = restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)\n    validateInstalledCurrentSessionArtifact(restored)\n    return restored\n  },\n  restoreTransformedCurrent(artifact) {\n    return restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)\n  },\n  restoreCurrentHeader(header) {\n    assertReleasedV4Header(header)\n    validateInstalledCurrentSessionHeader(header)\n    return header\n  },\n}\n\n/** Physical codec dispatch and complete adjacent chain, independent of mounted plugins. */\nexport const sessionFormatCatalog = createSessionFormatCatalog(sessionFormatCatalogOptions)",
+      "sha256": "4184915606e1bc0513386cf43db1e47d79ef51684e160afb054c7f0b95ba723d"
+    },
+    "16-2": {
+      "evidence_id": "E13",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 274,
+      "end": 302,
+      "raw": "export async function reconcileProfilePatches(\n  ctx: Context, patches: PatchOptions[], binName: string, requiredIds: readonly string[] = [],\n): Promise<string[]> {\n  const entry = bootstrapIncludes.get(ctx)\n  if (entry === undefined) throw new Error(`${binName}: profile reload requires the root Include entry`)\n  const previousFailures = (await inactiveEntries(ctx)).map(failure => ({\n    ...failure, diagnostic: inactiveDiagnostic(failure), fiber: failure.entry.fiber, options: JSON.stringify(failure.entry.options),\n  }))\n  // Removed entries leave the Loader store before their async disposers finish.\n  const previousFibers = [...ctx.loader.entries()].flatMap(row => row.fiber === undefined ? [] : [{\n    fiber: row.fiber, failed: row.fiber.state === FIBER_FAILED || row.fiber.state === FIBER_DISPOSED,\n  }])\n  const { patches: _previous, ...includeConfig } = entry.options.config as Include.Config\n  // The recomposition judges the rows the launch judged, resolved from the file this Include read.\n  const parentURL = new URL('.', new URL(includeConfig.path, entry.parent.tree.ctx.baseUrl)).href\n  const prepared = prepareProfilePatches(ctx, patches, parentURL, binName)\n  await entry.update({ config: { ...includeConfig, patches: prepared } })\n  const results = await Promise.allSettled(previousFibers.map(({ fiber }) => fiber.await()))\n  await ctx.loader.await()\n  const failures = await inactiveEntries(ctx)\n  const introduced = failures.filter(failure => requiredIds.includes(failure.entry.options.id) || !previousFailures.some(previous =>\n    previous.entry === failure.entry && previous.fiber === failure.entry.fiber\n    && previous.options === JSON.stringify(failure.entry.options) && previous.diagnostic === inactiveDiagnostic(failure)))\n  if (introduced.length > 0) throw new Error(activationDiagnostic(binName, introduced).trimEnd())\n  for (const [index, result] of results.entries()) {\n    if (result.status === 'rejected' && !previousFibers[index]?.failed) throw result.reason\n  }\n  ctx.emit('app-boot/config-reload')\n  return failures.map(inactiveDiagnostic)",
+      "code": "export async function reconcileProfilePatches(\n  ctx: Context, patches: PatchOptions[], binName: string, requiredIds: readonly string[] = [],\n): Promise<string[]> {\n  const entry = bootstrapIncludes.get(ctx)\n  if (entry === undefined) throw new Error(`${binName}: profile reload requires the root Include entry`)\n  const previousFailures = (await inactiveEntries(ctx)).map(failure => ({\n    ...failure, diagnostic: inactiveDiagnostic(failure), fiber: failure.entry.fiber, options: JSON.stringify(failure.entry.options),\n  }))\n  // Removed entries leave the Loader store before their async disposers finish.\n  const previousFibers = [...ctx.loader.entries()].flatMap(row => row.fiber === undefined ? [] : [{\n    fiber: row.fiber, failed: row.fiber.state === FIBER_FAILED || row.fiber.state === FIBER_DISPOSED,\n  }])\n  const { patches: _previous, ...includeConfig } = entry.options.config as Include.Config\n  // The recomposition judges the rows the launch judged, resolved from the file this Include read.\n  const parentURL = new URL('.', new URL(includeConfig.path, entry.parent.tree.ctx.baseUrl)).href\n  const prepared = prepareProfilePatches(ctx, patches, parentURL, binName)\n  await entry.update({ config: { ...includeConfig, patches: prepared } })\n  const results = await Promise.allSettled(previousFibers.map(({ fiber }) => fiber.await()))\n  await ctx.loader.await()\n  const failures = await inactiveEntries(ctx)\n  const introduced = failures.filter(failure => requiredIds.includes(failure.entry.options.id) || !previousFailures.some(previous =>\n    previous.entry === failure.entry && previous.fiber === failure.entry.fiber\n    && previous.options === JSON.stringify(failure.entry.options) && previous.diagnostic === inactiveDiagnostic(failure)))\n  if (introduced.length > 0) throw new Error(activationDiagnostic(binName, introduced).trimEnd())\n  for (const [index, result] of results.entries()) {\n    if (result.status === 'rejected' && !previousFibers[index]?.failed) throw result.reason\n  }\n  ctx.emit('app-boot/config-reload')\n  return failures.map(inactiveDiagnostic)",
+      "sha256": "d37cddf0e93818126e5b85682ee35ac45a44c184e39e88fb2725c025e2d0d38d"
+    },
+    "13-1": {
+      "path": "validation/examples.spec.ts",
+      "start": 20,
+      "end": 36,
+      "raw": "  it('executes registered tool and feeds its canonical result into the next real Loop step', async () => {\n    const adapter = new ScriptAdapter([sumCall({ a: 2, b: 3 }), text('5')])\n    const ctx = await runtime(adapter)\n    try {\n      const mounted = ctx.plugin(Sum); await mounted\n      const handle = await ctx.agents.create({ sessionId: SessionId('research-sum'), agentOptions: { provider: 'mock', model: 'base' } })\n      await send(handle.agent, '2 + 3')\n      const events = handle.agent.session.snapshotEvents()\n      expect(adapter.requests).toHaveLength(2)\n      expect(adapter.requests[1]?.messages.some(m => m.role === 'tool' && m.content.some(b => b.type === 'text' && b.text === '5'))).toBe(true)\n      expect(events.filter(e => e.type === 'step/start')).toHaveLength(2)\n      expect(events.at(-1)).toMatchObject({ type: 'turn/end', data: { reason: { kind: 'completed' } } })\n      await handle.dispose()\n      await mounted.dispose()\n      expect(ctx.tools.get('research_sum')).toBeUndefined()\n    } finally { await ctx.fiber.dispose() }\n  })",
+      "code": "it('executes registered tool and feeds its canonical result into the next real Loop step', async () => {\n  const adapter = new ScriptAdapter([sumCall({ a: 2, b: 3 }), text('5')])\n  const ctx = await runtime(adapter)\n  try {\n    const mounted = ctx.plugin(Sum); await mounted\n    const handle = await ctx.agents.create({ sessionId: SessionId('research-sum'), agentOptions: { provider: 'mock', model: 'base' } })\n    await send(handle.agent, '2 + 3')\n    const events = handle.agent.session.snapshotEvents()\n    expect(adapter.requests).toHaveLength(2)\n    expect(adapter.requests[1]?.messages.some(m => m.role === 'tool' && m.content.some(b => b.type === 'text' && b.text === '5'))).toBe(true)\n    expect(events.filter(e => e.type === 'step/start')).toHaveLength(2)\n    expect(events.at(-1)).toMatchObject({ type: 'turn/end', data: { reason: { kind: 'completed' } } })\n    await handle.dispose()\n    await mounted.dispose()\n    expect(ctx.tools.get('research_sum')).toBeUndefined()\n  } finally { await ctx.fiber.dispose() }\n})",
+      "local": true,
+      "sha256": "a022489f9bba327fcfb23541fc038af9c6c9acbd5bb79556493f14aaef6083d5"
+    },
+    "13-2": {
+      "path": "validation/examples.spec.ts",
+      "start": 83,
+      "end": 89,
+      "raw": "      await partial\n      handle.agent.cancel({ kind: 'user' })\n      await handle.agent.whenIdle()\n      const events = handle.agent.session.snapshotEvents()\n      expect(events.at(-1)).toMatchObject({ type: 'turn/end', data: { reason: { kind: 'aborted' } } })\n      expect(events.some(e => e.type === 'assistant/message')).toBe(true)\n      expect(adapter.requests).toHaveLength(1)",
+      "code": "await partial\nhandle.agent.cancel({ kind: 'user' })\nawait handle.agent.whenIdle()\nconst events = handle.agent.session.snapshotEvents()\nexpect(events.at(-1)).toMatchObject({ type: 'turn/end', data: { reason: { kind: 'aborted' } } })\nexpect(events.some(e => e.type === 'assistant/message')).toBe(true)\nexpect(adapter.requests).toHaveLength(1)",
+      "local": true,
+      "sha256": "4a487f6111b1b9a781c6996ad9e36aa07c72e252d3f54ec58b1661f0037f6d05"
+    }
+  },
+  "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。"
+}

@@ -1,0 +1,117 @@
+native/system/packages/darwin-x64        | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+native/system/packages/linux-arm64       | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+native/system/packages/linux-x64         | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["linux"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+Scope: all 342 workspace projects
+[WARN] There are cyclic workspace dependencies: /Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/cli, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sdk/client; /Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/web, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/client-runtime, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/web-app; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/remotes, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-plugin-manager, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-workspace, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-conversation; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-basic, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-image-offload; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-tool-result-pruner, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/token-meter, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-retry, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-deepseek, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/plugin-package-inventory-deepseek, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/preset/agent-preset-registry, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/preset/agent-preset; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/agent-default-model, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/settings/settings; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox-local, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox-windows-acl; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/fs-ssh, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/ssh; /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-spawn-in-process, /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/tool-subagent; /Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis, /Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/include
+? Verifying lockfile against supply-chain policies (1686 entries)...
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +1393
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   ╭──────────────────────────────────────────────╮
+   │                                              │
+   │      Update available! 11.7.0 → 12.9.1.      │
+   │     Changelog: https://pnpm.io/v/12.9.1      │
+   │   To update, run: corepack use pnpm@12.9.1   │
+   │                                              │
+   ╰──────────────────────────────────────────────╯
+
+Progress: resolved 1393, reused 0, downloaded 63, added 63
+Progress: resolved 1393, reused 0, downloaded 217, added 221
+Progress: resolved 1393, reused 0, downloaded 360, added 365
+Progress: resolved 1393, reused 0, downloaded 454, added 458
+Progress: resolved 1393, reused 0, downloaded 526, added 531
+Progress: resolved 1393, reused 0, downloaded 590, added 595
+Progress: resolved 1393, reused 0, downloaded 651, added 656
+Progress: resolved 1393, reused 0, downloaded 703, added 708
+Progress: resolved 1393, reused 0, downloaded 780, added 785
+Progress: resolved 1393, reused 0, downloaded 825, added 829
+Progress: resolved 1393, reused 0, downloaded 871, added 876
+Progress: resolved 1393, reused 0, downloaded 938, added 942
+Progress: resolved 1393, reused 0, downloaded 996, added 1001
+Progress: resolved 1393, reused 0, downloaded 1051, added 1056
+Progress: resolved 1393, reused 0, downloaded 1112, added 1117
+Progress: resolved 1393, reused 0, downloaded 1146, added 1151
+Progress: resolved 1393, reused 0, downloaded 1194, added 1199
+Progress: resolved 1393, reused 0, downloaded 1230, added 1235
+Progress: resolved 1393, reused 0, downloaded 1250, added 1255
+Progress: resolved 1393, reused 0, downloaded 1271, added 1276
+Progress: resolved 1393, reused 0, downloaded 1302, added 1307
+Progress: resolved 1393, reused 0, downloaded 1329, added 1333
+Progress: resolved 1393, reused 0, downloaded 1366, added 1371
+Progress: resolved 1393, reused 0, downloaded 1379, added 1384
+Progress: resolved 1393, reused 0, downloaded 1382, added 1387
+✓ Lockfile passes supply-chain policies (1686 entries in 26.5s)
+Progress: resolved 1393, reused 0, downloaded 1383, added 1387
+Progress: resolved 1393, reused 0, downloaded 1385, added 1390
+Progress: resolved 1393, reused 0, downloaded 1386, added 1390
+Progress: resolved 1393, reused 0, downloaded 1386, added 1391
+Progress: resolved 1393, reused 0, downloaded 1387, added 1391
+Progress: resolved 1393, reused 0, downloaded 1387, added 1392
+Progress: resolved 1393, reused 0, downloaded 1388, added 1392
+Progress: resolved 1393, reused 0, downloaded 1388, added 1393, done
+[WARN] Failed to create bin at /Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/desktop-host/node_modules/.bin/dsh. ENOENT: no such file or directory, open '/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/cli/lib/bin.js'
+[WARN] Failed to create bin at /Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sdk/client/node_modules/.bin/dsh. ENOENT: no such file or directory, open '/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/cli/lib/bin.js'
+[WARN] Failed to create bin at /Users/zz/prj/dsh_research/.sources/deepseek-harness/python/sdk-runtime/node_modules/.bin/dsh. ENOENT: no such file or directory, open '/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/cli/lib/bin.js'
+
+devDependencies:
++ @deepseek-ai/dsh-agent 0.2.1-alpha.1 <- packages/core/agent
++ @deepseek-ai/dsh-browser-use 0.2.1-alpha.1 <- packages/browser-use/browser-use
++ @deepseek-ai/dsh-computer-use 0.2.1-alpha.1 <- packages/computer-use/computer-use
++ @deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp 0.2.1-alpha.1 <- packages/experimental/browser-use-chrome-devtools-mcp
++ @deepseek-ai/dsh-experimental-browser-use-playwright-mcp 0.2.1-alpha.1 <- packages/experimental/browser-use-playwright-mcp
++ @deepseek-ai/dsh-experimental-browser-use-runtime 0.2.1-alpha.1 <- packages/experimental/browser-use-runtime
++ @deepseek-ai/dsh-experimental-browser-use-stagehand-native 0.2.1-alpha.1 <- packages/experimental/browser-use-stagehand-native
++ @deepseek-ai/dsh-experimental-claude-code-mods 0.2.1-alpha.1 <- packages/experimental/claude-code-mods
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp 0.2.1-alpha.1 <- packages/experimental/computer-use-cua-driver-mcp
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-native 0.2.1-alpha.1 <- packages/experimental/computer-use-cua-driver-native
++ @deepseek-ai/dsh-llm-replay 0.2.1-alpha.1 <- packages/test-support/llm-replay
++ @deepseek-ai/dsh-mcp-client 0.2.1-alpha.1 <- packages/mcp/mcp-client
++ @deepseek-ai/dsh-skill-office 0.2.1-alpha.1 <- packages/skill/skill-office
++ @deepseek-ai/dsh-tool-session-query 0.2.1-alpha.1 <- packages/session-query/tool-session-query
++ @deepseek-ai/dsh-tool-workspace-dependencies 0.2.1-alpha.1 <- packages/skill/tool-workspace-dependencies
++ @deepseek-ai/dsh-web-fetch-http 0.2.1-alpha.1 <- packages/web/web-fetch-http
++ @stylistic/eslint-plugin 5.10.0
++ @testing-library/dom 10.4.2
++ @testing-library/react 16.3.2
++ @types/js-yaml 4.0.9
++ @types/jsdom 28.0.3
++ @types/mdast 4.0.4
++ @types/node 22.20.0
++ @types/semver 7.8.0
++ @types/spdx-expression-parse 4.0.0
++ @vitest/coverage-v8 4.1.8
++ @yao-pkg/pkg 6.21.0
++ @yarnpkg/cli-dist 4.17.1
++ eslint-plugin-sonarjs 4.1.0
++ execa 10.0.0
++ extract-zip 2.0.1
++ fast-check 4.8.0
++ fflate 0.8.3
++ istanbul-lib-report 3.0.1
++ js-yaml 4.2.0
++ jscpd 5.0.12
++ jsdom 29.1.1
++ lefthook 2.1.9
++ lightningcss 1.32.0
++ mdast-util-from-markdown 2.0.3
++ mdast-util-gfm 3.1.0
++ mermaid 11.16.0
++ micromark-extension-gfm 3.0.0
++ oxlint 1.76.0
++ oxlint-tsgolint 7.0.2001
++ pnpm 11.7.0
++ publint 0.3.21
++ semver 7.8.5
++ smol-toml 1.7.1
++ spdx-expression-parse 5.0.0
++ tar 7.5.22
++ tsdown 0.22.2
++ tsx 4.22.4
++ typescript 6.0.3
++ vite 8.0.16
++ vite-tsconfig-paths 6.1.1
++ vitest 4.1.8
+
+Done in 42.5s using pnpm v11.7.0

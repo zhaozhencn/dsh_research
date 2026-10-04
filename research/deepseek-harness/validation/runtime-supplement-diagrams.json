@@ -1,0 +1,81 @@
+{
+  "ok": true,
+  "mermaid_version": "11.16.0",
+  "parsed": 14,
+  "minimum": 1,
+  "records": [
+    {
+      "file": "01-architecture.md",
+      "line": 21,
+      "outcome": "passed"
+    },
+    {
+      "file": "01-architecture.md",
+      "line": 64,
+      "outcome": "passed"
+    },
+    {
+      "file": "01-architecture.md",
+      "line": 82,
+      "outcome": "passed"
+    },
+    {
+      "file": "01-architecture.md",
+      "line": 181,
+      "outcome": "passed"
+    },
+    {
+      "file": "01-architecture.md",
+      "line": 307,
+      "outcome": "passed"
+    },
+    {
+      "file": "01-architecture.md",
+      "line": 345,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 34,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 83,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 101,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 149,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 213,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 310,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 405,
+      "outcome": "passed"
+    },
+    {
+      "file": "03-extension-practices.md",
+      "line": 66,
+      "outcome": "passed"
+    }
+  ],
+  "limits": [
+    "Syntax parsing only; diagram rendering and source semantics require separate review."
+  ]
+}

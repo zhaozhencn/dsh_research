@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "final_mode": false,
+  "evidence_records": 119,
+  "workspace_members": 341,
+  "markdown_files": 12,
+  "inline_links": 547,
+  "source_links": 450,
+  "errors": [],
+  "limits": [
+    "Checks are structural, not semantic. Only inline Markdown links are parsed; internal heading anchors and HTTP availability are not tested. Mermaid requires separate parser execution."
+  ]
+}

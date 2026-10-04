@@ -1,0 +1,726 @@
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+
+ RUN  v4.1.8 /Users/zz/prj/dsh_research/.sources/deepseek-harness
+
+ ❯ |thread-safe| packages/sdk/server/tests/server.spec.ts (32 tests | 7 failed) 1572ms
+     × creates a harness agent and calls the configured OpenAI-compatible endpoint 184ms
+     × creates an SDK session without an optional system prompt 126ms
+     × notifies the host when a subagent run settles 80ms
+     × retains locality across continuation runs on one live child 74ms
+     × correlates reused local ids by parent scope when runs settle out of order 79ms
+     × keeps locality bound to the accepted run across provider re-registration 72ms
+     × uses the recorded local flag when start was missed and ignores remote runs 70ms
+ ❯ |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts (83 tests | 55 failed | 1 skipped) 283ms
+     × refuses foreign native V4 delivery through write access 5ms
+     × opens the parent when another Session header has corrupt json 9ms
+     × keeps current revisions independent of unrelated historical logs and write ownership 3ms
+     × isolates malformed child JSON during parent write access 2ms
+     × preserves opaque inherited catalogs through read preparation and write publication 3ms
+     × keeps a complete parent catalog when child metadata is unavailable (corrupt=false) 3ms
+     × keeps a complete parent catalog when child metadata is unavailable (corrupt=true) 3ms
+     × backfills a missing catalog from descriptor v1 4ms
+     × backfills a missing catalog from descriptor v2 5ms
+     × backfills a missing catalog from descriptor v3 3ms
+     × publishes the parent without invented missing child discovery information 3ms
+     × publishes the parent without invented unknown child discovery information 3ms
+     × publishes the parent without invented multiple child discovery information 3ms
+     × omits an unsupported child generation (prepared=false) 3ms
+     × omits an unsupported child generation (prepared=true) 4ms
+     × rejects duplicate own catalogs through a current write open 2ms
+     × recollects a changed child within the same read open 5ms
+     × detects children added after preparation instead of publishing incomplete membership 4ms
+     × recollects newly available discovery fields before publishing a prepared parent 4ms
+     × composes a V0 parent and child through all preceding edges 5ms
+     × composes a V1 parent and child through all preceding edges 3ms
+     × composes a V2 parent and child through all preceding edges 4ms
+     × lists historical headers, prepares read-only membership, and publishes an unchanged-prefix successor 4ms
+     × recollects a repaired child before publishing a prepared parent 4ms
+     × keeps published unknown membership while a repaired child opens independently 2ms
+     × completes only the opened parent catalog and defers its child catalog 2ms
+     × refuses foreign native V4 delivery through write access 2ms
+     × opens the parent when another Session header has corrupt json 5ms
+     × opens the parent when another Session header has corrupt magic 4ms
+     × opens the parent when another Session header has corrupt checksum 5ms
+     × opens the parent when another Session header has corrupt lines 5ms
+     × keeps current revisions independent of unrelated historical logs and write ownership 3ms
+     × isolates malformed child JSON during parent write access 2ms
+     × preserves opaque inherited catalogs through read preparation and write publication 3ms
+     × keeps a complete parent catalog when child metadata is unavailable (corrupt=false) 3ms
+     × keeps a complete parent catalog when child metadata is unavailable (corrupt=true) 3ms
+     × backfills a missing catalog from descriptor v1 5ms
+     × backfills a missing catalog from descriptor v2 4ms
+     × backfills a missing catalog from descriptor v3 3ms
+     × publishes the parent without invented missing child discovery information 3ms
+     × publishes the parent without invented unknown child discovery information 3ms
+     × publishes the parent without invented multiple child discovery information 3ms
+     × omits an unsupported child generation (prepared=false) 3ms
+     × omits an unsupported child generation (prepared=true) 4ms
+     × rejects duplicate own catalogs through a current write open 2ms
+     × recollects a changed child within the same read open 5ms
+     × detects children added after preparation instead of publishing incomplete membership 4ms
+     × recollects newly available discovery fields before publishing a prepared parent 4ms
+     × composes a V0 parent and child through all preceding edges 3ms
+     × composes a V1 parent and child through all preceding edges 3ms
+     × composes a V2 parent and child through all preceding edges 3ms
+     × lists historical headers, prepares read-only membership, and publishes an unchanged-prefix successor 4ms
+     × recollects a repaired child before publishing a prepared parent 5ms
+     × keeps published unknown membership while a repaired child opens independently 2ms
+     × completes only the opened parent catalog and defers its child catalog 2ms
+ ❯ |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts (19 tests | 17 failed) 33ms
+     × excludes a second instance while the holder is live, and admits it after close 6ms
+     × removing the lock file forfeits a wedged holder: a fresh inode admits a successor 2ms
+     × write-opening an absent id under an existing project directory reports not-found 2ms
+     × materialization publishes the lock before the first log bytes and keeps it on the handle 2ms
+     × an explicitly flushed empty session takes the lock with its header 2ms
+     × surfaces a filesystem refusal opening the lock file 2ms
+     × surfaces a non-contention flock failure 1ms
+     × maps the EWOULDBLOCK contention spelling to already-owned 1ms
+     × surfaces a lock-path stat refusal from the inode verification 2ms
+     × retries when the locked inode is no longer the lock path, and wins on a stable pass 1ms
+     × retries when the lock path vanishes under the verify read 1ms
+     × gives up as already-owned when the lock path never stabilizes 1ms
+     × a failing lock release still frees the in-process claim on close 1ms
+     × a write-open failure with a failing release aggregates both and frees the claim 1ms
+     × a drain failure and a release failure reject close as one AggregateError 1ms
+     × release is idempotent and never removes the lock file 1ms
+     × keeps distinct sessions independently lockable 1ms
+ ❯ |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts (183 tests | 75 failed) 11511ms
+     × round-trips through one write handle: append, self-read, offset/length defaults 8ms
+     × duplicate create rejects against a materialized artifact seen by a fresh instance 2ms
+     × write ownership is single-holder per instance and released by close 2ms
+     × a read handle refuses append and flush with SessionReadOnlyError 2ms
+     × operations on a closed handle reject; close is idempotent; asyncDispose releases ownership 2ms
+     × service-level flush materializes every active write handle and counts a closing one as flushed 2ms
+     × flush materializes an empty session durably for a fresh instance 1ms
+     × freshness: reads started after an append resolves observe that prefix on any handle 2ms
+     × a fresh instance continues the stored log at the committed next-seq 2ms
+     × append rejects a batch that does not contiguously continue the log, naming the expected seq 2ms
+     × append rejects non-JSON-serializable event data without storing anything 2ms
+     × vocabulary fail-closed: an unknown stored event type refuses reads and write opens 1ms
+     × a torn physical tail is never served and is durably truncated by the write path 2ms
+     × stat and list agree on stable revisions that change after an append 1ms
+     × routes published events into the active write handle within one batching window 5014ms
+     × session/flush drains immediately and surfaces a retained background failure 69ms
+     × service-level flush drains every active handle and aggregates the failures 13ms
+     × session/disposed drains buffered events and closes the handle 1012ms
+     × backend teardown drains buffered events through the close sweep 12ms
+     × close itself surfaces a failing drain and still releases write ownership 8ms
+     × close normalizes a non-Error drain failure 10ms
+     × a failed drain retains order, quiets the timer, and recovers exactly once 4ms
+     × a second write handle after close routes subsequent events 4ms
+     × resolves a relative custom root before storing a session 3ms
+     × refuses a structurally foreign future header as unsupported, not corrupt or absent 3ms
+     × serves a read open through the full log read when the header-only read races a writer 2ms
+     × resolves absent, current, and historical current-generation paths 2ms
+     × refuses the frozen pre-step V0 fixture on write open without publishing a successor 2ms
+     × restores canonical replacement envelopes from valid V2 chronology on write open 2ms
+     × selects v1 from a v0/v1 directory, then the current generation from the retained three-generation set 3ms
+     × opens the migrated successor for append while retaining the historical source 1ms
+     × switches an existing prepared read handle to the published append tail 3ms
+     × fails a stale prepared publication once and re-prepares on the next write open 3ms
+     × finishes publication before rejecting a write open cancelled during publication 3ms
+     × materializes a seeded current header at its exact inherited cut 2ms
+     × lazy materialization: create() writes no file until the first append 1ms
+     × flush materializes an explicitly durable empty session without an event row 1ms
+     × close drains a routed event that arrives while it waits for an in-flight append 5007ms
+     × service flush skips a write claim whose handle is still opening 9ms
+     × stat and list carry the physical artifact size once materialized 8ms
+     × binds revisions to the physical artifact identity 8ms
+     × an unchanged cold log parses once across an observe-then-resume handoff 5ms
+     × a foreign write misses the memo through the revision guard 4ms
+     × the cold-log memo keeps only the handoff window and evicts the oldest id 3ms
+     × a handle read retries once when the file revision changes during the read 3ms
+     × a continuously churning revision yields the committed prefix instead of looping 3ms
+     × appends on reopen extend the same artifact and a fork materializes its own 3ms
+     × round-trip is byte-identical including nested Assistant stream records 3ms
+     × a torn crash tail is served as the committed prefix and repaired only by the write path 2ms
+     × a stored open turn is served as stored, with no synthetic closers 2ms
+     × a failed appendLines truncates partial bytes so a retry has no seq gap 2ms
+     × reports both the append failure and a failed rollback 2ms
+     × rejects a mismatched header id before serving either session log 2ms
+     × path-traversal session ids are neutralized (no escape from root) 2ms
+     × rejects pre-aborted operations with the exact cancellation reason 2ms
+     × stat handles artifact removal and non-ENOENT failures after log discovery 2ms
+     × stat reports absence for an artifact vanishing before its identity stat and surfaces other faults 2ms
+     × an empty append batch is a no-op that does not materialize 2ms
+     × a read handle rejects a stored log that shrank below an observed prefix 2ms
+     × omits a listed artifact removed after discovery 2ms
+     × checks cancellation after an uncancellable list stat settles 1ms
+     × writes one row per event with compact stream records nested in the message 2ms
+     × reads v2 rows and appends a current turn without changing predecessor bytes 4ms
+     × reads v3 rows and appends a current turn without changing predecessor bytes 3ms
+     × create snapshots its meta: mutating the caller object after the call is ignored 1ms
+     × create rejects non-JSON metadata and a fractional creation timestamp without reserving the id 1ms
+     × list discovers sessions across multiple project directories 1ms
+     × groups sessions whose cwd paths normalize to the same project directory 1ms
+     × keeps the transcript in an extensible session-owned directory 1ms
+     × list skips empty and non-header session logs (metadata-only read) 1ms
+     × list rejects a header whose cwd does not identify its physical log 1ms
+     × accepts an alternate project path only when it identifies the same physical log 1ms
+     × create rejects an id already on disk under a different project directory 1ms
+     × backend teardown closes handles left open and fails later operations loudly 1ms
+     × accepts well-formed JSON values (null, booleans, nested arrays/objects) 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 154 ⎯⎯⎯⎯⎯⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > round-trips through one write handle: append, self-read, offset/length defaults
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > duplicate create rejects against a materialized artifact seen by a fresh instance
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > write ownership is single-holder per instance and released by close
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > a read handle refuses append and flush with SessionReadOnlyError
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > operations on a closed handle reject; close is idempotent; asyncDispose releases ownership
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > service-level flush materializes every active write handle and counts a closing one as flushed
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > flush materializes an empty session durably for a fresh instance
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > freshness: reads started after an append resolves observe that prefix on any handle
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > a fresh instance continues the stored log at the committed next-seq
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > append rejects a batch that does not contiguously continue the log, naming the expected seq
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > append rejects non-JSON-serializable event data without storing anything
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > vocabulary fail-closed: an unknown stored event type refuses reads and write opens
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > a torn physical tail is never served and is durably truncated by the write path
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > SessionPersistence contract: jsonl-none > stat and list agree on stable revisions that change after an append
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > a failed drain retains order, quiets the timer, and recovers exactly once
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > a second write handle after close routes subsequent events
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: format helpers > resolves a relative custom root before storing a session
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: stored-format refusals > serves a read open through the full log read when the header-only read races a writer
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > resolves absent, current, and historical current-generation paths
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > restores canonical replacement envelopes from valid V2 chronology on write open
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > selects v1 from a v0/v1 directory, then the current generation from the retained three-generation set
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > opens the migrated successor for append while retaining the historical source
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > switches an existing prepared read handle to the published append tail
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > materializes a seeded current header at its exact inherited cut
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > lazy materialization: create() writes no file until the first append
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > flush materializes an explicitly durable empty session without an event row
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > service flush skips a write claim whose handle is still opening
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > stat and list carry the physical artifact size once materialized
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > binds revisions to the physical artifact identity
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > an unchanged cold log parses once across an observe-then-resume handoff
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a foreign write misses the memo through the revision guard
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > the cold-log memo keeps only the handoff window and evicts the oldest id
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a handle read retries once when the file revision changes during the read
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a continuously churning revision yields the committed prefix instead of looping
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > appends on reopen extend the same artifact and a fork materializes its own
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > round-trip is byte-identical including nested Assistant stream records
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a torn crash tail is served as the committed prefix and repaired only by the write path
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a stored open turn is served as stored, with no synthetic closers
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a failed appendLines truncates partial bytes so a retry has no seq gap
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > reports both the append failure and a failed rollback
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > rejects a mismatched header id before serving either session log
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > path-traversal session ids are neutralized (no escape from root)
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > rejects pre-aborted operations with the exact cancellation reason
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > stat handles artifact removal and non-ENOENT failures after log discovery
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > stat reports absence for an artifact vanishing before its identity stat and surfaces other faults
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > an empty append batch is a no-op that does not materialize
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > a read handle rejects a stored log that shrank below an observed prefix
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > omits a listed artifact removed after discovery
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > checks cancellation after an uncancellable list stat settles
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: nested Assistant streams > writes one row per event with compact stream records nested in the message
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: nested Assistant streams > reads v2 rows and appends a current turn without changing predecessor bytes
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: nested Assistant streams > reads v3 rows and appends a current turn without changing predecessor bytes
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > create snapshots its meta: mutating the caller object after the call is ignored
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > create rejects non-JSON metadata and a fractional creation timestamp without reserving the id
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > list discovers sessions across multiple project directories
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > groups sessions whose cwd paths normalize to the same project directory
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > keeps the transcript in an extensible session-owned directory
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > list skips empty and non-header session logs (metadata-only read)
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > list rejects a header whose cwd does not identify its physical log
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > accepts an alternate project path only when it identifies the same physical log
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > create rejects an id already on disk under a different project directory
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > backend teardown closes handles left open and fails later operations loudly
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: edge cases > accepts well-formed JSON values (null, booleans, nested arrays/objects)
+Error: Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
+Require stack:
+- /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+ ❯ loadBinding native/system/packages/entry/src/flock.ts:30:13
+     28|   const require = createRequire(import.meta.url)
+     29|   const manifest = require.resolve(`@deepseek-ai/node-addon-system-${p…
+     30|   binding = require(join(dirname(manifest), 'bin', filename)) as Flock…
+       |             ^
+     31|   return binding
+     32| }
+ ❯ errno native/system/packages/entry/src/flock.ts:48:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > routes published events into the active write handle within one batching window
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:49:5
+     47| ): void {
+     48|   describe(`live session write path: ${name}`, () => {
+     49|     it('routes published events into the active write handle within on…
+       |     ^
+     50|       const { ctx } = await make()
+     51|       const session = ctx.sessions.create(SessionId('routed'))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > session/flush drains immediately and surfaces a retained background failure
+AssertionError: expected Error: Cannot find module '/Users/zz/prj/… { …(2) } to be Error: backend write refused // Object.is equality
+
+- Expected
++ Received
+
+  Error {
+-   "message": "backend write refused",
++   "message": "Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   "code": "MODULE_NOT_FOUND",
++   "requireStack": [
++     "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   ],
+  }
+
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:108:47
+    106|
+    107|       // The barrier retries the retained batch and rejects loudly...
+    108|       await expect(ctx.sessions.flush(session)).rejects.toBe(failure)
+       |                                               ^
+    109|       // ...and once the backend recovers, the same events land exactl…
+    110|       persist.mockRestore()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > service-level flush drains every active handle and aggregates the failures
+Error: expect(received).toSatisfy()
+
+Expected value to satisfy:
+[Function anonymous]
+
+Received:
+[AggregateError: session-persistence-jsonl flush failed]
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:138:52
+    136|         // No batching window elapses: the service barrier itself drai…
+    137|         // buffers and reports the one failure without abandoning the …
+    138|         await expect(ctx.sessionPersistence.flush()).rejects.toSatisfy…
+       |                                                    ^
+    139|           error instanceof AggregateError && error.errors.length === 1…
+    140|       } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > session/disposed drains buffered events and closes the handle
+SessionPersistenceNotFoundError: session "disposed-drains" not found
+ ❯ Proxy.requireStoredLog packages/session/session-persistence-jsonl/src/index.ts:516:39
+    514|   private async requireStoredLog(id: SessionId, signal?: AbortSignal):…
+    515|     const selected = await this.findLog(id, signal)
+    516|     if (selected === undefined) throw new SessionPersistenceNotFoundEr…
+       |                                       ^
+    517|     if (selected.sourceVersion < SESSION_FORMAT_VERSION) {
+    518|       const sourceRevision = fileRevision(await stat(selected.sourcePa…
+ ❯ Proxy.open packages/session/session-persistence-jsonl/src/index.ts:353:18
+ ❯ readAll packages/session/session-persistence/tests/live-write-contract.ts:28:18
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:166:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > backend teardown drains buffered events through the close sweep
+SessionPersistenceNotFoundError: session "teardown-drains" not found
+ ❯ Proxy.requireStoredLog packages/session/session-persistence-jsonl/src/index.ts:516:39
+    514|   private async requireStoredLog(id: SessionId, signal?: AbortSignal):…
+    515|     const selected = await this.findLog(id, signal)
+    516|     if (selected === undefined) throw new SessionPersistenceNotFoundEr…
+       |                                       ^
+    517|     if (selected.sourceVersion < SESSION_FORMAT_VERSION) {
+    518|       const sourceRevision = fileRevision(await stat(selected.sourcePa…
+ ❯ Proxy.open packages/session/session-persistence-jsonl/src/index.ts:353:18
+ ❯ readAll packages/session/session-persistence/tests/live-write-contract.ts:28:18
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:202:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > close itself surfaces a failing drain and still releases write ownership
+AssertionError: expected Error: Cannot find module '/Users/zz/prj/… { …(2) } to be Error: storage refused the drain // Object.is equality
+
+- Expected
++ Received
+
+  Error {
+-   "message": "storage refused the drain",
++   "message": "Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   "code": "MODULE_NOT_FOUND",
++   "requireStack": [
++     "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   ],
+  }
+
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:214:34
+    212|         .mockRejectedValue(failure)
+    213|       session.append('turn/start', { turn: 1 })
+    214|       await expect(handle.close()).rejects.toBe(failure)
+       |                                  ^
+    215|       // Ownership was released despite the failed drain: the id is cl…
+    216|       const second = await ctx.sessionPersistence.create(session.heade…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > live session write path: jsonl > close normalizes a non-Error drain failure
+AssertionError: expected [Function] to throw error including 'backend string refusal' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- backend string refusal
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence/tests/live-write-contract.ts:229:34
+    227|         .mockImplementation(() => Promise.reject('backend string refus…
+    228|       session.append('turn/start', { turn: 1 })
+    229|       await expect(handle.close()).rejects.toThrow('backend string ref…
+       |                                  ^
+    230|       await ctx.fiber.dispose()
+    231|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: stored-format refusals > refuses a structurally foreign future header as unsupported, not corrupt or absent
+AssertionError: expected 'Error' to be 'SessionFormatUnsupportedError' // Object.is equality
+
+Expected: "SessionFormatUnsupportedError"
+Received: "Error"
+
+ ❯ packages/session/session-persistence-jsonl/tests/jsonl.spec.ts:548:29
+    546|     for (const access of ['read', 'write'] as const) {
+    547|       const failure = await ctx.sessionPersistence.open(id, access).th…
+    548|       expect(failure?.name).toBe('SessionFormatUnsupportedError')
+       |                             ^
+    549|       expect(failure?.message).toMatch(/written by a newer harness.*up…
+    550|       expect(failure?.message).toContain(`(raw log: ${path})`)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > refuses the frozen pre-step V0 fixture on write open without publishing a successor
+AssertionError: expected Error: Cannot find module '/Users/zz/prj/… { …(2) } to match object { …(2) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+- {
+-   "message": StringContaining "surface before first step",
+-   "name": "SessionFormatUnsupportedError",
++ Error {
++   "message": "Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   "code": "MODULE_NOT_FOUND",
++   "requireStack": [
++     "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   ],
+  }
+
+ ❯ packages/session/session-persistence-jsonl/tests/jsonl.spec.ts:941:57
+    939|     const before = await stat(sourcePath, { bigint: true })
+    940|
+    941|     await expect(ctx.sessionPersistence.open(id, access)).rejects.toMa…
+       |                                                         ^
+    942|       name: 'SessionFormatUnsupportedError',
+    943|       message: expect.stringContaining('surface before first step') as…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > fails a stale prepared publication once and re-prepares on the next write open
+AssertionError: expected Error: Cannot find module '/Users/zz/prj/… { …(2) } to be an instance of JsonlGenerationSourceChangedError
+ ❯ packages/session/session-persistence-jsonl/tests/jsonl.spec.ts:1114:65
+    1112|     })
+    1113|
+    1114|     await expect(ctx.sessionPersistence.open(header.id, 'write'))
+       |                                                                 ^
+    1115|       .rejects.toBeInstanceOf(JsonlGenerationSourceChangedError)
+    1116|     await expect(readFile(currentPath)).rejects.toMatchObject({ code: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: immutable format generations > finishes publication before rejecting a write open cancelled during publication
+AssertionError: expected Error: Cannot find module '/Users/zz/prj/… { …(2) } to be Error: write open cancelled during public… // Object.is equality
+
+- Expected
++ Received
+
+  Error {
+-   "message": "write open cancelled during publication",
++   "message": "Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   "code": "MODULE_NOT_FOUND",
++   "requireStack": [
++     "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts",
++   ],
+  }
+
+ ❯ packages/session/session-persistence-jsonl/tests/jsonl.spec.ts:1135:96
+    1133|     vi.spyOn(scheduler, 'yield').mockImplementationOnce(async () => { …
+    1134|
+    1135|     await expect(ctx.sessionPersistence.open(header.id, 'write', { sig…
+       |                                                                                                ^
+    1136|       .rejects.toBe(reason)
+    1137|     expect(await readFile(currentPath, 'utf8')).toContain(`"version":$…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/154]⎯
+
+ FAIL  |process-bound| packages/session/session-persistence-jsonl/tests/jsonl.spec.ts > JsonlSessionPersistence: durability and crash semantics > close drains a routed event that arrives while it waits for an in-flight append
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ packages/session/session-persistence-jsonl/tests/jsonl.spec.ts:1385:3
+    1383|   })
+    1384|
+    1385|   it('close drains a routed event that arrives while it waits for an i…
+       |   ^
+    1386|     const m = meta('late-closer', '/work')
+    1387|     const handle = await ctx.sessionPersistence.create(m) as JsonlSess…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/154]⎯
+
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > creates a harness agent and calls the configured OpenAI-compatible endpoint
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > creates an SDK session without an optional system prompt
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > notifies the host when a subagent run settles
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > retains locality across continuation runs on one live child
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > correlates reused local ids by parent scope when runs settle out of order
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > keeps locality bound to the accepted run across provider re-registration
+ FAIL  |thread-safe| packages/sdk/server/tests/server.spec.ts > HarnessSdkJsonRpcServer > uses the recorded local flag when start was missed and ignores remote runs
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > opens the parent when another Session header has corrupt json
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > keeps current revisions independent of unrelated historical logs and write ownership
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > isolates malformed child JSON during parent write access
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > preserves opaque inherited catalogs through read preparation and write publication
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > keeps a complete parent catalog when child metadata is unavailable (corrupt=false)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > keeps a complete parent catalog when child metadata is unavailable (corrupt=true)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > backfills a missing catalog from descriptor v1
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > backfills a missing catalog from descriptor v2
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > backfills a missing catalog from descriptor v3
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > publishes the parent without invented missing child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > publishes the parent without invented unknown child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > publishes the parent without invented multiple child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > omits an unsupported child generation (prepared=false)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > omits an unsupported child generation (prepared=true)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > recollects a changed child within the same read open
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > composes a V0 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > composes a V1 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > composes a V2 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > lists historical headers, prepares read-only membership, and publishes an unchanged-prefix successor
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > recollects a repaired child before publishing a prepared parent
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > keeps published unknown membership while a repaired child opens independently
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > completes only the opened parent catalog and defers its child catalog
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > opens the parent when another Session header has corrupt json
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > opens the parent when another Session header has corrupt magic
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > opens the parent when another Session header has corrupt checksum
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > opens the parent when another Session header has corrupt lines
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > keeps current revisions independent of unrelated historical logs and write ownership
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > isolates malformed child JSON during parent write access
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > preserves opaque inherited catalogs through read preparation and write publication
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > keeps a complete parent catalog when child metadata is unavailable (corrupt=false)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > keeps a complete parent catalog when child metadata is unavailable (corrupt=true)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > backfills a missing catalog from descriptor v1
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > backfills a missing catalog from descriptor v2
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > backfills a missing catalog from descriptor v3
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > publishes the parent without invented missing child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > publishes the parent without invented unknown child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > publishes the parent without invented multiple child discovery information
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > omits an unsupported child generation (prepared=false)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > omits an unsupported child generation (prepared=true)
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > recollects a changed child within the same read open
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > composes a V0 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > composes a V1 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > composes a V2 parent and child through all preceding edges
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > lists historical headers, prepares read-only membership, and publishes an unchanged-prefix successor
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > recollects a repaired child before publishing a prepared parent
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > keeps published unknown membership while a repaired child opens independently
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > completes only the opened parent catalog and defers its child catalog
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > excludes a second instance while the holder is live, and admits it after close
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > removing the lock file forfeits a wedged holder: a fresh inode admits a successor
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > write-opening an absent id under an existing project directory reports not-found
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > materialization publishes the lock before the first log bytes and keeps it on the handle
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > an explicitly flushed empty session takes the lock with its header
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > surfaces a filesystem refusal opening the lock file
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > surfaces a non-contention flock failure
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > maps the EWOULDBLOCK contention spelling to already-owned
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > surfaces a lock-path stat refusal from the inode verification
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > retries when the locked inode is no longer the lock path, and wins on a stable pass
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > retries when the lock path vanishes under the verify read
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > gives up as already-owned when the lock path never stabilizes
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > a failing lock release still frees the in-process claim on close
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > a write-open failure with a failing release aggregates both and frees the claim
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > a drain failure and a release failure reject close as one AggregateError
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > release is idempotent and never removes the lock file
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/lease.spec.ts > cross-process write lock > keeps distinct sessions independently lockable
+Error: Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
+Require stack:
+- /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+ ❯ loadBinding native/system/packages/entry/src/flock.ts:30:13
+     28|   const require = createRequire(import.meta.url)
+     29|   const manifest = require.resolve(`@deepseek-ai/node-addon-system-${p…
+     30|   binding = require(join(dirname(manifest), 'bin', filename)) as Flock…
+       |             ^
+     31|   return binding
+     32| }
+ ❯ errno native/system/packages/entry/src/flock.ts:48:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > refuses foreign native V4 delivery through write access
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > refuses foreign native V4 delivery through write access
+AssertionError: expected [Function] to throw error including 'wrong Session' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- wrong Session
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:58:65
+     56|         data: { sessionId: 'other', sessionFormatVersion: 4, throughSe…
+     57|     ], false, 4)
+     58|     await expect(f.ctx.sessionPersistence.open(f.parent, access)).reje…
+       |                                                                 ^
+     59|   })
+     60|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > rejects duplicate own catalogs through a current write open
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > rejects duplicate own catalogs through a current write open
+AssertionError: expected [Function] to throw error including 'duplicate catalog child' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- duplicate catalog child
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:281:65
+    279|       data: { version: 0, childId: 'child', childCreatedAt: 2, mode: '…
+    280|     await f.write(f.parent, [catalog, { ...catalog, seq: 1 }], false, …
+    281|     await expect(f.ctx.sessionPersistence.open(f.parent, access)).reje…
+       |                                                                 ^
+    282|   })
+    283|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > detects children added after preparation instead of publishing incomplete membership
+AssertionError: expected [Function] to throw error including '/var/folders/yq/7tlkjsx111d3vz6kcmw_5…' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- /var/folders/yq/7tlkjsx111d3vz6kcmw_5bw80000gr/T/dsh-catalog-migration-HtoB4g/_no-cwd/child/session.v3.jsonl
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:298:66
+    296|     expect(await f.read()).toEqual([])
+    297|     await f.write('child', [f.descriptor], true)
+    298|     await expect(f.ctx.sessionPersistence.open(f.parent, 'write')).rej…
+       |                                                                  ^
+    299|     expect(await f.read()).toHaveLength(1)
+    300|     const writer = await f.ctx.sessionPersistence.open(f.parent, 'writ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (none) > recollects newly available discovery fields before publishing a prepared parent
+AssertionError: expected [Function] to throw error including '/var/folders/yq/7tlkjsx111d3vz6kcmw_5…' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- /var/folders/yq/7tlkjsx111d3vz6kcmw_5bw80000gr/T/dsh-catalog-migration-Q5QjHJ/_no-cwd/child/session.v3.jsonl
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:309:66
+    307|     expect(await f.read()).toMatchObject([{ type: 'subagent/catalog', …
+    308|     await f.write('child', [f.descriptor], true)
+    309|     await expect(f.ctx.sessionPersistence.open(f.parent, 'write')).rej…
+       |                                                                  ^
+    310|     const parentPath = generationLogPath(f.root, undefined, f.parent, …
+    311|     expect((await readdir(dirname(parentPath))).filter(name => name !=…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > detects children added after preparation instead of publishing incomplete membership
+AssertionError: expected [Function] to throw error including '/var/folders/yq/7tlkjsx111d3vz6kcmw_5…' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- /var/folders/yq/7tlkjsx111d3vz6kcmw_5bw80000gr/T/dsh-catalog-migration-X7h6Jl/_no-cwd/child/session.v3.jsonl.zstd
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:298:66
+    296|     expect(await f.read()).toEqual([])
+    297|     await f.write('child', [f.descriptor], true)
+    298|     await expect(f.ctx.sessionPersistence.open(f.parent, 'write')).rej…
+       |                                                                  ^
+    299|     expect(await f.read()).toHaveLength(1)
+    300|     const writer = await f.ctx.sessionPersistence.open(f.parent, 'writ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/154]⎯
+
+ FAIL  |thread-safe| packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts > historical catalog publication (zstd) > recollects newly available discovery fields before publishing a prepared parent
+AssertionError: expected [Function] to throw error including '/var/folders/yq/7tlkjsx111d3vz6kcmw_5…' but got 'Cannot find module \'/Users/zz/prj/ds…'
+
+- Expected
++ Received
+
+- /var/folders/yq/7tlkjsx111d3vz6kcmw_5bw80000gr/T/dsh-catalog-migration-h3tNpD/_no-cwd/child/session.v3.jsonl.zstd
++ Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
++ Require stack:
++ - /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+
+ ❯ packages/session/session-persistence-jsonl/tests/catalog-migration.spec.ts:309:66
+    307|     expect(await f.read()).toMatchObject([{ type: 'subagent/catalog', …
+    308|     await f.write('child', [f.descriptor], true)
+    309|     await expect(f.ctx.sessionPersistence.open(f.parent, 'write')).rej…
+       |                                                                  ^
+    310|     const parentPath = generationLogPath(f.root, undefined, f.parent, …
+    311|     expect((await readdir(dirname(parentPath))).filter(name => name !=…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/154]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Cannot find module '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64/bin/system.node'
+Require stack:
+- /Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts
+ ❯ Module._resolveFilename node:internal/modules/cjs/loader:1517:15
+ ❯ wrapResolveFilename node:internal/modules/cjs/loader:1071:27
+ ❯ defaultResolveImplForCJSLoading node:internal/modules/cjs/loader:1095:10
+ ❯ resolveForCJSWithHooks node:internal/modules/cjs/loader:1122:12
+ ❯ Module._load node:internal/modules/cjs/loader:1294:5
+ ❯ wrapModuleLoad node:internal/modules/cjs/loader:255:19
+ ❯ Module.require node:internal/modules/cjs/loader:1617:12
+ ❯ require node:internal/modules/helpers:153:16
+ ❯ loadBinding native/system/packages/entry/src/flock.ts:30:13
+ ❯ errno native/system/packages/entry/src/flock.ts:48:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'MODULE_NOT_FOUND', requireStack: [ '/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry/src/flock.ts' ] }
+This error originated in "packages/session/session-persistence-jsonl/tests/jsonl.spec.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "close drains a routed event that arrives while it waits for an in-flight append". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  4 failed | 7 passed (11)
+      Tests  154 failed | 511 passed | 1 skipped (666)
+     Errors  1 error
+   Start at  07:19:58
+   Duration  12.21s (transform 1.33s, setup 92ms, import 1.97s, tests 19.10s, environment 0ms)
+

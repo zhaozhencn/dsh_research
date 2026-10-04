@@ -1,0 +1,9 @@
+
+ RUN  v4.1.8 /Users/zz/prj/dsh_research/.sources/deepseek-harness
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  07:47:46
+   Duration  418ms (transform 268ms, setup 0ms, import 337ms, tests 27ms, environment 0ms)
+

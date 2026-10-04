@@ -1,0 +1,2054 @@
+[
+  {
+    "name": "@deepseek-ai/dsh-root",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/dsh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/cli",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-desktop",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/desktop",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/dsh-desktop-host",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/desktop-host",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-frontend",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/apps/web",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-benchmarks",
+    "version": "0.1.3-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/benchmarks",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system-workspace",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system-darwin-arm64",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-arm64",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system-darwin-x64",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/darwin-x64",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/entry",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system-linux-arm64",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/linux-arm64",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/node-addon-system-linux-x64",
+    "version": "0.1.2",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/native/system/packages/linux-x64",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-acp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/acp/acp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-account-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/account-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-gateway",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/gateway",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-job-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/job-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-remotes",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/remotes",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-session-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/session-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-settings-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/settings-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-terminal-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/terminal-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-workspace-controller",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/workspace-controller",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-api-workspace-files",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/api/workspace-files",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-attachment",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/attachment/attachment",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-attachment-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/attachment/attachment-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-app-boot",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/boot/app-boot",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-cmdline",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/boot/cmdline",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-config-editor",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/boot/config-editor",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-hmr",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/boot/hmr",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-plugin-manager",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/boot/plugin-manager",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-browser-use",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/browser-use/browser-use",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-acp-app",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/acp-app",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-base",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/base",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-headless",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/headless",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sdk-app",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/sdk-app",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sdk-minimal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/sdk-minimal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-app",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/bundle/web-app",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-connection",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/connection",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-file-upload",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/file-upload",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-hmr",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/hmr",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-locale",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/locale",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-modules",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/modules",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-product-analytics",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/product-analytics",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-resources",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/resources",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-shortcuts",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/shortcuts",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-store",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/store",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-agent-preset",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-agent-preset",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-approval",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-approval",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-attachment",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-attachment",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-brand-official",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-brand-official",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-chat",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-chat",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-commands",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-commands",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-conversation",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-conversation",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-deliverables",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-deliverables",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-directory-picker-browse",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-directory-picker-native",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-directory-picker-native",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-dockkit",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-dockkit",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-goal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-goal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-input-trigger",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-input-trigger",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-jobs",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-jobs",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-layout",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-layout",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-message-feedback",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-message-feedback",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-model-selection",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-model-selection",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-open-in-app",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-open-in-app",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-permission-presets",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-permission-presets",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-plan",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-plan",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-plugin-manager",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-primitives",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-primitives",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-reference",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-reference",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-renderer",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-renderer",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-schedule",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-schedule",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-session",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-session",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-account",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-account",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-agent-loop",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-general",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-general",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-models",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-models",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-plugin-inventory",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-plugins",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-session-log",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-shell",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-shell",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-subagent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-settings-web-search",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-shortcuts",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-shortcuts",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar-browser",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar-documentpreview",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar-files",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar-right",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-sidebar-terminal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-skill",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-skill",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-slots",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-slots",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-subagent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-subagent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-theme",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-theme",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-tool",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-tool",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-trajectory",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-trajectory",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-user-questions",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-user-questions",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-workflow-run",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-workflow-run",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-workspace",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/ui-workspace",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-web",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/client/web",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-command-compact",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/command-compact",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-compaction",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-compaction-basic",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-basic",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-compaction-image-offload",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-image-offload",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/compaction/compaction-tool-result-pruner",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-computer-use",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/computer-use/computer-use",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-instructions",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/agent-instructions",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-file-reference",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/file-reference",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-file-reference-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/file-reference-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-reference",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/session-reference",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-time-context",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/time-context",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tmux-context",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/context/tmux-context",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/agent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-default-model",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/agent-default-model",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-loop",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/agent-loop",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-tool-presentation",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/agent-tool-presentation",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-scope",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/scope",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/session",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-system-prompt",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/system-prompt",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tools",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/core/tools",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-authorization",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/credentials/authorization",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-credentials",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/credentials/credentials",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-credentials-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/credentials/credentials-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-deepseek-account",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/credentials/deepseek-account",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-deepseek-account-platform",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/credentials/deepseek-account-platform",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-present",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/deliverables/tool-present",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-workspace-changes",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/deliverables/workspace-changes",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-office-to-pdf",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/document/office-to-pdf",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-agent-team",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/agent-team",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-agent-team-profile",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/agent-team-profile",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-api-speech-to-text",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/api-speech-to-text",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-auto-review",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/auto-review",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/browser-use-chrome-devtools-mcp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/browser-use-playwright-mcp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-browser-use-runtime",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/browser-use-runtime",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-browser-use-stagehand-native",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/browser-use-stagehand-native",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-claude-code-mods",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/claude-code-mods",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/client-ui-agent-team",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-client-ui-claude-code-mods",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/client-ui-claude-code-mods",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/client-ui-voice-input",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/computer-use-cua-driver-mcp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-computer-use-cua-driver-native",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/computer-use-cua-driver-native",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-inspector",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/inspector",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-inspector-profile",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/inspector-profile",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-ptc-runtime-python",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/ptc-runtime-python",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-session-inspector",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/session-inspector",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-speech-to-text",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/speech-to-text",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/speech-to-text-sensevoice",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-tool-agent-team",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/tool-agent-team",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-voice-input-bundle",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/voice-input-bundle",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-webworker-packer",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/webworker-packer",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-experimental-webworker-runtime",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/experimental/webworker-runtime",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-cordis-client-runner",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/extensions/cordis-client-runner",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-cordis-host-runner",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/extensions/cordis-host-runner",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-cordis",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/extensions/tool-cordis",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-ui-cordis",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/extensions/ui-cordis",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-command-feedback",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/feedback/command-feedback",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-message-feedback",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/feedback/message-feedback",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-fs",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/fs",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-fs-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/fs-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-fs-observation-policy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/fs-observation-policy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-fs-sandbox",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/fs-sandbox",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-fs",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/tool-fs",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-fs-search",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/tool-fs-search",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-str-replace-editor",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/fs/tool-str-replace-editor",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-command-goal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/goal/command-goal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-goal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/goal/goal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-goal-round-driver",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/goal/goal-round-driver",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-goal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/goal/tool-goal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-repeat-tool-reminder",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/guard/repeat-tool-reminder",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-call-timeout-policy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/guard/timeout-policy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-hook-protocol",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/hooks/hook-protocol",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-hooks-claude-code",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/hooks/hooks-claude-code",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-hooks-codex",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/hooks/hooks-codex",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-directory-picker",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/directory-picker",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-directory-picker-auto",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/directory-picker-auto",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/directory-picker-browse",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-directory-picker-native",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/directory-picker-native",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-frontend-static",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/frontend-static",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-open-in-app",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/open-in-app",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-plugin-inventory",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/plugin-inventory",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-product-telemetry-otel",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/product-telemetry-otel",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-host-webserver",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/host/webserver",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-anonymous-user-id",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/identity/anonymous-user-id",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-commands",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/interaction/commands",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-permission-presets",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/interaction/permission-presets",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-ask-user",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/interaction/tool-ask-user",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-user-approval",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/interaction/user-approval",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-user-questions",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/interaction/user-questions",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-jobs",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/jobs/jobs",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-jobs-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/jobs/jobs-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-jobs",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/jobs/tool-jobs",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/deepseek-llm-api-extensions",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-deepseek",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-deepseek",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-deepseek-account",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-deepseek-account",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-deepseek-api-key",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-deepseek-api-key",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-pi-ai",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-pi-ai",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-retry",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/llm-retry",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/plugin-package-inventory-deepseek",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-token-meter",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/llm/token-meter",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-lsp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/lsp/lsp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-lsp-stdio",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/lsp/lsp-stdio",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-lsp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/lsp/tool-lsp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-mcp-client",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/mcp/mcp-client",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-mcp-resources",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/mcp/mcp-resources",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-plan-mode",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/plan/plan-mode",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-preset",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/preset/agent-preset",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-preset-registry",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/preset/agent-preset-registry",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-persona",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/preset/persona",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-ptc-runtime",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ptc-runtime/ptc-runtime",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-ptc-runtime-node",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ptc-runtime/ptc-runtime-node",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sandbox",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sandbox-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sandbox-policy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox-policy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sandbox-windows-acl",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sandbox/sandbox-windows-acl",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-schedule",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/schedule/schedule",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-schedule",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/schedule/tool-schedule",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sdk-client",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sdk/client",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sdk-protocol",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sdk/protocol",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sdk-jsonrpc-server",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/sdk/server",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-log-export",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session-query/session-log-export",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-query",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session-query/session-query",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-query-sqlite",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session-query/session-query-sqlite",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-session-query",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session-query/tool-session-query",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-checkpoint-policy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-checkpoint-policy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format-catalog",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format-catalog",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format-v0-to-v1",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format-v0-to-v1",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format-v1-to-v2",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format-v1-to-v2",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format-v2-to-v3",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format-v2-to-v3",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-format-v3-to-v4",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-format-v3-to-v4",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-log-deepseek",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-log-deepseek",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-persistence",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-persistence",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-persistence-jsonl",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-persistence-jsonl",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-projection",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-projection",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-projection-cache",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-projection-cache",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-stats",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-stats",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-telemetry",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-telemetry",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-telemetry-otel",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-telemetry-otel",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-title",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-title",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-title-all-prompts-llm",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-title-all-prompts-llm",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-title-first-prompt-llm",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-title-llm",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-title-llm",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-turn-outline",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/session/session-turn-outline",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-settings",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/settings/settings",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-bash-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/bash-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-bash-sandbox",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/bash-sandbox",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-pwsh-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/pwsh-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-pwsh-sandbox",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/pwsh-sandbox",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-shell",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/shell",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-shell-env",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/shell-env",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-bash",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/tool-bash",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-bash-persistent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/tool-bash-persistent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-pwsh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/tool-pwsh",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-pwsh-persistent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/shell/tool-pwsh-persistent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-skill",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/skill",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-skill-badge",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/skill-badge",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-skill-filesystem",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/skill-filesystem",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-skill-office",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/skill-office",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-skill",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/tool-skill",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-workspace-dependencies",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/skill/tool-workspace-dependencies",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-spill",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/spill/spill",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-spill-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/spill/spill-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-spill-policy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/spill/spill-policy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-fs-ssh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/fs-ssh",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-sandbox-ssh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/sandbox-ssh",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-ssh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/ssh",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subprocess-ssh",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/ssh/subprocess-ssh",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-storage",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/storage/storage",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-storage-domain",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/storage/storage-domain",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-storage-json",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/storage/storage-json",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-storage-sqlite",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/storage/storage-sqlite",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-acp",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-acp",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-claude-code",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-claude-code",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-codex",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-codex",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-dsh-sdk",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-dsh-sdk",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-fork-in-process",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-fork-in-process",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-in-process-driver",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-in-process-driver",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subagent-spawn-in-process",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/subagent-spawn-in-process",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-subagent",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/tool-subagent",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-subagent-control",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subagent/tool-subagent-control",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subprocess",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subprocess/subprocess",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-subprocess-local",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subprocess/subprocess-local",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-win32-process",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/subprocess/win32-process",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-otel",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/telemetry/otel",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-terminal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/terminal/terminal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-terminal-bash",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/terminal/terminal-bash",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-terminal",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/terminal/tool-terminal",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-agent-loop-testkit",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/agent-loop-testkit",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-client-test-runtime",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/client-runtime",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-mock-server",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/llm-mock-server",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-llm-replay",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/llm-replay",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-loader-smoke",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/loader-smoke",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-remote-mock",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/remote-mock",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-session-snapshot",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/test-support/session-snapshot",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-todo",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/todo/tool-todo",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-typert-generator",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/typert/generator",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-typert-loader",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/typert/loader",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-typert-protocol",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/typert/protocol",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-typert-registry",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/typert/registry",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-atomic-write",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/atomic-write",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-brand",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/brand",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-chunked-list",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/chunked-list",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-util-code-language",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/code-language",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-util-crypto",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/crypto",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-deque",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/deque",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-home-paths",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/home-paths",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-http-proxy",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/http-proxy",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-launch-environment",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/launch-environment",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-lazy-require",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/lazy-require",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-native-command",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/native-command",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-output-retention",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/output-retention",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-package-manifest",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/package-manifest",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-util-time",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/time",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-timeout",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/timeout",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-util-values",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/values",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-util-workspace-path",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/util/workspace-path",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-web",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/tool-web",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/web",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-fetch-http",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/web-fetch-http",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-search-deepseek",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/web-search-deepseek",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-search-exa",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/web-search-exa",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-web-search-perplexity",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/web/web-search-perplexity",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-webhook",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/webhook/webhook",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-webhook-github",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/webhook/webhook-github",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-ralph",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/workflow/tool-ralph",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-tool-workflow",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/workflow/tool-workflow",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-workflow",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/workflow/workflow",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-workflow-ptc",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/workflow/workflow-ptc",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/dsh-workspace",
+    "version": "0.2.1-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/packages/workspace/workspace",
+    "private": false
+  },
+  {
+    "name": "dsh-python-runtime-closure",
+    "version": "0.0.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/python/sdk-runtime",
+    "private": true
+  },
+  {
+    "name": "@deepseek-ai/cordis",
+    "version": "4.0.5-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cosmokit",
+    "version": "1.8.6-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cosmokit",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-group",
+    "version": "1.0.5-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/group",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-hmr",
+    "version": "1.0.20-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/hmr",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-include",
+    "version": "1.0.10-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/include",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-loader",
+    "version": "1.0.6-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/loader",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-logger-console",
+    "version": "1.0.5-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/logger-console",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/schemastery",
+    "version": "3.18.5-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/schemastery",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/cordis-plugin-timer",
+    "version": "1.1.7-alpha.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/timer",
+    "private": false
+  },
+  {
+    "name": "@deepseek-ai/website",
+    "version": "0.0.1",
+    "path": "/Users/zz/prj/dsh_research/.sources/deepseek-harness/website",
+    "private": true
+  }
+]

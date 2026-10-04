@@ -1,0 +1,264 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "articles": [
+    {
+      "number": 1,
+      "file": "articles/01-task-completion.md",
+      "concern": "任务定义与完成语义",
+      "code_excerpts": 2,
+      "evidence_refs": 11,
+      "cjk_characters_excluding_code_links": 2412
+    },
+    {
+      "number": 2,
+      "file": "articles/02-agent-loop.md",
+      "concern": "Agent Loop 与执行模型",
+      "code_excerpts": 2,
+      "evidence_refs": 12,
+      "cjk_characters_excluding_code_links": 2078
+    },
+    {
+      "number": 3,
+      "file": "articles/03-model-adaptation.md",
+      "concern": "模型接入与能力适配",
+      "code_excerpts": 2,
+      "evidence_refs": 8,
+      "cjk_characters_excluding_code_links": 2329
+    },
+    {
+      "number": 4,
+      "file": "articles/04-context-engineering.md",
+      "concern": "上下文工程",
+      "code_excerpts": 2,
+      "evidence_refs": 14,
+      "cjk_characters_excluding_code_links": 2234
+    },
+    {
+      "number": 5,
+      "file": "articles/05-state-persistence.md",
+      "concern": "记忆、状态与持久化",
+      "code_excerpts": 2,
+      "evidence_refs": 16,
+      "cjk_characters_excluding_code_links": 2114
+    },
+    {
+      "number": 6,
+      "file": "articles/06-tool-runtime.md",
+      "concern": "工具与执行环境契约",
+      "code_excerpts": 2,
+      "evidence_refs": 14,
+      "cjk_characters_excluding_code_links": 2109
+    },
+    {
+      "number": 7,
+      "file": "articles/07-reliability.md",
+      "concern": "可靠性恢复与副作用一致性",
+      "code_excerpts": 2,
+      "evidence_refs": 10,
+      "cjk_characters_excluding_code_links": 2084
+    },
+    {
+      "number": 8,
+      "file": "articles/08-concurrency.md",
+      "concern": "并发、调度与资源治理",
+      "code_excerpts": 2,
+      "evidence_refs": 8,
+      "cjk_characters_excluding_code_links": 1935
+    },
+    {
+      "number": 9,
+      "file": "articles/09-security.md",
+      "concern": "权限与安全边界",
+      "code_excerpts": 2,
+      "evidence_refs": 15,
+      "cjk_characters_excluding_code_links": 1899
+    },
+    {
+      "number": 10,
+      "file": "articles/10-autonomy.md",
+      "concern": "自主性控制与人工干预",
+      "code_excerpts": 2,
+      "evidence_refs": 13,
+      "cjk_characters_excluding_code_links": 1947
+    },
+    {
+      "number": 11,
+      "file": "articles/11-budgets.md",
+      "concern": "成本、延迟与预算",
+      "code_excerpts": 2,
+      "evidence_refs": 16,
+      "cjk_characters_excluding_code_links": 2048
+    },
+    {
+      "number": 12,
+      "file": "articles/12-observability.md",
+      "concern": "可观测性与审计",
+      "code_excerpts": 2,
+      "evidence_refs": 15,
+      "cjk_characters_excluding_code_links": 1870
+    },
+    {
+      "number": 13,
+      "file": "articles/13-evaluation.md",
+      "concern": "评测与质量保障",
+      "code_excerpts": 2,
+      "evidence_refs": 10,
+      "cjk_characters_excluding_code_links": 2126
+    },
+    {
+      "number": 14,
+      "file": "articles/14-plugin-lifecycle.md",
+      "concern": "扩展机制与生命周期",
+      "code_excerpts": 2,
+      "evidence_refs": 16,
+      "cjk_characters_excluding_code_links": 1786
+    },
+    {
+      "number": 15,
+      "file": "articles/15-interaction-deliverables.md",
+      "concern": "交互协议与交付物",
+      "code_excerpts": 3,
+      "evidence_refs": 11,
+      "cjk_characters_excluding_code_links": 1903
+    },
+    {
+      "number": 16,
+      "file": "articles/16-deployment-evolution.md",
+      "concern": "部署、兼容性与版本演进",
+      "code_excerpts": 2,
+      "evidence_refs": 18,
+      "cjk_characters_excluding_code_links": 2092
+    }
+  ],
+  "article_count": 16,
+  "source_excerpt_count": 33,
+  "checked_links": 356,
+  "checked_source_links": 236,
+  "figures": [
+    {
+      "png": "articles/assets/01-task-completion.png",
+      "svg": "articles/assets/01-task-completion.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-agent-loop.png",
+      "svg": "articles/assets/02-agent-loop.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/03-model-adaptation.png",
+      "svg": "articles/assets/03-model-adaptation.svg",
+      "width": 1200,
+      "height": 1410,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/04-context-engineering.png",
+      "svg": "articles/assets/04-context-engineering.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/05-state-persistence.png",
+      "svg": "articles/assets/05-state-persistence.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/06-tool-runtime.png",
+      "svg": "articles/assets/06-tool-runtime.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/07-reliability.png",
+      "svg": "articles/assets/07-reliability.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/08-concurrency.png",
+      "svg": "articles/assets/08-concurrency.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/09-security.png",
+      "svg": "articles/assets/09-security.svg",
+      "width": 1200,
+      "height": 1410,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/10-autonomy.png",
+      "svg": "articles/assets/10-autonomy.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/11-budgets.png",
+      "svg": "articles/assets/11-budgets.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/12-observability.png",
+      "svg": "articles/assets/12-observability.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/13-evaluation.png",
+      "svg": "articles/assets/13-evaluation.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/14-plugin-lifecycle.png",
+      "svg": "articles/assets/14-plugin-lifecycle.svg",
+      "width": 1200,
+      "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/15-interaction-deliverables.png",
+      "svg": "articles/assets/15-interaction-deliverables.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/16-deployment-evolution.png",
+      "svg": "articles/assets/16-deployment-evolution.svg",
+      "width": 1200,
+      "height": 1730,
+      "ok": true
+    }
+  ],
+  "png_count": 16,
+  "svg_count": 16,
+  "source_checkout_clean": true,
+  "existing_runtime_tests": "Reused previously executed same-SHA evidence; no new behavior-test runs claimed.",
+  "checks": "16 concern mapping / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
+  "limits": [
+    "Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.",
+    "Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.",
+    "Figures use standard drawing tools; no WeChat editor preview or remote publication.",
+    "Existing Mermaid parsing is checked separately by the report checker."
+  ],
+  "failures": [],
+  "ok": true
+}
