@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 136, in <module>
+    rows.append(render(fig))
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 125, in render
+    bottom=c.wrapped(center,y,item,280,31)
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 55, in wrapped
+    self.text(x, y + i * (size + 12), line, size, color, width)
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 38, in text
+    assert self.width_of(value, size) <= max_width, (value, size, max_width)
+AssertionError: ('deliverables/presented', 26, 280)

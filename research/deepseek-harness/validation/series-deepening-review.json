@@ -1,0 +1,390 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "editorial_baseline_commit": "d4b60a4",
+  "scope": "Deepen articles 02–16 while retaining the original sections and paragraphs; add three supplemental figures to every article including 01.",
+  "executor": "single executor; no subagents or human participation",
+  "articles": [
+    {
+      "number": 1,
+      "file": "articles/01-task-completion.md",
+      "sections": [
+        "## 先把完成拆成四个层次",
+        "## 持续目标由状态服务和驱动器共同推进",
+        "## 回合额度在什么时刻扣除",
+        "## 提交事实之后，再发布通知",
+        "## todo 和计划为什么不能替代目标验收",
+        "## 这套设计的优势，以及应用需要补上的部分",
+        "## 技术心得：完成应当是一组可解释的事实"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 23,
+      "png_illustrations": 4,
+      "sha256": "596c6f667cdd246788fb1e615d06433b707eefe4a3a53615fd566a1d204745a2"
+    },
+    {
+      "number": 2,
+      "file": "articles/02-agent-loop.md",
+      "sections": [
+        "## 一个回合里，有多个步骤和请求尝试",
+        "## 输入 API 实际上选择了接纳时机",
+        "## preStep：候选输入成为请求之前",
+        "## 从路由准备到工具结果回流",
+        "## 结束信号之后，为什么还要检查一次",
+        "## 重试、取消和 idle 的真实含义",
+        "## 分层控制带来的收益与复杂度"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 20,
+      "png_illustrations": 4,
+      "sha256": "9f1f29e68c1975b5bcd1eb53b1ca1925bbac27a778fbf785065b1aacc4b895f5"
+    },
+    {
+      "number": 3,
+      "file": "articles/03-model-adaptation.md",
+      "sections": [
+        "## 接口统一之后，差异仍然存在",
+        "## 路由选择和调用绑定是两个阶段",
+        "## 一次性 PreparedCall 如何防止错误复用",
+        "## 历史属于会话，私有状态属于 adapter",
+        "## 能力变化为什么会影响 prompt 历史",
+        "## 异常应该在哪一层规范化",
+        "## 能力适配的优势与不足",
+        "## 技术心得：抽象应保存差异的来源"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 18,
+      "png_illustrations": 4,
+      "sha256": "1e974bc0870d0ac55da98c31a3729c2ddd73c65c7c0773102718ba227e65805c"
+    },
+    {
+      "number": 4,
+      "file": "articles/04-context-engineering.md",
+      "sections": [
+        "## 从事实到请求，需要四种表示",
+        "## 上下文组装发生在什么时刻",
+        "## 先量化压力，再选择处理方式",
+        "## 选区必须尊重工具历史的结构",
+        "## 摘要如何成为可重放的 checkpoint",
+        "## 窗口错误重试需要“进展证明”",
+        "## 这套架构解决了什么，又留下了什么",
+        "## 技术心得：优化应针对视图，审计应保留事实"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 17,
+      "png_illustrations": 4,
+      "sha256": "09d5add3d68d6b318e53e756a411c1bc49258d13a3ca062808d60426ec263257"
+    },
+    {
+      "number": 5,
+      "file": "articles/05-state-persistence.md",
+      "sections": [
+        "## 先识别状态由谁拥有",
+        "## Session.append 提交了什么",
+        "## JSONL handle 把写入变成有序操作",
+        "## 写所有权为什么需要两层检查",
+        "## checkpoint 提前保存事实，但不包办外部事务",
+        "## resume 和 fork 都不会重做历史",
+        "## 可恢复事实与不可恢复缓存",
+        "## 技术心得：恢复能力要按对象承诺"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 19,
+      "png_illustrations": 4,
+      "sha256": "16bc9ab0e5e1ed10b5371debc89cf1acbe949e9f863de0f2418cbf6b84d08b40"
+    },
+    {
+      "number": 6,
+      "file": "articles/06-tool-runtime.md",
+      "sections": [
+        "## 定义工具时，先定义结果语义",
+        "## 先准备，再决定是否进入 body",
+        "## 授权只授予本次操作",
+        "## body 运行与结果结算各有责任",
+        "## 观察通知不改变已经结算的结果",
+        "## 环境能力通过 provider 进入工具",
+        "## 优势与不足都来自分段执行",
+        "## 技术心得：工具是模型与外部世界之间的执行协议"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 21,
+      "png_illustrations": 4,
+      "sha256": "d69eb6bb6edc2effd94256693eb69152f7ba458e64d4e5b84004ab647ab77b3f"
+    },
+    {
+      "number": 7,
+      "file": "articles/07-reliability.md",
+      "sections": [
+        "## 先给失败分类，再决定恢复动作",
+        "## 重试计数的作用域决定了上限含义",
+        "## 恢复器必须证明输入有变化",
+        "## 取消不是立即返回，而是停止新增并等待结算",
+        "## 日志修复保留不知道的事实",
+        "## checkpoint 和熔断分别解决什么",
+        "## 可靠性的优势与尚需补齐的协议",
+        "## 技术心得：可靠恢复首先要表达不确定性"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 16,
+      "png_illustrations": 4,
+      "sha256": "03982b9ae8ebb1a583bcc7b19d1f08d03e45e1041e703de466284909ae86a066"
+    },
+    {
+      "number": 8,
+      "file": "articles/08-concurrency.md",
+      "sections": [
+        "## 先确定并发发生在哪一层",
+        "## 工具并发先看安全声明",
+        "## 并行完成，为什么还要按顺序提交",
+        "## 后台作业在注册前验证可管理性",
+        "## stopping 为什么仍然占额度",
+        "## 子 Agent 是独立生命周期，不能只当函数",
+        "## 局部治理的优势与不足",
+        "## 技术心得：配额应该跟随资源的真实生命周期"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 20,
+      "png_illustrations": 4,
+      "sha256": "9c49d8169d4dada6e4d469819324147ae69f99dbc83b6d0851239250fa0f909a"
+    },
+    {
+      "number": 9,
+      "file": "articles/09-security.md",
+      "sections": [
+        "## 沿一次文件写入看权限链",
+        "## ask 没有通道时，为什么必须拒绝",
+        "## 资源限制应该落到真实操作处",
+        "## Scope 与 realm 管理能力组合，不隔离不可信代码",
+        "## 模型生成的指令不能变成人类授权",
+        "## 控制面安全与执行面安全要分别验收",
+        "## 优势、不足与技术心得"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 18,
+      "png_illustrations": 4,
+      "sha256": "32af27ab13f90e7be4f32b4b9c5188c07f3563c08e05a2e956230919726061f7"
+    },
+    {
+      "number": 10,
+      "file": "articles/10-autonomy.md",
+      "sections": [
+        "## 自主性要沿执行阶段控制",
+        "## 计划批准为什么不立即写最终状态",
+        "## 准入成功之后，再提交模式事实",
+        "## Host 暂停怎样阻止旧续跑",
+        "## 人工输入在哪里接管，决定了影响范围",
+        "## 提醒属于软干预，不能替代终止策略",
+        "## 优势、不足与技术心得"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 19,
+      "png_illustrations": 4,
+      "sha256": "619b80043109ec0e943b5e62aebb1add1a4ea2027c5ecc2c99ab1de0a9387600"
+    },
+    {
+      "number": 11,
+      "file": "articles/11-budgets.md",
+      "sections": [
+        "## 一个任务可能产生多类调用",
+        "## maxTokens 限制的是本次输出",
+        "## 目标额度不限制同一 Step 的重试",
+        "## 输入测量与供应商用量不能混为账单",
+        "## 预留输出空间也是预算设计",
+        "## 延迟来自多种有意等待",
+        "## 怎样增加真正的任务级预算",
+        "## 技术心得：预算首先是作用域与计量口径"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 18,
+      "png_illustrations": 4,
+      "sha256": "062053f62fc3b197fe727210303c57114ca35e4f0628ae504e5c2fa8ff6c4bd3"
+    },
+    {
+      "number": 12,
+      "file": "articles/12-observability.md",
+      "sections": [
+        "## 四种记录回答四类问题",
+        "## 默认 Session OTel 为什么不是实时全量追踪",
+        "## 捕获的是授权前缀，不是单独反馈文本",
+        "## 复制、脱敏和交接的真实顺序",
+        "## 怎样用事件还原一次缺失交付物",
+        "## 审计要求更强时，需要增加什么",
+        "## 技术心得：观测信息也有来源和提交语义"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 17,
+      "png_illustrations": 4,
+      "sha256": "cdfaf1f277df3efb8acd022009447bcefaa12799b3e7153affc0c9c3dd7c3dfa"
+    },
+    {
+      "number": 13,
+      "file": "articles/13-evaluation.md",
+      "sections": [
+        "## 先说明想证明什么",
+        "## 将昂贵边界替换，保留真实执行链",
+        "## 一个有意义的工具回流测试",
+        "## 取消测试要检查结算，而不只检查 signal",
+        "## 用竞争场景验证等待后的状态",
+        "## 业务评测必须检查外部结果",
+        "## benchmark 和测试计数怎样避免误读",
+        "## 优势、不足与技术心得"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 16,
+      "png_illustrations": 4,
+      "sha256": "67900dad9f073f3371217c383593a6d01033083ff4fc210b312c86c2ead60d20"
+    },
+    {
+      "number": 14,
+      "file": "articles/14-plugin-lifecycle.md",
+      "sections": [
+        "## 一项能力需要定义、提供和消费",
+        "## 事件方式决定了插件的控制权",
+        "## 资源所有权由注册上下文决定",
+        "## 依赖变化由 epoch 和 Fiber 驱动",
+        "## listener 撤销之后，路由为何仍然生效",
+        "## 配置刷新与模块 HMR 不能合并解释",
+        "## 扩展能力的收益与维护代价"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 18,
+      "png_illustrations": 4,
+      "sha256": "fd48a228947a66c4a5bb144d45fff0515e2b986b084e68dd80992a00e2f0a428"
+    },
+    {
+      "number": 15,
+      "file": "articles/15-interaction-deliverables.md",
+      "sections": [
+        "## messageId 证明接纳，不证明任务完成",
+        "## snapshot、journal 和 live stream 各有什么职责",
+        "## 声明文件交付，需要独立事件",
+        "## 工作区变化先捕获基线，再确认本 Turn 的修改",
+        "## 日志里的 changes 为什么不能恢复完整 diff",
+        "## 怎样建立更准确的用户状态",
+        "## 优势、不足与技术心得"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 20,
+      "png_illustrations": 4,
+      "sha256": "d608c39ae846e462f687961b0b6a68db5375321d29e8d7cce6efd808b3941662"
+    },
+    {
+      "number": 16,
+      "file": "articles/16-deployment-evolution.md",
+      "sections": [
+        "## 从受支持入口验证实际组合",
+        "## 配置刷新先准备，再等待并审计",
+        "## 模块 HMR 解决的是另一类变化",
+        "## 会话格式兼容由静态 catalog 承担",
+        "## 新 generation 保留历史，不提供任意降级保证",
+        "## 文档、类型与实现需要一起核对",
+        "## 有序退出是部署能力的一部分",
+        "## 优势、不足与技术心得"
+      ],
+      "original_sections_and_paragraphs_preserved": true,
+      "source_excerpts": 18,
+      "png_illustrations": 4,
+      "sha256": "dd4f2cfc0d14de243705c87a98021ebed4ec4f3e89e292b408abbf695846336f"
+    }
+  ],
+  "total_excerpts": 298,
+  "new_figure_pairs": 48,
+  "total_figure_pairs": 64,
+  "original_image_pairs_unchanged": [
+    "01-task-completion",
+    "02-agent-loop",
+    "03-model-adaptation",
+    "04-context-engineering",
+    "05-state-persistence",
+    "06-tool-runtime",
+    "07-reliability",
+    "08-concurrency",
+    "09-security",
+    "10-autonomy",
+    "11-budgets",
+    "12-observability",
+    "13-evaluation",
+    "14-plugin-lifecycle",
+    "15-interaction-deliverables",
+    "16-deployment-evolution"
+  ],
+  "source_checkout_clean": true,
+  "runtime_tests": {
+    "new_runs": 0,
+    "reused_unique_files": 37,
+    "passed": 1520,
+    "conditional_skipped": 1,
+    "meaning": "Previous same-SHA recorded evidence only; no new behavioral claim."
+  },
+  "visual_review": {
+    "method": "Reviewed all supplemental PNGs in three contact sheets and representative full-size PNGs; adjusted identifier wrapping and Chinese labels. The cost aggregation figure uses a call tree to avoid implying a mandatory compaction-before-child execution order.",
+    "contact_sheets": [
+      "validation/column-sequence-contact-sheet.png",
+      "validation/column-layers-contact-sheet.png",
+      "validation/column-branches-contact-sheet.png"
+    ],
+    "svg_review": "XML, dimensions and shared drawing geometry; no independent browser SVG rendering.",
+    "publication": "Local Markdown, PNG and SVG only; no WeChat editor preview or publishing."
+  },
+  "editorial_decisions": [
+    "Follow provider → consumer → execution → commit → cleanup; explain important variables, conditions and await windows.",
+    "Retain original structure, code and navigation; use numbered H3 walkthroughs plus engineering tradeoffs.",
+    "Keep completion, business effects, tool outcomes, persistence, observation and delivery as separate facts.",
+    "Keep enterprise budgets, strong audit and permanent artifacts explicitly labelled as proposals."
+  ],
+  "authoring_corrections": [
+    "Snippet expansion initially found a trailing-newline comparison mismatch, an incorrect source package path, an out-of-range last line and duplicate excerpt references; corrected before successful expansion. No runtime tests failed.",
+    "Word-preserving wrapping first exceeded the branch end-position assertion, then a long deliverables/presented label exceeded minimum-font width. Corrected boundary check and changed the image label to Chinese; retained both failed render logs.",
+    "The first full link check ran before this review file existed and correctly reported that missing target; retain the failed log and rerun after writing all referenced artifacts.",
+    "The call-tree renderer initially counted trailing line spacing in its box-height assertion. Corrected the visible-text boundary, retained the failure log, and successfully regenerated all supplements."
+  ],
+  "checks": [
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+      "log": "validation/series-deepening-column-initial.log",
+      "exit_code": 0
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "log": "validation/series-deepening-artifacts-initial.log",
+      "exit_code": 1,
+      "reason": "Review file referenced before creation."
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py",
+      "log": "validation/series-diagrams-rebuild.log",
+      "exit_code": 0
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+      "log": "validation/series-deepening-column.log",
+      "exit_code": 0
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "log": "validation/series-deepening-artifacts.log",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-supplements.py",
+      "log": "validation/series-diagrams-call-tree-failure.log",
+      "exit_code": 1,
+      "reason": "Call tree text bounding assertion included trailing line spacing; corrected to check the visible text extent."
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-supplements.py",
+      "log": "validation/series-diagrams-final.log",
+      "exit_code": 0
+    }
+  ],
+  "limitations": [
+    "Machine checks validate consistency and source identity, not every architecture conclusion.",
+    "All code blocks are original partial excerpts, not standalone executable examples.",
+    "No upstream version update, new runtime/typecheck run, real-model experiment, cross-platform deployment or remote publication.",
+    "Original research README deletion remains preserved."
+  ],
+  "final_status": "passed; documentation and diagram checks only"
+}

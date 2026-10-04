@@ -6,140 +6,177 @@
       "file": "articles/01-task-completion.md",
       "concern": "任务定义与完成语义",
       "code_excerpts": 23,
+      "illustrations": 4,
       "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 10343
+      "cjk_characters_excluding_code_links": 10464
     },
     {
       "number": 2,
       "file": "articles/02-agent-loop.md",
       "concern": "Agent Loop 与执行模型",
-      "code_excerpts": 2,
+      "code_excerpts": 20,
+      "illustrations": 4,
       "evidence_refs": 12,
-      "cjk_characters_excluding_code_links": 2078
+      "cjk_characters_excluding_code_links": 5023
     },
     {
       "number": 3,
       "file": "articles/03-model-adaptation.md",
       "concern": "模型接入与能力适配",
-      "code_excerpts": 2,
+      "code_excerpts": 18,
+      "illustrations": 4,
       "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 2329
+      "cjk_characters_excluding_code_links": 4936
     },
     {
       "number": 4,
       "file": "articles/04-context-engineering.md",
       "concern": "上下文工程",
-      "code_excerpts": 2,
+      "code_excerpts": 17,
+      "illustrations": 4,
       "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 2234
+      "cjk_characters_excluding_code_links": 4681
     },
     {
       "number": 5,
       "file": "articles/05-state-persistence.md",
       "concern": "记忆、状态与持久化",
-      "code_excerpts": 2,
+      "code_excerpts": 19,
+      "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 2114
+      "cjk_characters_excluding_code_links": 4529
     },
     {
       "number": 6,
       "file": "articles/06-tool-runtime.md",
       "concern": "工具与执行环境契约",
-      "code_excerpts": 2,
+      "code_excerpts": 21,
+      "illustrations": 4,
       "evidence_refs": 14,
-      "cjk_characters_excluding_code_links": 2109
+      "cjk_characters_excluding_code_links": 4416
     },
     {
       "number": 7,
       "file": "articles/07-reliability.md",
       "concern": "可靠性恢复与副作用一致性",
-      "code_excerpts": 2,
+      "code_excerpts": 16,
+      "illustrations": 4,
       "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 2084
+      "cjk_characters_excluding_code_links": 3922
     },
     {
       "number": 8,
       "file": "articles/08-concurrency.md",
       "concern": "并发、调度与资源治理",
-      "code_excerpts": 2,
+      "code_excerpts": 20,
+      "illustrations": 4,
       "evidence_refs": 8,
-      "cjk_characters_excluding_code_links": 1935
+      "cjk_characters_excluding_code_links": 3571
     },
     {
       "number": 9,
       "file": "articles/09-security.md",
       "concern": "权限与安全边界",
-      "code_excerpts": 2,
+      "code_excerpts": 18,
+      "illustrations": 4,
       "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 1899
+      "cjk_characters_excluding_code_links": 3401
     },
     {
       "number": 10,
       "file": "articles/10-autonomy.md",
       "concern": "自主性控制与人工干预",
-      "code_excerpts": 2,
+      "code_excerpts": 19,
+      "illustrations": 4,
       "evidence_refs": 13,
-      "cjk_characters_excluding_code_links": 1947
+      "cjk_characters_excluding_code_links": 3297
     },
     {
       "number": 11,
       "file": "articles/11-budgets.md",
       "concern": "成本、延迟与预算",
-      "code_excerpts": 2,
+      "code_excerpts": 18,
+      "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 2048
+      "cjk_characters_excluding_code_links": 3583
     },
     {
       "number": 12,
       "file": "articles/12-observability.md",
       "concern": "可观测性与审计",
-      "code_excerpts": 2,
+      "code_excerpts": 17,
+      "illustrations": 4,
       "evidence_refs": 15,
-      "cjk_characters_excluding_code_links": 1870
+      "cjk_characters_excluding_code_links": 3217
     },
     {
       "number": 13,
       "file": "articles/13-evaluation.md",
       "concern": "评测与质量保障",
-      "code_excerpts": 2,
+      "code_excerpts": 16,
+      "illustrations": 4,
       "evidence_refs": 10,
-      "cjk_characters_excluding_code_links": 2126
+      "cjk_characters_excluding_code_links": 3726
     },
     {
       "number": 14,
       "file": "articles/14-plugin-lifecycle.md",
       "concern": "扩展机制与生命周期",
-      "code_excerpts": 2,
+      "code_excerpts": 18,
+      "illustrations": 4,
       "evidence_refs": 16,
-      "cjk_characters_excluding_code_links": 1786
+      "cjk_characters_excluding_code_links": 3163
     },
     {
       "number": 15,
       "file": "articles/15-interaction-deliverables.md",
       "concern": "交互协议与交付物",
-      "code_excerpts": 3,
+      "code_excerpts": 20,
+      "illustrations": 4,
       "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 1903
+      "cjk_characters_excluding_code_links": 3342
     },
     {
       "number": 16,
       "file": "articles/16-deployment-evolution.md",
       "concern": "部署、兼容性与版本演进",
-      "code_excerpts": 2,
+      "code_excerpts": 18,
+      "illustrations": 4,
       "evidence_refs": 18,
-      "cjk_characters_excluding_code_links": 2092
+      "cjk_characters_excluding_code_links": 3676
     }
   ],
   "article_count": 16,
-  "source_excerpt_count": 54,
-  "checked_links": 415,
-  "checked_source_links": 294,
+  "source_excerpt_count": 298,
+  "checked_links": 715,
+  "checked_source_links": 543,
   "figures": [
     {
       "png": "articles/assets/01-task-completion.png",
       "svg": "articles/assets/01-task-completion.svg",
       "width": 1200,
       "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/01-task-completion-02.png",
+      "svg": "articles/assets/01-task-completion-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/01-task-completion-03.png",
+      "svg": "articles/assets/01-task-completion-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/01-task-completion-04.png",
+      "svg": "articles/assets/01-task-completion-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -150,10 +187,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/02-agent-loop-02.png",
+      "svg": "articles/assets/02-agent-loop-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-agent-loop-03.png",
+      "svg": "articles/assets/02-agent-loop-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/02-agent-loop-04.png",
+      "svg": "articles/assets/02-agent-loop-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/03-model-adaptation.png",
       "svg": "articles/assets/03-model-adaptation.svg",
       "width": 1200,
       "height": 1410,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/03-model-adaptation-02.png",
+      "svg": "articles/assets/03-model-adaptation-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/03-model-adaptation-03.png",
+      "svg": "articles/assets/03-model-adaptation-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/03-model-adaptation-04.png",
+      "svg": "articles/assets/03-model-adaptation-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -164,10 +243,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/04-context-engineering-02.png",
+      "svg": "articles/assets/04-context-engineering-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/04-context-engineering-03.png",
+      "svg": "articles/assets/04-context-engineering-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/04-context-engineering-04.png",
+      "svg": "articles/assets/04-context-engineering-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/05-state-persistence.png",
       "svg": "articles/assets/05-state-persistence.svg",
       "width": 1200,
       "height": 1628,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/05-state-persistence-02.png",
+      "svg": "articles/assets/05-state-persistence-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/05-state-persistence-03.png",
+      "svg": "articles/assets/05-state-persistence-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/05-state-persistence-04.png",
+      "svg": "articles/assets/05-state-persistence-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -178,10 +299,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/06-tool-runtime-02.png",
+      "svg": "articles/assets/06-tool-runtime-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/06-tool-runtime-03.png",
+      "svg": "articles/assets/06-tool-runtime-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/06-tool-runtime-04.png",
+      "svg": "articles/assets/06-tool-runtime-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/07-reliability.png",
       "svg": "articles/assets/07-reliability.svg",
       "width": 1200,
       "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/07-reliability-02.png",
+      "svg": "articles/assets/07-reliability-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/07-reliability-03.png",
+      "svg": "articles/assets/07-reliability-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/07-reliability-04.png",
+      "svg": "articles/assets/07-reliability-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -192,10 +355,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/08-concurrency-02.png",
+      "svg": "articles/assets/08-concurrency-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/08-concurrency-03.png",
+      "svg": "articles/assets/08-concurrency-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/08-concurrency-04.png",
+      "svg": "articles/assets/08-concurrency-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/09-security.png",
       "svg": "articles/assets/09-security.svg",
       "width": 1200,
       "height": 1410,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/09-security-02.png",
+      "svg": "articles/assets/09-security-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/09-security-03.png",
+      "svg": "articles/assets/09-security-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/09-security-04.png",
+      "svg": "articles/assets/09-security-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -206,10 +411,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/10-autonomy-02.png",
+      "svg": "articles/assets/10-autonomy-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/10-autonomy-03.png",
+      "svg": "articles/assets/10-autonomy-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/10-autonomy-04.png",
+      "svg": "articles/assets/10-autonomy-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/11-budgets.png",
       "svg": "articles/assets/11-budgets.svg",
       "width": 1200,
       "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/11-budgets-02.png",
+      "svg": "articles/assets/11-budgets-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/11-budgets-03.png",
+      "svg": "articles/assets/11-budgets-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/11-budgets-04.png",
+      "svg": "articles/assets/11-budgets-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -220,10 +467,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/12-observability-02.png",
+      "svg": "articles/assets/12-observability-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/12-observability-03.png",
+      "svg": "articles/assets/12-observability-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/12-observability-04.png",
+      "svg": "articles/assets/12-observability-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/13-evaluation.png",
       "svg": "articles/assets/13-evaluation.svg",
       "width": 1200,
       "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/13-evaluation-02.png",
+      "svg": "articles/assets/13-evaluation-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/13-evaluation-03.png",
+      "svg": "articles/assets/13-evaluation-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/13-evaluation-04.png",
+      "svg": "articles/assets/13-evaluation-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -234,10 +523,52 @@
       "ok": true
     },
     {
+      "png": "articles/assets/14-plugin-lifecycle-02.png",
+      "svg": "articles/assets/14-plugin-lifecycle-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/14-plugin-lifecycle-03.png",
+      "svg": "articles/assets/14-plugin-lifecycle-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/14-plugin-lifecycle-04.png",
+      "svg": "articles/assets/14-plugin-lifecycle-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
+    },
+    {
       "png": "articles/assets/15-interaction-deliverables.png",
       "svg": "articles/assets/15-interaction-deliverables.svg",
       "width": 1200,
       "height": 1730,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/15-interaction-deliverables-02.png",
+      "svg": "articles/assets/15-interaction-deliverables-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/15-interaction-deliverables-03.png",
+      "svg": "articles/assets/15-interaction-deliverables-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/15-interaction-deliverables-04.png",
+      "svg": "articles/assets/15-interaction-deliverables-04.svg",
+      "width": 1200,
+      "height": 1140,
       "ok": true
     },
     {
@@ -246,13 +577,34 @@
       "width": 1200,
       "height": 1730,
       "ok": true
+    },
+    {
+      "png": "articles/assets/16-deployment-evolution-02.png",
+      "svg": "articles/assets/16-deployment-evolution-02.svg",
+      "width": 1200,
+      "height": 1240,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/16-deployment-evolution-03.png",
+      "svg": "articles/assets/16-deployment-evolution-03.svg",
+      "width": 1200,
+      "height": 1060,
+      "ok": true
+    },
+    {
+      "png": "articles/assets/16-deployment-evolution-04.png",
+      "svg": "articles/assets/16-deployment-evolution-04.svg",
+      "width": 1200,
+      "height": 1140,
+      "ok": true
     }
   ],
-  "png_count": 16,
-  "svg_count": 16,
+  "png_count": 64,
+  "svg_count": 64,
   "source_checkout_clean": true,
   "existing_runtime_tests": "Reused previously executed same-SHA evidence; no new behavior-test runs claimed.",
-  "checks": "16 concern mapping / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
+  "checks": "16 concern mapping / original section preservation / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status",
   "limits": [
     "Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.",
     "Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.",

@@ -16,6 +16,89 @@ CLI 经 runCli、runProfile、boot 解析运行环境与 profile，创建 Contex
 
 ![部署、兼容性与版本演进的机制图](assets/16-deployment-evolution.png)
 
+图1：升级需要分别处理的对象。
+
+### 第一步：启动准备、插件激活和 readiness 分开验收
+
+```typescript
+export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Context; shutdown: ProcessShutdown }> {
+  // Before the first plugin mounts and before anything can issue a request: Node's fetch ignores the
+  // proxy environment on its own, so every profile would otherwise connect directly. Resolving from
+  // the launcher's snapshot — not `process.env` — is what lets a proxy declared in a `.env` layer
+  // work, which the NODE_USE_ENV_PROXY flag cannot do because Node samples the environment at start.
+  const disposeProxy = await installProxyFromEnvironment(
+    options.environment,
+    (message) => { process.stderr.write(`${NAME}: ${message}\n`) },
+  )
+
+  const app: { current?: Context } = {}
+  let disposal: Promise<void> | undefined
+  const dispose = (): Promise<void> => disposal ??= (async () => {
+    const failures: unknown[] = []
+    for (const release of [() => app.current?.fiber.dispose(), disposeProxy]) {
+      try { await release() } catch (error) { failures.push(error) }
+    }
+    if (failures.length === 1) throw failures[0]
+    if (failures.length > 1) throw new AggregateError(failures, 'dsh: profile cleanup failed')
+  })()
+```
+
+[源码：`apps/cli/src/profile-boot.ts:244–263`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L263)。
+
+代理环境在插件挂载前安装；dispose memoized，先 root Fiber 再代理，并汇总释放错误。包可以 import 不等于网络环境、配置与清理可作为完整产品运行。
+
+```typescript
+try {
+  ctx.baseUrl = pathToFileURL(dirname(absoluteConfigPath)).href + '/'
+  ctx.provide('dshHomePath', dshHomePath)
+  // Fiber.update() discards the restart promise. Observe it before the
+  // waterfall returns; activation audits still report the failed fiber.
+  ctx.on('internal/update', (_config, _noSave, next: () => unknown) => {
+    void Promise.resolve(next()).catch((error: unknown) => { ctx.logger.error(error) })
+  }, { global: true, prepend: true })
+  await ctx.plugin(Loader)
+  await prepare?.(ctx)
+  stage = 'plugin tree failed to load'
+  await mountRootInclude(ctx, absoluteConfigPath, patches, bareModuleBaseUrl, binName)
+  // A surface can finish and dispose the whole tree while startup is still
+  // in flight, before the last entry settles. The Loader service goes with
+  // it, and the activation audit describes a live tree — reading `ctx.loader`
+  // past this point would throw a TypeError over an app that exited exactly
+  // as asked. Re-check after settlement before auditing the tree.
+  await ctx.get('loader')?.await()
+  if (ctx.get('loader') === undefined) return ctx
+  await auditStartupEntries(ctx, binName)
+  return ctx
+```
+
+[源码：`packages/boot/app-boot/src/index.ts:994–1014`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L994-L1014)。
+
+boot 创建 Loader，执行 host prepare，挂 root Include，等待 Loader 后复查仍存在才审计。启动期间应用可能已经被要求退出，不能在 await 后盲读失效服务。
+
+```typescript
+  app.current = ctx
+  if (!signalShutdown.signal.aborted
+    && ctx.fiber.state === FiberState.ACTIVE
+    && ctx.get('loader') !== undefined) {
+    appReady.commit()
+  }
+  return { ctx, shutdown }
+} catch (error) {
+  try { await dispose() } catch (cleanupError) {
+    throw new AggregateError([error, cleanupError], 'dsh: profile startup and cleanup failed')
+  }
+  throw error
+}
+```
+
+[源码：`apps/cli/src/profile-boot.ts:313–325`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L313-L325)。
+
+只在未取消、root ACTIVE 且 Loader 存在时 commit readiness；startup error 后也清理。部署 smoke 应通过受支持入口检验必需服务和 readiness，而不是手工 Context 成功就宣称产品启动成功。
+
+![图2：产品启动与退出的边界](assets/16-deployment-evolution-02.png)
+
+图2：启动成功和业务成功应分别验收。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 配置刷新先准备，再等待并审计
 
 Entry 能禁用、移除、激活和重挂插件。普通有效配置变化可能重建 Fiber，仅 volatile 字段变化可保留实例；非法候选警告而不提交 live 值。[Entry 配置更新](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L118-L237)
@@ -60,6 +143,65 @@ export async function reconcileProfilePatches(
 
 但这不是全局事务。解析准备失败可以保护旧配置，应用阶段某个插件失败时，成功的兄弟插件仍可能生效。部署系统应检查最终组合与错误审计，而不是把“有 reload API”写成“失败时全树自动回滚”。[配置重组与激活审计](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L274-L302)
 
+### 第二步：reload 包含旧资源等待与新树审核
+
+原文 reconcileProfilePatches 先保存旧失败与旧 Fiber 引用，再 prepare patches，entry.update 后分别等 previousFibers 和 Loader，比较 introduced failures。这条链保护准备失败不触动 live tree，却没有提供应用阶段全树原子回滚。
+
+```typescript
+  // step 3: check if options are changed
+  if (this.fiber?.uid) {
+    const changes = Object.keys({ ...this.options, ...legacy })
+      .filter(key => !deepEqual(this.options[key], legacy[key], key === 'config'))
+    // Only an active fiber in an unchanged context takes volatile-only config changes without a remount.
+    const volatileOnly = changes.length === 1 && changes[0] === 'config'
+      && this.fiber.state === FiberState.ACTIVE && Object.getPrototypeOf(this.ctx) === this.parent.ctx
+      && equalExceptVolatile(legacy.config, this.options.config, this.fiber.runtime?.Config)
+    if (volatileOnly) this.fiber._config = this.options.config
+    const pending = volatileOnly && this._commitVolatile() ? [] : changes
+    if (!pending.length && !force) return
+    this.context.emit('loader/partial-dispose', this, legacy, true)
+    this._patchContext(pending)
+  } else {
+    await this.init()
+  }
+}
+```
+
+[源码：`vendor/loader/src/config/entry.ts:141–157`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L141-L157)。
+
+volatile-only 需 ACTIVE 与上下文未变；否则走普通重挂。配置更新是否重建实例取决于 schema 和当前状态，不是所有字段都无损生效。
+
+```typescript
+private _commitVolatile(): boolean {
+  const fiber = this.fiber!
+  const refs = volatileEntries(fiber.config)
+  if (!refs.length) return true
+  const raw = this.options.config
+  let candidate: unknown
+  try {
+    candidate = resolveConfig(fiber.runtime!, fiber.ctx.waterfall(fiber, 'internal/config', raw, () => raw))
+  } catch (error) {
+    this.ctx.logger.warn('volatile config update failed for %C', this.options.id)
+    this.ctx.logger.warn(error)
+    return true
+  }
+  if (!deepEqual(fiber.config, candidate, true)) {
+    this.ctx.logger.debug('ordinary config values of %C changed with its volatile values; applying the ordinary update', this.options.id)
+    return false
+  }
+  const paths = refs.flatMap(({ path, ref }) => {
+    const source = path.reduce<unknown>((value, key) => Reflect.get(value as object, key), candidate) as Volatile<unknown>
+    if (deepEqual(ref.get(), source.get(), true)) return []
+    updateVolatile(ref, source)
+    return [path]
+```
+
+[源码：`vendor/loader/src/config/entry.ts:164–185`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L164-L185)。
+
+候选校验失败保留 live refs、记录告警；raw 候选仍在，下一激活可能再次解析。管理面应分别呈现候选配置、生效配置与激活错误，避免把文件写入成功等同部署成功。
+
+若兄弟插件部分成功，部署系统应按最终树审核决定流量准入，不能依赖 reload 抛错就假设所有旧实例仍完整工作。
+
 ## 模块 HMR 解决的是另一类变化
 
 模块 HMR 依赖 Loader internal 和 expose-internals，通过串行队列防止嵌套 reload，分析缓存决定局部替换或退出。局部流程备份 ESM／CJS 缓存，导入 replacement，卸载旧 runtime 并等待旧 Fiber，再注册新实现。[HMR 前提与控制](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L262-L340) [partialReload 流程](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L525-L732)
@@ -67,6 +209,122 @@ export async function reconcileProfilePatches(
 导入失败可以恢复缓存，激活失败尝试恢复旧插件。恢复范围是代码和配置注册，不是旧对象的任意业务状态，更不是工具已经发生的外部写入。base 默认主要监听配置，不代表所有产品 profile 都开箱提供源码热替换。[base 的运行配置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L20-L40)
 
 例如一个模型请求已经准备了 adapter registration，热替换不能假定它会自动换到新实现；安全退出也必须等它结算。一个有持久进程或连接的 provider，更需要停止接纳、排空，再决定如何重挂和恢复状态。
+
+### 第三步：代码替换要准备新模块并排空旧 Fiber
+
+```typescript
+/**
+ * Clear module caches for all accepted files before re-importing.
+ *
+ * We need to clear both:
+ * 1. ESM loadCache — managed by Node's internal ModuleLoader
+ * 2. CJS Module._cache — for CJS modules that were imported via import()
+ *
+ * In Node 24, CJS modules loaded via import() appear in both caches.
+ * If we only clear loadCache, the CJS cache may serve stale modules.
+ *
+ * We use Map.prototype methods directly on loadCache because:
+ * - In Node 22/23, loadCache is a plain Map<url, ModuleJob>
+ * - In Node 24, loadCache is a LoadCache extends Map<url, { [type]: ModuleJob }>
+ *   where .delete() only sets the type slot to undefined (doesn't remove the entry)
+ * Using Map.prototype.delete ensures complete removal in both versions.
+ */
+const esmBackup = new Map<string, unknown>()
+const cjsBackup = new Map<string, NodeJS.Module>()
+const require = createRequire(import.meta.url)
+for (const filename of this.accepted) {
+  // Backup and clear ESM loadCache
+  const job: unknown = Map.prototype.get.call(this.internal.loadCache, filename)
+  esmBackup.set(filename, job)
+  Map.prototype.delete.call(this.internal.loadCache, filename)
+```
+
+[源码：`packages/boot/hmr/src/index.ts:587–610`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L587-L610)。
+
+ESM 与 CJS 缓存都要备份和清理，部分 Node 版本内部缓存行为不同。该机制依赖 Node internal，不应据存在 HMR 包就承诺所有运行版本有同样支持。
+
+```typescript
+const attempts: ReloadAttempt[] = []
+try {
+  for (const generation of generations) {
+    const moduleNamespace: unknown = await this.ctx.loader.import(generation.filename, this.getOuterStack)
+    const replacement = this.ctx.loader.unwrapExports(moduleNamespace) as Plugin
+    const replacements = await generation.modules.importRemaining(this.ctx.loader, this.getOuterStack, {
+      filename: generation.filename, moduleNamespace, plugin: replacement,
+    })
+    attempts.push({ ...generation, replacement, replacements, activated: [] })
+  }
+} catch (e) {
+  handleError(this.ctx, e)
+  rollback()
+  throw e
+}
+```
+
+[源码：`packages/boot/hmr/src/index.ts:645–659`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L645-L659)。
+
+先导入各 replacement，失败则 rollback 缓存并抛错。这个准备阶段尚未拆旧运行树，有明确保护范围。
+
+```typescript
+const removed = new Set<Plugin>()
+try {
+  for (const { previous: plugin, replacement, filename, runtime, fibers, replacements, activated } of attempts) {
+    if (!runtime) continue
+    const path = relative(this.baseDir, fileURLToPath(filename))
+
+    removed.add(plugin)
+    try {
+      this.ctx.registry.delete(plugin)
+      await Promise.all(fibers.map(({ fiber }) => fiber.await()))
+    } catch (err) {
+      this.ctx.logger.warn('failed to dispose plugin at %C', path)
+      this.ctx.logger.warn(err)
+    }
+
+    try {
+      await reload(replacement, fibers, replacements, activated)
+      this.ctx.logger.info('reload plugin at %C', path)
+    } catch (err) {
+      this.ctx.logger.warn('failed to reload plugin at %C', path)
+      this.ctx.logger.warn(err)
+      throw err
+    }
+```
+
+[源码：`packages/boot/hmr/src/index.ts:678–700`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L678-L700)。
+
+删除旧 registry 并等待旧 fibers，再激活 replacement；卸载失败记录警告，新激活失败继续进入恢复。这并非旧闭包内存状态的复制，业务状态必须放在可恢复的服务或存储里。
+
+```typescript
+} catch (error) {
+  // Restore caches and re-register old plugins after a replacement failure.
+  rollback()
+  for (const { previous: plugin, fibers, activated } of attempts) {
+    if (!removed.has(plugin)) continue
+    try {
+      for (const { runtime } of activated) {
+        if (runtime && this.ctx.registry.get(runtime.callback) === runtime) {
+          const replacementFibers = [...runtime.fibers]
+          this.ctx.registry.delete(runtime.callback)
+          // Failed startup errors remain on fibers after their teardown finishes.
+          await Promise.allSettled(replacementFibers.map(fiber => fiber.await()))
+        }
+      }
+      await reload(plugin, fibers)
+    } catch (err) {
+      this.ctx.logger.warn(err)
+    }
+  }
+  throw error
+```
+
+[源码：`packages/boot/hmr/src/index.ts:702–721`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/hmr/src/index.ts#L702-L721)。
+
+失败时恢复缓存，撤销已激活新实例，等待结算，尝试重新挂旧插件。恢复的仍是代码和配置注册；期间已写数据库、已发送网络请求的效果不会因 rollback 自动撤回。生产发布不能把它当跨系统回滚方案。
+
+![图3：升级要处理的四种对象](assets/16-deployment-evolution-03.png)
+
+图3：代码回退不能替外部效果或状态迁移回滚。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 会话格式兼容由静态 catalog 承担
 
@@ -114,6 +372,32 @@ export const sessionFormatCatalog = createSessionFormatCatalog(sessionFormatCata
 
 这也是保存状态的插件为什么参与升级义务：若它改变模型可见输入、Session 事件或读取类型，需要考虑旧数据和所有 consumer。API 变更只让新代码编译，不会自动迁移已有日志。[会话 header 与格式版本](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/types.ts#L79-L137) [格式基线和发布状态](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/session-format-status.md#L18-L51)
 
+### 第四步：格式能力不能依赖运行插件恰好挂载
+
+原文 generated catalog 明确 currentVersion=4，列出 v0—v4 codec 和相邻 migration。静态组合让读取旧 artifact 与当前 profile 的可选插件分离，但旧格式可读取不代表新事件能被旧程序解释。
+
+```typescript
+restoreCurrent(artifact) {
+  const restored = restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)
+  validateInstalledCurrentSessionArtifact(restored)
+  return restored
+},
+restoreTransformedCurrent(artifact) {
+  return restoreReleasedV4Artifact(artifact, KNOWN_SESSION_EVENT_TYPES)
+},
+restoreCurrentHeader(header) {
+  assertReleasedV4Header(header)
+  validateInstalledCurrentSessionHeader(header)
+  return header
+},
+```
+
+[源码：`packages/session/session-format-catalog/src/generated.ts:32–44`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-format-catalog/src/generated.ts#L32-L44)。
+
+restoreCurrent 包含 installed current artifact 验证，restoreTransformedCurrent 与 header restore 有各自责任。迁移链先处理物理格式，安装能力再判断领域数据；不能用“JSON 能 parse”替代完整协议兼容。
+
+扩展改事件 schema 或模型可见 projection 时，应一起更新 reader、migrator、fixtures 与格式发布说明。只修当前 TypeScript consumer 会把风险留在已有持久日志里。
+
 ## 新 generation 保留历史，不提供任意降级保证
 
 resolver 选择最高合法 canonical generation，拒绝冲突布局。迁移先准备和校验，写操作取得所有权后发布新的 successor；普通读取不会仅为了升级覆写前代。当前 generation 仍可以追加新事实。[generation 选择](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L1446-L1482) [写 open 与发布路径](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L314-L435)
@@ -121,6 +405,99 @@ resolver 选择最高合法 canonical generation，拒绝冲突布局。迁移�
 “保留旧文件”不等于旧程序可以随时接管。新版本已经追加新事件、外部工具已经产生变化，降级后的代码未必理解，也不能把旧 generation 当作最新状态。前代用于历史兼容与追溯，不能直接宣传为任意失败的业务回滚点。
 
 例如升级后模型已经修改文件，即使恢复旧 runtime，文件修改仍存在。迁移和业务副作用属于不同系统，只有明确的版本与补偿协议才能让它们共同支持恢复策略。
+
+### 第五步：写迁移在取得所有权后发布 successor
+
+```typescript
+const generations: Array<{ readonly path: string; readonly version: number }> = []
+const opposite: string[] = []
+for (const entry of entries) {
+  const version = parseGenerationLogFilename(entry.name, this.compression)
+  if (version !== undefined) {
+    generations.push({ path: join(dir, entry.name), version })
+    continue
+  }
+  if (parseGenerationLogFilename(entry.name, this.oppositeCompression()) !== undefined) {
+    opposite.push(join(dir, entry.name))
+  }
+}
+if (opposite.length > 0) throw this.encodingMismatch(opposite[0] as string)
+const latest = generations.sort((left, right) => right.version - left.version)[0]
+if (latest === undefined) return undefined
+return {
+  sourcePath: latest.path,
+  sourceVersion: latest.version,
+  currentPath: join(
+    dir,
+    generationLogFilename(sessionFormatCatalog.currentVersion, this.compression),
+  ),
+}
+```
+
+[源码：`packages/session/session-persistence-jsonl/src/index.ts:1460–1482`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L1460-L1482)。
+
+resolver 识别 canonical generation，拒绝相反 compression 布局，选择数值最高版本，同时构造当前版本 path。选择最新 generation 是格式协议，不是按文件 mtime 猜测。
+
+```typescript
+this.tracker.claimWrite(id)
+let lease: SessionWriteLease | undefined
+try {
+  const resolved = await this.findLog(id, options?.signal)
+  if (resolved === undefined) throw new SessionPersistenceNotFoundError(id)
+  lease = await this.acquireLease(id, undefined, dirname(resolved.currentPath))
+  const prepared = await this.requireStoredLog(id, options?.signal)
+  options?.signal?.throwIfAborted()
+  let stored: CurrentStoredLog
+  if (prepared.status === 'prepared') {
+    stored = await this.publishStoredMigration(id, prepared)
+  } else {
+    stored = prepared
+  }
+  options?.signal?.throwIfAborted()
+  return this.tracker.adopt(new JsonlSessionHandle(this, id, stored.meta, 'write', {
+    cursor: stored.events.length,
+    materialized: true,
+    tornTruncateTo: stored.tornTruncateTo,
+    recoveredTail: stored.recoveredTail,
+    inheritedEventCount: stored.inheritedEventCount,
+    primed: stored,
+  }, lease))
+```
+
+[源码：`packages/session/session-persistence-jsonl/src/index.ts:377–399`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L377-L399)。
+
+先 in-process claim，取得 kernel lease，再读取和发布 prepared migration，最后 adopt write handle。普通观察读取不能无权发布新代；旧读出的准备结果也不能取代获得锁后的权威状态。
+
+```typescript
+} catch (error) {
+  // Free the in-process claim no matter how the kernel-lock release
+  // fares, and keep the original diagnostic: a release failure joins it
+  // instead of replacing it.
+  /* v8 ignore next -- typed backends and fs reject with Error */
+  const failure = error instanceof Error ? error : new Error(String(error))
+  let releaseFailure: Error | undefined
+  try {
+    await lease?.release()
+  } catch (raw: unknown) {
+    /* v8 ignore next -- lock releases reject with Error */
+    releaseFailure = raw instanceof Error ? raw : new Error(String(raw))
+  }
+  this.tracker.releaseClaim(id)
+  if (releaseFailure !== undefined) {
+    throw new AggregateError([failure, releaseFailure], `session "${id}": write open failed and its lock release failed`)
+  }
+  throw failure
+```
+
+[源码：`packages/session/session-persistence-jsonl/src/index.ts:400–417`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts#L400-L417)。
+
+失败仍释放 lease 与 claim，原错误与释放错误共同保留。持有锁不意味着迁移必定成功，错误证据不应被 cleanup error 覆盖。
+
+保留前代文件有助审计和恢复，但降级程序是否支持新日志、新事件与新 consumer 必须单独验证。滚回代码包与安全降级状态不是同一件事。
+
+![图4：部署失败时恢复范围](assets/16-deployment-evolution-04.png)
+
+图4：部署报告应说明恢复对象与未覆盖边界。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 文档、类型与实现需要一起核对
 
@@ -130,6 +507,41 @@ resolver 选择最高合法 canonical generation，拒绝冲突布局。迁移�
 
 测试也应跟随受影响义务选择：入口变化检查真实启动，状态类型变化检查旧日志，provider 生命周期变化检查取消与释放。旧提交的成功日志不能作为新提交运行通过的证据。
 
+### 第六步：从公共声明追到真正执行入口
+
+```typescript
+export function apply(ctx: Context, config: Config = {}): void {
+  ctx.effect(() => ctx.commands.register({
+    definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-session-log-export'),
+    name: 'export',
+    description: 'Download this Session log as a ZIP archive',
+    handler: invocation => Promise.resolve(invocation.rawInput.trim() === ''
+      ? REQUESTED
+      : { kind: 'error', text: 'The Web /export command does not accept a path.' }),
+  }), 'session-log-download: command')
+  connectionOf(ctx).fetch.register({
+    path: SESSION_LOG_EXPORT_PATH,
+    methods: ['GET', 'HEAD'],
+    requestBody: 'buffered',
+    fetch: async (request) => {
+      const response = await sessionLogExportResponse(
+        ctx,
+        request,
+        config.compressionLevel ?? DEFAULT_SESSION_LOG_COMPRESSION_LEVEL,
+      )
+      if (request.method === 'GET') return response
+      await response.body?.cancel()
+      return new Response(null, { status: response.status, headers: response.headers })
+    },
+  })
+```
+
+[源码：`packages/session-query/session-log-export/src/index.ts:78–101`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session-query/session-log-export/src/index.ts#L78-L101)。
+
+导出注册为独立 command 与 Host GET/HEAD ZIP route，并非直接由 Persistence.export 方法完成。文档的概括可能滞后，实际扩展应核对接口类型、provider、调用方和产物入口。
+
+研究固定 SHA 的价值就在于可复核：版本号相同仍可能有不同工作树，引用完整提交和代码行让结论有明确边界。当前 developer preview 的公共 API 尚不稳定，企业应记录适配层与升级验证清单，而非只依赖包号。
+
 ## 有序退出是部署能力的一部分
 
 CLI 使用 memoized cleanup 清理 root Fiber 与代理；SDK shutdown 先写响应并 flush transport，再 dispose root 和退出，并清理自己创建的 Agent。provider 停止可能带动依赖消费者卸载，资源释放仍需等待在途工作。[CLI 清理](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L244-L326) [SDK shutdown 顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/server/src/index.ts#L46-L100)
@@ -137,6 +549,69 @@ CLI 使用 memoized cleanup 清理 root Fiber 与代理；SDK shutdown 先写响
 立刻杀进程可能留下未结算文本、未知工具结果或临时产物消失，恢复器随后只能依据持久事实修补。滚动升级若要求不丢业务结果，应先定义接纳停止、任务 drain、持久产物保存和恢复准入，再设计切流与退出步骤。
 
 本研究没有执行集群滚动升级、跨版本压测、Python wheel 或多平台发布安装。上述步骤是基于源码义务的部署建议，不能写成已经验证的生产方案。
+
+### 第七步：响应、传输排空和资源释放按顺序结束
+
+```typescript
+// Share one exit task so racing shutdown requests cannot dispose the root or
+// exit the process more than once.
+let exitTask: Promise<void> | undefined
+const disposeAndExit = (): Promise<void> => {
+  exitTask ??= (async () => {
+    await Promise.allSettled([Promise.resolve().then(() => transport.flush())])
+    await Promise.allSettled([Promise.resolve().then(() => rootFiber.dispose())])
+    exit(0)
+  })()
+  return exitTask
+}
+
+transport.onRequest(async (method, params) => {
+  // `initialize` is the SDK's readiness boundary. This plugin can activate
+  // before async sibling Loader entries (for example an MCP client's initial
+  // tool discovery), so do not advertise a ready runtime until the complete
+  // current tree has settled. Loader settlement joins entry imports, fiber
+  // lifecycle work, and synchronous effect registration; no scheduler delay
+  // is part of readiness. A hand-built context without Loader remains
+  // immediately usable.
+  if (method === 'initialize') {
+    await ctx.get('loader')?.await()
+  }
+  const result = await server.handleRequest(method, params)
+  if (method === 'shutdown') {
+    // Run after the handler result is written; the task then flushes, disposes, and exits.
+    setImmediate(() => { void disposeAndExit() })
+  }
+  return result
+```
+
+[源码：`packages/sdk/server/src/index.ts:64–92`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/sdk/server/src/index.ts#L64-L92)。
+
+shutdown handler 先返回响应，再 setImmediate 启动共享 exitTask；flush transport、dispose root 后退出。initialize 则等待当前 Loader 整树结算，SDK 插件先 ACTIVE 不能抢先声明全产品 ready。
+
+```typescript
+  if (machine !== undefined) {
+    machine.cancel({ kind: 'disposed' })
+    await machine.whenIdle()
+    await machine.scope.dispose()
+  }
+} catch (error: unknown) {
+  failures.push(error)
+}
+// The loop above committed its closing events synchronously into the
+// session; handle close drains them durably before releasing the write
+// path. The close drain can be the first operation that surfaces a
+// durability failure, so its error is retained, not logged away.
+try {
+  await handle?.close()
+} catch (error: unknown) {
+  failures.push(error)
+```
+
+[源码：`packages/core/agent-loop/src/index.ts:543–558`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/index.ts#L543-L558)。
+
+Agent 清理 cancel、whenIdle、Scope dispose、persistence close。退出必须等待下游静止，不能仅撤销 registry 就让进程立即结束，否则会丢历史尾部或留下外部孤儿工作。
+
+Host supervisor 应设置合理的优雅退出期限，并在超过期限时记录未释放资源；强终止后的未知业务效果必须在下次恢复中显式处理。这是部署建议，不是协作式 cancel 自动获得硬停止保证。
 
 ## 优势、不足与技术心得
 
@@ -147,6 +622,14 @@ DSH 的优势是 profile 组合和激活审计有明确入口，配置与模块�
 这一篇也是整套专栏的技术收获：Agent Harness 的成熟度，体现在对状态和执行责任的持续管理。任务怎样接纳，模型看见什么，工具何时产生副作用，取消如何结束，产物怎样保存，以及旧数据怎样被新版本解释，都需要一致的定义和验证。
 
 每项机制都可以单独实现，真正的架构工作是让它们在同一生命周期中协作。对外承诺应依据具体入口、版本和环境，既不因几个测试通过而扩大，也不因能力尚有边界而否定其适用价值。本文沿用既有配置、HMR、存储与恢复验证，最后将源码、解释和限制一起保留，供后续版本继续复核。
+
+### 技术感悟：部署成功是运行契约的一次完整验收
+
+启动、readiness、reload 审计、HMR 恢复、格式迁移和退出共同决定系统能否演进。DSH 的优势是这些边界有实际等待、身份与错误收集；局限是预稳定 API、Node internal 依赖和局部恢复不能替代企业发布策略。
+
+我会为每次升级保存源码 SHA、配置/profile、编译产物、持久格式、兼容测试和回退范围。对成功的定义也分层：候选准备成功、运行树激活成功、任务烟测成功、数据兼容成功，不能只检查命令 exit code。
+
+本次沿固定版本逐代码研究，未更新上游 checkout，也未新增真实线上升级实验。原有入口与迁移验证支持其测试范围，不构成任意版本无损升级或安全降级承诺。
 
 ---
 

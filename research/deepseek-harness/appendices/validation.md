@@ -170,3 +170,24 @@ node research/deepseek-harness/validation/check-artifacts.mjs
 ```
 
 使用既有本地虚拟环境是本次工作区的复现方式；其他环境需先安装 Pillow。记录另外说明工作区已有研究 README 删除，本轮保留该改动；文稿检查按当前实际文件执行，不恢复或改写用户的删除。
+
+## 全系列深化与插图补充
+
+本次沿第一篇的分析逻辑，深化第02—16篇，保留全部16篇原有主体标题、段落、原文代码及导航；第一篇正文论证保留，额外补充插图。源码仍固定为`5badb15009ae1756c3afe0ae0cef1faafc290ccc`，未更新checkout。新增内容沿定义、provider、consumer、执行、提交、异常与清理展开，解释关键条件和等待窗口，并区分源码事实与企业改造建议。
+
+当前专栏共有**298段原文代码摘录**，各篇分别为23、20、18、17、19、21、16、20、18、19、18、17、16、18、20、18段。历史批次的33段和54段保留为当时结果。每篇新增3张插图，连同原图各4张，合计**64张PNG及64张SVG**；原16组图片与编辑基线`d4b60a4`逐字节相同。新增48组图分别解释执行步骤、状态/数据归属和关键条件分支，宽1200像素，共用PNG/SVG几何定义。
+
+[专栏检查脚本](../validation/check-column.py)增加原有章节保留、每篇4图、图示映射与摘录引用检查，并读取固定Git原文核对代码、行号、hash、文稿映射、链接和图片结构。[结构基线](../validation/column-structure-baseline.json)保留原章节。单一执行者另核对原段落保留，查看48张新增PNG的三组总览和代表性单图，调整长英文标识断行；图示语义依据正文源码分析复核。结构与关键词检查本身不认证架构结论，SVG仅检查XML、尺寸及共享绘图几何，未进行独立浏览器渲染。
+
+```sh
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-column-assets.py
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+node research/deepseek-harness/validation/check-artifacts.mjs
+git diff --check
+```
+
+绘图入口先生成原图，再调用[补充渲染器](../validation/build-column-supplements.py)，从[新增图定义](../articles/assets/diagram-supplements.json)重建48组插图并合并清单。使用本地Pillow虚拟环境；其他平台须安装Pillow，并通过`DSH_COLUMN_FONT`提供中文字体。[重建日志](../validation/series-diagrams-rebuild.log)记录完整入口成功，正文检查与完整材料检查最终输出分别见[专栏日志](../validation/series-deepening-column.log)、[材料日志](../validation/series-deepening-artifacts.log)、[专栏结果](../validation/column-check.json)及[材料结果](../validation/artifact-check.json)。
+
+渲染首轮成功，改进英文断行时先触发纵向边界断言，再发现长标识超过最小字体宽度；修正边界检查并改用中文图中标签后全部重建成功。预算归集图另改为调用树，避免暗示摘要与子任务必须按固定顺序运行，该图首次渲染的断言把末行间距计入可见文本高度，修正后重建成功；保留[调用树边界失败](../validation/series-diagrams-call-tree-failure.log)和[最终绘图日志](../validation/series-diagrams-final.log)。保留[初次渲染](../validation/series-diagrams-initial.log)、[断行边界失败](../validation/series-diagrams-wrap-failure.log)、[长标识失败](../validation/series-diagrams-identifier-failure.log)与[修正渲染](../validation/series-diagrams-corrected.log)。正文检查首轮通过；完整材料检查首轮发现目录引用的复核JSON尚未创建，补齐后再次检查，保留[初次正文日志](../validation/series-deepening-column-initial.log)和[初次材料失败](../validation/series-deepening-artifacts-initial.log)。这些是文稿制作与排版问题，不是runtime测试失败。
+
+[复核记录](../validation/series-deepening-review.json)汇总逐篇数量、结构保留、原图一致性、命令、修正与限制。本次**没有新增或重跑行为测试**，沿用此前同一SHA的37个去重文件、1,520 passed、1条条件skip；没有新增类型编译、真实模型、生产多租户、跨平台或在线升级验证。Markdown与图片为本地交付，未在公众号编辑器预览或发布；研究README既有删除保持不变。

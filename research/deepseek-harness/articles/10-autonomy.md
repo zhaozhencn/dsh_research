@@ -16,6 +16,60 @@ DeepSeek Harness 将自动续跑、规划状态、敏感操作审批、输入接
 
 ![自主性控制与人工干预的机制图](assets/10-autonomy.png)
 
+图1：规划退出的状态提交。
+
+### 第一步：先区分持续目标、模式与一次行动
+
+```typescript
+ctx.on('agent/error', ({ agent }) => {
+  const state = stateFor(agent)
+  disarm(state)
+})
+
+ctx.on('agent/disposed', ({ agent }) => { states.delete(agent) })
+ctx.on('agent/created', ({ agent }) => {
+  const state = stateFor(agent)
+  state.attempt = undefined
+  state.competingQueued = false
+  state.needsCheckpoint = false
+})
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:246–257`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L246-L257)。
+
+Agent 错误时 disarm，disposed 删除状态，created 重置本地 attempt。持久 goal.active 不因此自动授予新 driver 续跑权；状态存在和自动权限有效是两件事。
+
+```typescript
+send(message: UserMessage, target: InboxTarget, wakeup: boolean): void {
+  // Waking input cannot join an aborted activity, so it starts the next turn.
+  // Captured before the insertion so a reentrant cancel from a splice observer cannot reclassify it.
+  const wakingAfterAbort = wakeup && this.phase.kind !== 'idle' && this.phase.abort.signal.aborted
+  const resolvedTarget = wakingAfterAbort ? 'next-turn' : target
+  this.inbox.splice(resolvedTarget, Infinity, 0, [message])
+  if (wakeup) this.wakeDriver(wakingAfterAbort)
+}
+
+followup(input: UserMessage): void {
+  this.send(input, 'next-turn', true)
+}
+
+steer(input: UserMessage): void {
+  this.send(input, 'next-step', true)
+}
+
+inject(input: UserMessage): void {
+  this.send(input, 'next-step', false)
+}
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:154–173`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L154-L173)。
+
+followup、steer、inject 接纳到不同 inbox 位置；取消窗口里新消息可设置 wakingAfterAbort。自主性的控制分布在驱动、准入、请求、工具、停止等接缝，单个“自主开关”难以准确表达它们的影响范围。
+
+![图2：计划批准后的模式切换](assets/10-autonomy-02.png)
+
+图2：审阅批准与模式事实提交是两个时刻。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 计划批准为什么不立即写最终状态
 
 exit_plan_mode 先读取并检查计划文件，准备用户审阅请求，等待 answerer。它要求符合约束的批准结果，不接受随意一条自由回复作为肯定。下面片段体现了精确选择条件。
@@ -41,6 +95,77 @@ return { approved: true }
 只有一项对应审阅答案，恰好选择批准，且没有 custom 回复，才保存 `active: false` 的 pending intent。拒绝或反馈会保持规划，并将原因交回模型，等待期间发生卸载或取消也不能冒充批准。[计划读取与等待期间检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L277-L348)
 
 pending intent 意味着“选择已经形成，尚待合适执行边界提交”。它让当前工具 batch 保留原规划政策，避免批准工具后，同一批后续操作无声地跨入新模式。
+
+### 第二步：审阅发生在工具批次里，切换留给安全边界
+
+```typescript
+execute: async (args, exec) => {
+  const agent = exec.agent
+  if (agent === undefined) throw new Error(`${EXIT_PLAN_MODE} requires a calling agent (no session to switch)`)
+  if (!this.loggedActive(agent.session)) {
+    throw new Error(`${EXIT_PLAN_MODE} is only available in plan mode`)
+  }
+  if (!/^#\s+\S/.test(args.plan.trim())) {
+    throw new Error(`${EXIT_PLAN_MODE} requires a non-empty markdown plan starting with a # heading`)
+  }
+  const interaction = ctx.get('userQuestions')
+  if (interaction === undefined) {
+    throw new Error('no user-questions channel is available to review the plan; ask the user to switch the session mode instead')
+  }
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:293–305`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L293-L305)。
+
+exit_plan_mode 先要求 Agent、已记录规划模式、合法标题及审阅通道。没有通道不代表默认批准；等待可以很长，初始判断不能用于等待之后的所有动作。
+
+```typescript
+const answer = await interaction.ask({
+  questions: [{
+    id: REVIEW_ID,
+    header: 'Plan review',
+    question: 'Approve this plan and leave plan mode?',
+    detail: args.plan,
+    options: [
+      { label: APPROVE_LABEL, description: 'Leave plan mode; the plan is carried out from the next step.' },
+      { label: KEEP_PLANNING_LABEL, description: 'Stay in plan mode; feedback goes back to the model.' },
+    ],
+    // Presentation only: a capable UI renders the plan as a review
+    // decision instead of a generic question, and answers with one of
+    // the labels above either way.
+    intent: { kind: 'plan-review', approve: APPROVE_LABEL, callId: exec.callId },
+  }],
+  agent,
+  signal: exec.signal,
+}).catch((cause: unknown) => {
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:306–323`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L306-L323)。
+
+intent 带 callId，UI 可以呈现为计划审阅，但回答仍遵循问题协议。execute 传 signal，审批关联的是当前计划内容，不是对任意后续操作的无限许可。
+
+```typescript
+}).catch((cause: unknown) => {
+  // A dismissed review is not a failed one: the user took the turn back
+  // to say something the two options do not cover. Say so, because the
+  // generic channel message names ask_user_question, which the model
+  // never called. An abort (turn cancel, provider teardown) keeps its
+  // own message — there is no user to wait for.
+  if (cause instanceof UserQuestionError && cause.code === 'ASK_CANCELLED') {
+    throw new Error('The user dismissed the plan review to speak instead; '
+      + 'stay in plan mode, stop here, and wait for their message.')
+  }
+  throw cause
+})
+// A review may outlive this plugin fiber. Without its pre-step listener,
+// an approved selection could never be appended, so fail and keep planning.
+if (disposed) {
+  throw new Error('the plan-mode service was reloaded while the plan was under review; present the plan again')
+}
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:323–339`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L323-L339)。
+
+用户关闭审阅、请求取消、插件 reload 分别处理。disposed 即使配合迟到批准也不能继续，因为负责下一边界提交的 listener 已不存在。原文严格批准检查之后只保存 pending intent，保留当前 assistant 工具批次的规划约束。
 
 ## 准入成功之后，再提交模式事实
 
@@ -75,6 +200,103 @@ ctx.on('agent/pre-step', async (
 
 这里并非矛盾，而是区分临时选择和已确认事实。提示词可以根据待应用意图准备，日志则必须等待接纳条件成立。
 
+### 第三步：提示组装先读取意图，准入后写事实
+
+```typescript
+private async preStep(target: InboxTarget, position: { turn: number; step: number }): Promise<PreparedStep> {
+  /* v8 ignore next -- private callers establish the running phase before proposing a step */
+  if (this.phase.kind !== 'running') throw new Error(`agent "${this.id}": pre-step outside running phase`)
+  const signal = this.phase.abort.signal
+  const claimed = this.inbox.claim(target, position.turn)
+  const assembly = await this.loopCtx.systemPrompt.assemble(assembleContextFor(this, signal))
+  signal.throwIfAborted()
+  const sections = renderContextSections(assembly)
+  const context = this.runtimeContext.project(joinContextSections(sections), sections)
+  const decision = await this.dispatch.waterfall(
+    'agent/pre-step', { messages: claimed, ...position, signal },
+    (): Promise<PreStepDecision> => Promise.resolve<PreStepDecision>({
+      kind: 'enter',
+      messages: context === undefined ? claimed : [...claimed, context],
+    }),
+  )
+  signal.throwIfAborted()
+  if (decision.kind === 'reject') return decision
+  return { ...decision, assembly }
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:267–285`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L267-L285)。
+
+Loop 先 claim、assemble，再进入 pre-step waterfall。不能只根据 plan-mode 局部注释就反转这一顺序；阅读 consumer 才能确定真实时序。pending.active 能影响 assembly，最终接受后才有 plan/mode 事实。
+
+```typescript
+ctx.effect(() => () => { disposed = true }, 'dsh-plan-mode: close service lifetime')
+
+ctx.systemPrompt.section({
+  name: 'plan:policy',
+  order: ctx.systemPrompt.getSectionOrder('PLAN_POLICY'),
+  text: (context) => {
+    if (context.agent === undefined) return ''
+    const pending = this.pendingIntents.get(context.agent.session)
+    return (pending?.active ?? this.loggedActive(context.agent.session)) ? this.section : ''
+  },
+})
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:214–224`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L214-L224)。
+
+规划段回调读取 selection，把尚待提交选择映射为本次提示。它提供执行政策输入，不能当作会话已经发生模式切换的证明。
+
+```typescript
+set(agent: Agent, active: boolean): 'committed' | 'queued' | 'cancelled' | 'noop' {
+  const session = agent.session
+  const pending = this.pendingIntents.get(session)
+  const target = pending?.active ?? this.loggedActive(session)
+  if (active === target) return 'noop'
+  if (this.hasOpenTurn(session)) {
+    this.pendingIntents.set(session, { active, narrate: true })
+    return this.loggedActive(session) === active ? 'cancelled' : 'queued'
+  }
+  // No open turn: commit now. Delete only after append succeeds so a
+  // failed durable write leaves the selection retryable, not dropped.
+  if (active === this.loggedActive(session)) {
+    this.pendingIntents.delete(session)
+    return 'cancelled'
+  }
+  session.append('plan/mode', { active })
+  this.pendingIntents.delete(session)
+  const narration = this.narration(session, active)
+  if (narration !== undefined) agent.inject(narration)
+  return 'committed'
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:418–437`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L418-L437)。
+
+开放 Turn 时 set 排队意图；没有开放 Turn 才可立即 append。pending 只在 append 成功后删除，避免失败丢失可重试选择。committed、queued、cancelled、noop 是不同结果，产品 UI 应如实显示。
+
+```typescript
+private onBoundary(session: Session): void {
+  const pending = this.pendingIntents.get(session)
+  if (pending === undefined) return
+  const target = pending.active
+  if (target === this.loggedActive(session)) {
+    this.pendingIntents.delete(session)
+    return
+  }
+  session.append('plan/mode', { active: target })
+  // Delete only after append succeeds so a later accepted in-turn pre-step
+  // can retry a failed durable write.
+  this.pendingIntents.delete(session)
+}
+```
+
+[源码：`packages/plan/plan-mode/src/index.ts:441–453`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/plan/plan-mode/src/index.ts#L441-L453)。
+
+边界提交同样先 append 再 delete。这里的成功指 Session 接纳，并不直接保证 JSONL 已刷盘；若业务要求持久承诺，还要等待 persistence checkpoint。
+
+![图3：自主权的四个控制位置](assets/10-autonomy-03.png)
+
+图3：自主权需要对象、范围与失效条件。详见本节及相邻源码解读；图示省略其他分支。
+
 ## Host 暂停怎样阻止旧续跑
 
 目标 driver 为下一轮保留 goalId、revision、round 和 messageId，追踪 queued、claimed、admitted。目标改变或普通用户输入到达时，旧 reservation 可能变 stale。准入 waterfall 前后重查，checkpoint await 后也重查 live Agent 与状态。[驱动器的有效性检查](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L96-L134) [准入双重校验](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L350-L459)
@@ -85,6 +307,104 @@ Host 外部发起 pause 时，driver 根据 currentInitiator 与当前执行状�
 
 自动 activation 与持久 phase 也分开。错误、max-tokens、卸载和恢复可能撤销进程内自动权限，目标仍然可以展示为未完成。这样的保守设计避免把失败恢复直接转成新一轮外部动作。[目标激活与持久状态](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal/src/index.ts#L240-L280)
 
+### 第四步：暂停需要撤销执行资格，也要防止误伤新 revision
+
+```typescript
+ctx.on('goal/changed', ({ agent, change }) => {
+  const state = stateFor(agent)
+  state.needsCheckpoint = true
+  // A host-initiated pause stops goal execution: abort the live turn so the
+  // model cannot keep acting or resume in the same turn. A model-initiated
+  // pause (update_goal inside its own turn) finishes normally.
+  if (change.operation === 'pause' && agent.status === 'running'
+    && ctx.agents.currentInitiator() !== agent) {
+    agent.cancel({ kind: 'user' }, { keepInbox: true })
+  }
+  requestDrive(state)
+})
+
+ctx.on('agent/inbox/inserted', ({ agent, message }) => {
+  if (!agent.inbox.nextTurn.some(candidate => candidate.id === message.id)) return
+  const state = stateFor(agent)
+  const attempt = state.attempt
+  if (attempt !== undefined && sameQueued(message.content, message.source, attempt)) return
+  state.competingQueued = true
+  if (attempt?.phase === 'queued') attempt.stale = true
+})
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:286–306`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L286-L306)。
+
+Host pause 且当前 running 时取消 live Turn、保留 inbox；当前 Agent 自己发 pause 则正常收尾。普通下一回合输入让竞争标记成立，已排队自动 attempt 变 stale，用户接管不能被旧自动续跑抢占。
+
+```typescript
+// Fence the pause to the exact dropped attempt's ref. A resume bumps
+// the revision, so a host pause followed by an immediate resume (before
+// the aborted turn converges to idle) must not re-pause the resumed goal.
+const pause = attempt !== undefined
+  && (attempt.phase === 'queued' || attempt.phase === 'claimed' || attempt.cancelled)
+  && goal !== undefined && goal.phase === 'active' && goal.activation === 'armed'
+  && attempt.goalId === goal.id && attempt.revision === goal.revision
+// A reservation still queued when the agent reaches idle cannot run:
+// withdraw it so human input queued behind it is not stranded.
+if (pause || attempt?.phase === 'queued') {
+  state.attempt = undefined
+  try {
+    if (attempt.phase === 'queued') agent.inbox.remove(attempt.messageId)
+    if (pause) ctx.goals.pause(agent, goalRef(goal))
+  } catch (error: unknown) {
+    ctx.logger.warn(`goal-round-driver: could not settle cancelled goal round for agent "${agent.id}": ${renderThrown(error)}`)
+    disarm(state)
+  }
+}
+requestDrive(state)
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:264–283`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L264-L283)。
+
+idle 收敛时只暂停匹配 goalId/revision 的旧 attempt。Host 紧接着 resume 会增加 revision，旧取消不能重新暂停恢复后的新目标。这是一个需要精确引用的竞争场景，而非仅检查 phase 是否 active。
+
+```typescript
+  state: DriverState,
+  content: readonly ContentBlock[],
+  source: GoalMessageSource,
+): boolean {
+  const attempt = state.attempt
+  const goal = currentGoal(state)
+  return ctx.fiber.state === FiberState.ACTIVE
+    && !state.stopping && attempt !== undefined && attempt.phase === 'claimed'
+  && !attempt.stale && sameQueued(content, source, attempt)
+  && goal !== undefined && goal.id === source.goalId && goal.revision === source.revision
+  && goal.phase === 'active' && goal.activation === 'armed'
+  && source.round === goal.roundsStarted + 1
+}
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:350–362`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L350-L362)。
+
+validReservation 同时检查 Fiber ACTIVE、stopping、claimed、stale、来源内容、goal revision、activation 和下一 round。每项都对应一条旧权限可能失效的路径。
+
+```typescript
+try {
+  valid = validReservation(state, content, source)
+} catch (error: unknown) {
+  ctx.logger.warn(`goal-round-driver: post-decision check failed for agent "${agent.id}": ${renderThrown(error)}`)
+  disarm(state)
+  valid = false
+}
+if (!valid) {
+  state.attempt = undefined
+  restoreOtherClaimed(agent, decision.messages, submitted.id)
+  requestDrive(state)
+  return { kind: 'reject' }
+}
+return { ...decision, startsRequestSeries: true }
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:415–428`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L415-L428)。
+
+await next() 后再次重查，不合法则恢复其他已 claim 消息并 reject。异步治理期间状态可变，双重检查才保证最后提交的是当前资格。
+
 ## 人工输入在哪里接管，决定了影响范围
 
 steer 在后续 Step 边界被接纳，followup 排下一 Turn，inject 不单独唤醒 idle Agent，cancel 则请求停止当前在途工作。取消默认清空队列，keepInbox 可保留；但保留消息并不使失效目标 revision 自动重新合法。
@@ -93,6 +413,53 @@ steer 在后续 Step 边界被接纳，followup 排下一 Turn，inject 不单�
 
 产品按钮需要映射到这些真实语义。界面写“暂停”，实现却只是 followup 一条自然语言消息，当前工具可能继续运行；这会使用户预期与运行事实错位。按钮含义应由控制 API 与资源停止过程决定。
 
+### 第五步：取消、下一 Step 与下一 Turn 分别验收
+
+```typescript
+cancel(cause: AgentCancelCause, options: CancelOptions = {}): void {
+  if (!options.keepInbox) {
+    this.inbox.clear()
+    if (this.phase.kind !== 'idle') this.phase.wakeRequested = false
+  }
+  if (this.phase.kind !== 'idle') this.phase.abort.abort(cause)
+}
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:175–181`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L175-L181)。
+
+cancel 默认清 inbox；Host pause 则显式 keepInbox。取消当前执行与丢弃待处理人类输入并不必然一起发生，需要调用者选政策。
+
+```typescript
+yield async () => {
+  const waits: Promise<void>[] = []
+  for (const state of states.values()) {
+    state.stopping = true
+    disarm(state)
+    const attempt = state.attempt
+    if (attempt !== undefined) {
+      attempt.stale = true
+      /* v8 ignore next -- followup reserves the live agent before publishing a queued attempt */
+      if (state.agent.status === 'running') {
+        state.agent.cancel({ kind: 'parent' })
+        waits.push(state.agent.whenIdle())
+      }
+    }
+    if (state.run !== undefined) waits.push(state.run)
+  }
+  await Promise.allSettled(waits)
+  states.clear()
+```
+
+[源码：`packages/goal/goal-round-driver/src/index.ts:440–457`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L440-L457)。
+
+driver 卸载先 stopping/disarm，把 attempt 标记 stale，必要时 cancel 并 whenIdle，再等待已有 run，最后 clear。撤掉 listener 并不意味着旧异步回调立即消失，寿命关闭必须与排空结合。
+
+产品可以展示“已请求停止”“正在结算”“已停止”；如果只显示已停止而 body 还在运行，用户会错误地开始另一项互斥操作。自主控制必须把这些中间状态纳入协议。
+
+![图4：等待后控制权可能怎样改变](assets/10-autonomy-04.png)
+
+图4：异步等待之后必须复核实际资格。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 提醒属于软干预，不能替代终止策略
 
 repeat-tool-reminder 观察重复调用，向后续上下文补充提醒，不阻止 body 派发。它可能帮助模型调整，但不提供强制停止不变量。[重复工具提醒的实际行为](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/repeat-tool-reminder/src/index.ts#L188-L239)
@@ -100,6 +467,62 @@ repeat-tool-reminder 观察重复调用，向后续上下文补充提醒，不�
 硬约束需要明确额度、deny、取消、deadline 或应用验收策略。计划提示同样只是工作政策的一部分：运行时的工具授权和 sandbox 才限制真实资源访问，不能把“规划模式”直接称为不可突破的只读沙箱。
 
 这并不贬低软引导。成本低、可解释、允许模型恢复思路的提醒适合低风险探索；敏感操作则应由可执行规则兜底。两种方式可以组合，但要清楚它们提供不同强度的保证。
+
+### 第六步：重复检测改变上下文，不改变执行资格
+
+```typescript
+function observe(exec: ToolExecution): UserMessage | undefined {
+  // A direct `ctx.tools.execute()` caller has no model to remind and no id
+  // to key on; only agent-loop calls participate.
+  if (!exec.agent) return undefined
+  if (!tracked(exec.name)) return undefined
+  const canonical = canonicalize(exec.arguments)
+  const key = JSON.stringify([exec.name, canonical])
+  const chain = chains.get(exec.agent)
+  const count = chain !== undefined && chain.key === key ? chain.count + 1 : 1
+  chains.set(exec.agent, { key, count })
+  if (!thresholdSet.has(count)) return undefined
+  const text = count === thresholds[0]
+    ? GENTLE_REMINDER
+    : detailedReminder(exec.name, count, previewArguments(canonical, argumentsPreviewChars))
+  return createUserMessage({
+    content: [{ type: 'text', text }],
+    source: { ...REMINDER_SOURCE, form: 'notice', summary: `${exec.name} × ${count}` },
+  })
+```
+
+[源码：`packages/guard/repeat-tool-reminder/src/index.ts:196–213`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/repeat-tool-reminder/src/index.ts#L196-L213)。
+
+工具名与 canonical 参数组成 key，连续相同次数命中阈值才创建 notice。post-execute 计数也包含 denied 调用，这可识别模型持续撞同一拒绝门。
+
+```typescript
+ctx.on('tools/post-execute', async (exec, _result, next): Promise<PostToolDecision> => {
+  const reminder = observe(exec)
+  const downstream = await next()
+  if (!reminder) return downstream
+  if (downstream.kind === 'block') {
+    return { kind: 'block', feedback: downstream.feedback, additionalContexts: prependContext(reminder, downstream.additionalContexts) }
+  }
+  return {
+    ...downstream,
+    additionalContexts: prependContext(reminder, downstream.additionalContexts),
+  }
+})
+
+// A user interjection changes the context; repetition across it is not a
+// loop. Pure reset hook: always delegates (attaching nothing, vetoing
+// nothing).
+ctx.on('agent/pre-step', ({ agent, messages }, next): Promise<PreStepDecision> => {
+  if (messages.some(message => message.source.kind === 'user')) chains.delete(agent)
+  return next()
+})
+```
+
+[源码：`packages/guard/repeat-tool-reminder/src/index.ts:220–239`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/repeat-tool-reminder/src/index.ts#L220-L239)。
+
+插件 always delegate，把提醒加到下游决定的 additionalContexts；人类输入则清重复链。它不 veto body、不 cancel Turn，强制停止应在准入或派发等具有控制权的位置实现。
+
+提醒适合促使模型换策略，硬额度与高风险授权必须由确定性规则控制。把软提示当硬治理，会让守规矩的模型表现良好，却没有建立系统不变量。
 
 ## 优势、不足与技术心得
 
@@ -110,6 +533,14 @@ DSH 将自主性控制分布到真实执行边界，模式意图延迟提交，�
 我的技术心得是：自主性应被设计为可撤销的执行权。授权取得、等待期间的复核、具体动作准入和权限撤销，都需要记录；只在任务开始时检查一次，无法覆盖长任务中的状态变化。
 
 V08 目标权限与 driver 测试、V10 规划 66 项验证受控来源、批准和接纳边界。完整人机界面与真实模型长期服从性未运行。后续预算篇会继续讨论：即使推进权限正确，如何使资源消耗可预测。
+
+### 技术感悟：自主权应是一份有失效条件的授权
+
+goalRef、revision、pending intent 和双重 validReservation 都在表达同一原则：控制指令必须有来源、范围、提交点和失效条件。自主权不是持久状态中的一个布尔值，也不是模型说“我会继续”。
+
+这套设计利于保守接管，失败后不悄悄继承旧自动权限；代价是应用必须理解多个中间状态，强制预算、外部效果验收和组织政策仍要补充。技术上我会把每个授权写成“针对什么对象、允许什么阶段、何时失效”，再让 UI 对应真实状态。
+
+原有计划与目标竞争测试支撑特定边界，本次未重新运行 runtime，也不承诺任意第三方插件都遵守同样的生命周期协议。
 
 ---
 

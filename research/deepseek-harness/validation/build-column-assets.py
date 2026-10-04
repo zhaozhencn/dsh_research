@@ -2,13 +2,16 @@
 from pathlib import Path
 from html import escape
 import json
+import os
+import subprocess
+import sys
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/'articles/assets'
 ASSETS.mkdir(parents=True,exist_ok=True)
 MANIFEST=json.loads((ROOT/'validation/column-manifest.json').read_text())
-FONT=Path('/System/Library/Fonts/STHeiti Medium.ttc')
+FONT=Path(os.environ.get('DSH_COLUMN_FONT', '/System/Library/Fonts/STHeiti Medium.ttc'))
 if not FONT.exists():
     raise SystemExit('Set FONT to an available Chinese font before rendering on another platform.')
 DATA={
@@ -129,3 +132,7 @@ for i,row in enumerate(rows):
     sheet.paste(im,(10+(i%4)*400,10+(i//4)*550))
 sheet.save(ROOT/'validation/column-contact-sheet.png')
 print('Rendered 16 PNGs, 16 editable SVGs and contact sheet.')
+
+# Rebuild the complete set when the supplemental specification is present.
+if (ASSETS/'diagram-supplements.json').exists():
+    subprocess.run([sys.executable, str(ROOT/'validation/build-column-supplements.py')], check=True)

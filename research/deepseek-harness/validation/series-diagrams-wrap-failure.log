@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 136, in <module>
+    rows.append(render(fig))
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 128, in render
+    assert y <= 980,(fig['stem'],y)
+AssertionError: ('13-evaluation-04', 997)

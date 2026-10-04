@@ -16,6 +16,61 @@ DeepSeek Harness 提供单 Agent driver、工具分组调度、jobs-local 和子
 
 ![并发、调度与资源治理的机制图](assets/08-concurrency.png)
 
+图1：三套局部资源治理。
+
+### 第一步：区分驱动器、工具池、作业与子 Agent
+
+```typescript
+private wakeDriver(wakeAfterAbort = false): void {
+  if (this.phase.kind !== 'idle') {
+    // Maintenance and aborted drivers cannot deliver the wake: latch it for
+    // replay at convergence. Live drivers claim queued work themselves;
+    // disposal never latches, so teardown waits on no model turn.
+    const reason = abortedCancelCause(this.phase.abort.signal)
+    if (reason?.kind !== 'disposed' && (this.phase.kind === 'maintenance' || wakeAfterAbort)) {
+      this.phase.wakeRequested = true
+    }
+    return
+  }
+  const driver = Promise.withResolvers<void>()
+  this.activityDone = driver.promise
+  this.setPhase({
+    kind: 'running',
+    abort: new AbortController(),
+    turn: this.phase.lastTurn,
+    step: 0,
+    wakeRequested: false,
+  })
+  this.loopCtx.agents.withInitiator(this, () => this.kick()).then(driver.resolve, driver.reject)
+}
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:214–235`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L214-L235)。
+
+wakeDriver 先检查驱动器是否仍在活动；维护或取消窗口里的输入由锁存记录，idle 后再启动。这使同一 Agent 的执行驱动保持单一，不意味着工具 body 不会并行，也不意味着多个 Agent 共享全局并发上限。
+
+```typescript
+// Inputs are distinct because tools/execute wrappers may replace `exec.signal`.
+const planned: PlannedCall[] = toolCalls.map(block => ({
+  block,
+  exec: {
+    callId: block.id,
+    name: block.name,
+    arguments: parseArguments(block.arguments),
+    agent,
+    signal,
+  },
+}))
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:71–81`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L71-L81)。
+
+每个工具调用有独立 exec，但初始共用 Step signal。exec.signal 可以被包装器替换，因此调用者 signal 与包装 signal 必须分开记。后台作业另有 owner 与 producer.done，子 Agent 则拥有独立 session 和 handle，不能直接塞进同一个 Promise 池就认为生命周期受控。
+
+![图2：工具池的生产与提交时序](assets/08-concurrency-02.png)
+
+图2：并行的是 body，提交仍保持模型顺序。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 工具并发先看安全声明
 
 工具显式声明 isConcurrencySafe 才有资格并行，默认采用独占方式。maxParallelToolCalls 默认 10，可用 volatile 配置更新；独占调用形成屏障，尚未执行的调用之后会重新分类。[默认工具并行度](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/constants.ts#L1-L6) [工具分组和调度](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L60-L290)
@@ -23,6 +78,86 @@ DeepSeek Harness 提供单 Agent driver、工具分组调度、jobs-local 和子
 这样选择比较保守：两个读取工具可能并行，写同一文件或操作共享状态的工具则不能仅因模型同时提出就执行。并发安全声明也不是运行时证明；若工具错误声明安全，调度器无法替它解决外部数据竞争。
 
 prepare 和审批按顺序 await，body 可以重叠。这意味着并行度是派发上限，实际吞吐仍会受授权等待、provider 和外部服务限制。调大数值，并不会让所有前置阶段同时运行。
+
+### 第二步：运行时根据实际参数重读安全模式
+
+```typescript
+if (userPresentCall) {
+  tool.presentCall = (args: unknown): ToolCallView | undefined => {
+    if (validate(args).length > 0) return undefined
+    return userPresentCall(args as InferArgs<S>)
+  }
+}
+if (userPresentResult) {
+  tool.presentResult = (args: unknown, result: ToolResult): ToolResultView | undefined => {
+    if (validate(args).length > 0) return undefined
+    return userPresentResult(args as InferArgs<S>, result)
+  }
+}
+if (userIsConcurrencySafe) {
+  tool.isConcurrencySafe = (args: unknown): boolean => {
+    if (validate(args).length > 0) return false
+    return userIsConcurrencySafe(args as InferArgs<S>)
+  }
+```
+
+[源码：`packages/core/tools/src/schema.ts:613–629`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/schema.ts#L613-L629)。
+
+concurrency 判断先验证参数，不合法则 false。展示可以软降级，但并行不能冒险推断；并发安全是工具作者针对实际资源与参数的契约，不是“都是读请求”的静态标签。
+
+```typescript
+let next = 0
+let concluded = false
+while (next < planned.length) {
+  // Commit before classifying again so registry changes affect unstarted calls.
+  // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded by the loop condition
+  const first = planned[next]!
+  const mode = ctx.tools.executionMode(first.exec).kind
+  const group = mode === 'parallel' ? planned.slice(next) : [first]
+  const outcome = await runGroup(
+    ctx, turn, step, group, mode, signal, acceptContext,
+  )
+  next += outcome.consumed
+  concluded ||= outcome.concluded
+  if (outcome.aborted) {
+    for (const call of planned.slice(next)) appendSkippedToolCall(session, turn, step, call.block)
+    return { concluded }
+  }
+}
+return { concluded }
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:83–101`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L83-L101)。
+
+外层按下一调用的 executionMode 选择并行组或 exclusive 单调用。每组结束后再次分类，因为前一工具可能改变注册或资源模式。exclusive 是顺序屏障，不是操作系统锁，也不保证另一个 Agent 不会同时写同一个资源。
+
+```typescript
+const fillPool = async (): Promise<void> => {
+  while (!aborted && nextToStart < group.length && inFlight.size < maxParallelToolCalls) {
+    // Re-read later modes after ordered commits so registry changes can create a barrier.
+    // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded by the loop condition
+    const nextCall = group[nextToStart]!
+    if (nextToStart > 0 && mode === 'parallel'
+      && ctx.tools.executionMode(nextCall.exec).kind !== 'parallel') break
+    await startCall(nextToStart)
+    nextToStart++
+    throwSchedulerFailure()
+    await commitReady()
+    throwSchedulerFailure()
+    // Abort may arrive while pre-execute awaits.
+    if (signal.aborted) aborted = true
+  }
+}
+
+// Ordered pre-execute may await; only dispatch/body overlaps. A scheduler
+// failure stops new dispatches and reaches the turn boundary after every
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:199–217`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L199-L217)。
+
+fillPool 按 maxParallelToolCalls 填槽，后续调用在启动前再次检查模式；准备过程依次 await，body 才能重叠。异步审批并没有全部同时弹出；已准备 body 可并行，与“整个工具协议都并行”有区别。
+
+企业写工具还需数据库版本检查、锁或幂等约束。局部 exclusive 只协调本次 Loop 的调用列表，不能承担跨会话资源互斥。
 
 ## 并行完成，为什么还要按顺序提交
 
@@ -55,6 +190,119 @@ const commitReady = async (): Promise<void> => {
 
 取消后不继续补派发，已启动工作要 drain；未开始的槽位报告 `TOOL_ABORTED_BEFORE_DISPATCH`。调度失败也先等待在途派发，之后把异常交给 owning Step 修复。这提供局部完整性，不提供跨工具事务回滚。
 
+### 第三步：完成顺序与历史顺序使用两种游标
+
+```typescript
+const { session } = ctx.agents.requireInitiator()
+const maxParallelToolCalls = ctx.agentLoop.config.maxParallelToolCalls.get()
+const slots: (Slot | undefined)[] = group.map(() => undefined)
+// Started slots retain their `tool/call` seq so the result can cite it.
+const callSeqs: Array<SessionSeq | undefined> = group.map(() => undefined)
+let nextToStart = 0
+let committed = 0
+let started = 0
+let aborted: boolean = signal.aborted
+let concluded = false
+let schedulerFailure: { error: unknown } | undefined
+const throwSchedulerFailure = (): void => {
+  if (schedulerFailure !== undefined) throw schedulerFailure.error
+}
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:131–144`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L131-L144)。
+
+slots 保存各 body 结算结果，committed 指向模型顺序中下一个可提交槽；started 与 nextToStart 描述已接纳和准备进度。多个游标不是重复变量，它们防止把“已完成”误作“已提交”。
+
+```typescript
+const commitReady = async (): Promise<void> => {
+  while (committed < group.length) {
+    const slot = slots[committed]
+    if (slot === undefined) break
+    const call = group[committed]
+    const result = slot.needsPost
+      ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)
+      : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)
+    // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index
+    appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)
+    for (const context of result.additionalContexts ?? []) acceptContext(context)
+    concluded ||= result.concludesTurn === true
+    committed++
+  }
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:147–160`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L147-L160)。
+
+commitReady 只越过连续存在的槽。比如调用 B 比 A 先完成，B 的结果暂存，A 完成后才按 A、B 写历史；additionalContexts 和 concludesTurn 同样按此顺序接纳。可重放顺序稳定，但慢 A 会造成提交队头等待。
+
+```typescript
+const startCall = async (index: number): Promise<void> => {
+  // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index
+  const call = group[index]!
+  callSeqs[index] = appendToolCall(session, turn, step, call.block)
+  started++
+  const prepared = await ctx.tools[TOOL_RUNTIME_SCHEDULER].prepare(call.exec)
+  throwSchedulerFailure()
+  switch (prepared.kind) {
+    case 'dispatch': {
+      const promise = ctx.tools[TOOL_RUNTIME_SCHEDULER].dispatch(prepared.exec).then(
+        (outcome) => {
+          slots[index] = { exec: prepared.exec, result: outcome.result, needsPost: outcome.kind === 'post-result' }
+          return index
+        },
+        (error: unknown) => {
+          schedulerFailure ??= { error }
+          return index
+        },
+      )
+      inFlight.set(index, promise)
+      break
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:165–185`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L165-L185)。
+
+先 append call，依序 prepare；只有 dispatch Promise 加入 inFlight。回调存槽并返回 index，不直接写 Session。把结果生产和有序提交分开，能让后处理与历史保持确定次序。
+
+```typescript
+    await fillPool()
+    while (inFlight.size > 0) {
+      const settledIndex = await Promise.race(inFlight.values())
+      inFlight.delete(settledIndex)
+      throwSchedulerFailure()
+      await commitReady()
+      throwSchedulerFailure()
+      // Abort may arrive while a tool or ordered commit awaits.
+
+      if (signal.aborted) aborted = true
+      await fillPool()
+    }
+  } catch (error: unknown) {
+    schedulerFailure ??= { error }
+    await Promise.allSettled(inFlight.values())
+    throw schedulerFailure.error
+  }
+
+  if (aborted) {
+    // Started calls and accepted context settle first; every remaining model
+    // call then receives an ordered synthetic result before the turn aborts.
+    for (const call of group.slice(started)) appendSkippedToolCall(session, turn, step, call.block)
+    return { consumed: group.length, aborted: true, concluded }
+  }
+  /* v8 ignore next -- unreachable: a non-aborted group commits every started call */
+  if (committed !== started) throw new Error('tool-call scheduler: uncommitted settled calls')
+  return { consumed: started, aborted: false, concluded }
+}
+
+/** Append the durable call/result pair for a model call skipped after cancellation. */
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:220–249`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L220-L249)。
+
+race 只用于知道哪个在途工作已结算；catch 后 allSettled 才向外抛。取消不启动余项，而为余项补未派发结果。局部并发并没有放弃清理责任，也不因 B 早完成就允许 B 抢先改写上下文。
+
+![图3：三种资源拥有者](assets/08-concurrency-03.png)
+
+图3：局部额度不能自动组合成集群全局上限。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 后台作业在注册前验证可管理性
 
 jobs-local 是进程内 registry。注册前验证精确 live owner、控制端可达性以及当前额度，先分配身份，再运行生产者启动函数；只有启动返回，才提交 job 记录并启动输出 pump。[作业准入、启动与提交](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L206-L280)
@@ -62,6 +310,85 @@ jobs-local 是进程内 registry。注册前验证精确 live owner、控制端�
 生产者启动抛错时，可能跳过一个编号，但不会留下正常注册的 job。编号连续并不是一致性目标；确保登记对象确实具有可管理生产者，才是这个时序的重点。
 
 作业访问也有 Session 所有权约束：owned job 只能由对应 Session 访问，无 owner 的共享桶则另行处理。这是本地服务检查，不等于企业用户身份系统。[作业 owner、额度与访问](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L378-L409)
+
+### 第四步：准入需要 owner、控制器和容量同时成立
+
+```typescript
+}
+if (owner !== undefined) this.ensureOwnerCleanup(owner)
+
+const active = this.activeJobCount(owner)
+if (active >= this.maxConcurrentJobsPerOwner) {
+  throw new Error(
+    `background job limit reached for this owner (limit: ${this.maxConcurrentJobsPerOwner}); use job_kill to stop an unneeded job, wait for it to finish, then retry`,
+  )
+}
+
+// The id is issued before the starter runs so the producer face can carry
+// it; a throwing starter still leaves nothing registered — its ordinal is
+// simply skipped.
+const count = (this.counters.get(spec.kind) ?? 0) + 1
+this.counters.set(spec.kind, count)
+const id = JobId(`${spec.kind}-${count}`)
+const ring = new OutputRing()
+const state: ProducerState = { progress: undefined, job: undefined }
+const handle: JobHandle = {
+  id,
+  append: (text, options) => { this.appendRing(state, ring, text, options, 'producer') },
+  updateProgress: (line) => { this.updateProgress(state, line) },
+}
+const hooks = spec.run(handle)
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:216–239`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L216-L239)。
+
+resolveOwner 后先检查 servesOwner，再校验 kind、label、输出额度和活跃数。没有 job controller 的组合不能启动无法管理的作业。owner cleanup 也在启动前建立，避免作业创建后才发现归属 Scope 已不能接收清理。
+
+```typescript
+let markSettled!: () => void
+const settled = new Promise<void>((resolve) => { markSettled = resolve })
+const job: TrackedJob = {
+  id,
+  kind: spec.kind,
+  label: spec.label,
+  outputLimitBytes: spec.outputLimitBytes,
+  owner,
+  cancel: hooks.cancel.bind(hooks),
+  status: 'running',
+  ring,
+  modelCursor: 0,
+  resultDelivered: false,
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:241–253`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L241-L253)。
+
+id 在 starter 之前发放，starter 抛错只跳过序号，不登记假作业；producer handle 可以先暂存输出。序号连续不是正确性要求，登记与 owner 生命周期一致才是。
+
+```typescript
+// the starter are already in the ring and `state`, and every later handle
+// call reaches the registered record for its terminal checks and signals.
+state.job = job
+this.store.set(id, job)
+// Registration is complete and cannot fail from here, so the visible set
+// has genuinely changed. The announcement precedes the pump because the
+// pump drains its sources once synchronously, and that drain may append
+// and announce output: a job's first event is always `registered`.
+this.emit({ type: 'registered', job: this.view(job) }, owner)
+
+// The producer's settlement or a registry-forced one ends the pump; the
+// pump's final drain then lands before this registry trims the ring.
+const producerDone = hooks.done.then(
+  outcome => outcome,
+  (error: unknown): JobOutcome => {
+    // Contain a producer contract violation (`done` rejected) so cleanup and waiters cannot hang.
+    this.selfCtx.logger.warn(`jobs: job ${job.id} producer done promise rejected (producer contract violation): ${String(error)}`)
+    return { status: 'failed', detail: String(error) }
+  },
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:268–286`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L268-L286)。
+
+state.job 与 store.set 是登记提交；registered 先于 pump 输出事件。producer.done 拒绝被转成 failed，避免违反 producer 契约后让所有 waiters 永久悬挂。它控制本地记录，并不能自动杀掉已经逃逸的外部进程。
 
 ## stopping 为什么仍然占额度
 
@@ -84,6 +411,79 @@ private activeJobCount(owner: Agent | undefined): number {
 
 owner 或服务卸载时，registry 取消、等待、清理记录。生产者不响应停止会拖住 settled；某些异常分支的告警，也不能单独证明外部工作已经终止。管理层知道作业逻辑失败，与操作系统确认执行范围退出，仍是不同事实。[作业 owner 与服务清理](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L610-L683)
 
+### 第五步：额度以权威状态计算，不随取消按钮提前释放
+
+```typescript
+/** Count authoritative active records for one exact owner or the shared unowned bucket. */
+private activeJobCount(owner: Agent | undefined): number {
+  let count = 0
+  for (const job of this.store.values()) {
+    if (job.owner === owner && (job.status === 'running' || job.status === 'stopping')) count += 1
+  }
+  return count
+}
+
+/** Look up a job and enforce caller access. */
+private expect(id: JobId, caller?: SessionId): TrackedJob {
+  const job = this.store.get(id)
+  if (job === undefined) throw new Error(`unknown job ${id}`)
+  this.assertAccess(job, caller)
+  return job
+}
+
+/**
+ * The isolation fence: a job with an owner is reachable only by callers
+ * whose session id matches (`!== undefined` semantics — an unowned job is
+ * open, and a caller-less view can never match an owned one).
+ */
+private assertAccess(job: TrackedJob, caller: SessionId | undefined): void {
+  if (job.owner !== undefined && job.owner.id !== caller) {
+    throw new Error(`job ${job.id} belongs to another session`)
+  }
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:384–409`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L384-L409)。
+
+activeJobCount 同时计算 running、stopping，按精确 owner 对象归属；访问则按调用者 sessionId 检查。计数与可访问性使用不同身份维度，不能用一个字符串集合替代所有规则。
+
+```typescript
+void producerDone.then(async (outcome) => {
+  if (job.pump !== undefined) await job.pump.done
+  this.settle(job, outcome, job.settleCause ?? 'producer')
+})
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:299–302`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L299-L302)。
+
+producerDone 后仍等待 pump.done，最后才 settle。停止信号之后可能还有输出尾部需要排空，若此时就归还额度，旧进程尚未释放，新进程又进入，真实并发便会超限。
+
+```typescript
+private ensureOwnerCleanup(owner: Agent): void {
+  if (this.ownerCleanups.has(owner)) return
+  // Record only after attach succeeds; a disposing scope rejects new effects.
+  const detach = owner.ctx.effect(() => async () => {
+    this.ownerCleanups.delete(owner)
+    await this.disposeOwned(owner)
+  }, 'jobs.ownerCleanup()')
+  this.ownerCleanups.set(owner, detach)
+}
+
+/** Cancel, await terminal records, and drop every job owned by one exact agent lifecycle. */
+private async disposeOwned(owner: Agent): Promise<void> {
+  const owned = [...this.store.values()].filter(job => job.owner === owner)
+  this.cancelForTeardown(owned, 'owner disposed')
+  await Promise.all(owned.map(job => job.settled))
+  this.drop(owned)
+```
+
+[源码：`packages/jobs/jobs-local/src/index.ts:614–629`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/jobs/jobs-local/src/index.ts#L614-L629)。
+
+owner Scope 清理先取消所属作业、等待所有 settled，再 drop。取消函数抛错时服务会强制失败并报告潜在 orphan；取消返回却永不 settle 仍可能卡住。工程上需要可强制结束的执行环境，而不是只增加一个本地超时 Promise。
+
+![图4：额度何时可以归还](assets/08-concurrency-04.png)
+
+图4：stopping 不是 finished，取消不是资源释放。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 子 Agent 是独立生命周期，不能只当函数
 
 SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 负责创建 child、挂载输出契约、连接父级 signal、等待 idle 并读取本次结果。dispose 还要释放 handle，等待结果 Promise，撤销父 signal listener。[委派容量配置](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent/src/index.ts#L189-L202) [父子取消和结果等待](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L158-L207)
@@ -91,6 +491,105 @@ SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 
 父级取消时，子级可能正在模型请求或工具执行，停止仍需合作完成。child 正常 Loop 结束，也可能因缺少要求的结构化结果而判失败。委派不能只实现“创建子实例并 await 文本”。
 
 这些额度也没有自动相加为任务级资源上限。一个父 Agent 可以持有 job，还可以启动 child，child 又可能调用多个工具。若产品需要统一资源治理，应明确额度归属、传播、累积和回收规则。
+
+### 第六步：容量、父信号、结果与 handle 各有归属
+
+```typescript
+/** Host configuration for continuable subagent capacity. */
+export interface Config {
+  /** Maximum live children sharing uninterrupted continuable parent links; defaults to 8. */
+  maxActiveSubagents: Volatile<number>
+  /** Default delegation depth for tools without an explicit limit; defaults to 1. */
+  maxDepth: Volatile<number>
+}
+
+/** Named provider registry with one-shot runs, durable discovery, and continuable-child operations. */
+export class SubagentRuntime extends TypertRemoteService {
+  static Config = z.object({
+    maxDepth: z.number().step(1).min(0).max(Number.MAX_SAFE_INTEGER).default(1).volatile(),
+    maxActiveSubagents: z.number().step(1).min(1).max(Number.MAX_SAFE_INTEGER).default(8).volatile(),
+  })
+  private providers = new Map<string, SubagentProvider>()
+  private continuations: SubagentContinuationManager | undefined
+  /**
+   * The contained lifecycle-edge publisher. Built here because scoped dispatch
+   * keys its carrier by this exact service instance, whose own context filter
+   * composes into the carrier.
+   */
+  private readonly emitLifecycle: LifecycleEmitter
+
+  constructor(ctx: Context, private config: Config) {
+    super(ctx, 'subagents')
+    this.emitLifecycle = createLifecycleEmitter(this.ctx, parent => scopeTarget(this, parent))
+    ctx.inject(['agents'], (childCtx: Context) => {
+      const manager = new SubagentContinuationManager(childCtx, {
+        prepareContinuable: (name, request) => this.prepareContinuable(name, request),
+        observeActivation: (provider, childId, parent) => this.observeActivation(provider, childId, parent),
+      }, () => this.config.maxActiveSubagents.get())
+      this.continuations = manager
+      childCtx.effect(() => () => {
+        /* v8 ignore else -- one injected binding owns the slot until its fiber disposes. */
+        if (this.continuations === manager) this.continuations = undefined
+      }, 'subagents.continuationBinding()')
+```
+
+[源码：`packages/subagent/subagent/src/index.ts:189–224`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent/src/index.ts#L189-L224)。
+
+continuable child 容量由 manager 读取 volatile 配置；maxDepth 则限制委派层次。这个上限不能直接套给所有一次性运行或解释为集群租户配额，需要追到使用它的 consumer。
+
+```typescript
+const child = handle.agent
+const flags = { cancelled: false }
+const onAbort = (): void => {
+  flags.cancelled = true
+  child.cancel({ kind: 'parent' })
+}
+signal.addEventListener('abort', onAbort, { once: true })
+// Agent creation detaches its creation-only listener before returning. The
+// post-registration check closes that handoff without treating an already
+// published child as a failed start.
+if (signal.aborted) onAbort()
+
+const result: Promise<SubagentResult> = (async () => {
+  try {
+    if (!flags.cancelled) {
+      child.followup(createUserMessage({ content: prompt, source: { kind: 'user' } }))
+      await child.whenIdle()
+    }
+    return readResult(
+      child,
+      boundary,
+      flags.cancelled,
+      structured ? { captured: structured.captured() } : undefined,
+    )
+  } finally {
+    signal.removeEventListener('abort', onAbort)
+  }
+```
+
+[源码：`packages/subagent/subagent-in-process-driver/src/index.ts:166–192`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L166-L192)。
+
+published child 接管父 signal，注册 listener 后立即补检查，闭合“创建取消 listener 已拆、运行 listener 尚未接”的时间窗。只有未取消时 followup，再 whenIdle，之后从 activation boundary 读结果；finally 拆 listener。
+
+```typescript
+return {
+  id: childId,
+  localAgent: child,
+  result,
+  async dispose(): Promise<void> {
+    signal.removeEventListener('abort', onAbort)
+    flags.cancelled = true
+    const settlements = await Promise.allSettled([handle.dispose(), result])
+    const disposal = settlements[0]
+    // The result channel owns run faults; disposal reports only failure to
+    // release the published handle after both operations settle.
+    if (disposal.status === 'rejected') throw disposal.reason
+  },
+```
+
+[源码：`packages/subagent/subagent-in-process-driver/src/index.ts:195–207`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/subagent/subagent-in-process-driver/src/index.ts#L195-L207)。
+
+dispose 同时等待 handle.dispose 与 result，分别报告结果通道和释放错误。子 Agent 回答完成不等于句柄已经释放；把 result Promise 当唯一生命周期会漏掉 Scope、存储句柄与后台工作。
 
 ## 局部治理的优势与不足
 
@@ -100,6 +599,17 @@ SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 
 
 需要新增全局调度时，可以先建立任务与资源身份，再将模型请求、作业、child 的准入接到统一额度服务。不要先建一个队列再猜每类资源如何释放。尤其应明确取消请求和 settled 之间谁继续占资源，这是基于现有分层的设计建议。
 
+### 从本地机制推导企业层需要补什么
+
+|层次|现成协调对象|企业层补充|
+|---|---|---|
+|工具池|单组 body 并行与有序提交|共享资源版本与跨会话互斥|
+|作业|精确 owner 的活跃记录|租户配额、执行节点容量|
+|可继续子 Agent|maxActiveSubagents 与深度|跨实例委派身份、费用和回收|
+|Scope 清理|归属对象的停止与等待|隔离环境的强终止与孤儿巡检|
+
+源码优势是等待中的资源仍有明确 owner，退出不是丢弃 Promise。不足是配额局部、取消协作，分布式调度与不可信执行隔离仍属于部署层。将这些接缝用于扩展，比把每个 local limit 简单放大更稳妥。
+
 ## 技术心得：配额应该跟随资源的真实生命周期
 
 最有价值的收获是 stopping 仍计活跃这一细节。它体现了一个普遍原则：资源不是在“要求停止”时释放，而是在实际工作静止、管理责任结束后释放。
@@ -107,6 +617,12 @@ SubagentRuntime 控制委派深度和活跃子 Agent 容量，in-process driver 
 另一个收获是执行顺序与提交顺序可以不同。并发让工作重叠，有序提交让消费者稳定；两者之间的等待和缓存应成为明确成本，而不是实现中的意外。
 
 V10 的 jobs 83 项和 structured child 30 项，加上既有工具调度测试，验证选定受控生命周期。它们没有测量公平性、生产吞吐或远程节点能力。下一篇将从同样的 owner 与 scope 分层，进一步分析行动权限。
+
+### 技术感悟：并发正确性包含提交与释放
+
+阅读 slots、committed、stopping 与 handle.dispose 后，会发现并发并不止是多任务同时启动。还有结果以什么顺序成为事实、取消后谁仍然占资源、释放错误由谁收集。
+
+我会用“接纳、运行、结算、释放”四个时刻审查任何并发组件。局部槽位可在结算后释放，外部进程容量则要在确认退出后释放，二者不能共享未经解释的 done。原有工具池、作业和子 Agent 验证支持这些限定路径；本次没有新增多节点负载或进程强终止验证。
 
 ---
 

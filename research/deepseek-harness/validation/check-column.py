@@ -11,6 +11,8 @@ RESULT=ROOT/'validation/column-check.json'
 manifest=json.loads((ROOT/'validation/column-manifest.json').read_text())
 evidence=json.loads((ROOT/'appendices/evidence.json').read_text())
 figures=json.loads((ROOT/'articles/assets/diagrams.json').read_text())
+structure=json.loads((ROOT/'validation/column-structure-baseline.json').read_text())
+supplements=json.loads((ROOT/'articles/assets/diagram-supplements.json').read_text())
 concerns=re.findall(r'^## \d+\. (.*)$',(ROOT/'02-runtime-source.md').read_text(),re.M)
 failures=[];rows=[];links=0;source_links=0;snippets=0;checked_images=[]
 
@@ -19,7 +21,14 @@ def require(condition,message):
 
 require(manifest['sha']==SHA,'manifest SHA')
 require(len(manifest['articles'])==16 and len(concerns)==16,'article / concern count')
-require(len(figures['figures'])==16,'figure count')
+require(len(figures['figures'])==64,'figure count')
+require(len(supplements['figures'])==48 and supplements['sha']==SHA,'supplement count / SHA')
+for spec in supplements['figures']:
+    matches=[fig for fig in figures['figures'] if fig['stem']==spec['stem']]
+    require(len(matches)==1,f'supplement manifest entry {spec["stem"]}')
+    if matches:
+        require(all(matches[0].get(key)==value for key,value in spec.items()),f'supplement manifest differs from specification {spec["stem"]}')
+require(len({fig['stem'] for fig in figures['figures']})==64,'unique figure stems')
 require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()==SHA,'checkout SHA')
 require(not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'source checkout dirty')
 for row in manifest['articles']:
@@ -31,8 +40,16 @@ for row in manifest['articles']:
     require('{{' not in body,f'unexpanded marker {n}')
     require('技术心得' in body and any(word in body for word in ['不足','代价','局限']),f'tradeoffs / insights structure missing {n}')
     require(body.count('```')%2==0,f'unclosed fence {n}')
+    require(re.findall(r'^## .*$',body,re.M)==structure['headings'][str(n)],f'original section titles {n}')
+    article_figures=[fig for fig in figures['figures'] if fig['article']==n]
+    require(len(article_figures)==4,f'four figures per article {n}')
+    image_stems=re.findall(r'!\[[^\n]*\]\(assets/([^)]*)\.png\)',body)
+    require(len(image_stems)==4 and set(image_stems)==set(row['figure_stems']),f'embedded figures {n}')
+    for fig in article_figures:
+        require(fig['stem'] in row['figure_stems'],f'figure mapping {n}')
+        require(set(fig.get('source_excerpt_ids',[])).issubset(row['snippet_ids']),f'figure source references {fig["stem"]}')
     blocks=re.findall(r'```typescript\n([\s\S]*?)\n```',body)
-    require(len(blocks)==len(row['snippet_ids']),f'excerpt count {n}')
+    require(len(blocks)==len(row['snippet_ids']) and len(blocks)>=12,f'excerpt count {n}')
     for key,block in zip(row['snippet_ids'],blocks):
         snippets+=1;v=manifest['snippets'][key]
         if v.get('local'):source=(ROOT/v['path']).read_text()
@@ -44,7 +61,7 @@ for row in manifest['articles']:
     for eid in row['evidence_ids']:require(eid in evidence,f'unknown evidence {n}: {eid}')
     no_code=re.sub(r'```[\s\S]*?```','',body)
     no_links=re.sub(r'!?\[[^\]]*\]\([^)]*\)','',no_code)
-    rows.append({'number':n,'file':row['file'],'concern':row['concern'],'code_excerpts':len(blocks),'evidence_refs':len(row['evidence_ids']),'cjk_characters_excluding_code_links':len(re.findall(r'[\u4e00-\u9fff]',no_links))})
+    rows.append({'number':n,'file':row['file'],'concern':row['concern'],'code_excerpts':len(blocks),'illustrations':len(article_figures),'evidence_refs':len(row['evidence_ids']),'cjk_characters_excluding_code_links':len(re.findall(r'[\u4e00-\u9fff]',no_links))})
 
 for path in sorted((ROOT/'articles').glob('*.md')):
     for m in re.finditer(r'!?\[[^\]\n]*\]\(([^)]+)\)',path.read_text()):
@@ -73,7 +90,7 @@ for fig in figures['figures']:
     require(fig['title'] in texts and fig['note'] in texts,f'SVG captions {svg.name}')
     checked_images.append({'png':fig['png'],'svg':fig['svg'],'width':fig['width'],'height':fig['height'],'ok':True})
 
-result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
+result={'sha':SHA,'articles':rows,'article_count':len(rows),'source_excerpt_count':snippets,'checked_links':links,'checked_source_links':source_links,'figures':checked_images,'png_count':len(checked_images),'svg_count':len(checked_images),'source_checkout_clean':not subprocess.check_output(['git','status','--short'],cwd=REPO,text=True).strip(),'existing_runtime_tests':'Reused previously executed same-SHA evidence; no new behavior-test runs claimed.','checks':'16 concern mapping / original section preservation / four embedded illustrations per article / supplemental source references / exact Git or local fixture excerpts / hashes / source SHA and ranges / local targets / fences / insights and tradeoffs / PNG decode / SVG XML and dimensions / checkout status','limits':['Structural checks and editorial keywords do not certify source semantics, tradeoff analysis or business correctness.','Code blocks are original partial excerpts, not standalone programs; no new typecheck claim.','Figures use standard drawing tools; no WeChat editor preview or remote publication.','Existing Mermaid parsing is checked separately by the report checker.'],'failures':failures,'ok':not failures}
 RESULT.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({'articles':len(rows),'excerpts':snippets,'png':len(checked_images),'svg':len(checked_images),'links':links,'ok':not failures,'failures':failures},ensure_ascii=False))
 raise SystemExit(1 if failures else 0)

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1240" viewBox="0 0 1200 1240">
+<rect width="100%" height="100%" fill="#f5f8fc"/>
+<title>反馈授权的外发顺序</title>
+<desc>默认不是普通 Session 事件实时全量上传</desc>
+<text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">12 / 从源码理解 Agent Harness</text>
+<text x="600" y="133" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="46" fill="#16324e">反馈授权的外发顺序</text>
+<rect x="350" y="190" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="247" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">反馈事实已追加</text>
+<text x="735" y="292" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">canonical 对象与自有后缀</text>
+<text x="151" y="257" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Session</text>
+<rect x="272" y="224" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="265" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">1</text>
+<path d="M328,252 L350,252" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,252 336,244 336,260" fill="#6f8aa5"/>
+<path d="M300,280 L300,376" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="300,376 292,362 308,362" fill="#6f8aa5"/>
+<rect x="350" y="342" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="399" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">确认授权</text>
+<text x="735" y="444" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">on-demand / includeHistory</text>
+<text x="151" y="409" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Reporter</text>
+<rect x="272" y="376" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="417" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">2</text>
+<path d="M328,404 L350,404" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,404 336,396 336,412" fill="#6f8aa5"/>
+<path d="M300,432 L300,528" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="300,528 292,514 308,514" fill="#6f8aa5"/>
+<rect x="350" y="494" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="551" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">读取日志前缀</text>
+<text x="735" y="596" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">cursor+1 到 throughSeq</text>
+<text x="151" y="561" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Coordinator</text>
+<rect x="272" y="528" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="569" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">3</text>
+<path d="M328,556 L350,556" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,556 336,548 336,564" fill="#6f8aa5"/>
+<path d="M300,584 L300,680" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="300,680 292,666 308,666" fill="#6f8aa5"/>
+<rect x="350" y="646" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="703" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">复制后处理</text>
+<text x="735" y="748" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">部署挂载的当前政策</text>
+<text x="151" y="713" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Redaction</text>
+<rect x="272" y="680" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="721" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">4</text>
+<path d="M328,708 L350,708" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,708 336,700 336,716" fill="#6f8aa5"/>
+<path d="M300,736 L300,832" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="300,832 292,818 308,818" fill="#6f8aa5"/>
+<rect x="350" y="798" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="855" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">emit 交接</text>
+<text x="735" y="900" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">可延迟序列化与导出</text>
+<text x="151" y="865" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Backend</text>
+<rect x="272" y="832" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="873" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">5</text>
+<path d="M328,860 L350,860" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,860 336,852 336,868" fill="#6f8aa5"/>
+<path d="M300,888 L300,984" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="300,984 292,970 308,970" fill="#6f8aa5"/>
+<rect x="350" y="950" width="770" height="128" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="735" y="1007" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="40" fill="#16324e">更新 handoff</text>
+<text x="735" y="1052" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">不是远端 durable ACK</text>
+<text x="151" y="1017" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">Cursor</text>
+<rect x="272" y="984" width="56" height="56" rx="18" fill="#e4eef9" stroke="#a9c2dd" stroke-width="2"/>
+<text x="300" y="1025" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">6</text>
+<path d="M328,1012 L350,1012" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="350,1012 336,1004 336,1020" fill="#6f8aa5"/>
+<text x="600" y="1163" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">默认不是普通 Session 事件实时全量上传</text>
+<text x="600" y="1211" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
+</svg>

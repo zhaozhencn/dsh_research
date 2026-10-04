@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 162, in <module>
+    rows.append(render(fig))
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-column-supplements.py", line 114, in render
+    assert bottom <= 616,(fig['stem'],detail)
+AssertionError: ('11-budgets-02', '通过父子身份关联任务')

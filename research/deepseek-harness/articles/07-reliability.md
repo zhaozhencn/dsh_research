@@ -16,6 +16,61 @@ Agent 调用上传工具，远端已经保存文件，进程却在记录结果�
 
 ![可靠性恢复与副作用一致性的机制图](assets/07-reliability.png)
 
+图1：不同失败需要不同恢复依据。
+
+### 第一步：请求异常先规范化，恢复策略再接管
+
+```typescript
+function adapterFailureChunk(error: unknown, signal?: AbortSignal): StreamChunk {
+  const failure = normalizeLlmFailure(error)
+  return {
+    type: 'finish',
+    reason: signal?.aborted || failure.code === 'ABORTED'
+      ? { kind: 'aborted', failure }
+      : { kind: 'error', failure },
+  }
+}
+```
+
+[源码：`packages/llm/llm/src/index.ts:1146–1154`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm/src/index.ts#L1146-L1154)。
+
+失败 chunk 把取消与供应商异常收敛为稳定分类，原始错误仍由 normalizeFailure 保留来源。恢复器面对的是协议化 failure，不能仅凭文本里出现 timeout 判断是否值得重试。尤其是 HTTP 失败与工具副作用失败，它们并不共享效果语义。
+
+```typescript
+const finish = live.finish
+if (finish.kind === 'error' || finish.kind === 'aborted') {
+  live.settle(
+    'assistant/attempt',
+    () => this.session.append('assistant/attempt', { turn, step, stream: live.stream }).seq,
+  )
+  const action = await this.dispatch.waterfall(
+    'agent/request-error', {
+      turn,
+      step,
+      provider: request.provider,
+      failure: finish.failure,
+      retryPolicy: preparedCall?.retryPolicy,
+      signal,
+    },
+    () => Promise.resolve<RequestErrorAction>(undefined),
+  )
+  signal.throwIfAborted()
+  if (action?.kind !== 'retry') {
+    throw new LlmError(finish.failure.message, finish.failure.code, finish.failure)
+  }
+  continue
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:488–509`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L488-L509)。
+
+Loop 先结算失败的 assistant attempt，再调用 agent/request-error。只有返回 retry 才继续同一个 Step；没有恢复决定便抛 LlmError。这样历史能解释每一次失败，不会因为随后成功就抹掉失败事实。恢复插件也没有权限把已经失败的 attempt 改成成功。
+
+阅读顺序应沿 failure → attempt settlement → recovery decision → next attempt 展开。把四个阶段合成“自动重试”会隐藏恢复插件的责任以及再次准备请求的成本。
+
+![图2：请求失败后的恢复时序](assets/07-reliability-02.png)
+
+图2：取消可发生在计划与实际重试之间。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 重试计数的作用域决定了上限含义
 
 llm-retry 按 provider 与策略身份保存计数，状态在 step/start 或 turn/end 清空。普通模式只处理允许的错误码，并在该作用域内检查 maxRetries。
@@ -37,11 +92,179 @@ const retry = previousRetry + 1
 
 退避事件也进入日志，开始重试另有记录。延迟可被 signal 中断，插件卸载撤销 listener 后还 abort 自身 lifetime 并等待活跃恢复任务，避免已进入 waterfall 的旧回调继续行动。
 
+### 第二步：计数保存为 Session 投影，并在明确边界清零
+
+```typescript
+validateConfig(config)
+ctx.sessionProjections.register({
+  key: 'llmRetry',
+  stateVersion: 1,
+  stateSchema: llmRetryStateSchema,
+  init: () => ({}),
+  apply: (state, event) => {
+    if (event.type === 'step/start' || event.type === 'turn/end') return {}
+    if (event.type !== 'llm/retry') return state
+    const key = retryStateKey(event.data.provider, event.data.policyKey)
+    const entry = state[key]
+    if (entry?.retry === event.data.retry && entry.retryId === event.data.retryId) return state
+    return { ...state, [key]: { retry: event.data.retry, retryId: event.data.retryId } }
+  },
+})
+const random = internals.random ?? Math.random
+const lifetime = new AbortController()
+const active = new Set<Promise<RequestErrorAction>>()
+```
+
+[源码：`packages/llm/llm-retry/src/index.ts:124–141`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L124-L141)。
+
+step/start 与 turn/end 清空计数，llm/retry 按 provider、policyKey 更新。相同 retry/retryId 的重放不重复增加。这是当前 Step 的恢复状态，不是任务总调用数，也不是全组织供应商预算。
+
+```typescript
+  const previousRetry = previous?.retry ?? 0
+  if (policy.mode === 'normal' && previousRetry >= policy.maxRetries) return next()
+  const retry = previousRetry + 1
+  const retryId = previous?.retryId ?? RetryId(randomUUID())
+  let delayMs: number
+  if (failure.providerRetryAfterMs !== undefined
+    && Number.isFinite(failure.providerRetryAfterMs)
+    && failure.providerRetryAfterMs > 0) {
+    if (failure.providerRetryAfterMs > policy.maxDelayMs) {
+      if (policy.mode === 'normal') return next()
+      delayMs = localDelay(policy, retry, random)
+    } else {
+      delayMs = failure.providerRetryAfterMs
+    }
+  } else {
+    delayMs = localDelay(policy, retry, random)
+  }
+
+  return backoff(agent, turn, step, failure, provider, policy, policyKey, retry, retryId, delayMs, signal)
+}
+```
+
+[源码：`packages/llm/llm-retry/src/index.ts:222–241`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L222-L241)。
+
+previousRetry 来自投影，normal 模式到 maxRetries 后委托下一策略；providerRetryAfterMs 还必须有限、正数并落在 maxDelayMs 内。normal 对过大等待不接受，always 改用本地延迟。参数的作用域决定了上限，不能把配置了 maxRetries 写成“任务最多调用模型这么多次”。
+
+```typescript
+  retryId: RetryId,
+  delayMs: number,
+  signal: AbortSignal,
+): Promise<RequestErrorAction> {
+  const fusedSignal = AbortSignal.any([signal, lifetime.signal])
+  if (fusedSignal.aborted) return
+  const eventData: LlmRetryEventData = policy.mode === 'normal'
+    ? {
+      retryId,
+      turn,
+      step,
+      provider,
+      mode: policy.mode,
+      policyKey,
+      retry,
+      maxRetries: policy.maxRetries,
+      delayMs,
+      failure,
+    }
+    : {
+      retryId,
+      turn,
+      step,
+      provider,
+      mode: policy.mode,
+      policyKey,
+      retry,
+      delayMs,
+      failure,
+    }
+  agent.session.append('llm/retry', eventData)
+  if (!await cancellableDelay(delayMs, fusedSignal)) return
+  agent.session.append('llm/retry-started', { retryId, turn, step, retry })
+  return { kind: 'retry' }
+}
+
+async function recover(
+  { agent, turn, step, provider, failure, retryPolicy: policy, signal }: Parameters<Events['agent/request-error']>[0],
+  next: () => Promise<RequestErrorAction>,
+): Promise<RequestErrorAction> {
+```
+
+[源码：`packages/llm/llm-retry/src/index.ts:158–197`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L158-L197)。
+
+先组合请求与插件寿命 signal，记录 llm/retry，再等待，成功等完才记录 llm/retry-started 并返回 retry。取消期间存在前一条而缺后一条完全合理：它说明曾经计划重试，不能据此统计已发生的供应商请求。
+
 ## 恢复器必须证明输入有变化
 
 compaction-basic 对窗口溢出检查 replaceGeneration 是否前进。没有视图变化，返回 retry 只会再次发送同一过长输入。有无需模型裁剪先成功、后续摘要失败的情况，恢复器可以依据已经生效的视图变化继续；取消则仍然优先。[压缩恢复的进展判断](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/index.ts#L190-L234)
 
 这说明重试是一项有前提的决策。普通网络退避的前提是错误可恢复，窗口修复的前提是请求视图变化，工具重做的前提则应是只读、幂等或外部状态已确认。框架不可能用同一种“再来一次”策略覆盖三者。
+
+### 第三步：窗口溢出要先改变请求条件
+
+```typescript
+ctx.on('agent/request-error', async (
+  { agent, failure, signal },
+  next,
+) => {
+  if (failure.code !== CONTEXT_WINDOW_EXCEEDED_CODE || signal.aborted) return next()
+  this.overflowAgents.set(agent.session, agent)
+  const target = routedTarget(agent.session)
+  if (target === undefined) return next()
+  const policy = resolveTargetPolicy(this.config, target)
+  const retries = this.overflowRetries.get(agent) ?? 0
+  if (retries >= policy.maxOverflowRetries) return next()
+
+  const generation = agent.session.surface.replaceGeneration
+  let result: CompactionResult | null
+  try {
+    result = await this.compactIfNeeded(agent, 'context-overflow', signal)
+  } catch (recoveryError: unknown) {
+    const message = recoveryError instanceof Error ? recoveryError.message : String(recoveryError)
+    // A model-free prune can land before later summary work fails. That
+    // durable reduction is sufficient retry proof; do not discard it just
+    // because the optional second phase threw. Cancellation still wins.
+```
+
+[源码：`packages/compaction/compaction-basic/src/index.ts:190–210`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/index.ts#L190-L210)。
+
+窗口错误走专门恢复通道：检查 failure 分类、目标与重试上限，保存 compactionGeneration 后再调用压缩。一般网络重试可以保持输入；窗口错误原样再送通常只会重复失败。
+
+```typescript
+    // oxlint-disable-next-line typescript/no-unnecessary-condition -- the signal can abort while recovery is awaited.
+    if (!signal.aborted && agent.session.surface.replaceGeneration > generation) {
+      ctx.logger.warn(
+        `context-overflow compaction failed after durable surface progress: ${message}; `
+        + 'retrying from the replacement surface',
+      )
+      this.overflowRetries.set(agent, retries + 1)
+      return { kind: 'retry' }
+    }
+    ctx.logger.warn(
+      // oxlint-disable-next-line typescript/no-unnecessary-condition -- the signal can abort while recovery is awaited.
+      `context-overflow compaction failed: ${message}; ${signal.aborted
+        ? 'cancellation prevents retry'
+        : 'preserving the original request error'}`,
+    )
+    return next()
+  }
+  // oxlint-disable-next-line typescript/no-unnecessary-condition -- the signal can abort while compaction is awaited.
+  if (signal.aborted
+    || agent.session.surface.replaceGeneration <= generation) return next()
+  if (result !== null) logResult(result, 'context overflow recovery')
+  this.overflowRetries.set(agent, retries + 1)
+  return { kind: 'retry' }
+})
+```
+
+[源码：`packages/compaction/compaction-basic/src/index.ts:211–234`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/index.ts#L211-L234)。
+
+压缩抛错时，optional prune 若已经推进 generation，仍可能提供足够进展；没有推进则不能承诺 retry 有意义。成功返回同样检查 generation。判断依据是请求视图发生了可解释变化，而不是某个插件函数“执行过”。
+
+压缩进展不等于模型最终接纳。下一次请求仍可能过大，恢复次数仍需有界；generation 是允许再次尝试的证据，不是任务成功的证明。
+
+![图3：可靠恢复需要四类证据](assets/07-reliability-03.png)
+
+图3：重试、修复和幂等协议各有作用域。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 取消不是立即返回，而是停止新增并等待结算
 
@@ -50,6 +273,119 @@ compaction-basic 对窗口溢出检查 replaceGeneration 是否前进。没有�
 timeout-policy 使用派生 deadline signal 包装工具执行，并等待下游静止后才产出 TOOL_TIMEOUT。它不会只用 Promise.race 提前返回并把工作遗留在后台；相应代价是工具必须合作响应 signal，否则等待仍可能拖住。[工具 deadline 包装](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/timeout-policy/src/index.ts#L55-L81)
 
 例如一个构建进程超时，用户看到 timeout 之前，provider 需要终止并排空托管进程范围。若构建已经写入文件，取消也不会自动删除修改。终止能力、资源清理和业务补偿是不同责任。
+
+### 第四步：取消先关闭入口，再等待已经开始的工作
+
+```typescript
+cancel(cause: AgentCancelCause, options: CancelOptions = {}): void {
+  if (!options.keepInbox) {
+    this.inbox.clear()
+    if (this.phase.kind !== 'idle') this.phase.wakeRequested = false
+  }
+  if (this.phase.kind !== 'idle') this.phase.abort.abort(cause)
+}
+```
+
+[源码：`packages/core/agent-loop/src/agent.ts:175–181`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/agent.ts#L175-L181)。
+
+cancel 默认清空 inbox 和续跑锁存，再 abort 活跃 signal；keepInbox 则显式保留输入。Host 取消不能只盯一个 HTTP signal，否则此前排队的用户消息仍可能唤醒新回合。
+
+```typescript
+export function apply(ctx: Context): void {
+  ctx.on('tools/execute', async (exec, next): Promise<ToolExecutionResult> => {
+    const timeoutMs = ctx.tools.get(exec.name, exec.agent)?.timeoutMs
+    // A tool that declares no budget: no deadline, delegate unchanged.
+    if (timeoutMs === undefined) return next()
+
+    using d = deadline(exec.signal, timeoutMs, TOOL_TIMEOUT)
+    // Swap the derived deadline onto exec for dispatch, then restore the
+    // caller's own signal so post-execute listeners never see this plugin's
+    // (possibly already-aborted) timeout signal.
+    const upstream = exec.signal
+    exec.signal = d.signal
+    try {
+      const result = await next()
+      // If OUR timer fired (scoped by code — a nested outer deadline reads as
+      // undefined here), the tool/capability saw the abort and reached
+      // quiescence; replace whatever it returned (its own abort result) with the
+      // structured TOOL_TIMEOUT the model sees.
+      if (timeoutOf(d.signal, TOOL_TIMEOUT) !== undefined) {
+        return toolTimeoutResult(timeoutMs)
+      }
+      return result
+    } finally {
+      exec.signal = upstream
+    }
+  })
+}
+```
+
+[源码：`packages/guard/timeout-policy/src/index.ts:55–81`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/guard/timeout-policy/src/index.ts#L55-L81)。
+
+deadline 进入 exec.signal，但 await next() 一直等到被包装工具结算；只在本包装器自己的 timeout 分类成立时替换反馈，finally 恢复上游 signal。它没有用 Promise.race 抛下还在执行的业务操作。工具若不协作，超时后的等待可能很长。
+
+```typescript
+  // already-started dispatch settles.
+  try {
+    await fillPool()
+    while (inFlight.size > 0) {
+      const settledIndex = await Promise.race(inFlight.values())
+      inFlight.delete(settledIndex)
+      throwSchedulerFailure()
+      await commitReady()
+      throwSchedulerFailure()
+      // Abort may arrive while a tool or ordered commit awaits.
+
+      if (signal.aborted) aborted = true
+      await fillPool()
+    }
+  } catch (error: unknown) {
+    schedulerFailure ??= { error }
+    await Promise.allSettled(inFlight.values())
+    throw schedulerFailure.error
+  }
+
+  if (aborted) {
+    // Started calls and accepted context settle first; every remaining model
+    // call then receives an ordered synthetic result before the turn aborts.
+    for (const call of group.slice(started)) appendSkippedToolCall(session, turn, step, call.block)
+    return { consumed: group.length, aborted: true, concluded }
+  }
+  /* v8 ignore next -- unreachable: a non-aborted group commits every started call */
+  if (committed !== started) throw new Error('tool-call scheduler: uncommitted settled calls')
+  return { consumed: started, aborted: false, concluded }
+}
+
+/** Append the durable call/result pair for a model call skipped after cancellation. */
+```
+
+[源码：`packages/core/agent-loop/src/tool-calls.ts:218–249`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/tool-calls.ts#L218-L249)。
+
+调度错误阻止新派发，并用 allSettled 等待 inFlight；取消则为尚未启动的模型调用补有序错误结果。这里解决的是本地执行链闭合，不证明一个远端系统已停止。真正的硬隔离需要进程、容器或远端取消协议。
+
+```typescript
+  const disposeListener = ctx.on('agent/request-error', (
+    payload,
+    next: () => Promise<RequestErrorAction>,
+  ) => {
+    // A waterfall may have captured this callback before its registration was
+    // removed. Lifetime cancellation must prevent that stale callback from
+    // entering a downstream policy after disposal.
+    if (lifetime.signal.aborted) return Promise.resolve<RequestErrorAction>(undefined)
+    return track(recover(payload, next))
+  })
+
+  ctx.effect(() => async () => {
+    disposeListener()
+    lifetime.abort(new Error('llm-retry plugin disposed'))
+    await Promise.allSettled([...active])
+  }, 'llm-retry: abort and drain active recovery')
+}
+```
+
+[源码：`packages/llm/llm-retry/src/index.ts:243–259`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L243-L259)。
+
+卸载先撤销 listener，再取消插件寿命，最后等待 active。已被 waterfall 捕获的旧 listener 也检查 lifetime，防止进入新的下游恢复。这是生命周期上的可靠性，不能只靠 disposer 从数组移除回调。
 
 ## 日志修复保留不知道的事实
 
@@ -71,6 +407,70 @@ export const TOOL_OUTCOME_UNKNOWN = 'TOOL_OUTCOME_UNKNOWN'
 
 工具结果修补也可能失败。Loop 在关闭 Step 前尝试补结果，失败时汇总原始与恢复错误，不应假装所有历史都已修好。错误可解释比输出一个笼统 completed 更重要。
 
+### 第五步：恢复日志时区分“未开始”与“结果未知”
+
+上面的 NOT_STARTED 与 UNKNOWN 常量是修复算法的两个出口。
+
+两个常量表达不同知识状态。缺少 tool/call 可以标记未开始；已经存在调用却没有回执，只能说结果未知，不能填一个虚构失败然后自动重做。
+
+```typescript
+results(): SessionEvent<'tool/result'>[] {
+  if (this.last === undefined) return []
+  let seq = this.last.seq + 1
+  const time = this.last.time
+  const results: SessionEvent<'tool/result'>[] = []
+
+  const text = CLOSER_TEXT[this.cause.kind]
+  // Close calls before their step: providers reject dangling assistant calls,
+  // and Map insertion order preserves their transcript order.
+  for (const [callId, { turn, step, callSeq }] of this.pendingCalls) {
+    const started = callSeq !== undefined
+    const message: ToolResultMessage = deepFreeze({
+      id: brandString<MessageId>(`${this.cause.kind}-tool-result-${callId}-${seq}`),
+      role: 'tool',
+      toolCallId: callId,
+      isError: true,
+      source: { kind: 'tool', callId },
+      content: [{
+        type: 'text',
+        text: started ? text.started : text.notStarted,
+      }],
+    })
+    results.push({
+      type: 'tool/result',
+      seq: SessionSeq(seq++),
+```
+
+[源码：`packages/core/session/src/repair.ts:157–181`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/repair.ts#L157-L181)。
+
+修复依据历史调用顺序和 callSeq 判断 started，为每个 pending 调用生成闭合结果。sourceEventSeqs 将修复反馈指回它依据的事实。即便回复是错误文本，错误仍可能是在说“不知道远端结果”。
+
+```typescript
+    time,
+    data: {
+      turn,
+      step,
+      message,
+      error: started
+        ? { name: 'ToolOutcomeUnknownError', code: TOOL_OUTCOME_UNKNOWN }
+        : { name: 'ToolNotStartedError', code: TOOL_NOT_STARTED },
+    },
+    surfaceOp: 'append',
+    ...started ? { sourceEventSeqs: [callSeq] } : {},
+  })
+}
+
+return results
+```
+
+[源码：`packages/core/session/src/repair.ts:182–196`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/repair.ts#L182-L196)。
+
+修复结果按 surface append 进入后续模型上下文，剩余 Step/Turn 边界也要关闭。恢复不会重新调用 execute；否则对支付、建单等操作可能制造重复副作用。业务可安全恢复的前提是 operationId 查询与幂等接口，而非仅有 Session 文件。
+
+![图4：三个恢复出口](assets/07-reliability-04.png)
+
+图4：可靠恢复首先表达知道什么、还不知道什么。详见本节及相邻源码解读；图示省略其他分支。
+
 ## checkpoint 和熔断分别解决什么
 
 checkpoint 在执行前 flush 会话事实，缩小进程崩溃时的本地缺口。它不能把远端成功与本地结果写入合并成一个原子事务，更不能承诺停电零损失或外部恰好执行一次。[执行前持久屏障](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-checkpoint-policy/src/index.ts#L54-L83)
@@ -79,11 +479,55 @@ provider 熔断通常还需要健康状态、打开／半开状态和试探恢�
 
 如果需要新增熔断，应该明确它限制哪些路由、健康状态由谁维护、并发试探怎样准入，以及是否会影响已经准备的调用。这是改造方向，不是本基线的运行事实。
 
+### 第六步：持久化屏障保存证据，熔断控制未来流量
+
+```typescript
+export function apply(ctx: Context): void {
+  ctx.on('llm/stream', (options, next): AsyncIterable<StreamChunk> => {
+    if (options.sessionId === undefined) return next()
+    const session = ctx.sessions.get(options.sessionId)
+    return session === undefined ? next() : afterCheckpoint(ctx, session, next)
+  })
+
+  ctx.on('tools/execute', async (exec, next): Promise<ToolExecutionResult> => {
+    if (exec.agent === undefined || exec.parent !== undefined) return next()
+    await ctx.sessions.flush(exec.agent.session)
+    if (exec.signal.aborted) return abortedBeforeDispatchResult()
+    return next()
+  })
+
+  // Before each request, persist everything committed by the preceding step;
+  // the first step's call is an intentional no-op beyond any prompt intake.
+  ctx.on('agent/pre-step', async ({ agent }, next): Promise<PreStepDecision> => {
+    await ctx.sessions.flush(agent.session)
+    return next()
+  })
+```
+
+[源码：`packages/session/session-checkpoint-policy/src/index.ts:63–82`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-checkpoint-policy/src/index.ts#L63-L82)。
+
+模型派发、顶层工具执行和 preStep 的检查点各保存前一阶段事实；dispatch 前还检查取消。写文件成功并不与远端业务事务原子提交，保存了 tool/call 也不等于保存了回执。
+
+本版本这些接缝支持增加熔断器，但本文没有把熔断作为现成全局能力。企业实现可以在供应商 route dispatch 前判断 circuit 状态，在明确的 failure 分类后更新窗口；恢复试探需要独立额度，不能让全部 Agent 同时冲进半开状态。
+
+|机制|控制对象|仍需独立解决|
+|---|---|---|
+|checkpoint|已观察的历史证据|外部操作与回执的一致性|
+|有界重试|同 Step 的请求恢复|任务总额度与重试风暴|
+|取消并结算|当前在途操作|不协作工具及远端效果|
+|企业熔断扩展|未来供应商请求|组织级共享状态与半开配额|
+
 ## 可靠性的优势与尚需补齐的协议
 
 DSH 的优势是失败、取消和修复都留下明确记录，工具未知结果不被盲目重跑，生命周期清理等待在途任务。请求恢复通过插件组合，也方便按失败类型选择策略。
 
 不足在于协作式取消依赖 provider，外部副作用还需要幂等和查询；always 重试需要另设任务上限。日志结构修复可以使会话继续，却不代表业务结果已经确认。若产品需要交易级承诺，必须在工具与外部系统之间建立相应协议。
+
+### 用一次“写入成功但响应丢失”审查恢复链
+
+正常路径是记录 call、执行写入、收到回执、规范结果、记录 result。若网络在回执前断开，日志只能证明 call 已出现。修复必须留下 UNKNOWN，而后应用查询 operationId；只有证明操作未提交且允许重放，才重试写入。
+
+优势在于失败分类、恢复决定、取消和历史修复有各自入口，扩展不需要重写 Loop。不足也明确：局部重试没有全局流量协调，JSONL 没有跨系统事务，不协作工具可能拖住退出。工程验收必须把这几个限制写进协议，而不是统称为“自动恢复”。
 
 ## 技术心得：可靠恢复首先要表达不确定性
 
@@ -92,6 +536,12 @@ DSH 的优势是失败、取消和修复都留下明确记录，工具未知结�
 另一个原则是，取消必须有清理完成条件。发出 signal 只是请求，等待真正静止才是资源可安全释放的依据。把两者分开，会让超时和卸载逻辑更复杂，但能避免后台残留工作与新任务互相干扰。
 
 此前 request-error、retry、cancel、timeout、resume／repair 和 V05 验证选定受控路径；没有对真实远端上传做故障注入，也未验证所有第三方 provider 的取消响应。可靠性的讨论应停留在这些真实证据能够支撑的范围。
+
+### 技术感悟：恢复的第一动作是补齐知识，而不是补跑动作
+
+源码中最有价值的不是 retry 分支，而是 started、retry-started、generation 与 UNKNOWN 等区分。它们给出了下一步决策需要的证据：有没有真的开始、有没有等完、输入有没有变化、外部效果是否可知。
+
+可靠系统允许暂时回答“结果未知”，同时给出查询和人工接管入口。把未知包装成确定失败，会使自动化看起来流畅，却把重复写入风险藏到用户看不见的地方。本次为固定版本源码解读；原有重试、取消、修复验证覆盖选定契约，未新增真实供应商故障或跨系统幂等验证。
 
 ---
 

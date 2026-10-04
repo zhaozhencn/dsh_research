@@ -79,6 +79,10 @@ return { output, stopReason }
 
 产品可以根据任务选择所需层次。文本润色可能只需要回合结束和用户可读输出；代码修复则需要进一步验证。这里的重点是保留不同证据的来源，避免一个 success 布尔值吞掉所有差别。
 
+![图2：目标回合的提交时序](assets/01-task-completion-02.png)
+
+图2：排队不是扣账；接纳后的目标消息才推进回合数。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 持续目标由状态服务和驱动器共同推进
 
 ### 第一步：先看状态放在哪里，谁负责消费它
@@ -86,6 +90,8 @@ return { output, stopReason }
 Goal 并不是 Loop 内部的一个循环标志。源码把能力拆成几个插件：`dsh-goal` 保存目标状态，`dsh-tool-goal` 向模型暴露控制工具，`dsh-command-goal` 提供命令入口，`dsh-goal-round-driver` 调度同一会话的自动续跑。基础 bundle 中能看到这些独立挂载项。只挂 GoalService，可以读写目标，但不会因此自动执行任务。[基础 bundle 中的目标服务、驱动器与命令挂载](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L313-L323) [模型目标工具的独立挂载](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml#L435-L438)
 
 ![任务定义与完成语义的机制图](assets/01-task-completion.png)
+
+图1：目标续跑的接纳过程。
 
 图示只表达职责关系。进一步追踪代码，需要区分三组数据：
 
@@ -508,6 +514,10 @@ if (event.type === 'user/message') {
 
 卸载驱动器时，代码先设置 stopping、撤销 activation、把 attempt 标为 stale；必要时取消 Agent，等待 `whenIdle()` 和调度 run 结算，最后清空状态。监听器在这些等待结束之前仍保持，保证准入检查不会先消失。这个生命周期顺序和前面的身份检查共同防止卸载期间继续预留工作。它依赖运行组件响应取消，不保证撤回已经提交的业务副作用。[驱动器卸载时的关闭、取消与等待顺序](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/goal/goal-round-driver/src/index.ts#L438-L459)
 
+![图3：完成语义的四个层次](assets/01-task-completion-03.png)
+
+图3：层次之间有关联，不存在自动等价关系。详见本节及相邻源码解读；图示省略其他分支。
+
 ## 提交事实之后，再发布通知
 
 ### 第十二步：goal/change 的提交还要协调进程内权限
@@ -656,6 +666,10 @@ ctx.on('agent/pre-step', async (
 它解决的是“批准的模式变化何时真正生效，以及模型如何知道变化”。它没有把计划文档变成经过执行和验证的产物。批准计划、模式退出、代码修改、业务验收，仍是连续但独立的步骤。
 
 如果把这几种状态放到产品里，建议分别命名为“计划已批准”“正在执行”“目标报告完成”“验收通过”，并允许它们暂时不同步。这是基于机制分析的应用设计建议，DSH 没有在上述代码中提供统一业务验收状态机。
+
+![图4：续跑准入的三个出口](assets/01-task-completion-04.png)
+
+图4：拒绝、暂停与完成各有事实，不能只看 idle。详见本节及相邻源码解读；图示省略其他分支。
 
 ## 这套设计的优势，以及应用需要补上的部分
 
