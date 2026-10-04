@@ -1,0 +1,142 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "recorded_at": "2026-10-04T08:10:50.656730+00:00",
+  "scope": "第 01 篇同版本源码深化；原章节／原图保留；其他 15 篇正文不变。",
+  "article": "research/deepseek-harness/articles/01-task-completion.md",
+  "article_sha256": "cd85917a300d105fd70c3f38d17b66e9fc11b8bcb83f8ae4f75b0bcbec772c50",
+  "preserved_headings": [
+    "## 先把完成拆成四个层次",
+    "## 持续目标由状态服务和驱动器共同推进",
+    "## 回合额度在什么时刻扣除",
+    "## 提交事实之后，再发布通知",
+    "## todo 和计划为什么不能替代目标验收",
+    "## 这套设计的优势，以及应用需要补上的部分",
+    "## 技术心得：完成应当是一组可解释的事实"
+  ],
+  "preserved_images": [
+    "![任务定义与完成语义的机制图](assets/01-task-completion.png)"
+  ],
+  "unchanged_articles": [
+    "articles/02-agent-loop.md",
+    "articles/03-model-adaptation.md",
+    "articles/04-context-engineering.md",
+    "articles/05-state-persistence.md",
+    "articles/06-tool-runtime.md",
+    "articles/07-reliability.md",
+    "articles/08-concurrency.md",
+    "articles/09-security.md",
+    "articles/10-autonomy.md",
+    "articles/11-budgets.md",
+    "articles/12-observability.md",
+    "articles/13-evaluation.md",
+    "articles/14-plugin-lifecycle.md",
+    "articles/15-interaction-deliverables.md",
+    "articles/16-deployment-evolution.md"
+  ],
+  "first_article_excerpts": 23,
+  "all_article_excerpts": 54,
+  "cjk_characters_including_excerpt_comments": 10943,
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "research/deepseek-harness/validation/check-column.py"
+      ],
+      "exit_code": 1,
+      "outcome": "failed",
+      "actual": "系统 Python 未安装 Pillow，检查未开始。",
+      "log_path": "validation/first-article-check-initial.log"
+    },
+    {
+      "command": [
+        ".sources/column-work/.venv/bin/python",
+        "research/deepseek-harness/validation/check-column.py"
+      ],
+      "exit_code": 0,
+      "outcome": "passed",
+      "actual": {
+        "articles": 16,
+        "excerpts": 54,
+        "png": 16,
+        "svg": 16,
+        "links": 415
+      },
+      "log_path": "validation/first-article-check.log"
+    },
+    {
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/check-artifacts.mjs"
+      ],
+      "exit_code": 1,
+      "outcome": "failed",
+      "actual": "附录先添加了复核记录链接，但记录尚未生成；失败仅为该本地链接缺失。",
+      "log_path": "validation/first-article-artifacts-initial.log"
+    },
+    {
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/check-artifacts.mjs"
+      ],
+      "exit_code": 0,
+      "outcome": "passed",
+      "actual": {
+        "markdown_files": 30,
+        "checked_links": 1236,
+        "evidence_anchors": 149,
+        "mermaid_diagrams": 16,
+        "source_checkout_clean": true
+      },
+      "log_path": "validation/first-article-artifacts.log"
+    }
+  ],
+  "authoring_correction": "草稿生成时发现 prompt.ts 选段链接末行 28 超过原文件 26 行；在写入正式文章之前修正为 26。",
+  "runtime_verification": "仅对照 V08 同 SHA 已执行测试 JSON 中的七个 passed 断言；没有新增或重跑行为测试。",
+  "limits": [
+    "局部代码不是完整程序；没有新的类型检查或业务运行验证。",
+    "全文语义由执行者复核；摘录 hash 与结构检查不能独立证明业务结论。",
+    "未进行公众号发布或编辑器预览；原机制图保留。"
+  ],
+  "preexisting_workspace_change": "research/deepseek-harness/README.md 已删除，保留用户改动。",
+  "reused_test_assertions": {
+    "source_result": "validation/architecture-supplement-tests.json",
+    "new_execution": false,
+    "assertions": [
+      {
+        "file": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+        "title": "admits exact numbered rounds until the durable round cap",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+        "title": "blocks a queued reservation made stale by a goal edit and continues the new revision",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+        "title": "rechecks revision after downstream prompt hooks before admitting",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+        "title": "disarms without dispatch when a durability checkpoint fails",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+        "title": "keeps a resumed goal running when the pause-turn has not yet converged",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/goal/tests/goal.spec.ts",
+        "title": "publishes a mutation consistently to a reentrant session observer",
+        "status": "passed"
+      },
+      {
+        "file": "packages/goal/tool-goal/tests/tool-goal.spec.ts",
+        "title": "enforces the configured model self-block lower bound across admitted rounds",
+        "status": "passed"
+      }
+    ]
+  }
+}

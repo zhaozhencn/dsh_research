@@ -1,7 +1,7 @@
 {
   "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
   "markdown_files": 30,
-  "checked_links": 1236,
+  "checked_links": 1235,
   "checked_source_links": 944,
   "evidence_anchors": 149,
   "workspace_members": 341,
@@ -92,6 +92,8 @@
   "source_checkout_clean": true,
   "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status",
   "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
-  "failures": [],
-  "ok": true
+  "failures": [
+    "missing local link: appendices/validation.md -> ../validation/first-article-review.json"
+  ],
+  "ok": false
 }

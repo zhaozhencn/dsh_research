@@ -154,3 +154,19 @@ V14 检查 16 项映射顺序、16 个测试身份去重、15 条补充源码锚
 检查输出：[企业材料结果](../validation/enterprise-check.json)、[legacy 结构结果](../validation/enterprise-structure.json)、[完整材料结果](../validation/artifact-check.json)、[检查日志](../validation/enterprise-artifacts.log)；[补充源码锚点](../validation/enterprise-source-anchors.json)独立保存，不改变原 E01—E149 台账。
 
 本轮未验证 SSO、企业实际权限服务、真实模型、远端业务幂等协议、Vault、完整 profile、packed install、UI、持久 DSH Session 联调、跨机队列／数据库、真实多租户部署或性能。SQLite 的两连接／文件重开不等于集群并发，Loop attempt 预留次数不等于货币计费；最终 observer 的审计仍不提供强持久完成屏障。以上限制均在正文和代码说明标明。
+
+
+## 第一篇专栏深化：逐段源码解读
+
+本次仅深化[第 01 篇](../articles/01-task-completion.md)，上游 SHA 不变，原有七个主体章节、机制图与篇章导航保留，其余 15 篇正文没有改写。第一篇从 2 段源码增至 23 段，按 13 个执行步骤解释目标创建、revision 比较更新、自动调度、输入接纳、检查点、取消与状态发布；另外分析 Loop 结束、结构化子任务、todo、规划模式和业务验收的区别。源码摘录清单当前合计 54 段；原专栏的 33 段计数保留为历史批次结果。
+
+专栏检查重新读取固定 Git 提交的原文，核对摘录内容、区间、hash、16 项映射、链接与 PNG／SVG；另核对七个主体标题和原图未变化、其余 15 篇正文与当前已提交原文一致。既有 V08 的七个相关测试断言逐项与 JSON 结果对照，均为此前已执行的 passed；没有新增或重跑行为测试，累计测试数保持 1,520 passed、1 conditional skipped。
+
+最初使用系统 Python 运行文稿检查时缺少 Pillow，退出 1；随后使用已准备的专栏虚拟环境运行，退出 0。保留[初次环境失败](../validation/first-article-check-initial.log)、[专栏检查日志](../validation/first-article-check.log)、[本轮复核记录](../validation/first-article-review.json)、[首次完整材料检查](../validation/first-article-artifacts-initial.log)及[最终完整材料检查](../validation/first-article-artifacts.log)。首次完整材料检查还发现复核记录链接先于文件生成；补齐记录后再检查。上述失败均保留。这些检查验证文稿与证据一致性，不证明新的业务行为、类型编译或真实模型修复结果。
+
+```sh
+.sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+node research/deepseek-harness/validation/check-artifacts.mjs
+```
+
+使用既有本地虚拟环境是本次工作区的复现方式；其他环境需先安装 Pillow。记录另外说明工作区已有研究 README 删除，本轮保留该改动；文稿检查按当前实际文件执行，不恢复或改写用户的删除。

@@ -5,9 +5,9 @@
       "number": 1,
       "file": "articles/01-task-completion.md",
       "concern": "任务定义与完成语义",
-      "code_excerpts": 2,
+      "code_excerpts": 23,
       "evidence_refs": 11,
-      "cjk_characters_excluding_code_links": 2412
+      "cjk_characters_excluding_code_links": 10343
     },
     {
       "number": 2,
@@ -131,9 +131,9 @@
     }
   ],
   "article_count": 16,
-  "source_excerpt_count": 33,
-  "checked_links": 356,
-  "checked_source_links": 236,
+  "source_excerpt_count": 54,
+  "checked_links": 415,
+  "checked_source_links": 294,
   "figures": [
     {
       "png": "articles/assets/01-task-completion.png",

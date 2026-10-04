@@ -20,11 +20,32 @@
         "E120"
       ],
       "snippet_ids": [
+        "01-3",
+        "01-4",
+        "01-5",
+        "01-6",
+        "01-7",
+        "01-8",
+        "01-9",
+        "01-10",
+        "01-11",
+        "01-12",
+        "01-13",
+        "01-14",
+        "01-15",
+        "01-16",
         "01-1",
-        "01-2"
+        "01-2",
+        "01-17",
+        "01-18",
+        "01-19",
+        "01-20",
+        "01-21",
+        "01-22",
+        "01-23"
       ],
       "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
-      "sha256": "1db7e0c02274311202a03276db3ad319da1e94bc80a8926ad1970f768b7d8150"
+      "sha256": "cd85917a300d105fd70c3f38d17b66e9fc11b8bcb83f8ae4f75b0bcbec772c50"
     },
     {
       "number": 2,
@@ -436,22 +457,22 @@
   ],
   "snippets": {
     "01-1": {
-      "evidence_id": "E121",
       "path": "packages/goal/goal/src/fold.ts",
       "start": 321,
       "end": 331,
       "raw": "  if (event.type === 'user/message') {\n    const source = goalSource(event.data.source)\n    if (source === undefined) return\n    const current = state.goal\n    if (current === undefined || current.phase !== 'active' || source.goalId !== current.id\n      || source.revision !== current.revision || source.round !== state.roundsStarted + 1\n      || source.round > current.maxGoalRounds) {\n      throw new Error(`goal round at session event ${event.seq} is not the next admitted round of the active goal`)\n    }\n    state.roundsStarted = source.round\n  }",
       "code": "if (event.type === 'user/message') {\n  const source = goalSource(event.data.source)\n  if (source === undefined) return\n  const current = state.goal\n  if (current === undefined || current.phase !== 'active' || source.goalId !== current.id\n    || source.revision !== current.revision || source.round !== state.roundsStarted + 1\n    || source.round > current.maxGoalRounds) {\n    throw new Error(`goal round at session event ${event.seq} is not the next admitted round of the active goal`)\n  }\n  state.roundsStarted = source.round\n}",
-      "sha256": "c5dc45ab23b59e3c8866a0d9c16ad4c23871bc702e35e53cbae07c44259c5408"
+      "sha256": "c5dc45ab23b59e3c8866a0d9c16ad4c23871bc702e35e53cbae07c44259c5408",
+      "evidence_id": "E121"
     },
     "01-2": {
-      "evidence_id": "E120",
       "path": "packages/goal/goal/src/index.ts",
       "start": 610,
       "end": 625,
       "raw": "    const ref = goalChangeRef(change)\n    runtime.pendingActivation = { offset: agent.session.seq, activation }\n    try {\n      const event = agent.session.append('goal/change', change)\n      /* v8 ignore next -- Session.append returns the event committed at the pre-append seq. */\n      if (SessionSeq(runtime.pendingActivation.offset) === event.seq) runtime.activation = activation\n    } finally {\n      runtime.pendingActivation = undefined\n    }\n    const goal = this.view(this.state(agent.session), runtime)\n    const notification: GoalChanged = {\n      operation: change.operation,\n      ref: { ...ref },\n      ...goal === undefined ? {} : { goal },\n    }\n    agentEvents(this.ctx, agent).emit('goal/changed', { change: notification })",
       "code": "const ref = goalChangeRef(change)\nruntime.pendingActivation = { offset: agent.session.seq, activation }\ntry {\n  const event = agent.session.append('goal/change', change)\n  /* v8 ignore next -- Session.append returns the event committed at the pre-append seq. */\n  if (SessionSeq(runtime.pendingActivation.offset) === event.seq) runtime.activation = activation\n} finally {\n  runtime.pendingActivation = undefined\n}\nconst goal = this.view(this.state(agent.session), runtime)\nconst notification: GoalChanged = {\n  operation: change.operation,\n  ref: { ...ref },\n  ...goal === undefined ? {} : { goal },\n}\nagentEvents(this.ctx, agent).emit('goal/changed', { change: notification })",
-      "sha256": "3019c0d5c47681aca2893adf94ed24483c6cf09ec9379463247d396d7d802227"
+      "sha256": "3019c0d5c47681aca2893adf94ed24483c6cf09ec9379463247d396d7d802227",
+      "evidence_id": "E120"
     },
     "02-1": {
       "evidence_id": "E128",
@@ -731,6 +752,174 @@
       "code": "await partial\nhandle.agent.cancel({ kind: 'user' })\nawait handle.agent.whenIdle()\nconst events = handle.agent.session.snapshotEvents()\nexpect(events.at(-1)).toMatchObject({ type: 'turn/end', data: { reason: { kind: 'aborted' } } })\nexpect(events.some(e => e.type === 'assistant/message')).toBe(true)\nexpect(adapter.requests).toHaveLength(1)",
       "local": true,
       "sha256": "4a487f6111b1b9a781c6996ad9e36aa07c72e252d3f54ec58b1661f0037f6d05"
+    },
+    "01-3": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 532,
+      "end": 538,
+      "raw": "        const toolCalls = message.content.filter(block => block.type === 'tool-call')\n        if (toolCalls.length === 0) return { kind: 'completed' }\n        const { concluded } = await executeToolCalls(\n          this.loopCtx, turn, step, toolCalls, signal,\n          context => this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [context]),\n        )\n        return concluded ? { kind: 'completed' } : null",
+      "code": "const toolCalls = message.content.filter(block => block.type === 'tool-call')\nif (toolCalls.length === 0) return { kind: 'completed' }\nconst { concluded } = await executeToolCalls(\n  this.loopCtx, turn, step, toolCalls, signal,\n  context => this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [context]),\n)\nreturn concluded ? { kind: 'completed' } : null",
+      "sha256": "8e91e7edfed30a930efaf9604632d2929da8617d0ac9a862984e67b7f22c68bb"
+    },
+    "01-4": {
+      "path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+      "start": 231,
+      "end": 237,
+      "raw": "  if (structured !== undefined) {\n    if (structured.captured !== undefined) {\n      return { output, structured: structured.captured.value, stopReason }\n    }\n    if (stopReason === 'completed') return { output, stopReason: cancelled ? 'aborted' : 'error' }\n  }\n  return { output, stopReason }",
+      "code": "if (structured !== undefined) {\n  if (structured.captured !== undefined) {\n    return { output, structured: structured.captured.value, stopReason }\n  }\n  if (stopReason === 'completed') return { output, stopReason: cancelled ? 'aborted' : 'error' }\n}\nreturn { output, stopReason }",
+      "sha256": "f7aab64037bae3e673f8f90ca5d2382e39e6960857f0924b0d6c9472ed6ccfd4"
+    },
+    "01-5": {
+      "path": "packages/goal/goal/src/types.ts",
+      "start": 60,
+      "end": 72,
+      "raw": "export interface GoalSnapshot extends GoalRef {\n  /** Human-requested completion objective. */\n  readonly objective: string\n  /** Durable lifecycle phase. */\n  readonly phase: GoalPhase\n  /** Present exactly while `phase` is `blocked`. */\n  readonly blockedReason?: GoalBlockReason\n  /** Total admitted goal-round cap. */\n  readonly maxGoalRounds: number\n}\n\n/** Whether this live process may automatically continue an active goal. */\nexport type GoalActivation = 'armed' | 'disarmed'",
+      "code": "export interface GoalSnapshot extends GoalRef {\n  /** Human-requested completion objective. */\n  readonly objective: string\n  /** Durable lifecycle phase. */\n  readonly phase: GoalPhase\n  /** Present exactly while `phase` is `blocked`. */\n  readonly blockedReason?: GoalBlockReason\n  /** Total admitted goal-round cap. */\n  readonly maxGoalRounds: number\n}\n\n/** Whether this live process may automatically continue an active goal. */\nexport type GoalActivation = 'armed' | 'disarmed'",
+      "sha256": "81639e69c223136382b605dfff6298c59dc1c35a42fe1b071277a31440c21d5c"
+    },
+    "01-6": {
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 303,
+      "end": 319,
+      "raw": "  create(agent: Agent, request: CreateGoalRequest): GoalView {\n    const spec = resolveCreateGoal(request, this.resolved.defaultMaxGoalRounds)\n    const [state, runtime] = this.prepareMutation(agent)\n    const current = state?.goal\n    if (current !== undefined && current.phase !== 'complete') {\n      throw new GoalError(`goal \"${current.id}\" already exists with phase \"${current.phase}\"`, 'GOAL_ALREADY_EXISTS')\n    }\n    const now = Date.now()\n    const goal: GoalSnapshot = {\n      id: GoalId(`goal-${randomUUID()}`),\n      revision: 1,\n      objective: spec.objective,\n      phase: 'active',\n      maxGoalRounds: spec.maxGoalRounds,\n    }\n    return this.commitSnapshot(agent, runtime, 'create', goal, 0, now, now, 'armed')\n  }",
+      "code": "create(agent: Agent, request: CreateGoalRequest): GoalView {\n  const spec = resolveCreateGoal(request, this.resolved.defaultMaxGoalRounds)\n  const [state, runtime] = this.prepareMutation(agent)\n  const current = state?.goal\n  if (current !== undefined && current.phase !== 'complete') {\n    throw new GoalError(`goal \"${current.id}\" already exists with phase \"${current.phase}\"`, 'GOAL_ALREADY_EXISTS')\n  }\n  const now = Date.now()\n  const goal: GoalSnapshot = {\n    id: GoalId(`goal-${randomUUID()}`),\n    revision: 1,\n    objective: spec.objective,\n    phase: 'active',\n    maxGoalRounds: spec.maxGoalRounds,\n  }\n  return this.commitSnapshot(agent, runtime, 'create', goal, 0, now, now, 'armed')\n}",
+      "sha256": "59b44d006658bd16aadc70b0861ab0f4d8561e950491f45acfb43e693476b69b"
+    },
+    "01-7": {
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 456,
+      "end": 466,
+      "raw": "  private expectCurrent(state: GoalProjection | null, ref: GoalRef): GoalProjection {\n    if (state === null) throw new GoalError('no current goal', 'GOAL_NOT_FOUND')\n    const current = state.goal\n    if (ref.id !== current.id || ref.revision !== current.revision) {\n      throw new GoalError(\n        `stale goal ref \"${ref.id}\" revision ${ref.revision}; current is \"${current.id}\" revision ${current.revision}`,\n        'GOAL_STALE_REVISION',\n      )\n    }\n    return state\n  }",
+      "code": "private expectCurrent(state: GoalProjection | null, ref: GoalRef): GoalProjection {\n  if (state === null) throw new GoalError('no current goal', 'GOAL_NOT_FOUND')\n  const current = state.goal\n  if (ref.id !== current.id || ref.revision !== current.revision) {\n    throw new GoalError(\n      `stale goal ref \"${ref.id}\" revision ${ref.revision}; current is \"${current.id}\" revision ${current.revision}`,\n      'GOAL_STALE_REVISION',\n    )\n  }\n  return state\n}",
+      "sha256": "04c2a37fd72c0ba059fefe0c6cfbdedc1627094d769dc8a906192ecbce47693f"
+    },
+    "01-8": {
+      "path": "packages/goal/tool-goal/src/authority.ts",
+      "start": 111,
+      "end": 118,
+      "raw": "export function completionAuthority(ctx: Context, execution: GoalToolExecution): GoalToolAuthority {\n  if (hasDirectHumanInput(ctx, execution)) return { kind: 'direct-human' }\n  const goal = ctx.goals.get(execution.agent)\n  if (goal !== undefined && isMatchingGoalRound(execution, goal)) {\n    return { kind: 'goal-round', goal }\n  }\n  return reject('complete and blocked require a direct human turn or the current goal round')\n}",
+      "code": "export function completionAuthority(ctx: Context, execution: GoalToolExecution): GoalToolAuthority {\n  if (hasDirectHumanInput(ctx, execution)) return { kind: 'direct-human' }\n  const goal = ctx.goals.get(execution.agent)\n  if (goal !== undefined && isMatchingGoalRound(execution, goal)) {\n    return { kind: 'goal-round', goal }\n  }\n  return reject('complete and blocked require a direct human turn or the current goal round')\n}",
+      "sha256": "39b8dea523dd26d7ee8385ff25d50a193dc5c1bfd9bafa0cff42208f1ffe934c"
+    },
+    "01-9": {
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 255,
+      "end": 267,
+      "raw": "    ctx.on('agent/created', ({ agent }) => {\n      this.setActivation(agent.session, 'disarmed')\n    })\n    ctx.sessionProjections.register(goalProjectionDefinition)\n    ctx.on('session/event', (session, event) => {\n      if (event.type !== 'goal/change') return\n      const runtime = this.runtimeState(session)\n      const activation = runtime.pendingActivation !== undefined\n        && SessionSeq(runtime.pendingActivation.offset) === event.seq\n        ? runtime.pendingActivation.activation\n        : 'disarmed'\n      this.setActivation(session, activation)\n    })",
+      "code": "ctx.on('agent/created', ({ agent }) => {\n  this.setActivation(agent.session, 'disarmed')\n})\nctx.sessionProjections.register(goalProjectionDefinition)\nctx.on('session/event', (session, event) => {\n  if (event.type !== 'goal/change') return\n  const runtime = this.runtimeState(session)\n  const activation = runtime.pendingActivation !== undefined\n    && SessionSeq(runtime.pendingActivation.offset) === event.seq\n    ? runtime.pendingActivation.activation\n    : 'disarmed'\n  this.setActivation(session, activation)\n})",
+      "sha256": "b0a209b243d9cee514575d27efce68d10b27674823e3eac28c51ab5aaf90e1e9"
+    },
+    "01-10": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 103,
+      "end": 114,
+      "raw": "  function readyToDrive(state: DriverState): boolean {\n    return ctx.fiber.state === FiberState.ACTIVE\n      && !state.stopping\n      && ctx.agents.get(state.agent.id) === state.agent\n      && state.agent.status === 'idle'\n      && !state.competingQueued\n  }\n\n  /** Recheck every condition that an awaited checkpoint may have changed. */\n  function readyAfterCheckpoint(state: DriverState): boolean {\n    return readyToDrive(state) && !state.needsCheckpoint\n  }",
+      "code": "function readyToDrive(state: DriverState): boolean {\n  return ctx.fiber.state === FiberState.ACTIVE\n    && !state.stopping\n    && ctx.agents.get(state.agent.id) === state.agent\n    && state.agent.status === 'idle'\n    && !state.competingQueued\n}\n\n/** Recheck every condition that an awaited checkpoint may have changed. */\nfunction readyAfterCheckpoint(state: DriverState): boolean {\n  return readyToDrive(state) && !state.needsCheckpoint\n}",
+      "sha256": "4456e32b298922c3a6c22710840f6ef12eba6bc6074a64e82880132a828d0323"
+    },
+    "01-11": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 142,
+      "end": 172,
+      "raw": "    if (state.needsCheckpoint) {\n      state.needsCheckpoint = false\n      try {\n        await ctx.sessions.flush(agent.session)\n      } catch (error: unknown) {\n        ctx.logger.warn(`goal-round-driver: durability checkpoint failed for agent \"${agent.id}\": ${renderThrown(error)}`)\n        disarm(state)\n        return\n      }\n      // A mutation or ordinary prompt may have arrived while the checkpoint\n      // was settling. Give it its own checkpoint / turn before reserving.\n      if (!readyAfterCheckpoint(state)) return\n    }\n\n    const attempt = state.attempt\n    if (attempt !== undefined) {\n      state.attempt = undefined\n      state.needsCheckpoint = true\n      state.requested = true\n      return\n    }\n\n    const goal = currentGoal(state)\n    if (goal === undefined || goal.phase !== 'active' || goal.activation !== 'armed') return\n    if (goal.roundsStarted >= goal.maxGoalRounds) {\n      ctx.goals.block(agent, goalRef(goal), {\n        code: 'round-limit',\n        message: `Goal reached its configured limit of ${goal.maxGoalRounds} rounds.`,\n      })\n      return\n    }",
+      "code": "if (state.needsCheckpoint) {\n  state.needsCheckpoint = false\n  try {\n    await ctx.sessions.flush(agent.session)\n  } catch (error: unknown) {\n    ctx.logger.warn(`goal-round-driver: durability checkpoint failed for agent \"${agent.id}\": ${renderThrown(error)}`)\n    disarm(state)\n    return\n  }\n  // A mutation or ordinary prompt may have arrived while the checkpoint\n  // was settling. Give it its own checkpoint / turn before reserving.\n  if (!readyAfterCheckpoint(state)) return\n}\n\nconst attempt = state.attempt\nif (attempt !== undefined) {\n  state.attempt = undefined\n  state.needsCheckpoint = true\n  state.requested = true\n  return\n}\n\nconst goal = currentGoal(state)\nif (goal === undefined || goal.phase !== 'active' || goal.activation !== 'armed') return\nif (goal.roundsStarted >= goal.maxGoalRounds) {\n  ctx.goals.block(agent, goalRef(goal), {\n    code: 'round-limit',\n    message: `Goal reached its configured limit of ${goal.maxGoalRounds} rounds.`,\n  })\n  return\n}",
+      "sha256": "c02a0573750efbbf5219fbe59c6986e16cf390771a9652c250bcf72814c85e67"
+    },
+    "01-12": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 174,
+      "end": 192,
+      "raw": "    const round = goal.roundsStarted + 1\n    const content = renderGoalRoundPrompt(goal, round)\n    const message = createUserMessage({\n      content,\n      source: { kind: 'goal', goalId: goal.id, revision: goal.revision, round },\n    })\n    const reservation: RoundAttempt = {\n      goalId: goal.id,\n      revision: goal.revision,\n      round,\n      messageId: message.id,\n      content,\n      phase: 'queued',\n      cancelled: false,\n      stale: false,\n    }\n    state.attempt = reservation\n    try {\n      agent.followup(message)",
+      "code": "const round = goal.roundsStarted + 1\nconst content = renderGoalRoundPrompt(goal, round)\nconst message = createUserMessage({\n  content,\n  source: { kind: 'goal', goalId: goal.id, revision: goal.revision, round },\n})\nconst reservation: RoundAttempt = {\n  goalId: goal.id,\n  revision: goal.revision,\n  round,\n  messageId: message.id,\n  content,\n  phase: 'queued',\n  cancelled: false,\n  stale: false,\n}\nstate.attempt = reservation\ntry {\n  agent.followup(message)",
+      "sha256": "ce34a967fcae3748074fa2de042a92e1e9c6cc7a002f7f8217dcd9917048d198"
+    },
+    "01-13": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 208,
+      "end": 224,
+      "raw": "  function requestDrive(state: DriverState): void {\n    /* v8 ignore next -- teardown may race a final trigger after synchronously closing the step fence */\n    if (state.stopping) return\n    state.requested = true\n    if (state.run !== undefined) return\n    let run: Promise<void>\n    try {\n      run = ctx.agents.withoutInitiator(async () => {\n        while (state.requested && !state.stopping) {\n          state.requested = false\n          try {\n            await drive(state)\n          } catch (error: unknown) {\n            ctx.logger.warn(`goal-round-driver: driver failed for agent \"${state.agent.id}\": ${renderThrown(error)}`)\n            disarm(state)\n          }\n        }",
+      "code": "function requestDrive(state: DriverState): void {\n  /* v8 ignore next -- teardown may race a final trigger after synchronously closing the step fence */\n  if (state.stopping) return\n  state.requested = true\n  if (state.run !== undefined) return\n  let run: Promise<void>\n  try {\n    run = ctx.agents.withoutInitiator(async () => {\n      while (state.requested && !state.stopping) {\n        state.requested = false\n        try {\n          await drive(state)\n        } catch (error: unknown) {\n          ctx.logger.warn(`goal-round-driver: driver failed for agent \"${state.agent.id}\": ${renderThrown(error)}`)\n          disarm(state)\n        }\n      }",
+      "sha256": "9b4d300eebefb72c7e55cb4364e8f5d5cf8b1d4610d9df430e3f6ac1adcb12f7"
+    },
+    "01-14": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 354,
+      "end": 362,
+      "raw": "      const attempt = state.attempt\n      const goal = currentGoal(state)\n      return ctx.fiber.state === FiberState.ACTIVE\n        && !state.stopping && attempt !== undefined && attempt.phase === 'claimed'\n      && !attempt.stale && sameQueued(content, source, attempt)\n      && goal !== undefined && goal.id === source.goalId && goal.revision === source.revision\n      && goal.phase === 'active' && goal.activation === 'armed'\n      && source.round === goal.roundsStarted + 1\n    }",
+      "code": "  const attempt = state.attempt\n  const goal = currentGoal(state)\n  return ctx.fiber.state === FiberState.ACTIVE\n    && !state.stopping && attempt !== undefined && attempt.phase === 'claimed'\n  && !attempt.stale && sameQueued(content, source, attempt)\n  && goal !== undefined && goal.id === source.goalId && goal.revision === source.revision\n  && goal.phase === 'active' && goal.activation === 'armed'\n  && source.round === goal.roundsStarted + 1\n}",
+      "sha256": "a39c409dd9b0611f5b5d5feb6a56e88b4c2ef621506cf29cf7a532e181fce8b9"
+    },
+    "01-15": {
+      "path": "packages/goal/goal-round-driver/src/index.ts",
+      "start": 415,
+      "end": 429,
+      "raw": "      try {\n        valid = validReservation(state, content, source)\n      } catch (error: unknown) {\n        ctx.logger.warn(`goal-round-driver: post-decision check failed for agent \"${agent.id}\": ${renderThrown(error)}`)\n        disarm(state)\n        valid = false\n      }\n      if (!valid) {\n        state.attempt = undefined\n        restoreOtherClaimed(agent, decision.messages, submitted.id)\n        requestDrive(state)\n        return { kind: 'reject' }\n      }\n      return { ...decision, startsRequestSeries: true }\n    })",
+      "code": "  try {\n    valid = validReservation(state, content, source)\n  } catch (error: unknown) {\n    ctx.logger.warn(`goal-round-driver: post-decision check failed for agent \"${agent.id}\": ${renderThrown(error)}`)\n    disarm(state)\n    valid = false\n  }\n  if (!valid) {\n    state.attempt = undefined\n    restoreOtherClaimed(agent, decision.messages, submitted.id)\n    requestDrive(state)\n    return { kind: 'reject' }\n  }\n  return { ...decision, startsRequestSeries: true }\n})",
+      "sha256": "7cba4bce864546707094eaff83447f761faecd46536025918e21b20baae7bb94"
+    },
+    "01-16": {
+      "path": "packages/core/agent-loop/src/agent.ts",
+      "start": 408,
+      "end": 424,
+      "raw": "      const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\n      const startsRequestSeries = firstAttempt && decision.startsRequestSeries === true\n      const commits = this.systemPrompt.project(renderedPrompt, {\n        inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n        startsSeries: startsRequestSeries\n          || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n          || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n      })\n      for (const { message, intent } of commits) {\n        this.session.append('system/message', { turn, step, message }, intent)\n      }\n      if (firstAttempt) {\n        for (const message of decision.messages) {\n          this.session.append('user/message', message, { surfaceOp: 'append' })\n        }\n      }\n      firstAttempt = false",
+      "code": "const { config, preparedCall } = await this.prepareRequest(turn, step, signal)\nconst startsRequestSeries = firstAttempt && decision.startsRequestSeries === true\nconst commits = this.systemPrompt.project(renderedPrompt, {\n  inHistory: preparedCall?.systemPromptUpdate === 'in-history',\n  startsSeries: startsRequestSeries\n    || this.requestSurfaceGeneration !== this.session.surface.contentGeneration\n    || (preparedCall?.toolUpdate === undefined && this.toolsChanged(assembly.tools)),\n})\nfor (const { message, intent } of commits) {\n  this.session.append('system/message', { turn, step, message }, intent)\n}\nif (firstAttempt) {\n  for (const message of decision.messages) {\n    this.session.append('user/message', message, { surfaceOp: 'append' })\n  }\n}\nfirstAttempt = false",
+      "sha256": "0dba6884686f5e77f2f8429b7652fc1af25d3e6ef05616161686219976991705"
+    },
+    "01-17": {
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 146,
+      "end": 159,
+      "raw": "export function applyGoalProjection(state: GoalProjectionState, event: SessionEvent): GoalProjectionState {\n  if (state.failure !== null) return state\n  if (event.type !== 'goal/change'\n    && (event.type !== 'user/message' || event.data.source.kind !== 'goal')) return state\n  const folded = goalFoldState(state)\n  try {\n    applyGoalEvent(folded, event)\n    return goalProjectionState(folded)\n  } catch (error: unknown) {\n    /* v8 ignore next -- the strict goal fold throws Error instances. */\n    const message = error instanceof Error ? error.message : String(error)\n    return { ...state, failure: `goal replay failed at session event ${event.seq}: ${message}` }\n  }\n}",
+      "code": "export function applyGoalProjection(state: GoalProjectionState, event: SessionEvent): GoalProjectionState {\n  if (state.failure !== null) return state\n  if (event.type !== 'goal/change'\n    && (event.type !== 'user/message' || event.data.source.kind !== 'goal')) return state\n  const folded = goalFoldState(state)\n  try {\n    applyGoalEvent(folded, event)\n    return goalProjectionState(folded)\n  } catch (error: unknown) {\n    /* v8 ignore next -- the strict goal fold throws Error instances. */\n    const message = error instanceof Error ? error.message : String(error)\n    return { ...state, failure: `goal replay failed at session event ${event.seq}: ${message}` }\n  }\n}",
+      "sha256": "a2e053897e272e5f0354bf85156a0bc5ddd67276b2adb1e909e2d9fe7336b722"
+    },
+    "01-18": {
+      "path": "packages/todo/tool-todo/src/index.ts",
+      "start": 127,
+      "end": 131,
+      "raw": "    apply: (state, event) => {\n      if (event.type === 'todo/write') return event.data.todos\n      if (event.type === 'turn/start') return null\n      return state\n    },",
+      "code": "apply: (state, event) => {\n  if (event.type === 'todo/write') return event.data.todos\n  if (event.type === 'turn/start') return null\n  return state\n},",
+      "sha256": "e35e357cda3f9b967558d73d6d75bd926c1c5350f4d7253ed14d7a210e04740c"
+    },
+    "01-19": {
+      "path": "packages/todo/tool-todo/src/index.ts",
+      "start": 192,
+      "end": 208,
+      "raw": "    execute(args, exec) {\n      const todos = toTodoList(args.todos, allowParallel)\n      if (!exec.agent) {\n        // The list is per-agent-session state; a non-agent caller (no owning\n        // session) has nowhere to write it. Reject rather than silently no-op.\n        throw new Error('todo_write requires an owning agent session')\n      }\n      exec.agent.session.append('todo/write', { todos })\n      const count = (status: TodoItem['status']): number => todos.filter(t => t.status === status).length\n      return Promise.resolve({\n        todos: todos.map(todo => ({ content: todo.content, status: todo.status })),\n        counts: {\n          pending: count('pending'),\n          inProgress: count('in_progress'),\n          completed: count('completed'),\n        },\n      })",
+      "code": "execute(args, exec) {\n  const todos = toTodoList(args.todos, allowParallel)\n  if (!exec.agent) {\n    // The list is per-agent-session state; a non-agent caller (no owning\n    // session) has nowhere to write it. Reject rather than silently no-op.\n    throw new Error('todo_write requires an owning agent session')\n  }\n  exec.agent.session.append('todo/write', { todos })\n  const count = (status: TodoItem['status']): number => todos.filter(t => t.status === status).length\n  return Promise.resolve({\n    todos: todos.map(todo => ({ content: todo.content, status: todo.status })),\n    counts: {\n      pending: count('pending'),\n      inProgress: count('in_progress'),\n      completed: count('completed'),\n    },\n  })",
+      "sha256": "d5fb27a146666a8ec43d4d70dab1d8b0cbab4421cc3f73099363b1f99073236d"
+    },
+    "01-20": {
+      "path": "packages/plan/plan-mode/src/index.ts",
+      "start": 196,
+      "end": 213,
+      "raw": "    ctx.on('agent/pre-step', async (\n      { agent, signal },\n      next,\n    ): Promise<PreStepDecision> => {\n      const decision = await next()\n      const pending = this.pendingIntents.get(agent.session)\n      if (decision.kind === 'reject' || signal.aborted || pending === undefined) return decision\n      const narration = this.narration(agent.session, pending.active)\n      try {\n        this.onBoundary(agent.session)\n      } catch (error) {\n        ctx.logger.warn('dsh-plan-mode: failed to append selected plan mode at step start: %o', error)\n        return decision\n      }\n      return !pending.narrate || narration === undefined\n        ? decision\n        : { ...decision, messages: [...decision.messages, narration] }\n    })",
+      "code": "ctx.on('agent/pre-step', async (\n  { agent, signal },\n  next,\n): Promise<PreStepDecision> => {\n  const decision = await next()\n  const pending = this.pendingIntents.get(agent.session)\n  if (decision.kind === 'reject' || signal.aborted || pending === undefined) return decision\n  const narration = this.narration(agent.session, pending.active)\n  try {\n    this.onBoundary(agent.session)\n  } catch (error) {\n    ctx.logger.warn('dsh-plan-mode: failed to append selected plan mode at step start: %o', error)\n    return decision\n  }\n  return !pending.narrate || narration === undefined\n    ? decision\n    : { ...decision, messages: [...decision.messages, narration] }\n})",
+      "sha256": "6bac779782d053924f59cf59ed5185a624661d74d1f3d0ab3932fdb382b4bf17"
+    },
+    "01-21": {
+      "path": "packages/goal/goal/src/index.ts",
+      "start": 390,
+      "end": 400,
+      "raw": "  @Remote('complete')\n  complete(agent: Agent, ref: GoalRef): GoalView {\n    return this.transition(\n      agent,\n      ref,\n      'complete',\n      ['active', 'paused', 'blocked'],\n      'complete',\n      'disarmed',\n    )\n  }",
+      "code": "@Remote('complete')\ncomplete(agent: Agent, ref: GoalRef): GoalView {\n  return this.transition(\n    agent,\n    ref,\n    'complete',\n    ['active', 'paused', 'blocked'],\n    'complete',\n    'disarmed',\n  )\n}",
+      "sha256": "39f2847b664f9671b18690713e630085a767675ee2228569276e82eb7a1ed06d"
+    },
+    "01-22": {
+      "path": "packages/goal/tool-goal/src/index.ts",
+      "start": 305,
+      "end": 318,
+      "raw": "      if (args.action === 'blocked' && authority.kind === 'goal-round'\n        && authority.goal.roundsStarted < resolved.blockedAfterConsecutiveRounds) {\n        throw new HarnessError(\n          `blocked requires at least ${resolved.blockedAfterConsecutiveRounds} consecutive goal rounds; `\n          + `current round is ${authority.goal.roundsStarted}`,\n          'GOAL_TOOL_BLOCK_THRESHOLD',\n        )\n      }\n      const goal = args.action === 'complete'\n        ? ctx.goals.complete(execution.agent, ref)\n        : ctx.goals.block(execution.agent, ref, {\n          code: 'model-reported',\n          message: args.blocked_reason as string,\n        })",
+      "code": "if (args.action === 'blocked' && authority.kind === 'goal-round'\n  && authority.goal.roundsStarted < resolved.blockedAfterConsecutiveRounds) {\n  throw new HarnessError(\n    `blocked requires at least ${resolved.blockedAfterConsecutiveRounds} consecutive goal rounds; `\n    + `current round is ${authority.goal.roundsStarted}`,\n    'GOAL_TOOL_BLOCK_THRESHOLD',\n  )\n}\nconst goal = args.action === 'complete'\n  ? ctx.goals.complete(execution.agent, ref)\n  : ctx.goals.block(execution.agent, ref, {\n    code: 'model-reported',\n    message: args.blocked_reason as string,\n  })",
+      "sha256": "b3d5aa2babbb1c6a830a3c33f0e2db90db55cf343679433ee61fb69f842953af"
+    },
+    "01-23": {
+      "path": "packages/goal/goal-round-driver/tests/goal-round-driver.spec.ts",
+      "start": 194,
+      "end": 218,
+      "raw": "  it('admits exact numbered rounds until the durable round cap', async () => {\n    const test = await harness([textResponse('round one'), textResponse('round two')])\n    const created = test.ctx.goals.create(test.agent, { objective: 'finish twice', maxGoalRounds: 2 })\n\n    const final = await waitForGoal(test.ctx, test.agent, goal => goal?.phase === 'blocked')\n\n    expect(final).toMatchObject({ id: created.id, roundsStarted: 2, activation: 'disarmed' })\n    expect(final?.blockedReason).toEqual({\n      code: 'round-limit',\n      message: 'Goal reached its configured limit of 2 rounds.',\n    })\n    expect(test.adapter.requests).toHaveLength(2)\n    const rounds: number[] = []\n    for (const event of test.agent.session.snapshotEvents()) {\n      // Round zero is a durable goal state change; positive rounds are the\n      // admitted continuation prompts this test counts.\n      if (event.type === 'user/message' && event.data.source.kind === 'goal' && event.data.source.round > 0) {\n        rounds.push(event.data.source.round)\n      }\n    }\n    expect(rounds).toEqual([1, 2])\n    expect(requestText(test.adapter.requests[0]!)).toContain('Round: 1/2')\n    expect(requestText(test.adapter.requests[1]!)).toContain('Round: 2/2')\n    expect(test.agent.session.snapshotEvents().flatMap(event =>\n      event.type === 'request/header' ? [event.data.reason] : [])).toEqual(['initial', 'series'])",
+      "code": "it('admits exact numbered rounds until the durable round cap', async () => {\n  const test = await harness([textResponse('round one'), textResponse('round two')])\n  const created = test.ctx.goals.create(test.agent, { objective: 'finish twice', maxGoalRounds: 2 })\n\n  const final = await waitForGoal(test.ctx, test.agent, goal => goal?.phase === 'blocked')\n\n  expect(final).toMatchObject({ id: created.id, roundsStarted: 2, activation: 'disarmed' })\n  expect(final?.blockedReason).toEqual({\n    code: 'round-limit',\n    message: 'Goal reached its configured limit of 2 rounds.',\n  })\n  expect(test.adapter.requests).toHaveLength(2)\n  const rounds: number[] = []\n  for (const event of test.agent.session.snapshotEvents()) {\n    // Round zero is a durable goal state change; positive rounds are the\n    // admitted continuation prompts this test counts.\n    if (event.type === 'user/message' && event.data.source.kind === 'goal' && event.data.source.round > 0) {\n      rounds.push(event.data.source.round)\n    }\n  }\n  expect(rounds).toEqual([1, 2])\n  expect(requestText(test.adapter.requests[0]!)).toContain('Round: 1/2')\n  expect(requestText(test.adapter.requests[1]!)).toContain('Round: 2/2')\n  expect(test.agent.session.snapshotEvents().flatMap(event =>\n    event.type === 'request/header' ? [event.data.reason] : [])).toEqual(['initial', 'series'])",
+      "sha256": "9fb0448ee0bf1b7bb81cbb776771ae63a083fed78a5e57aefbef18cc829cf39d"
     }
   },
   "limits": "源码摘录与文稿检查；此前测试不计为本轮新执行。"
