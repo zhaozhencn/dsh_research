@@ -1,0 +1,60 @@
+
+ RUN  v4.1.8 /Users/zz/prj/dsh_research/.sources/deepseek-harness
+
+ ❯ ../../research/deepseek-harness/validation/enterprise-example.spec.ts (15 tests | 11 failed) 48ms
+     × routes, caps output and returns only the bound tenant ticket into the next request 14ms
+     × separates identical ticket ids for different bound subjects and scopes 3ms
+     ✓ rejects a forged subject before publishing an Agent or Session 2ms
+     × does not grant access when the model supplies another tenant in tool arguments 3ms
+     × denies another resource even when it belongs to the same tenant 3ms
+     × uses a monotonic guard to deny extra scope-local tools that restrict cannot hide 3ms
+     × rejects the next model attempt after the durable budget is exhausted 2ms
+     × rechecks authorization after downstream request hooks without consuming a reservation 4ms
+     × rejects step admission when authorization is revoked inside the admission waterfall 3ms
+     × does not release a backend result if authorization changes during the await 3ms
+     × propagates cancellation to the model and removes registrations at handle disposal 2ms
+     × cancels an active stream at the task deadline with an explicit hook cause 2ms
+     ✓ shares and preserves reservations across two connections and database reopening 3ms
+     ✓ commits business effect, idempotency receipt and audit together and returns the same receipt on retry 1ms
+     ✓ refuses writes without permission and rolls back a stale business version 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > routes, caps output and returns only the bound tenant ticket into the next request
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > separates identical ticket ids for different bound subjects and scopes
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > does not grant access when the model supplies another tenant in tool arguments
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > denies another resource even when it belongs to the same tenant
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > uses a monotonic guard to deny extra scope-local tools that restrict cannot hide
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > rejects the next model attempt after the durable budget is exhausted
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > rechecks authorization after downstream request hooks without consuming a reservation
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > rejects step admission when authorization is revoked inside the admission waterfall
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > does not release a backend result if authorization changes during the await
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > propagates cancellation to the model and removes registrations at handle disposal
+ FAIL  ../../research/deepseek-harness/validation/enterprise-example.spec.ts > enterprise DSH extensions: real Loop, compiled plugins, local SQLite > cancels an active stream at the task deadline with an explicit hook cause
+JsonSchemaError: unsupported JSON schema: schema.required is not supported by the value schema DSL
+ ❯ authorError packages/core/tools/src/schema.ts:181:9
+    179| /** Throw one author-schema violation through the shared schema error …
+    180| function authorError(message: string): never {
+    181|   throw new JsonSchemaError([message])
+       |         ^
+    182| }
+    183|
+ ❯ assertAuthorKeys packages/core/tools/src/schema.ts:195:33
+ ❯ runSchemaCompiler packages/core/tools/src/schema.ts:366:9
+ ❯ compileValueSchema packages/core/tools/src/schema.ts:427:3
+ ❯ valueSchemaSpecToJsonSchema packages/core/tools/src/schema.ts:439:18
+ ❯ defineTool packages/core/tools/src/schema.ts:578:24
+ ❯ new apply ../../research/deepseek-harness/examples/enterprise-harness/lib/ticket-tool.js:6:34
+ ❯ Fiber.execute vendor/cordis/src/fiber.ts:253:30
+ ❯ vendor/cordis/src/fiber.ts:366:45
+ ❯ composeError vendor/cordis/src/utils.ts:272:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  11 failed | 4 passed (15)
+   Start at  14:27:13
+   Duration  472ms (transform 284ms, setup 0ms, import 354ms, tests 48ms, environment 0ms)
+
+JSON report written to /Users/zz/prj/dsh_research/research/deepseek-harness/validation/enterprise-tests.json

@@ -4,6 +4,7 @@
 
 - [sum-tool](sum-tool/README.md)：canonical number输出、typed args、取消、并发标记与卸载。
 - [route-policy](route-policy/README.md)：agent/request路由配置、scope、持久header与取消。
+- [enterprise-harness](enterprise-harness/README.md)：企业任务授权、独立 policy／工具插件、持久预算、截止取消与本地业务幂等；另有 16 个已通过的真实 Loop／SQLite 用例，不计入下文原有五用例。
 
 ## 离线复现：从当前工作区执行
 

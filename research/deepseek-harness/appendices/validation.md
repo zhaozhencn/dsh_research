@@ -1,10 +1,10 @@
 # 验证范围、复现及结果
 
-环境与SHA见[baseline](baseline.md)。所有命令在固定checkout执行；新增示例从报告validation脚本进入真实runtime。没有提供模型凭据，没有真实业务文件／工具副作用验证。JSONL测试采用仓库测试自己的临时数据和mock；POSIX lease用本机native flock。
+环境与SHA见[baseline](baseline.md)。所有命令使用固定checkout；新增示例从报告validation脚本进入真实runtime。没有提供模型凭据，没有生产业务系统副作用验证；V13 的业务写入仅发生在真实本地 SQLite 临时数据。JSONL测试采用仓库测试自己的临时数据和mock；POSIX lease用本机native flock。
 
 ## 结果与计数口径
 
-原研究 V01—V07 去重后：**22 个仓库测试文件＋1 个自定义测试文件，1,001 个用例通过，1 个条件跳过。** 本次 V08 另运行 7 个不重复的仓库测试文件，201 个用例通过、0 失败或跳过；V10 再运行 6 个不重复仓库文件，302 passed、0 failed/skipped；累计为 **35 个仓库文件＋1 个自定义文件，1,504 passed、1 conditional skipped**。不是全仓测试，也不是代码覆盖率。
+原研究 V01—V07 去重后：**22 个仓库测试文件＋1 个自定义测试文件，1,001 个用例通过，1 个条件跳过。** 此后 V08 另运行 7 个不重复的仓库测试文件，201 个用例通过、0 失败或跳过；V10 再运行 6 个不重复仓库文件，302 passed、0 failed/skipped；截至 V12 为 **35 个仓库文件＋1 个自定义文件，1,504 passed、1 conditional skipped**。本轮企业补充 V13 新增 1 个自定义文件、16 passed；当前去重合计 **35 个仓库文件＋2 个自定义文件，1,520 passed、1 conditional skipped**。不是全仓测试，也不是代码覆盖率。
 
 |批次|命令范围|预期|实际／日志|
 |---|---|---|---|
@@ -128,3 +128,29 @@ node research/deepseek-harness/validation/check-artifacts.mjs
 专栏检查对照 16 项原目录，核验 33 段代码的原文、缩进与 hash，检查正文源码 SHA／行号、导航及图片链接、代码围栏、PNG 解码／尺寸和 SVG XML／尺寸。源码摘录不是独立程序，未对片段进行新的类型检查，也未声称本轮运行了业务代码。编辑关键词仅验证取舍与心得栏目存在，其内容与图示语义由执行者逐篇复核。
 
 检查材料：[专栏结果](../validation/column-check.json)、[检查日志](../validation/column-check.log)、[摘录与篇章清单](../validation/column-manifest.json)、[legacy 结构结果](../validation/column-structure.json)、[Mermaid 结果](../validation/column-mermaid.json)、[完整材料结果](../validation/artifact-check.json)和[完整检查日志](../validation/column-artifacts.log)。全套证据现为 149 条，工作区成员仍为 341；三篇原报告中的 14 张 Mermaid 使用实际 parser 解析，专栏图示则是已渲染的 SVG／PNG，不将两类图的检查混为一谈。
+
+
+## 企业专属 Harness 补充（V13／V14）
+
+上游 SHA 不变。本轮新增[企业实践分析](../04-enterprise-harness-practices.md)与[企业工单参考实现](../examples/enterprise-harness/README.md)，保留三篇原报告及 16 篇专栏。企业方案按两篇原文的 16 项关注点展开；新增应用账本不是 DSH SessionPersistence 的替代实现。
+
+V13 对五个 TypeScript 模块和既有真实 runtime fixture 执行严格类型检查，并转译为五个保留 peer imports 的 ESM 模块。测试加载编译后的代码，实际使用 Cordis、Session、Projection、LLM、Tools 和 Loop；模型流由可控 adapter 提供，业务端为真实本地 SQLite。最终一个新增自定义文件有 **16 passed、0 failed/skipped**；旧测试未重跑、未重复计数。当前合计 37 个去重文件、1,520 passed、1 个既有条件 skip。
+
+用例包括完整两 Step 的工具回流与路由、同编号跨 tenant 读取、伪造主体／参数、资源授权、scoped 工具 guard、await 期间撤销、预算耗尽与同 Step 重试、流取消／deadline、Handle 清理、同机两 SQLite 连接与文件重开，以及业务写入／回执／审计共同提交。业务事务用例在真实数据库中注入 audit INSERT 失败，验证已经执行的 UPDATE 与回执 INSERT 一起回滚，再恢复数据库并验证重复调用只有一次效果。
+
+初次 15 个用例中有 11 failed、4 passed，错误来自示例把 raw JSON Schema 的 required 数组混入 defineTool author DSL；这是新增示例的编写错误，不归为上游缺陷。修正为属性级 required 后 15 passed，再增加有界重试场景达到 16 passed；随后扩充既有事务用例进行真实 SQL 故障注入，仍为 16 个去重用例。保留[初次失败日志](../validation/enterprise-tests-initial.log)、[初次 JSON](../validation/enterprise-tests-initial.json)、[修正 patch](../validation/enterprise-schema-fix.patch)、[最终日志](../validation/enterprise-tests.log)、[最终 JSON](../validation/enterprise-tests.json)与[运行台账](../validation/enterprise-runs.json)。类型日志为空的零退出状态另记录于台账。
+
+```sh
+node research/deepseek-harness/validation/enterprise-example.mjs typecheck
+node research/deepseek-harness/validation/enterprise-example.mjs build
+node research/deepseek-harness/validation/enterprise-example.mjs test
+python3 research/deepseek-harness/validation/check-enterprise.py
+python3 /Users/zz/.codex/skills/harness-research-sync/scripts/research.py check --repo .sources/deepseek-harness --report research/deepseek-harness
+node research/deepseek-harness/validation/check-artifacts.mjs
+```
+
+V14 检查 16 项映射顺序、16 个测试身份去重、15 条补充源码锚点的 Git 对象片段 hash、示例文件 hash、日志存在、ESM 相对依赖／peer 声明和干净 checkout；完整文稿检查另验证本地链接、固定 SHA／区间及 Mermaid parser。结构脚本沿用现有 legacy 模式（final_mode=false），没有伪造新的 research-state 或把同版本补充称为完整版本同步认证。当前文档共有原报告的 14 张 Mermaid 加企业实践的 2 张，实际 parser 全部通过；检查不包含渲染或 HTTP 全量访问。
+
+检查输出：[企业材料结果](../validation/enterprise-check.json)、[legacy 结构结果](../validation/enterprise-structure.json)、[完整材料结果](../validation/artifact-check.json)、[检查日志](../validation/enterprise-artifacts.log)；[补充源码锚点](../validation/enterprise-source-anchors.json)独立保存，不改变原 E01—E149 台账。
+
+本轮未验证 SSO、企业实际权限服务、真实模型、远端业务幂等协议、Vault、完整 profile、packed install、UI、持久 DSH Session 联调、跨机队列／数据库、真实多租户部署或性能。SQLite 的两连接／文件重开不等于集群并发，Loop attempt 预留次数不等于货币计费；最终 observer 的审计仍不提供强持久完成屏障。以上限制均在正文和代码说明标明。

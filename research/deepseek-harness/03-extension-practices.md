@@ -2,6 +2,8 @@
 
 基线固定为 `5badb15009ae1756c3afe0ae0cef1faafc290ccc`（0.2.1-alpha.1）。本篇的“改造建议”是新增工程设计，不是项目已经提供的能力。正文引用的API都来自此版本；官方开发接口处于预稳定阶段，未发现对这些插件接口的长期稳定性承诺。内部symbol、Loader internals和experimental包的升级风险更高。
 
+面向企业专属 Harness 的完整责任划分、16 项实施要求，以及身份／预算／幂等代码，见[企业开发实践](04-enterprise-harness-practices.md)和[企业工单助手参考实现](examples/enterprise-harness/README.md)。本篇保留原有通用接缝与最小示例，新增企业方案沿用同一源码基线。
+
 ## 1. 扩展接缝与具体契约
 
 表中“作用域”指逻辑能力与注册寿命；不是安全租户隔离。除明确写内部者，其余是有导出／官方说明的开发接口，但仍不等于stable ABI。[E75 · 官方说明 · `Developer preview / compatibility-breaking changes`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/README.md#L11-L13) [E76 · 官方说明 · `tool / gate plugin examples and extension selection`](https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/cookbook/extension-cookbook.md#L1-L36)

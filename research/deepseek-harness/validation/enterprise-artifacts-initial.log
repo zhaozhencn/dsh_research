@@ -1,8 +1,8 @@
 {
   "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
   "markdown_files": 31,
-  "checked_links": 1194,
-  "checked_source_links": 886,
+  "checked_links": 1168,
+  "checked_source_links": 885,
   "evidence_anchors": 149,
   "workspace_members": 341,
   "pnpm_projects": 342,
@@ -92,6 +92,10 @@
   "source_checkout_clean": true,
   "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status",
   "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
-  "failures": [],
-  "ok": true
+  "failures": [
+    "missing local link: 04-enterprise-harness-practices.md -> validation/enterprise-runs.json",
+    "missing local link: README.md -> validation/enterprise-runs.json",
+    "missing local link: examples/enterprise-harness/README.md -> ../../validation/enterprise-runs.json"
+  ],
+  "ok": false
 }

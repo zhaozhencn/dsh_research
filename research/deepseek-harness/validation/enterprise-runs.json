@@ -1,0 +1,285 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "mode": "same-version-enterprise-supplement",
+  "assurance": "limited-to-tested-contracts",
+  "recorded_at": "2026-10-04T06:41:39.533759+00:00",
+  "environment": {
+    "node": "v24.19.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.8",
+    "pnpm": "11.7.0",
+    "platform": "macOS arm64"
+  },
+  "runs": [
+    {
+      "id": "V13-type-initial",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "typecheck"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "extension-type"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "Strict typecheck passed; did not detect runtime author schema violation.",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-typecheck-initial.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V13-runtime-initial",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "test"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "extension-runtime"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "15 cases: 4 passed, 11 failed; raw required array used with defineTool author DSL.",
+      "exit_code": 1,
+      "outcome": "failed",
+      "log_path": "validation/enterprise-tests-initial.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V13-type-final",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "typecheck"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "extension-type"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "Strict TypeScript program: five source modules plus real-runtime fixture; exit 0, no diagnostics.",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-typecheck.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V13-build-final",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "build"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "extension-build"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "Five independent ESM modules; bare peer imports retained.",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-build.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V13-runtime-first-fix",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "test"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "normal-loop",
+        "abnormal-or-cancel",
+        "extension-runtime",
+        "cleanup"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "15 passed after schema DSL correction; historical machine report retained.",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-tests-first-pass.json",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V13-runtime-final",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "test"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "normal-loop",
+        "abnormal-or-cancel",
+        "extension-runtime",
+        "cleanup"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "16 distinct cases passed, 0 failed/skipped; includes bounded retry and actual audit INSERT failure after business UPDATE/receipt INSERT, proving rollback in the same local transaction.",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-tests.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification.",
+      "start_time_utc": "2026-10-04T06:46:40.938000+00:00"
+    },
+    {
+      "id": "V13-runtime-before-transaction-fault",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/enterprise-example.mjs",
+        "test"
+      ],
+      "scope": "16-case enterprise fixture before expanding the existing local transaction test",
+      "purposes": [
+        "extension-runtime"
+      ],
+      "inputs": "scripted model and local SQLite",
+      "expected": "16 passed",
+      "actual": "16 passed; retained machine report; not added to the final deduplicated count",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-tests-pre-transaction-fault.json",
+      "limits": "Historical intermediate fixture, not current acceptance evidence."
+    },
+    {
+      "id": "V14-artifact-initial",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/check-artifacts.mjs"
+      ],
+      "scope": "enterprise reference extension on pinned DSH; trusted local application; mock model; local SQLite",
+      "purposes": [
+        "artifact",
+        "diagram"
+      ],
+      "inputs": "authorized task / scripted model stream / fixture ticket database",
+      "expected": "documented invariants or zero diagnostics",
+      "actual": "Authoring-stage check: three links to not-yet-written enterprise-runs.json; diagrams and source checkout checks succeeded.",
+      "exit_code": 1,
+      "outcome": "failed",
+      "log_path": "validation/enterprise-artifacts-initial.log",
+      "limits": "No SSO, real provider, remote business API, packed install, full profile boot, persistent Session integration, cluster or throughput verification."
+    },
+    {
+      "id": "V14-enterprise",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "python3",
+        "research/deepseek-harness/validation/check-enterprise.py"
+      ],
+      "scope": "current enterprise supplement and legacy research materials",
+      "purposes": [
+        "artifact"
+      ],
+      "inputs": "report files / fixed source objects / compiled example / test JSON / logs",
+      "expected": "all structural checks pass",
+      "actual": "exit 0",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-check.log",
+      "start_time_utc": "2026-10-04T06:48:29.333431+00:00",
+      "limits": "Structural validation and Mermaid parse only; legacy structure check uses final_mode=false."
+    },
+    {
+      "id": "V14-structure",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "python3",
+        "/Users/zz/.codex/skills/harness-research-sync/scripts/research.py",
+        "check",
+        "--repo",
+        ".sources/deepseek-harness",
+        "--report",
+        "research/deepseek-harness"
+      ],
+      "scope": "current enterprise supplement and legacy research materials",
+      "purposes": [
+        "artifact"
+      ],
+      "inputs": "report files / fixed source objects / compiled example / test JSON / logs",
+      "expected": "all structural checks pass",
+      "actual": "exit 0",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-structure.json",
+      "start_time_utc": "2026-10-04T06:48:29.567216+00:00",
+      "limits": "Structural validation and Mermaid parse only; legacy structure check uses final_mode=false."
+    },
+    {
+      "id": "V14-artifact-final",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "cwd": "/Users/zz/prj/dsh_research",
+      "command": [
+        "node",
+        "research/deepseek-harness/validation/check-artifacts.mjs"
+      ],
+      "scope": "current enterprise supplement and legacy research materials",
+      "purposes": [
+        "artifact",
+        "diagram"
+      ],
+      "inputs": "report files / fixed source objects / compiled example / test JSON / logs",
+      "expected": "all structural checks pass",
+      "actual": "exit 0",
+      "exit_code": 0,
+      "outcome": "passed",
+      "log_path": "validation/enterprise-artifacts.log",
+      "start_time_utc": "2026-10-04T06:48:37.402644+00:00",
+      "limits": "Structural validation and Mermaid parse only; legacy structure check uses final_mode=false."
+    }
+  ],
+  "deduplicated_current_cases": 16,
+  "test_files": 1,
+  "source_checkout_clean": true,
+  "example_sha256": {
+    "examples/enterprise-harness/README.md": "7d1aef01bcf95af784e61cd90272c80d3175bacd4ef4eda0717883e2b2ff057c",
+    "examples/enterprise-harness/cordis.patch.yml": "20f86b3070c052a4a5f3a8fc64de5b877dc58fd02a56613495f332f3e974c994",
+    "examples/enterprise-harness/ledger.ts": "70bd14c17b6393c783d42b7bd83325a64fc0033496c0ad9889f248b5ed06dd9c",
+    "examples/enterprise-harness/lib/ledger.js": "d02050863285d5ecf99ca40611ef53d0d090215b01ee1a75ab45b8eb08834132",
+    "examples/enterprise-harness/lib/platform.js": "be7d7422764727e7561432435b3b1ca787a246656d168bbb525f30d475670043",
+    "examples/enterprise-harness/lib/policy.js": "3986ecbc2180aa14860c75564918f0b9a89e0b61582c6fa6da6f3aee5ca34c3e",
+    "examples/enterprise-harness/lib/provision.js": "1014afb701ecadd6b53fa6026a437c1efc969b9a9a9b2451f08aad57fcfc9957",
+    "examples/enterprise-harness/lib/ticket-tool.js": "13e900b0ab3293b9e42717c17d5ed5892d42ddae3cc6d23157514c7699edde46",
+    "examples/enterprise-harness/package.json": "31012af7f6ea0817740e8270a9ba3df5ca100dec81d94d1e5d6a938b7a5057dd",
+    "examples/enterprise-harness/platform.ts": "829143d78659db57aa76af9e55850d4639bf36ad978585f1e93ad90cf9d61548",
+    "examples/enterprise-harness/policy.ts": "1b8ec633d9c8b9d558554999d0d3033fffa746befdc74297d708304ac6ef013f",
+    "examples/enterprise-harness/provision.ts": "f11cf53fc59fd2c6f6b355002c2f21a808a13875065abf6b0260e8d88fb8c10b",
+    "examples/enterprise-harness/ticket-tool.ts": "be7ec014b466e74d6abad9b254435ce82245ad2a172ca14cfc83f959b9a7dc83"
+  },
+  "limitations": [
+    "Native tool policy only",
+    "Count of Loop attempt admission reservations, not monetary cost or all LLM calls",
+    "Two same-host SQLite connections and reopen, not distributed concurrency",
+    "Local transaction receipt, not remote exactly-once",
+    "No new persistent DSH Session resume/fork test",
+    "Legacy research layout; supplemental checks do not re-certify full upstream study"
+  ]
+}

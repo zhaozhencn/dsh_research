@@ -1,0 +1,15 @@
+--- initial/examples/enterprise-harness/ticket-tool.ts
++++ final/examples/enterprise-harness/ticket-tool.ts
+@@ -15,9 +15,9 @@
+       schema: {
+         type: 'object', additionalProperties: false,
+         properties: {
+-          ticketId: { type: 'string' }, title: { type: 'string' },
+-          status: { type: 'string' }, version: { type: 'integer' },
+-        }, required: ['ticketId', 'title', 'status', 'version'],
++          ticketId: { type: 'string', required: true }, title: { type: 'string', required: true },
++          status: { type: 'string', required: true }, version: { type: 'integer', required: true },
++        },
+       },
+       render: (_args, value) => [{ type: 'text', text: JSON.stringify(value) }],
+     },

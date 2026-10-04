@@ -1,0 +1,141 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "anchors": [
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent/src/index.ts#L37-L118",
+      "path": "packages/core/agent/src/index.ts",
+      "start": 37,
+      "end": 118,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "f5c7f63adc596fcbd7cd0f9e5ceaeb98a48ae97eb558a9c393a2ec3f0d60d30c"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1493-L1699",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1493,
+      "end": 1699,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "d628ba02a2c32ceab240f372006c88d7e3bd8c9cb1a4dca56de042eae68fb0ad"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/cookbook/extension-cookbook.md#L24-L36",
+      "path": "docs/cookbook/extension-cookbook.md",
+      "start": 24,
+      "end": 36,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "b0c2529b097a2b1d381cfc7ac7c28e1ea356d0f0935e10eefac59a2f4ac0695c"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile-context.ts#L63-L74",
+      "path": "packages/boot/app-boot/src/profile-context.ts",
+      "start": 63,
+      "end": 74,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "c120469101df637e3f8d6852794142bffd54f00c5d65edd156d77c2fc06043f0"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L57-L123",
+      "path": "vendor/include/src/index.ts",
+      "start": 57,
+      "end": 123,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "d74887001bae9421b8467212c3a8b79f4a1a15199837b21afa36d5025e6990f2"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1104-L1160",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1104,
+      "end": 1160,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "3565c75f9fb1e6f39f225c2b5480186a935980c0509f7485831de6ff18bc943b"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/llm/llm-retry/src/index.ts#L188-L259",
+      "path": "packages/llm/llm-retry/src/index.ts",
+      "start": 188,
+      "end": 259,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "47ca1e9421a7f78a4c6f4477f2ccd55636e8918266840c3fdac339c3c7692911"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/compaction/compaction-basic/src/summarizer.ts#L120-L180",
+      "path": "packages/compaction/compaction-basic/src/summarizer.ts",
+      "start": 120,
+      "end": 180,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "f8b6d68f917aecd1a0b3db5f317fac63ff0f89fcc667eeb55a7767523343c62d"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/repair.ts#L14-L97",
+      "path": "packages/core/session/src/repair.ts",
+      "start": 14,
+      "end": 97,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "5fa9633fd35b39425facad6a27245182f77c5adee8db05f7e90be346f1c70c87"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/tool-present/src/index.ts#L70-L108",
+      "path": "packages/deliverables/tool-present/src/index.ts",
+      "start": 70,
+      "end": 108,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "0d830c8b667d2e6618fef1e4a84da5775ac8bd739d6d2cc8614701eca08d9a6d"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/deliverables/workspace-changes/src/recorder.ts#L242-L251",
+      "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "start": 242,
+      "end": 251,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "125f24068ec8df44f4e1439118b99b2e01f3b28d22f510affcb674752ea326ae"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/index.ts#L1694-L1713",
+      "path": "packages/core/tools/src/index.ts",
+      "start": 1694,
+      "end": 1713,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "dcb71e541accde5f434d939de4f0d5577b59ebc53199edc9c43c0addb9ebfccf"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-telemetry-otel/README.md#L30-L80",
+      "path": "packages/session/session-telemetry-otel/README.md",
+      "start": 30,
+      "end": 80,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "8e1985054050b35fc06c8afac81dc5649ec45bb8e6d3e9fd2a03a52e20e3d8dc"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L274-L302",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 274,
+      "end": 302,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source or in-commit official documentation",
+      "snippet_hash": "d37cddf0e93818126e5b85682ee35ac45a44c184e39e88fb2725c025e2d0d38d"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/tools/src/schema.ts#L65-L105",
+      "path": "packages/core/tools/src/schema.ts",
+      "start": 65,
+      "end": 105,
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "category": "fixed source",
+      "snippet_hash": "4fe58f54293e3535dbb89404e782e6c0a89d52588679cec9fb04ebd4889cfd93"
+    }
+  ],
+  "note": "Supplemental source anchors; does not inflate the historical E01-E149 ledger. Semantic interpretation is reviewed in the enterprise article."
+}

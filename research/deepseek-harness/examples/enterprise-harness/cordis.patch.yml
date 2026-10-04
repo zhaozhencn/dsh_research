@@ -1,0 +1,7 @@
+# Integration skeleton only: create the directory and restrict it before launch.
+# Enterprise ingress must call provision.ts; this does not retrofit the stock SDK.
+- insert:
+    - id: enterprise-platform
+      name: research-enterprise-harness
+      config:
+        databasePath: /srv/company-agent/enterprise.db

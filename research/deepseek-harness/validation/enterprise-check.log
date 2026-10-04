@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "concerns": 16,
+  "distinct_tests": 16,
+  "supplemental_source_anchors": 15,
+  "example_files": 13,
+  "source_checkout_clean": true,
+  "errors": [],
+  "limits": "Structural, provenance and ESM reference checks only; no new runtime execution or production certification."
+}

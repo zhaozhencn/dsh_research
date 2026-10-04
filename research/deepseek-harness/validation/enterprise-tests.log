@@ -1,0 +1,12 @@
+
+ RUN  v4.1.8 /Users/zz/prj/dsh_research/.sources/deepseek-harness
+
+ ✓ ../../research/deepseek-harness/validation/enterprise-example.spec.ts (16 tests) 607ms
+     ✓ cancels an active stream at the task deadline with an explicit hook cause  507ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  14:46:40
+   Duration  1.09s (transform 326ms, setup 0ms, import 408ms, tests 607ms, environment 0ms)
+
+JSON report written to /Users/zz/prj/dsh_research/research/deepseek-harness/validation/enterprise-tests.json
