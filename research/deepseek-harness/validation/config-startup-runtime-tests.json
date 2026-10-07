@@ -1,0 +1,72 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "node_version": "v24.19.0",
+  "cwd": ".sources/deepseek-harness",
+  "command": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/boot/app-boot/tests/profile.spec.ts",
+    "packages/boot/app-boot/tests/user-patches.spec.ts",
+    "packages/boot/app-boot/tests/app-boot.spec.ts",
+    "packages/boot/app-boot/tests/config-reload.spec.ts",
+    "packages/boot/app-boot/tests/compatibility-preflight.spec.ts",
+    "packages/boot/app-boot/tests/profile-resolution-service.spec.ts",
+    "packages/boot/app-boot/tests/config-dump.spec.ts",
+    "--maxWorkers=2",
+    "--reporter=json",
+    "--outputFile=/Users/zz/prj/dsh_research/.sources/config-startup-work/runtime-tests.json"
+  ],
+  "stdout_stderr": ".sources/config-startup-work/runtime-tests.log",
+  "exit_code": 0,
+  "success": true,
+  "file_count": 7,
+  "total_tests": 195,
+  "passed_tests": 195,
+  "failed_tests": 0,
+  "pending_tests": 0,
+  "files": [
+    {
+      "path": "packages/boot/app-boot/tests/app-boot.spec.ts",
+      "tests": 85,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/compatibility-preflight.spec.ts",
+      "tests": 28,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/config-dump.spec.ts",
+      "tests": 6,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/config-reload.spec.ts",
+      "tests": 10,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/profile-resolution-service.spec.ts",
+      "tests": 10,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/profile.spec.ts",
+      "tests": 35,
+      "status": "passed"
+    },
+    {
+      "path": "packages/boot/app-boot/tests/user-patches.spec.ts",
+      "tests": 21,
+      "status": "passed"
+    }
+  ],
+  "raw_report_sha256": "dd7bbe6867e94cb36311a420b55b24fb9274496e0d8a273e66716d34452eed5b",
+  "raw_report": ".sources/config-startup-work/runtime-tests.json",
+  "limitations": [
+    "选定的源码契约测试使用对应 fixtures，不证明完整发布版安装、目标平台或真实模型运行。",
+    "Vitest 的 numTotalTestSuites 含嵌套 describe，不作为文件数。",
+    "教学 profile、overlay 与演示插件仅进行了静态源码核对，未完整启动。"
+  ]
+}

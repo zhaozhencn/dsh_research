@@ -1,0 +1,306 @@
+DSH config/loading/startup article validation
+Source SHA: 5badb15009ae1756c3afe0ae0cef1faafc290ccc
+Runtime Node: v24.19.0
+
+Runtime command (cwd .sources/deepseek-harness):
+node node_modules/vitest/vitest.mjs run packages/boot/app-boot/tests/profile.spec.ts packages/boot/app-boot/tests/user-patches.spec.ts packages/boot/app-boot/tests/app-boot.spec.ts packages/boot/app-boot/tests/config-reload.spec.ts packages/boot/app-boot/tests/compatibility-preflight.spec.ts packages/boot/app-boot/tests/profile-resolution-service.spec.ts packages/boot/app-boot/tests/config-dump.spec.ts --maxWorkers=2 --reporter=json --outputFile=/Users/zz/prj/dsh_research/.sources/config-startup-work/runtime-tests.json
+stdout/stderr redirected to .sources/config-startup-work/runtime-tests.log
+exit_code: 0
+7 files, 195 passed, 0 failed, 0 pending.
+
+Saved run: prepare-plan-01-failure.log
+exit_code: 1
+command: python3 heredoc (initial plan preparation)
+exit_code: 1
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '['
+location: article_plan sections list comprehension
+resolution: corrected comprehension in prepare-plan.py; no output was written before parsing failed.
+
+Saved run: diagram-build-01.log
+exit_code: 1
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 166, in <module>
+    main()
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 160, in main
+    render(fig,spec['sha'])
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 110, in render
+    c.panel(140,y,995,112,title,detail,title_size=33)
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 80, in panel
+    assert end <= y+height-5, (title, detail, end, y+height)
+AssertionError: ('bundle layers', 'bundles 顺序，再按 bundle 内 patch 文件顺序', 335, 330)
+
+Saved run: diagram-build-02.log
+exit_code: 1
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 166, in <module>
+    main()
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 160, in main
+    render(fig,spec['sha'])
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 116, in render
+    c.panel(x,948,330,202,title,detail,fill='#eef7f2' if i==2 else '#eef4fc',title_size=31)
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/build-config-startup-assets.py", line 80, in panel
+    assert end <= y+height-5, (title, detail, end, y+height)
+AssertionError: ('替换后的 raw config', '仅剩 maxParallelToolCalls: 8', 1184, 1150)
+
+Saved run: diagram-build-03.log
+exit_code: 0
+{"png": 4, "svg": 4}
+
+Saved run: diagram-build-04.log
+exit_code: 0
+{"png": 4, "svg": 4}
+
+Saved run: article-check-01.log
+exit_code: 1
+{"steps": 15, "source_excerpt_count": 36, "total_code_blocks": 41, "checked_links": 84, "protected_files_checked": 326, "failures": ["source block ids"], "ok": false}
+
+Saved run: article-check-02.log
+exit_code: 0
+{"steps": 15, "source_excerpt_count": 36, "total_code_blocks": 41, "checked_links": 86, "protected_files_checked": 326, "failures": [], "ok": true}
+
+Saved run: article-check-03.log
+exit_code: 1
+Traceback (most recent call last):
+  File "/Users/zz/prj/dsh_research/research/deepseek-harness/validation/check-config-startup-article.py", line 15, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+
+Corrections: planning heredoc bracket; diagram panel heights and full-width replacement rows; source id comparison uses Counter(records.keys()). Earlier 36-excerpt checks preceded addition of S37 (patch parser).
+
+Additional failed command: python3 stdin metadata writer
+exit_code: 1
+SyntaxError: Non-UTF-8 code starting with byte e5 in stdin on line 9, but no encoding declared. No output was written. Rerun with coding declaration and existing Python venv succeeded.
+
+article-check-03 command: python3 research/deepseek-harness/validation/check-config-startup-article.py --protected-snapshot .sources/config-startup-work/protected-before.json
+Missing Pillow in system Python; subsequent checks use .sources/column-work/.venv/bin/python.
+
+Command (cwd repository root): .sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-config-startup-article.py --protected-snapshot .sources/config-startup-work/protected-before.json
+exit_code: 0
+{"steps": 15, "source_excerpt_count": 37, "total_code_blocks": 42, "checked_links": 90, "protected_files_checked": 326, "failures": [], "ok": true}
+
+Command (cwd repository root): .sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py
+exit_code: 0
+{"articles": 16, "excerpts": 364, "png": 64, "svg": 64, "links": 878, "ok": true, "failures": []}
+
+Command (cwd repository root): node research/deepseek-harness/validation/check-artifacts.mjs
+exit_code: 0
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "markdown_files": 32,
+  "checked_links": 1759,
+  "checked_source_links": 1332,
+  "evidence_anchors": 149,
+  "workspace_members": 341,
+  "pnpm_projects": 342,
+  "mermaid_version": "11.16.0",
+  "diagrams": [
+    {
+      "file": "01-architecture.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 7,
+      "ok": true
+    },
+    {
+      "file": "03-extension-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 2,
+      "ok": true
+    }
+  ],
+  "source_checkout_clean": true,
+  "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status",
+  "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
+  "failures": [],
+  "ok": true
+}
+
+Command (cwd repository root): git diff --check
+exit_code: 0
+
+Final scope: 15 steps; 37 original source excerpts; 42 total code blocks including 5 teaching blocks; 4 PNG/SVG diagram pairs. Source checkout clean. Existing 16 articles, 364 excerpts and 64 pairs preserved.
+Limits: source fixture tests, no complete installed application or real model; examples statically reviewed; no WeChat editor preview or external publication.
+
+Renumber article to 00 (2026-10-07):
+Renamed article and 4 PNG/SVG pairs; synchronized navigation, plan, definitions and renderer.
+All four rendered headers use 00; first PNG visually checked and header crops match across all four.
+No runtime tests rerun for this filename and navigation change.
+
+Command (cwd repository root): .sources/column-work/.venv/bin/python research/deepseek-harness/validation/build-config-startup-assets.py
+exit_code: 0
+{"png": 4, "svg": 4}
+
+Command (cwd repository root): .sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-config-startup-article.py --protected-snapshot .sources/config-startup-work/protected-before.json
+exit_code: 0
+{"steps": 15, "source_excerpt_count": 37, "total_code_blocks": 42, "checked_links": 90, "protected_files_checked": 326, "failures": [], "ok": true}
+
+Command (cwd repository root): node research/deepseek-harness/validation/check-artifacts.mjs
+exit_code: 0
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "markdown_files": 32,
+  "checked_links": 1760,
+  "checked_source_links": 1332,
+  "evidence_anchors": 149,
+  "workspace_members": 341,
+  "pnpm_projects": 342,
+  "mermaid_version": "11.16.0",
+  "diagrams": [
+    {
+      "file": "01-architecture.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 7,
+      "ok": true
+    },
+    {
+      "file": "03-extension-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 2,
+      "ok": true
+    }
+  ],
+  "source_checkout_clean": true,
+  "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status",
+  "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
+  "failures": [],
+  "ok": true
+}
+
+Command: git diff --check
+exit_code: 0
+Search for obsolete article stems and illustration headings found no current references.

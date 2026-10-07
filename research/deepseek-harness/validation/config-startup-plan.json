@@ -1,0 +1,1088 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "mode": "single",
+    "article": "research/deepseek-harness/articles/00-config-loading-startup.md",
+    "audience": "希望理解配置组合和插件启动的工程师与架构师",
+    "central_question": "配置如何从profile文件和bundle声明成为可审计的运行中插件树？",
+    "preserve": [
+      "existing_16_articles",
+      "existing_64_figure_pairs",
+      "fixed_source_sha"
+    ],
+    "protected_files": [
+      ".sources/config-startup-work/protected-before.json（326个既有文件hash）"
+    ]
+  },
+  "source_baseline": {
+    "repository": ".sources/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "official_base_url": "https://github.com/deepseek-ai/deepseek-harness",
+    "historical_runtime_evidence": [
+      "历史结果不作为本轮测试计数"
+    ]
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "runCli(profile模式)"
+    ],
+    "edges": [
+      {
+        "from": "runCli",
+        "to": "runProfile",
+        "kind": "call",
+        "handoff": "profile、patchFiles、args",
+        "evidence": [
+          "S01",
+          "S02"
+        ]
+      },
+      {
+        "from": "composeProfile",
+        "to": "prepareProfile → loadProfile",
+        "kind": "call",
+        "handoff": "Profile和空cordis.yml",
+        "evidence": [
+          "S03",
+          "S04",
+          "S08"
+        ]
+      },
+      {
+        "from": "loadProfileDirectory",
+        "to": "resolveBundleDir → loadOverlayPatches",
+        "kind": "call",
+        "handoff": "Profile.layers、patches、skippedBundles",
+        "evidence": [
+          "S05",
+          "S06",
+          "S07"
+        ]
+      },
+      {
+        "from": "composeProfile",
+        "to": "createRuntimeResolution",
+        "kind": "call",
+        "handoff": "RuntimeResolution和overlays",
+        "evidence": [
+          "S09",
+          "S10"
+        ]
+      },
+      {
+        "from": "runProfile",
+        "to": "readProfilePatches",
+        "kind": "call",
+        "handoff": "完整PatchOptions[]",
+        "evidence": [
+          "S11"
+        ]
+      },
+      {
+        "from": "prepareProfilePatches / Include.applyPatches",
+        "to": "applyEntryPatches",
+        "kind": "call",
+        "handoff": "有效EntryOptions[]",
+        "evidence": [
+          "S12",
+          "S13",
+          "S14",
+          "S15",
+          "S16"
+        ]
+      },
+      {
+        "from": "runProfile",
+        "to": "boot → prepare callback",
+        "kind": "call",
+        "handoff": "Context的host服务",
+        "evidence": [
+          "S17",
+          "S18",
+          "S19"
+        ]
+      },
+      {
+        "from": "boot",
+        "to": "mountRootInclude → prepareProfilePatches",
+        "kind": "call",
+        "handoff": "prepared insertion patch、rootInclude",
+        "evidence": [
+          "S20",
+          "S21"
+        ]
+      },
+      {
+        "from": "root Include Fiber",
+        "to": "Include[Service.init] → root.update",
+        "kind": "call",
+        "handoff": "Include子树与子Entry",
+        "evidence": [
+          "S22",
+          "S23",
+          "S24"
+        ]
+      },
+      {
+        "from": "EntryGroup.update",
+        "to": "Entry.update → Entry._init",
+        "kind": "call",
+        "handoff": "moduleNamespace与Fiber",
+        "evidence": [
+          "S25",
+          "S26",
+          "S27"
+        ]
+      },
+      {
+        "from": "Fiber构造与服务变化",
+        "to": "Fiber._refresh → Fiber._reload",
+        "kind": "call",
+        "handoff": "resolved config与生命周期状态",
+        "evidence": [
+          "S28",
+          "S29",
+          "S30"
+        ]
+      },
+      {
+        "from": "boot",
+        "to": "loader.await → auditStartupEntries",
+        "kind": "call",
+        "handoff": "警告或StartupError",
+        "evidence": [
+          "S31",
+          "S32"
+        ]
+      },
+      {
+        "from": "runProfile",
+        "to": "appReady.commit",
+        "kind": "call",
+        "handoff": "一次性ready通知",
+        "evidence": [
+          "S33"
+        ]
+      },
+      {
+        "from": "HMR配置刷新",
+        "to": "readProfilePatches → reconcileProfilePatches",
+        "kind": "call",
+        "handoff": "Entry更新、旧Fiber结算与新激活审计",
+        "evidence": [
+          "S34",
+          "S35"
+        ]
+      },
+      {
+        "from": "runProfile catch / shutdown",
+        "to": "dispose",
+        "kind": "call",
+        "handoff": "共享cleanup Promise",
+        "evidence": [
+          "S36"
+        ]
+      }
+    ],
+    "branches": [
+      "bundle失败→skippedBundles",
+      "patch未匹配→warning",
+      "缺少服务→PENDING",
+      "required Entry失败→StartupError",
+      "reload引入失败→reject但非全局回滚",
+      "启动中退出→不提交ready"
+    ]
+  },
+  "article_plan": {
+    "opening": "配置经组合、host准备、Entry激活和审计成为可运行插件树。",
+    "sections": [
+      {
+        "question": "命令如何交给profile启动器？",
+        "handoff": "RunProfileOptions"
+      },
+      {
+        "question": "profile与bundle如何形成配置来源？",
+        "handoff": "Profile / RuntimeResolution"
+      },
+      {
+        "question": "patch怎样改变整个Entry配置？",
+        "handoff": "PatchOptions[] / EntryOptions[]"
+      },
+      {
+        "question": "host为插件准备哪些共同服务？",
+        "handoff": "Context"
+      },
+      {
+        "question": "Include、Entry和Fiber如何衔接？",
+        "handoff": "moduleNamespace / Fiber"
+      },
+      {
+        "question": "表达式和schema什么时候处理？",
+        "handoff": "resolved config"
+      },
+      {
+        "question": "如何定义启动成功？",
+        "handoff": "StartupError / appReady"
+      },
+      {
+        "question": "配置刷新与清理怎样复用同一条链？",
+        "handoff": "新一代Entry与旧Fiber"
+      },
+      {
+        "question": "如何沿边界排查配置？",
+        "handoff": "dump与部署核对"
+      },
+      {
+        "question": "从实现获得哪些工程收获？",
+        "handoff": "可落实做法"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "01",
+      "caller": "runCli",
+      "callee": "runProfile",
+      "previous_output": "DshInvocation与LaunchEnvironmentSnapshot",
+      "input": "DshInvocation与LaunchEnvironmentSnapshot",
+      "core_decision": "profile 分支把 launcher 参数与应用 args 分开；环境各层先检查再按优先级应用。",
+      "output": "profile、patchFiles、args",
+      "consumer": "composeProfile",
+      "excerpts": [
+        "S01",
+        "S02"
+      ]
+    },
+    {
+      "id": "02",
+      "caller": "composeProfile",
+      "callee": "prepareProfile → loadProfile",
+      "previous_output": "profile名称",
+      "input": "profile名称",
+      "core_decision": "缺少 manifest 时可初始化 shipped 模板；显式 from-default 只在新目标建立时复制一次；prepare 重写空根文件。",
+      "output": "Profile和空cordis.yml",
+      "consumer": "loadProfileDirectory",
+      "excerpts": [
+        "S03",
+        "S04",
+        "S08"
+      ]
+    },
+    {
+      "id": "03",
+      "caller": "loadProfileDirectory",
+      "callee": "resolveBundleDir → loadOverlayPatches",
+      "previous_output": "bundles名称",
+      "input": "bundles名称",
+      "core_decision": "bundle 使用安装目录优先查找；局部 bundle 错误记 skipped；profile patch 错误阻止加载。",
+      "output": "Profile.layers、patches、skippedBundles",
+      "consumer": "createRuntimeResolution",
+      "excerpts": [
+        "S05",
+        "S06",
+        "S07",
+        "S37"
+      ]
+    },
+    {
+      "id": "04",
+      "caller": "composeProfile",
+      "callee": "createRuntimeResolution",
+      "previous_output": "Profile与installAnchor",
+      "input": "Profile与installAnchor",
+      "core_decision": "构建冻结解析表而不安装依赖；原生私有与 profile 本地模块解析先于 interception。",
+      "output": "RuntimeResolution和overlays",
+      "consumer": "PluginPackages",
+      "excerpts": [
+        "S09",
+        "S10"
+      ]
+    },
+    {
+      "id": "05",
+      "caller": "runProfile",
+      "callee": "readProfilePatches",
+      "previous_output": "ProfileContext与已加载Profile",
+      "input": "ProfileContext与已加载Profile",
+      "core_decision": "按 bundle、profile、home、CLI 顺序收集；非空 telemetry 禁用环境值追加最后一层。",
+      "output": "完整PatchOptions[]",
+      "consumer": "boot / prepareProfilePatches",
+      "excerpts": [
+        "S11"
+      ]
+    },
+    {
+      "id": "06",
+      "caller": "prepareProfilePatches / Include.applyPatches",
+      "callee": "applyEntryPatches",
+      "previous_output": "原始EntryOptions[]与有序patch",
+      "input": "原始EntryOptions[]与有序patch",
+      "core_decision": "insert 后继续下一个 patch；普通 patch 的 name 是断言，config 直接整对象赋值。",
+      "output": "有效EntryOptions[]",
+      "consumer": "EntryGroup.update",
+      "excerpts": [
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16"
+      ]
+    },
+    {
+      "id": "07",
+      "caller": "runProfile",
+      "callee": "boot → prepare callback",
+      "previous_output": "rootConfig与有序patch",
+      "input": "rootConfig与有序patch",
+      "core_decision": "Loader 先安装；prepare 在插件激活前提供环境、解析 hooks、退出和 readiness 服务。",
+      "output": "Context的host服务",
+      "consumer": "mountRootInclude",
+      "excerpts": [
+        "S17",
+        "S18",
+        "S19"
+      ]
+    },
+    {
+      "id": "08",
+      "caller": "boot",
+      "callee": "mountRootInclude → prepareProfilePatches",
+      "previous_output": "patch和profileContext",
+      "input": "patch和profileContext",
+      "core_decision": "对完整有效列表执行兼容检查；普通不兼容节点禁用；根 Include 插入统一候选。",
+      "output": "prepared insertion patch、rootInclude",
+      "consumer": "Loader.create",
+      "excerpts": [
+        "S20",
+        "S21"
+      ]
+    },
+    {
+      "id": "09",
+      "caller": "root Include Fiber",
+      "callee": "Include[Service.init] → root.update",
+      "previous_output": "空cordis.yml与prepared patch",
+      "input": "空cordis.yml与prepared patch",
+      "core_decision": "Include 读取有效数组后提交缓存；表达式保持节点；Group.update 并发准备子 Entry。",
+      "output": "Include子树与子Entry",
+      "consumer": "EntryGroup.create",
+      "excerpts": [
+        "S22",
+        "S23",
+        "S24"
+      ]
+    },
+    {
+      "id": "10",
+      "caller": "EntryGroup.update",
+      "callee": "Entry.update → Entry._init",
+      "previous_output": "EntryOptions和所属tree",
+      "input": "EntryOptions和所属tree",
+      "core_decision": "disabled 提前判断；导入 namespace；Registry.plugin 创建 Fiber；稳定 id 联系配置节点。",
+      "output": "moduleNamespace与Fiber",
+      "consumer": "Fiber依赖检查",
+      "excerpts": [
+        "S25",
+        "S26",
+        "S27"
+      ]
+    },
+    {
+      "id": "11",
+      "caller": "Fiber构造与服务变化",
+      "callee": "Fiber._refresh → Fiber._reload",
+      "previous_output": "inject、raw config、Context",
+      "input": "inject、raw config、Context",
+      "core_decision": "缺 provider 保持未激活；epoch guard 丢弃过期重载；普通 config 到所属 Context 求值并通过 schema。",
+      "output": "resolved config与生命周期状态",
+      "consumer": "boot审计",
+      "excerpts": [
+        "S28",
+        "S29",
+        "S30"
+      ]
+    },
+    {
+      "id": "12",
+      "caller": "boot",
+      "callee": "loader.await → auditStartupEntries",
+      "previous_output": "EntryTree tasks和Entry状态",
+      "input": "EntryTree tasks和Entry状态",
+      "core_decision": "await 只结算工作；enabled required 或根 Include 的失败产生 StartupError；optional 仅警告。",
+      "output": "警告或StartupError",
+      "consumer": "runProfile readiness guard",
+      "excerpts": [
+        "S31",
+        "S32"
+      ]
+    },
+    {
+      "id": "13",
+      "caller": "runProfile",
+      "callee": "appReady.commit",
+      "previous_output": "boot返回Context和中断状态",
+      "input": "boot返回Context和中断状态",
+      "core_decision": "未中断、root ACTIVE、Loader 存在才 commit；通知只发生一次，不证明业务完成。",
+      "output": "一次性ready通知",
+      "consumer": "appReady listeners",
+      "excerpts": [
+        "S33"
+      ]
+    },
+    {
+      "id": "14",
+      "caller": "HMR配置刷新",
+      "callee": "readProfilePatches → reconcileProfilePatches",
+      "previous_output": "新一代完整patch",
+      "input": "新一代完整patch",
+      "core_decision": "更新同一 root Include；等待旧 Fiber 与当前任务，审计新增问题；不是全局事务回滚。",
+      "output": "Entry更新、旧Fiber结算与新激活审计",
+      "consumer": "config-reload事件",
+      "excerpts": [
+        "S34",
+        "S35"
+      ]
+    },
+    {
+      "id": "15",
+      "caller": "runProfile catch / shutdown",
+      "callee": "dispose",
+      "previous_output": "root Fiber与Proxy disposer",
+      "input": "root Fiber与Proxy disposer",
+      "core_decision": "cleanup Promise 共享；root Fiber 与 Proxy 都尝试清理；初次启动错误保留原因与诊断。",
+      "output": "共享cleanup Promise",
+      "consumer": "错误上报或退出",
+      "excerpts": [
+        "S36"
+      ]
+    }
+  ],
+  "data_contracts": [
+    {
+      "symbol": "Profile",
+      "declaration": "S05",
+      "producer": "loadProfileDirectory",
+      "consumers": [
+        "composeProfile",
+        "readProfilePatches"
+      ],
+      "fields": [
+        "name",
+        "dir",
+        "layers",
+        "patchPath",
+        "patches",
+        "skippedBundles"
+      ]
+    },
+    {
+      "symbol": "RuntimeResolution",
+      "declaration": "S10",
+      "producer": "createRuntimeResolution",
+      "consumers": [
+        "PluginPackages",
+        "Worker resolution"
+      ],
+      "fields": [
+        "profilesDir",
+        "profileDir",
+        "localPackageNames",
+        "entries",
+        "linkedRoots"
+      ]
+    },
+    {
+      "symbol": "PatchOptions",
+      "declaration": "S12",
+      "producer": "parsePatchList",
+      "consumers": [
+        "applyEntryPatches"
+      ],
+      "fields": [
+        "id",
+        "insert",
+        "name",
+        "config",
+        "disabled"
+      ]
+    },
+    {
+      "symbol": "EntryOptions",
+      "declaration": "S23",
+      "producer": "applyEntryPatches / preflight",
+      "consumers": [
+        "EntryGroup.create",
+        "Entry.update"
+      ],
+      "fields": [
+        "id",
+        "name",
+        "config",
+        "group",
+        "disabled",
+        "inject"
+      ]
+    },
+    {
+      "symbol": "Entry",
+      "declaration": "vendor/loader/src/config/entry.ts:43–60",
+      "producer": "EntryGroup.create",
+      "consumers": [
+        "Loader",
+        "EntryTree",
+        "auditStartupEntries"
+      ],
+      "fields": [
+        "options",
+        "ctx",
+        "fiber",
+        "parent",
+        "subgroup",
+        "subtree",
+        "moduleNamespace"
+      ]
+    },
+    {
+      "symbol": "Fiber",
+      "declaration": "vendor/cordis/src/fiber.ts",
+      "producer": "Registry.plugin",
+      "consumers": [
+        "EntryTree.await",
+        "startup audit"
+      ],
+      "fields": [
+        "inject",
+        "_config",
+        "config",
+        "state",
+        "inertia",
+        "dispose"
+      ]
+    }
+  ],
+  "figure_plan": [
+    {
+      "id": 1,
+      "type": "sequence",
+      "after_step": "opening",
+      "purpose": "profile→patch→host→Entry树→审计→ready",
+      "outputs": [
+        "articles/assets/00-config-loading-startup-01.png",
+        "articles/assets/00-config-loading-startup-01.svg"
+      ],
+      "visually_reviewed": true
+    },
+    {
+      "id": 2,
+      "type": "ordered-layers",
+      "after_step": "05",
+      "purpose": "patch顺序和config整对象替换",
+      "outputs": [
+        "articles/assets/00-config-loading-startup-02.png",
+        "articles/assets/00-config-loading-startup-02.svg"
+      ],
+      "visually_reviewed": true
+    },
+    {
+      "id": 3,
+      "type": "ownership",
+      "after_step": "09",
+      "purpose": "Loader根树、Include子树、Entry与Fiber",
+      "outputs": [
+        "articles/assets/00-config-loading-startup-03.png",
+        "articles/assets/00-config-loading-startup-03.svg"
+      ],
+      "visually_reviewed": true
+    },
+    {
+      "id": 4,
+      "type": "branches",
+      "after_step": "12",
+      "purpose": "disabled、failed、pending与required政策",
+      "outputs": [
+        "articles/assets/00-config-loading-startup-04.png",
+        "articles/assets/00-config-loading-startup-04.svg"
+      ],
+      "visually_reviewed": true
+    }
+  ],
+  "lessons": [
+    {
+      "fact": "来源、树节点、执行实例职责不同",
+      "practice": "配置评审与运行审计分别记录",
+      "conditions": "诊断文件存在但插件未运行"
+    },
+    {
+      "fact": "config整对象替换",
+      "practice": "覆盖视为显式接管并验证完整候选",
+      "conditions": "组合来源或设置写回"
+    },
+    {
+      "fact": "bundle目录和模块解析规则不同",
+      "practice": "分别核对配置来源和实际importer",
+      "conditions": "外部或linked插件部署"
+    },
+    {
+      "fact": "Loader.await仅等待任务",
+      "practice": "用激活审计和ready守卫定义启动成功",
+      "conditions": "required不是业务验收"
+    },
+    {
+      "fact": "reconciliation可能保留成功兄弟",
+      "practice": "记录代次和具体失败，effect拥有资源",
+      "conditions": "配置更新和清理"
+    }
+  ],
+  "review": {
+    "status": "complete",
+    "commands": [
+      {
+        "command": [
+          "node",
+          "node_modules/vitest/vitest.mjs",
+          "run",
+          "packages/boot/app-boot/tests/profile.spec.ts",
+          "packages/boot/app-boot/tests/user-patches.spec.ts",
+          "packages/boot/app-boot/tests/app-boot.spec.ts",
+          "packages/boot/app-boot/tests/config-reload.spec.ts",
+          "packages/boot/app-boot/tests/compatibility-preflight.spec.ts",
+          "packages/boot/app-boot/tests/profile-resolution-service.spec.ts",
+          "packages/boot/app-boot/tests/config-dump.spec.ts",
+          "--maxWorkers=2",
+          "--reporter=json",
+          "--outputFile=/Users/zz/prj/dsh_research/.sources/config-startup-work/runtime-tests.json"
+        ],
+        "cwd": ".sources/deepseek-harness",
+        "exit_code": 0,
+        "record": "validation/config-startup-runtime-tests.json"
+      },
+      {
+        "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-config-startup-article.py --protected-snapshot .sources/config-startup-work/protected-before.json",
+        "cwd": ".",
+        "exit_code": 0,
+        "record": "validation/config-startup-check.json",
+        "log": ".sources/config-startup-work/article-check-04.log"
+      },
+      {
+        "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+        "cwd": ".",
+        "exit_code": 0,
+        "record": "validation/column-check.json",
+        "log": ".sources/config-startup-work/column-check-01.log"
+      },
+      {
+        "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+        "cwd": ".",
+        "exit_code": 0,
+        "record": "validation/artifact-check.json",
+        "log": ".sources/config-startup-work/artifact-check-01.log"
+      },
+      {
+        "command": "git diff --check",
+        "cwd": ".",
+        "exit_code": 0,
+        "record": null,
+        "log": null
+      }
+    ],
+    "semantic_checks": [
+      "沿固定 SHA 核对15步 caller、callee、关键分支、数据交接与清理责任。",
+      "37段原文覆盖参数、profile/bundle、patch解析组合、host准备、Entry/Fiber、审计和刷新。",
+      "核对 config 整对象替换、disabled 表达式提前判断、config 表达式在所属 Context 求值。",
+      "区分 bundle 目录查找与运行时模块解析；区分 task settled、Entry 活跃和 appReady。",
+      "四张 PNG 已逐张视觉检查，图二调整布局后复看；图中状态与术语和正文对应。",
+      "原有16篇关注点映射、364段原文与64组PNG/SVG保留；326个受保护文件通过字节哈希比对。"
+    ],
+    "limitations": [
+      "选定的源码契约测试使用对应 fixtures，不证明完整发布版安装、目标平台或真实模型运行。",
+      "Vitest 的 numTotalTestSuites 含嵌套 describe，不作为文件数。",
+      "教学 profile、overlay 与演示插件仅进行了静态源码核对，未完整启动。",
+      "结构与来源自动检查不能认证文章语义质量；未进行微信编辑器预览或外部发布。"
+    ],
+    "renumbering": {
+      "article_number": "00",
+      "previous_article_number": "17",
+      "date": "2026-10-07",
+      "scope": "article and illustration filenames, rendered headers, navigation and current validation references",
+      "runtime_tests_rerun": false,
+      "checks": {
+        "topic": true,
+        "artifact_links": true,
+        "protected_files": 326,
+        "four_headers": "00"
+      }
+    }
+  },
+  "source_excerpts": [
+    {
+      "id": "S01",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/bin.ts",
+      "start": 26,
+      "end": 45,
+      "raw_sha256": "6a15bfa4fd91896783884ff25ad474e21f4dee6f1d587e24af655f3e42b0dbcb",
+      "code_sha256": "6a15bfa4fd91896783884ff25ad474e21f4dee6f1d587e24af655f3e42b0dbcb",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/bin.ts#L26-L45"
+    },
+    {
+      "id": "S02",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 239,
+      "end": 255,
+      "raw_sha256": "21d056cc9bec270f5484b1f4c6f5fb889e8c91b25acc756a10a8fb98768a74ca",
+      "code_sha256": "bcd883300f1c2128757f466ffff7ee2b5fcb0c7b07423b350c526cdd83f39541",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L239-L255"
+    },
+    {
+      "id": "S03",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 178,
+      "end": 195,
+      "raw_sha256": "af6da3fedbb910573c0ba704499c4657eb0137c47fa2d183942c63985a603798",
+      "code_sha256": "af6da3fedbb910573c0ba704499c4657eb0137c47fa2d183942c63985a603798",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L178-L195"
+    },
+    {
+      "id": "S04",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 781,
+      "end": 798,
+      "raw_sha256": "cbbe3375b6d3d7086e2aa0ccae0af47cf4e6c22efc4e70f36eafe6b5ba5605b2",
+      "code_sha256": "cbbe3375b6d3d7086e2aa0ccae0af47cf4e6c22efc4e70f36eafe6b5ba5605b2",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L781-L798"
+    },
+    {
+      "id": "S05",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 78,
+      "end": 103,
+      "raw_sha256": "ea82c9231013c65e25faa11ea4b697b92f26435a4e4d903e46bdd899adab313b",
+      "code_sha256": "ea82c9231013c65e25faa11ea4b697b92f26435a4e4d903e46bdd899adab313b",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L78-L103"
+    },
+    {
+      "id": "S06",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 706,
+      "end": 717,
+      "raw_sha256": "2b712def81fae19ac3203f74213227d8efce6ff7f67948b0c211447411ef0c96",
+      "code_sha256": "2b712def81fae19ac3203f74213227d8efce6ff7f67948b0c211447411ef0c96",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L706-L717"
+    },
+    {
+      "id": "S07",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 738,
+      "end": 765,
+      "raw_sha256": "c117c24f1c462e2411e925ab6561965c6467d574ba4aec83fac54d56785d01fb",
+      "code_sha256": "3a517b34980c94f7bca0cfce805dd84201bc64364566f6527bef71804a7d26e9",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L738-L765"
+    },
+    {
+      "id": "S08",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 167,
+      "end": 173,
+      "raw_sha256": "bcc669ca0dfde1b6ff3966a0a192c7c966a381913a723be1d357891e82fb9942",
+      "code_sha256": "bcc669ca0dfde1b6ff3966a0a192c7c966a381913a723be1d357891e82fb9942",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L167-L173"
+    },
+    {
+      "id": "S09",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 197,
+      "end": 209,
+      "raw_sha256": "6400455bde4f3d90aebe28c81878753b9ff530264775646084d600d45ed3c4d0",
+      "code_sha256": "6400455bde4f3d90aebe28c81878753b9ff530264775646084d600d45ed3c4d0",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L197-L209"
+    },
+    {
+      "id": "S10",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 149,
+      "end": 161,
+      "raw_sha256": "f15e8af0a99a4f47de2010b531640bd0a8c1ac32e111ba0fc13f5e0013e255d9",
+      "code_sha256": "f15e8af0a99a4f47de2010b531640bd0a8c1ac32e111ba0fc13f5e0013e255d9",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile.ts#L149-L161"
+    },
+    {
+      "id": "S11",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile-context.ts",
+      "start": 63,
+      "end": 75,
+      "raw_sha256": "98bffea586579895cda0160075d38aded6c0c33c71996eede83708bbd36fae05",
+      "code_sha256": "98bffea586579895cda0160075d38aded6c0c33c71996eede83708bbd36fae05",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile-context.ts#L63-L75"
+    },
+    {
+      "id": "S12",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/include/src/index.ts",
+      "start": 130,
+      "end": 141,
+      "raw_sha256": "61e3460f5da4cd5351f005161de4d82047ceb6dc36fda752c69ff8d19a25c123",
+      "code_sha256": "61e3460f5da4cd5351f005161de4d82047ceb6dc36fda752c69ff8d19a25c123",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L130-L141"
+    },
+    {
+      "id": "S13",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/include/src/index.ts",
+      "start": 62,
+      "end": 74,
+      "raw_sha256": "09cca421a6e6e78bf61b20c2a4f4628789e4735e6b9f044d1aa341b28671c417",
+      "code_sha256": "0c0667a672e059099bbafc042fb2e39f81fcf48de4f364dc3dea317a5ffdca99",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L62-L74"
+    },
+    {
+      "id": "S14",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/include/src/index.ts",
+      "start": 76,
+      "end": 102,
+      "raw_sha256": "24eeb6c459e991879c448da1d14ffd7ad0ef949a2ca614fb397cba8816f9843b",
+      "code_sha256": "c6bd959823b3973e6a826cb61704cc7eadc98863e94180707d833694c76d70cd",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L76-L102"
+    },
+    {
+      "id": "S15",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/include/src/index.ts",
+      "start": 104,
+      "end": 127,
+      "raw_sha256": "eca8c9c5042030653d826877c26896195937c3f279f5bd69af311c374cae5b74",
+      "code_sha256": "eca8c9c5042030653d826877c26896195937c3f279f5bd69af311c374cae5b74",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L104-L127"
+    },
+    {
+      "id": "S16",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 347,
+      "end": 357,
+      "raw_sha256": "886f12f841b14f6c9fb16608a3805bed64c1f78319ed0b200da666b8c354c58e",
+      "code_sha256": "886f12f841b14f6c9fb16608a3805bed64c1f78319ed0b200da666b8c354c58e",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L347-L357"
+    },
+    {
+      "id": "S17",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 995,
+      "end": 1014,
+      "raw_sha256": "b3cbb2ec531daad1b64c8716e10e6245aa4e16a422ff730228296b53e2d44c03",
+      "code_sha256": "0dbcff24ca9fc4a4af5564eea1c8d2cd3fc4f711bdc3d2b57c09833ec6a53b80",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L995-L1014"
+    },
+    {
+      "id": "S18",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 296,
+      "end": 312,
+      "raw_sha256": "53a38ad65fd6d9cfba4eb5ee4303a4bcf94fcbc8eb595c50ee1ec68ec73d6d56",
+      "code_sha256": "0c26ea3b3e8511807947126209fb81895848c1264a3a889dc925b297c2e95c55",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L296-L312"
+    },
+    {
+      "id": "S19",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/profile-resolution/service.ts",
+      "start": 66,
+      "end": 77,
+      "raw_sha256": "d2a7a97d68dd821d6537ebc6994969dea6f2091e2b5d77455b5d479760c6f4c8",
+      "code_sha256": "1de43faca7f4509d4061af476b6ff86f3b3cf10cfeb0209c9c78cfeafe94eed0",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/profile-resolution/service.ts#L66-L77"
+    },
+    {
+      "id": "S20",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/compatibility-preflight.ts",
+      "start": 180,
+      "end": 187,
+      "raw_sha256": "0cf5c64d89b0bac0b7a745c11bb2f824373bef4136c214b378b87b1ebc145660",
+      "code_sha256": "0cf5c64d89b0bac0b7a745c11bb2f824373bef4136c214b378b87b1ebc145660",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/compatibility-preflight.ts#L180-L187"
+    },
+    {
+      "id": "S21",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 570,
+      "end": 585,
+      "raw_sha256": "c2e4f71fa868292745c41998eefd1eedbe4dd45b82351de33e8ca940aa77147e",
+      "code_sha256": "7facab8b4e2ee37195ba14b2780430fbc7dcc9e6f7856ed6f96ab6c970fa7f4c",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L570-L585"
+    },
+    {
+      "id": "S22",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/include/src/index.ts",
+      "start": 245,
+      "end": 263,
+      "raw_sha256": "2c87d40621163874573c31b24157ebb06e3f22f28c38d6824cd9733ecc869ef6",
+      "code_sha256": "02e649d74fcafb453fd5d56fc05b98fbc22a3d3d86a289dcdbe07513972b508b",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/include/src/index.ts#L245-L263"
+    },
+    {
+      "id": "S23",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 10,
+      "end": 23,
+      "raw_sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b",
+      "code_sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L10-L23"
+    },
+    {
+      "id": "S24",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/group.ts",
+      "start": 20,
+      "end": 29,
+      "raw_sha256": "f3151f5c704fbf7a4ec2566022813887a15485d07048b5afd9a6998bf7bbd87e",
+      "code_sha256": "151be32a24e958d742cf3094aa57219c5297d8eb28f0b3f657c1a3a4bf7d097e",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/group.ts#L20-L29"
+    },
+    {
+      "id": "S25",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/group.ts",
+      "start": 48,
+      "end": 65,
+      "raw_sha256": "cab871050e9ad8487930ef6559e6d99bf390c7881e4fbe7754d78bcad034c915",
+      "code_sha256": "a9e47fe68c30160c6ae71e37ec014690af3784deb0121d5b888ec8d39b84751a",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/group.ts#L48-L65"
+    },
+    {
+      "id": "S26",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 223,
+      "end": 238,
+      "raw_sha256": "47823f00b2304c29a204d44326a7e6679d84be9acdd95981303bb76afe54d50f",
+      "code_sha256": "9150eca941a81aa7056efc99f1cdd051ead284b9ba492e5725ae7a66dc8e3f64",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L223-L238"
+    },
+    {
+      "id": "S27",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/tree.ts",
+      "start": 111,
+      "end": 129,
+      "raw_sha256": "bd58663b32e7d257cbdcd2139f5e954e98eda211d203697e7492eda6182631fb",
+      "code_sha256": "1f2e246f9f9c141b7e0615df9d54c8335c1277d860ce7b130510a1baf5c92be9",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/tree.ts#L111-L129"
+    },
+    {
+      "id": "S28",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 611,
+      "end": 623,
+      "raw_sha256": "a753749284a56d2539f022cf12baff3c6261e00829a9d3f21671e078ebcf0e85",
+      "code_sha256": "fbbba75f3ce26cab4b444c1333d9fe05ff1897739c62d479c31b84caed7bd94b",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/cordis/src/fiber.ts#L611-L623"
+    },
+    {
+      "id": "S29",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/index.ts",
+      "start": 104,
+      "end": 113,
+      "raw_sha256": "b45eb8080f0f33f290bbdf00d48c4d8bc4473813afad2a8835e14eb0229c7991",
+      "code_sha256": "d507202d0087b55475235b745edef201e6f2410b5596456e3e099d4eac80e459",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/index.ts#L104-L113"
+    },
+    {
+      "id": "S30",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 641,
+      "end": 664,
+      "raw_sha256": "4f3d2f46233b44210a060d1cc6c2f61d6d4859afbf7386f6e2ffaafce46f94a4",
+      "code_sha256": "f920a06cace5d87c93e65f811c6498f9151231bdfa08d6b4c4d109ea7072dc53",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/cordis/src/fiber.ts#L641-L664"
+    },
+    {
+      "id": "S31",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/tree.ts",
+      "start": 35,
+      "end": 49,
+      "raw_sha256": "3715610a739c1be11587373f67eb50d1ecb8f5aedeaac8466a809cefe0da60e0",
+      "code_sha256": "558dccef53e6af72212a413f67de57d97c8bb5afb8ab200383c0fa6607b68063",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/tree.ts#L35-L49"
+    },
+    {
+      "id": "S32",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 926,
+      "end": 940,
+      "raw_sha256": "f5f6bafdc83b38dc3148f1f7cb2ec4c119299f9eb278bea739fdf4624102c5b1",
+      "code_sha256": "f5f6bafdc83b38dc3148f1f7cb2ec4c119299f9eb278bea739fdf4624102c5b1",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L926-L940"
+    },
+    {
+      "id": "S33",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 313,
+      "end": 319,
+      "raw_sha256": "92ada336084d723957afd0ee7d6537c7c348c2002c3323eb5be49dce80466a42",
+      "code_sha256": "b52ec237bc3dd4fe21529834494cea5d6cbcb29994086b653676bd6e4f7e7c80",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L313-L319"
+    },
+    {
+      "id": "S34",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 286,
+      "end": 302,
+      "raw_sha256": "e77f048f06586b37dfcc34d09d80e95d2da3591d72bafe2f3eae6cf03606b1b1",
+      "code_sha256": "cba7656f477f8da9553689ca039d06b68aace093d15e38a1d48cca0b362b04ad",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L286-L302"
+    },
+    {
+      "id": "S35",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 142,
+      "end": 155,
+      "raw_sha256": "0096903a98b7f85c822606be940e3fc586585cdbdc25020674962571402aca6a",
+      "code_sha256": "2b38c633bbe07f9141dc23585b91939ed38ee59e48e549f4931c857bca5e7c17",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/vendor/loader/src/config/entry.ts#L142-L155"
+    },
+    {
+      "id": "S36",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 254,
+      "end": 263,
+      "raw_sha256": "8e091ee5015507b8604d98a1f68ffb481a7778f157ece0ff92627aca71b90abd",
+      "code_sha256": "f4915bd1547fb08ee4987a55b8e6d8d9aca8ff38dc02e9e036c864c4a6b819f1",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/cli/src/profile-boot.ts#L254-L263"
+    },
+    {
+      "id": "S37",
+      "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 371,
+      "end": 389,
+      "raw_sha256": "87847bdbcad0f073fa4ca8a14847319447e69539df61ae7c87bb04a083f9cfe1",
+      "code_sha256": "87847bdbcad0f073fa4ca8a14847319447e69539df61ae7c87bb04a083f9cfe1",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/boot/app-boot/src/index.ts#L371-L389"
+    }
+  ]
+}

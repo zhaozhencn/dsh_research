@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1320" viewBox="0 0 1200 1320">
+<rect width="100%" height="100%" fill="#f5f8fc"/>
+<title>patch 顺序与 config 整对象替换</title>
+<desc>操作按顺序应用；config 不递归合并，默认值由 schema 处理</desc>
+<text x="600" y="58" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#61758a">00 / DSH 配置与启动</text>
+<text x="600" y="130" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="42" fill="#16324e">patch 顺序与 config 整对象替换</text>
+<text x="600" y="190" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#16324e">以空 Entry 列表为根，按下列顺序执行 patch</text>
+<rect x="140" y="218" width="995" height="124" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="637.5" y="269" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="33" fill="#16324e">bundle layers</text>
+<text x="637.5" y="323" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">bundles 顺序，再按 bundle 内 patch 文件顺序</text>
+<text x="90" y="283" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">1</text>
+<path d="M638,344 L638,351" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="638,351 630,337 646,337" fill="#6f8aa5"/>
+<rect x="140" y="354" width="995" height="124" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="637.5" y="405" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="33" fill="#16324e">profile patch</text>
+<text x="637.5" y="459" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">$DSH_HOME/profiles/&lt;name&gt;/cordis.patch.yml</text>
+<text x="90" y="419" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">2</text>
+<path d="M638,480 L638,487" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="638,487 630,473 646,473" fill="#6f8aa5"/>
+<rect x="140" y="490" width="995" height="124" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="637.5" y="541" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="33" fill="#16324e">home patch</text>
+<text x="637.5" y="595" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">$DSH_HOME/cordis.patch.yml</text>
+<text x="90" y="555" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">3</text>
+<path d="M638,616 L638,623" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="638,623 630,609 646,609" fill="#6f8aa5"/>
+<rect x="140" y="626" width="995" height="124" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="637.5" y="677" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="33" fill="#16324e">CLI overlays</text>
+<text x="637.5" y="731" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">--patch 按 argv 顺序</text>
+<text x="90" y="691" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">4</text>
+<path d="M638,752 L638,759" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="638,759 630,745 646,745" fill="#6f8aa5"/>
+<rect x="140" y="762" width="995" height="124" rx="18" fill="#ffffff" stroke="#cedcea" stroke-width="2"/>
+<text x="637.5" y="813" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="33" fill="#16324e">telemetry opt-out</text>
+<text x="637.5" y="867" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30" fill="#526b85">非空环境开关，且节点存在时追加禁用 patch</text>
+<text x="90" y="827" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="32" fill="#16324e">5</text>
+<rect x="70" y="940" width="1060" height="62" rx="18" fill="#eef4fc" stroke="#cedcea" stroke-width="2"/>
+<text x="275" y="986" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#16324e">教学：原 config</text>
+<text x="810" y="985" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" fill="#16324e">agents: […], maxParallelToolCalls: 4</text>
+<path d="M600,1004 L600,1022" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="600,1022 592,1008 608,1008" fill="#6f8aa5"/>
+<rect x="70" y="1026" width="1060" height="62" rx="18" fill="#eef4fc" stroke="#cedcea" stroke-width="2"/>
+<text x="275" y="1072" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#16324e">后续 patch.config</text>
+<text x="810" y="1071" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" fill="#16324e">maxParallelToolCalls: 8</text>
+<path d="M600,1090 L600,1108" fill="none" stroke="#6f8aa5" stroke-width="4"/>
+<polygon points="600,1108 592,1094 608,1094" fill="#6f8aa5"/>
+<rect x="70" y="1112" width="1060" height="62" rx="18" fill="#eef7f2" stroke="#cedcea" stroke-width="2"/>
+<text x="275" y="1158" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#16324e">替换后 raw config</text>
+<text x="810" y="1157" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" fill="#16324e">仅剩 maxParallelToolCalls: 8</text>
+<text x="600" y="1231" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="28" fill="#526b85">操作按顺序应用；config 不递归合并，默认值由 schema 处理</text>
+<text x="600" y="1284" text-anchor="middle" font-family="Heiti SC, PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" fill="#70859b">基线 5badb15009ae · 源码机制示意，非全量调用图</text>
+</svg>

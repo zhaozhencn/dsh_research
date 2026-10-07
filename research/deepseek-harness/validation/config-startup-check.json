@@ -1,0 +1,314 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "article": "research/deepseek-harness/articles/00-config-loading-startup.md",
+  "article_sha256": "bc2e0bb68c64ad0ca03edd9bb99138ae2221e942ab30970fe2cd9aa3fdb2f797",
+  "steps": 15,
+  "source_excerpt_count": 37,
+  "total_code_blocks": 42,
+  "source_excerpts": [
+    {
+      "id": "S01",
+      "path": "apps/cli/src/bin.ts",
+      "start": 26,
+      "end": 45,
+      "code_sha256": "6a15bfa4fd91896783884ff25ad474e21f4dee6f1d587e24af655f3e42b0dbcb"
+    },
+    {
+      "id": "S02",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 239,
+      "end": 255,
+      "code_sha256": "bcd883300f1c2128757f466ffff7ee2b5fcb0c7b07423b350c526cdd83f39541"
+    },
+    {
+      "id": "S03",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 178,
+      "end": 195,
+      "code_sha256": "af6da3fedbb910573c0ba704499c4657eb0137c47fa2d183942c63985a603798"
+    },
+    {
+      "id": "S04",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 781,
+      "end": 798,
+      "code_sha256": "cbbe3375b6d3d7086e2aa0ccae0af47cf4e6c22efc4e70f36eafe6b5ba5605b2"
+    },
+    {
+      "id": "S05",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 78,
+      "end": 103,
+      "code_sha256": "ea82c9231013c65e25faa11ea4b697b92f26435a4e4d903e46bdd899adab313b"
+    },
+    {
+      "id": "S06",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 706,
+      "end": 717,
+      "code_sha256": "2b712def81fae19ac3203f74213227d8efce6ff7f67948b0c211447411ef0c96"
+    },
+    {
+      "id": "S07",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 738,
+      "end": 765,
+      "code_sha256": "3a517b34980c94f7bca0cfce805dd84201bc64364566f6527bef71804a7d26e9"
+    },
+    {
+      "id": "S37",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 371,
+      "end": 389,
+      "code_sha256": "87847bdbcad0f073fa4ca8a14847319447e69539df61ae7c87bb04a083f9cfe1"
+    },
+    {
+      "id": "S08",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 167,
+      "end": 173,
+      "code_sha256": "bcc669ca0dfde1b6ff3966a0a192c7c966a381913a723be1d357891e82fb9942"
+    },
+    {
+      "id": "S09",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 197,
+      "end": 209,
+      "code_sha256": "6400455bde4f3d90aebe28c81878753b9ff530264775646084d600d45ed3c4d0"
+    },
+    {
+      "id": "S10",
+      "path": "packages/boot/app-boot/src/profile.ts",
+      "start": 149,
+      "end": 161,
+      "code_sha256": "f15e8af0a99a4f47de2010b531640bd0a8c1ac32e111ba0fc13f5e0013e255d9"
+    },
+    {
+      "id": "S11",
+      "path": "packages/boot/app-boot/src/profile-context.ts",
+      "start": 63,
+      "end": 75,
+      "code_sha256": "98bffea586579895cda0160075d38aded6c0c33c71996eede83708bbd36fae05"
+    },
+    {
+      "id": "S12",
+      "path": "vendor/include/src/index.ts",
+      "start": 130,
+      "end": 141,
+      "code_sha256": "61e3460f5da4cd5351f005161de4d82047ceb6dc36fda752c69ff8d19a25c123"
+    },
+    {
+      "id": "S13",
+      "path": "vendor/include/src/index.ts",
+      "start": 62,
+      "end": 74,
+      "code_sha256": "0c0667a672e059099bbafc042fb2e39f81fcf48de4f364dc3dea317a5ffdca99"
+    },
+    {
+      "id": "S14",
+      "path": "vendor/include/src/index.ts",
+      "start": 76,
+      "end": 102,
+      "code_sha256": "c6bd959823b3973e6a826cb61704cc7eadc98863e94180707d833694c76d70cd"
+    },
+    {
+      "id": "S15",
+      "path": "vendor/include/src/index.ts",
+      "start": 104,
+      "end": 127,
+      "code_sha256": "eca8c9c5042030653d826877c26896195937c3f279f5bd69af311c374cae5b74"
+    },
+    {
+      "id": "S16",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 347,
+      "end": 357,
+      "code_sha256": "886f12f841b14f6c9fb16608a3805bed64c1f78319ed0b200da666b8c354c58e"
+    },
+    {
+      "id": "S17",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 995,
+      "end": 1014,
+      "code_sha256": "0dbcff24ca9fc4a4af5564eea1c8d2cd3fc4f711bdc3d2b57c09833ec6a53b80"
+    },
+    {
+      "id": "S18",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 296,
+      "end": 312,
+      "code_sha256": "0c26ea3b3e8511807947126209fb81895848c1264a3a889dc925b297c2e95c55"
+    },
+    {
+      "id": "S19",
+      "path": "packages/boot/app-boot/src/profile-resolution/service.ts",
+      "start": 66,
+      "end": 77,
+      "code_sha256": "1de43faca7f4509d4061af476b6ff86f3b3cf10cfeb0209c9c78cfeafe94eed0"
+    },
+    {
+      "id": "S20",
+      "path": "packages/boot/app-boot/src/compatibility-preflight.ts",
+      "start": 180,
+      "end": 187,
+      "code_sha256": "0cf5c64d89b0bac0b7a745c11bb2f824373bef4136c214b378b87b1ebc145660"
+    },
+    {
+      "id": "S21",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 570,
+      "end": 585,
+      "code_sha256": "7facab8b4e2ee37195ba14b2780430fbc7dcc9e6f7856ed6f96ab6c970fa7f4c"
+    },
+    {
+      "id": "S22",
+      "path": "vendor/include/src/index.ts",
+      "start": 245,
+      "end": 263,
+      "code_sha256": "02e649d74fcafb453fd5d56fc05b98fbc22a3d3d86a289dcdbe07513972b508b"
+    },
+    {
+      "id": "S23",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 10,
+      "end": 23,
+      "code_sha256": "dfa1cb2f5575f0b610f658878a69a2d756713726b0d7cd011f10e8bfc297815b"
+    },
+    {
+      "id": "S25",
+      "path": "vendor/loader/src/config/group.ts",
+      "start": 48,
+      "end": 65,
+      "code_sha256": "a9e47fe68c30160c6ae71e37ec014690af3784deb0121d5b888ec8d39b84751a"
+    },
+    {
+      "id": "S24",
+      "path": "vendor/loader/src/config/group.ts",
+      "start": 20,
+      "end": 29,
+      "code_sha256": "151be32a24e958d742cf3094aa57219c5297d8eb28f0b3f657c1a3a4bf7d097e"
+    },
+    {
+      "id": "S26",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 223,
+      "end": 238,
+      "code_sha256": "9150eca941a81aa7056efc99f1cdd051ead284b9ba492e5725ae7a66dc8e3f64"
+    },
+    {
+      "id": "S27",
+      "path": "vendor/loader/src/config/tree.ts",
+      "start": 111,
+      "end": 129,
+      "code_sha256": "1f2e246f9f9c141b7e0615df9d54c8335c1277d860ce7b130510a1baf5c92be9"
+    },
+    {
+      "id": "S28",
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 611,
+      "end": 623,
+      "code_sha256": "fbbba75f3ce26cab4b444c1333d9fe05ff1897739c62d479c31b84caed7bd94b"
+    },
+    {
+      "id": "S29",
+      "path": "vendor/loader/src/index.ts",
+      "start": 104,
+      "end": 113,
+      "code_sha256": "d507202d0087b55475235b745edef201e6f2410b5596456e3e099d4eac80e459"
+    },
+    {
+      "id": "S30",
+      "path": "vendor/cordis/src/fiber.ts",
+      "start": 641,
+      "end": 664,
+      "code_sha256": "f920a06cace5d87c93e65f811c6498f9151231bdfa08d6b4c4d109ea7072dc53"
+    },
+    {
+      "id": "S31",
+      "path": "vendor/loader/src/config/tree.ts",
+      "start": 35,
+      "end": 49,
+      "code_sha256": "558dccef53e6af72212a413f67de57d97c8bb5afb8ab200383c0fa6607b68063"
+    },
+    {
+      "id": "S32",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 926,
+      "end": 940,
+      "code_sha256": "f5f6bafdc83b38dc3148f1f7cb2ec4c119299f9eb278bea739fdf4624102c5b1"
+    },
+    {
+      "id": "S33",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 313,
+      "end": 319,
+      "code_sha256": "b52ec237bc3dd4fe21529834494cea5d6cbcb29994086b653676bd6e4f7e7c80"
+    },
+    {
+      "id": "S34",
+      "path": "packages/boot/app-boot/src/index.ts",
+      "start": 286,
+      "end": 302,
+      "code_sha256": "cba7656f477f8da9553689ca039d06b68aace093d15e38a1d48cca0b362b04ad"
+    },
+    {
+      "id": "S35",
+      "path": "vendor/loader/src/config/entry.ts",
+      "start": 142,
+      "end": 155,
+      "code_sha256": "2b38c633bbe07f9141dc23585b91939ed38ee59e48e549f4931c857bca5e7c17"
+    },
+    {
+      "id": "S36",
+      "path": "apps/cli/src/profile-boot.ts",
+      "start": 254,
+      "end": 263,
+      "code_sha256": "f4915bd1547fb08ee4987a55b8e6d8d9aca8ff38dc02e9e036c864c4a6b819f1"
+    }
+  ],
+  "images": [
+    {
+      "png": "articles/assets/00-config-loading-startup-01.png",
+      "svg": "articles/assets/00-config-loading-startup-01.svg",
+      "width": 1200,
+      "height": 1320,
+      "png_sha256": "81a6cca1ed6e37a3877ce51afaf73d1714bb6d41f177560419f321061036d7aa",
+      "svg_sha256": "bb5fd2d5a52d7503518c4a85c8e0e2fc2dd0857e29eabba21af76528b521640b"
+    },
+    {
+      "png": "articles/assets/00-config-loading-startup-02.png",
+      "svg": "articles/assets/00-config-loading-startup-02.svg",
+      "width": 1200,
+      "height": 1320,
+      "png_sha256": "a9162e66ca1e6a8b87b1fc10a2b06b081ee82ad3e65559d9b945f163fc77cb9d",
+      "svg_sha256": "0ce7364aabfbcdfb543421b8c8ce519a433487363be98a56beef8bcf229876e8"
+    },
+    {
+      "png": "articles/assets/00-config-loading-startup-03.png",
+      "svg": "articles/assets/00-config-loading-startup-03.svg",
+      "width": 1200,
+      "height": 1320,
+      "png_sha256": "4f33e1259b61b8ad3ad39aed67a64444bd4005fd6824ad733398fc272cb25347",
+      "svg_sha256": "eb3a0eed9ce1e744087b2d608e6b2a7686dbc9fe5583fff0fbc5c04cf16da002"
+    },
+    {
+      "png": "articles/assets/00-config-loading-startup-04.png",
+      "svg": "articles/assets/00-config-loading-startup-04.svg",
+      "width": 1200,
+      "height": 1240,
+      "png_sha256": "3515cfa4358fb3a9143c330f454e62ec21a57b318d1b33d842484a3112f6d2b5",
+      "svg_sha256": "ff5616614bcaf7a6e8a5a559a5159900ebf3e9c8f521c7d5d345c14c04c09cdc"
+    }
+  ],
+  "checked_links": 90,
+  "source_links": 78,
+  "protected_files_checked": 326,
+  "runtime_evidence": "See config-startup-runtime-tests.json; this checker does not execute runtime tests.",
+  "limits": [
+    "Structure and provenance do not certify semantic quality or diagram readability.",
+    "Teaching configurations and plugin code are examples, separate from original excerpts.",
+    "No installed application, real-model, cross-platform or publishing verification."
+  ],
+  "failures": [],
+  "ok": true
+}

@@ -4,10 +4,11 @@
 
 研究基线为 **`0.2.1-alpha.1`／`5badb15009ae1756c3afe0ae0cef1faafc290ccc`**。文章在[源码运行报告](../02-runtime-source.md)基础上重新组织论证并复核关键实现，没有切换上游版本，也没有将项目尚未提供的能力写成现状。教学场景、源码事实、既有运行结果和应用改造建议分别表述。
 
-## 16 篇文章
+## 文章目录（00—16）
 
 |篇次|文章|阅读重点|
 |---|---|---|
+|00|[一份配置如何启动 DSH：从 profile、bundle、patch 到 Entry 与 appReady](00-config-loading-startup.md)|完整启动链、配置来源、Entry/Fiber 激活、启动审计与 appReady|
 |01|[插件如何安全参与运行：依赖、事件与生命周期](01-plugin-lifecycle.md)|服务角色、waterfall、Fiber、卸载与存量状态|
 |02|[Agent 系统如何持续演进：部署、兼容与状态迁移](02-deployment-evolution.md)|profile、激活审计、HMR、格式迁移与有序退出|
 |03|[一次输入如何推进为多步执行：拆解 Agent Loop](03-agent-loop.md)|14 个连续步骤、38 段源码；核心数据、调用衔接与实现心得|
@@ -25,11 +26,17 @@
 |15|[任务何时才算完成：目标、Turn 与业务验收](15-task-completion.md)|27 段源码逐段解读，追踪创建、调度、接纳、取消与业务验收|
 |16|[如何把执行结果交给用户：协议、重连与交付物](16-interaction-deliverables.md)|接纳身份、baseline、live stream、文件与临时 diff|
 
+## 第00篇：配置与启动
+
+第00篇作为专栏的启动入口，沿完整启动链展开：[一份配置如何启动 DSH：从 profile、bundle、patch 到 Entry 与 appReady](00-config-loading-startup.md)。文章包含15个连续步骤、37段固定提交源码、核心结构与教学配置，以及4张独立PNG／SVG图示。它不改变原16篇的关注点映射和历史统计。
+
+专题先梳理 profile、bundle 与 patch 来源，再跟踪 host 准备、Include／Entry／Fiber、激活审计、readiness、配置刷新和清理。逐段来源见[研究计划](../validation/config-startup-plan.json)，实际检查见[专题验证](../validation/config-startup-check.json)，配图定义见[专题图示清单](assets/config-startup-diagrams.json)。复现绘图使用 `validation/build-config-startup-assets.py`，核对使用 `validation/check-config-startup-article.py`。
+
 ## 怎样阅读
 
 本系列的深化方法已整理为[结构化方法说明](../appendices/article-refinement-methodology.md)，配套可复用技能为[`source-code-article-refiner`](../../../skills/source-code-article-refiner/SKILL.md)。它覆盖连续源码解读、核心数据、图文组织与系列复核。
 
-专栏以插件扩展与生命周期开篇，突出 DSH 通过插件组合能力的特点；第 02 篇接着说明组合启动、部署与版本演进，再进入执行机制和治理。若关注核心执行，可先读 03、04、05、07、08；若关注生产化，可先读 01、02、06、09、10、12、13；若负责产品集成，可先读 11、14、15、16，再回看相应实现。
+专栏从第00篇的配置与启动全景开始；第01篇进入插件扩展与生命周期，突出 DSH 通过插件组合能力的特点；第 02 篇接着说明组合启动、部署与版本演进，再进入执行机制和治理。若关注核心执行，可先读 03、04、05、07、08；若关注生产化，可先读 01、02、06、09、10、12、13；若负责产品集成，可先读 11、14、15、16，再回看相应实现。
 
 文章篇次是阅读顺序，原报告的关注点编号保持不变。例如第 01 篇对应原报告第 14 项，第 02 篇对应第 16 项；完整对应关系见[篇次调整记录](../validation/article-reorder-review.json)。
 

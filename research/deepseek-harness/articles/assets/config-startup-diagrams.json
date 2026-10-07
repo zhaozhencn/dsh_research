@@ -1,0 +1,220 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "article": "articles/00-config-loading-startup.md",
+  "figures": [
+    {
+      "id": 1,
+      "kind": "sequence",
+      "stem": "00-config-loading-startup-01",
+      "title": "从 profile 到 appReady 的启动主线",
+      "note": "阶段沿调用推进；树内 Entry 的激活由服务可用性决定",
+      "evidence": [
+        "S01",
+        "S09",
+        "S11",
+        "S17",
+        "S21",
+        "S32",
+        "S33"
+      ],
+      "nodes": [
+        [
+          "runCli()",
+          "profile、patchFiles、args 与环境快照"
+        ],
+        [
+          "composeProfile()",
+          "Profile + RuntimeResolution + overlays"
+        ],
+        [
+          "readProfilePatches()",
+          "完整、独立的一代 PatchOptions[]"
+        ],
+        [
+          "boot() → prepare",
+          "Context 提供 host 服务与解析 hook"
+        ],
+        [
+          "root Include → EntryGroup",
+          "EntryOptions → Entry → Fiber"
+        ],
+        [
+          "auditStartupEntries()",
+          "返回 runProfile()，再检查并提交 appReady.commit()"
+        ]
+      ],
+      "after_step": "opening",
+      "width": 1200,
+      "height": 1320,
+      "png": "articles/assets/00-config-loading-startup-01.png",
+      "svg": "articles/assets/00-config-loading-startup-01.svg"
+    },
+    {
+      "id": 2,
+      "kind": "layers",
+      "stem": "00-config-loading-startup-02",
+      "title": "patch 顺序与 config 整对象替换",
+      "note": "操作按顺序应用；config 不递归合并，默认值由 schema 处理",
+      "evidence": [
+        "S11",
+        "S14",
+        "S15"
+      ],
+      "nodes": [
+        [
+          "bundle layers",
+          "bundles 顺序，再按 bundle 内 patch 文件顺序"
+        ],
+        [
+          "profile patch",
+          "$DSH_HOME/profiles/<name>/cordis.patch.yml"
+        ],
+        [
+          "home patch",
+          "$DSH_HOME/cordis.patch.yml"
+        ],
+        [
+          "CLI overlays",
+          "--patch 按 argv 顺序"
+        ],
+        [
+          "telemetry opt-out",
+          "非空环境开关，且节点存在时追加禁用 patch"
+        ]
+      ],
+      "example": [
+        [
+          "教学：原 config",
+          "agents: […], maxParallelToolCalls: 4"
+        ],
+        [
+          "后续 patch.config",
+          "maxParallelToolCalls: 8"
+        ],
+        [
+          "替换后 raw config",
+          "仅剩 maxParallelToolCalls: 8"
+        ]
+      ],
+      "after_step": "05",
+      "width": 1200,
+      "height": 1320,
+      "png": "articles/assets/00-config-loading-startup-02.png",
+      "svg": "articles/assets/00-config-loading-startup-02.svg"
+    },
+    {
+      "id": 3,
+      "kind": "ownership",
+      "stem": "00-config-loading-startup-03",
+      "title": "Entry 管配置身份，Fiber 管执行实例",
+      "note": "包含表示树的归属；连线标明字段关系，不表示启动先后",
+      "evidence": [
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S26",
+        "S28"
+      ],
+      "nodes": [
+        [
+          "Loader (EntryTree)",
+          "root: EntryGroup 管理最外层 Entry"
+        ],
+        [
+          "Entry: id = include",
+          "options / ctx / parent"
+        ],
+        [
+          "Fiber: Include",
+          "依赖、Config、状态与 stop disposer"
+        ],
+        [
+          "Include (EntryTree)",
+          "root: EntryGroup，store: id → Entry"
+        ],
+        [
+          "Entry: agent-loop",
+          "options.name / config / inject"
+        ],
+        [
+          "Fiber: AgentLoop",
+          "PENDING / ACTIVE / FAILED 等状态"
+        ],
+        [
+          "nested Include Entry",
+          "subtree 继续拥有独立 EntryTree"
+        ]
+      ],
+      "edges": [
+        {
+          "from": "Entry: id = include",
+          "to": "Fiber: Include",
+          "kind": "field",
+          "label": "fiber"
+        },
+        {
+          "from": "Entry: id = include",
+          "to": "Include (EntryTree)",
+          "kind": "field",
+          "label": "subtree"
+        },
+        {
+          "from": "Entry: agent-loop",
+          "to": "Fiber: AgentLoop",
+          "kind": "field",
+          "label": "fiber"
+        }
+      ],
+      "after_step": "09",
+      "width": 1200,
+      "height": 1320,
+      "png": "articles/assets/00-config-loading-startup-03.png",
+      "svg": "articles/assets/00-config-loading-startup-03.svg"
+    },
+    {
+      "id": 4,
+      "kind": "audit",
+      "stem": "00-config-loading-startup-04",
+      "title": "工作结算、激活审计与 readiness",
+      "note": "缺席或 disabled 的 required id 不构成强制完整性清单",
+      "evidence": [
+        "S31",
+        "S32",
+        "S33"
+      ],
+      "nodes": [
+        [
+          "disabled",
+          "跳过当前节点的激活诊断"
+        ],
+        [
+          "ACTIVE",
+          "已经激活，不加入 failures"
+        ],
+        [
+          "未激活",
+          "无 Fiber / FAILED / PENDING"
+        ],
+        [
+          "required / root Include",
+          "抛出 StartupError"
+        ],
+        [
+          "仅 optional 未激活",
+          "warning；成功兄弟保留"
+        ],
+        [
+          "appReady.commit()",
+          "无中断 + root ACTIVE + Loader 仍存在"
+        ]
+      ],
+      "decision": "failures 中是否含启用的 required Entry 或 root Include？",
+      "after_step": "12",
+      "width": 1200,
+      "height": 1240,
+      "png": "articles/assets/00-config-loading-startup-04.png",
+      "svg": "articles/assets/00-config-loading-startup-04.svg"
+    }
+  ]
+}
