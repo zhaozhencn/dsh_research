@@ -1,0 +1,408 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/22-sdk-acp-web-integration.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "业务系统驱动 DSH，需要选择入口，也需要明确任务与子进程的归属。本文沿 SDK 的 lazy subprocess、initialize、session/prompt 和事件结算展开，再将 ACP、Web 放到各自契约中比较。重点不是“协议已经连通”，而是输入何时接纳、任务何时结算、调用方离开时谁负责关闭。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/sdk/client/src/launch.ts",
+      "packages/sdk/client/src/api.ts",
+      "packages/sdk/server/src/server.ts",
+      "packages/sdk/client/src/client.ts",
+      "packages/acp/acp/src/index.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：HarnessClientOptions 进入 resolveDshLaunch，生成 process command、argv 与环境。",
+        "interpretation": "profile 默认 sdk；内部 source compatibility patches 位于用户 patches 之前，路径按 callerCwd 解析。processCwd 与 wire cwd 作用不同，前者定位进程，后者成为业务工作区。安装包模式要求同版本 dsh executable；源码模式还有 tsx loader 和 source patch 前置。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：DeepSeekHarness 构造时将 cwd 转为绝对路径，并保存模型路由。",
+        "interpretation": "子进程可能在不同目录解释 cwd，绝对化防止 worker/worker 的二次相对解析。模型配置只是路由选择，并不证明相应 provider 凭据已经可用。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S03",
+        "handoff": "步骤3：第一次 run 触发 start，memoized initialize 握手失败时先关闭原 Client，确认清理后才换实例。",
+        "interpretation": "cleanup 也失败会抛 AggregateError 并保留原 Client，避免旧进程仍存活时再起一个并行副本。成功的 handshake 表示服务器身份可读，不表示业务任务已提交。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：Server.getOrCreateSession 按 sessionId 复用已有 record，或者创建一个 live AgentHandle。",
+        "interpretation": "此 SDK 路径直接 agents.create；其默认 bundle 将 model-facing rows 放在 Host global plane，没有在这里自动 mount preset。企业专属 preset 若要生效，需要修改明确的装配入口，不能只在 profile 中注册 roster 就期待每个 SDK Agent 自动加入。create/resume 也不是同一个操作：这里没有从相同 id 自动恢复磁盘历史。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤5：Server.prompt 接住 contentBlocks，确认 Agent 仍 live，转换可持久 prompt content 后再次检查，再 followup。",
+        "interpretation": "异步附件处理期间 AgentLoop 可能 reload，因此必须二次 assertLiveAgent。返回 messageId 表示队列接纳身份，不是 finalResponse；这与普通同步 REST 的完成结果有根本语义差异。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤6：Client.prompt 校验 session/prompt 的响应，把 messageId 交回 high-level run。",
+        "interpretation": "低层接口要求响应确有字符串身份，否则抛 SdkProtocolError。它没有据此宣布模型完成，也没有隐式给 HTTP 超时赋予 Turn 取消语义。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤7：HarnessSession.run 先 subscribeSessionTree，再发送 prompt，避免遗漏早到事件。",
+        "interpretation": "订阅包含已发现的 child lineage，但主结果只将根 Session events 放入 events。received 必须等对应 messageId 的 inbox receipt；之后根 Session 达到 idle 才结算。这是 owned activity interval，不是简单遇到任意 idle 就返回，也不把所有 child 事件伪装成父 Session 历史。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤8：finally 关闭订阅，run 返回 events、notifications 与从历史提取的 finalResponse。",
+        "interpretation": "finalResponse 是便利投影，业务判断还应消费 turn/end 的 reason 和工具结果。模型回答了“完成”并不能证明外部系统写入成功。高层 run 没有任意跨入口通用的审批回调；企业若需要人工交互，必须核对实际服务及协议的可用面。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S09",
+        "handoff": "步骤9：ACP newSession 使用协议生成 SessionId，经 AcpSession.create 进入公共 Agent factory。",
+        "interpretation": "cwd、mcpServers、signal、notify 由 ACP 请求/连接提供。此 bundle 同样说明未自动做 preset composition；它的 Session/load、prompt stopReason 和 approval adapter 则属于 ACP 自身契约。不能把 SDK 的 session(id) 无 wire handle 当成 ACP newSession 的同义方法。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "ACP prompt 的另一个区别，是验证 Session 后交给 AcpSession.prompt，并等待对应 StopReason。",
+        "interpretation": "与 SDK 先返回 messageId 的低层 prompt 不同，ACP 使用其协议的 prompt 生命周期和 cancellation。Web typed Remote 则还会按 Context provider 解析 Agent/Session 参数。选择入口时应比较语义和依赖，而不是只比较 JSON 格式。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S11",
+        "handoff": "步骤10：低层 requestTimeout 只中止本地 transport pending 等待；源码明确 server-side work 仍运行到 close。",
+        "interpretation": "这叫 abandonment，不能翻译成业务已取消。需要取消 Turn 时必须通过入口实际提供的 cancellation 机制，或关闭 owned runtime；外部效果仍应由业务系统确认。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S12",
+        "handoff": "步骤11：HarnessClient.close 先请求 shutdown，再执行 EOF/SIGTERM/SIGKILL 的 disposer ladder，并关闭 transport/subscriptions。",
+        "interpretation": "shutdown 请求失败只记诊断，真实进程退出由 disposeRuntimeProcess 确认。closeTask 保证幂等；高层 close 是终态，不会再次自动重启。连接、订阅、Session 与进程是分层资源，结束一个 notification iterator 不等于结束子进程。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/sdk/client/src/client.ts",
+        319,
+        337,
+        "步骤10：低层 requestTimeout 只中止本地 transport pending 等待；源码明确 server-side work 仍运行到 close。",
+        "这叫 abandonment，不能翻译成业务已取消。需要取消 Turn 时必须通过入口实际提供的 cancellation 机制，或关闭 owned runtime；外部效果仍应由业务系统确认。"
+      ],
+      [
+        "packages/sdk/client/src/client.ts",
+        390,
+        411,
+        "步骤11：HarnessClient.close 先请求 shutdown，再执行 EOF/SIGTERM/SIGKILL 的 disposer ladder，并关闭 transport/subscriptions。",
+        "shutdown 请求失败只记诊断，真实进程退出由 disposeRuntimeProcess 确认。closeTask 保证幂等；高层 close 是终态，不会再次自动重启。连接、订阅、Session 与进程是分层资源，结束一个 notification iterator 不等于结束子进程。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "业务系统驱动 DSH，需要选择入口，也需要明确任务与子进程的归属。本文沿 SDK 的 lazy subprocess、initialize、session/prompt 和事件结算展开，再将 ACP、Web 放到各自契约中比较。重点不是“协议已经连通”，而是输入何时接纳、任务何时结算、调用方离开时谁负责关闭。",
+    "sections": [
+      "整体地图：三种入口怎样接到执行内核",
+      "SDK 主线：配置 profile 并建立子进程通道",
+      "Session 主线：创建、恢复与输入接纳",
+      "任务推进：事件订阅、审批与完成观察",
+      "ACP 与 Web 支线：各自适配什么契约",
+      "取消与关闭：输入、Session、连接和进程",
+      "开发示例与验证：同一任务的入口对比",
+      "工程心得：集成方式应跟随任务和资源归属"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：HarnessClientOptions 进入 resolveDshLaunch，生成 process command、argv 与环境。",
+      "interpretation": "profile 默认 sdk；内部 source compatibility patches 位于用户 patches 之前，路径按 callerCwd 解析。processCwd 与 wire cwd 作用不同，前者定位进程，后者成为业务工作区。安装包模式要求同版本 dsh executable；源码模式还有 tsx loader 和 source patch 前置。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：DeepSeekHarness 构造时将 cwd 转为绝对路径，并保存模型路由。",
+      "interpretation": "子进程可能在不同目录解释 cwd，绝对化防止 worker/worker 的二次相对解析。模型配置只是路由选择，并不证明相应 provider 凭据已经可用。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S03",
+      "handoff": "步骤3：第一次 run 触发 start，memoized initialize 握手失败时先关闭原 Client，确认清理后才换实例。",
+      "interpretation": "cleanup 也失败会抛 AggregateError 并保留原 Client，避免旧进程仍存活时再起一个并行副本。成功的 handshake 表示服务器身份可读，不表示业务任务已提交。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：Server.getOrCreateSession 按 sessionId 复用已有 record，或者创建一个 live AgentHandle。",
+      "interpretation": "此 SDK 路径直接 agents.create；其默认 bundle 将 model-facing rows 放在 Host global plane，没有在这里自动 mount preset。企业专属 preset 若要生效，需要修改明确的装配入口，不能只在 profile 中注册 roster 就期待每个 SDK Agent 自动加入。create/resume 也不是同一个操作：这里没有从相同 id 自动恢复磁盘历史。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤5：Server.prompt 接住 contentBlocks，确认 Agent 仍 live，转换可持久 prompt content 后再次检查，再 followup。",
+      "interpretation": "异步附件处理期间 AgentLoop 可能 reload，因此必须二次 assertLiveAgent。返回 messageId 表示队列接纳身份，不是 finalResponse；这与普通同步 REST 的完成结果有根本语义差异。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤6：Client.prompt 校验 session/prompt 的响应，把 messageId 交回 high-level run。",
+      "interpretation": "低层接口要求响应确有字符串身份，否则抛 SdkProtocolError。它没有据此宣布模型完成，也没有隐式给 HTTP 超时赋予 Turn 取消语义。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤7：HarnessSession.run 先 subscribeSessionTree，再发送 prompt，避免遗漏早到事件。",
+      "interpretation": "订阅包含已发现的 child lineage，但主结果只将根 Session events 放入 events。received 必须等对应 messageId 的 inbox receipt；之后根 Session 达到 idle 才结算。这是 owned activity interval，不是简单遇到任意 idle 就返回，也不把所有 child 事件伪装成父 Session 历史。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤8：finally 关闭订阅，run 返回 events、notifications 与从历史提取的 finalResponse。",
+      "interpretation": "finalResponse 是便利投影，业务判断还应消费 turn/end 的 reason 和工具结果。模型回答了“完成”并不能证明外部系统写入成功。高层 run 没有任意跨入口通用的审批回调；企业若需要人工交互，必须核对实际服务及协议的可用面。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S09",
+      "handoff": "步骤9：ACP newSession 使用协议生成 SessionId，经 AcpSession.create 进入公共 Agent factory。",
+      "interpretation": "cwd、mcpServers、signal、notify 由 ACP 请求/连接提供。此 bundle 同样说明未自动做 preset composition；它的 Session/load、prompt stopReason 和 approval adapter 则属于 ACP 自身契约。不能把 SDK 的 session(id) 无 wire handle 当成 ACP newSession 的同义方法。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "ACP prompt 的另一个区别，是验证 Session 后交给 AcpSession.prompt，并等待对应 StopReason。",
+      "interpretation": "与 SDK 先返回 messageId 的低层 prompt 不同，ACP 使用其协议的 prompt 生命周期和 cancellation。Web typed Remote 则还会按 Context provider 解析 Agent/Session 参数。选择入口时应比较语义和依赖，而不是只比较 JSON 格式。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S11",
+      "handoff": "步骤10：低层 requestTimeout 只中止本地 transport pending 等待；源码明确 server-side work 仍运行到 close。",
+      "interpretation": "这叫 abandonment，不能翻译成业务已取消。需要取消 Turn 时必须通过入口实际提供的 cancellation 机制，或关闭 owned runtime；外部效果仍应由业务系统确认。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S12",
+      "handoff": "步骤11：HarnessClient.close 先请求 shutdown，再执行 EOF/SIGTERM/SIGKILL 的 disposer ladder，并关闭 transport/subscriptions。",
+      "interpretation": "shutdown 请求失败只记诊断，真实进程退出由 disposeRuntimeProcess 确认。closeTask 保证幂等；高层 close 是终态，不会再次自动重启。连接、订阅、Session 与进程是分层资源，结束一个 notification iterator 不等于结束子进程。"
+    }
+  ],
+  "data_contracts": [
+    "入口请求、Session id 与运行 handle",
+    "协议结果、审批、事件与取消",
+    "SDK 子进程、连接和调用方寿命"
+  ],
+  "figure_plan": [
+    {
+      "stem": "22-sdk-acp-web-integration-fig-1",
+      "title": "SDK/ACP/Web 与执行内核关系图",
+      "kind": "map",
+      "nodes": [
+        [
+          "SDK",
+          "Node owns dsh subprocess"
+        ],
+        [
+          "ACP",
+          "协议 Session 与交互适配"
+        ],
+        [
+          "Web",
+          "Remote 与 streams carrier"
+        ],
+        [
+          "Agent factory",
+          "各入口分别安排装配"
+        ]
+      ],
+      "note": "共享内核不保证协议能力等价",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-1.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-1.svg",
+      "png_sha256": "d1b9dae451262f6b721491d6cf157da7e61e7ca8e341ab16d831f2b831dfc804",
+      "svg_sha256": "65aa227e4d431804855bf87e9cb7f76e9fa7a431e9963a8dd81fb5cf691200fc"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-2",
+      "title": "SDK 子进程与 Session 创建时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "resolveDshLaunch",
+          "profile、patches、processCwd"
+        ],
+        [
+          "initialize",
+          "服务器握手与工作区"
+        ],
+        [
+          "Server session record",
+          "agents.create 与 handle"
+        ],
+        [
+          "prompt receipt",
+          "messageId 返回调用方"
+        ]
+      ],
+      "note": "同一 id 不自动恢复持久历史",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-2.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-2.svg",
+      "png_sha256": "fb5545aaaeb6c8a1a3f8a94b3f907b8c02169acdc9d623d12fbb2f4ceaf79de8",
+      "svg_sha256": "d665c405e7efc5aa0d91b477def47ce43492af62921f55485d1247bbae68dfaf"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-3",
+      "title": "接纳、审批、事件和完成语义图",
+      "kind": "map",
+      "nodes": [
+        [
+          "accepted identity",
+          "队列接纳的 messageId"
+        ],
+        [
+          "inbox receipt",
+          "本次 run 开始收集"
+        ],
+        [
+          "events / approval",
+          "按入口契约适配"
+        ],
+        [
+          "idle / result",
+          "结束观察并解释 reason"
+        ]
+      ],
+      "note": "不同消息表达不同完成层次",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-3.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-3.svg",
+      "png_sha256": "4aca213b70b687b97fc8b4d21a18ed3b47b1cdccd43b7c592d200b4efd3e0dc3",
+      "svg_sha256": "8703c680b9da9fef75a222e5b2b975cee1a0f6433cbbfa62eab30f84423c4485"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-4",
+      "title": "取消与关闭的所有权图",
+      "kind": "map",
+      "nodes": [
+        [
+          "request timeout",
+          "放弃等待；业务可能仍运行"
+        ],
+        [
+          "subscription.close",
+          "停止本次事件观察"
+        ],
+        [
+          "server.shutdown",
+          "等待 owned Agent 退出"
+        ],
+        [
+          "client.close",
+          "确认 runtime process 退出"
+        ]
+      ],
+      "note": "关闭责任沿资源层次落实",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-4.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-4.svg",
+      "png_sha256": "4550197a56f0e0c4e7dcc1b14313b06d1349e3488af0ee4fab6161395bdb01cf",
+      "svg_sha256": "0c3451549308adba31104447bfd54e1487fa10d19a50280bfe93ea4bc71182ae"
+    }
+  ],
+  "lessons": [
+    "入口选型最值得反复确认的是资源归属。SDK 适合一个业务 worker 拥有一个 runtime；Web 适合长期 Host 服务被界面消费；ACP 适合协议客户端承担交互与审批。选对归属，关闭和异常恢复才不容易变成旁路逻辑。",
+    "第二个收获是分开接纳和结算。messageId、inbox receipt、idle 与 finalResponse 各自回答不同问题。企业任务可以沿这组事实建立状态机，让超时、断线和恢复观察不会误触发重复写入。",
+    "源码级集成研究还提醒我们：公共 Agent factory 是可以复用的内核边界，但 preset 装配、持久恢复和认证策略必须由入口明确提供，无法靠一个相同的 SessionId 自动获得。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/sdk/client/tests/sdk-client.spec.ts packages/sdk/client/tests/launch.spec.ts packages/sdk/client/tests/dispose.spec.ts packages/acp/acp/tests/approval.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

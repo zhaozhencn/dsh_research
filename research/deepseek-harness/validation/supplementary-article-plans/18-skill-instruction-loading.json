@@ -1,0 +1,401 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/18-skill-instruction-loading.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "企业 SOP 的接入，首先是让正确的 Agent 找到正确版本的指令，然后才是加载正文。DSH 把这件事拆成 provider discovery、scoped catalog、按需 get，以及进入 Session 的上下文消息。本文沿这条链解释候选选择、缓存完整性和调用策略，并单独追踪 AGENTS.md，避免把所有指令来源误认为同一种加载器。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/skill/skill/src/index.ts",
+      "packages/skill/skill-filesystem/src/index.ts",
+      "packages/skill/tool-skill/src/index.ts",
+      "packages/context/agent-instructions/src/index.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：先建立数据关系，随后再看 provider 注册。list 和 get 接收、返回的并不是同一种结构。",
+        "interpretation": "SkillSummary 包含 name、description、source、provider 和 invocation；Candidate 增加 rank 与 locator，供 Registry 选择并回传来源；Definition 才有 content。locator 是 provider 私有句柄，消费者不应把它当可信本地路径。resourceBase 用于解释相对资源来源，也不会自动授予文件读取权限。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：registry 把候选生产委托给 provider.list，把正文读取委托给同一个 provider.get。",
+        "interpretation": "注册同步完成，远端认证和发现应在 list 内等待，避免 Host apply 被网络阻塞。control.invalidate 只对这次注册有效，signal 表示注册撤销；它们是 provider 生命周期的能力，不能复用到下一次注册。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S03",
+        "handoff": "最小 runtime contribution 则走 register，它直接为当前 Context 所在层保存完整 Definition。",
+        "interpretation": "同一层已有同名 runtime Skill 时会告警并忽略；返回 disposer 撤销本次贡献。默认允许 model/user invocation，企业若只开放人工命令，必须明确给出 policy，而不是期待 registry 推断。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤3：本地文件 provider 在 apply 中注册，并把 watcher 的退出纳入 ctx.effect。",
+        "interpretation": "本地 mutation 事件交给 observeHostMutation；它和文件 watcher 共同触发目录失效。apply 没有把一个无限后台循环留在归属系统之外。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤4：首次 list 根据 cwd 解析 roots，然后发现候选；选中以后 get 使用原 locator 重新读取文件。",
+        "interpretation": "watcher 启动失败时仍可返回可读候选，但 complete=false。这个状态表达“目前观察不权威”，区别于“没有 Skill”。get 不直接复用旧正文，文件已经删除就返回 undefined；目录中的旧名称因此不会保证加载成功。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S06",
+        "handoff": "候选交回 Registry 后，collectFresh 逐层合并；这里才确定同名覆盖关系。",
+        "interpretation": "先 global，后从远到近的 Scope layers，最后当前层覆盖同名。rank 比较只在同一层内部决定来源，不会让全局高优先级强压局部 Scope。企业可以据此提供公共 SOP 和项目专属 SOP，但必须给读者保留实际 provider/source，方便追溯最终选中了哪份政策。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤5：消费者调用 snapshot，得到 summaries 与完整性状态。",
+        "interpretation": "完整性是本次 catalog 的属性，不是某个 Skill content 的字段。list 是 snapshot.skills 的便捷接口，若要保留 last-good 目录，应使用 snapshot.complete。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤6：snapshot 内部进入 collect；缓存 key 同时包含 cwd、Scope chain 与 revision。",
+        "interpretation": "Scope 可被 recompose 改变父层而 registry revision 未变，因此 chain 本身必须参与 key。发现期间 revision 改变会再试一次；持续变化返回不缓存结果，避免宣称一个混合时刻的目录是稳定快照。缓存超过上限会移除最早 key；它缓存候选选择，不缓存永久有效的正文。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S09",
+        "handoff": "步骤7：模型真正消费目录时，tool-skill 的 pre-step listener 先等待后续 waterfall，再读取当前 Agent 视角。",
+        "interpretation": "只有同一个 skillTool definition 对当前 Agent 可见才注入 catalog，不能仅凭工具名称相同就继承原插件的目录。incomplete 时返回原 decision，保留此前已发布事实；完整变化时生成替换目录消息，并用 source entries/digest 检测重复。最终进入 Session 的是可追溯上下文，而不是一个隐含全局字符串。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "步骤8：模型选择名称以后，Registry.get 重新定位 winning candidate，并等待 provider 正文加载。",
+        "interpretation": "选择后和缓存命中后都要检查取消。provider.get 的返回 name 若与候选不一致，将失效该条选择并返回 undefined；这防止目录和正文错配，却不能代替企业对正文内容的审核。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S11",
+        "handoff": "步骤9：tool-skill 的 execute 把当前 Agent 的 cwd、Scope 与执行 signal 同时传给 list/get。",
+        "interpretation": "先检查 summary 的 modelInvocable，再检查最新 Definition 的 modelInvocable；两次检查覆盖发现到加载之间策略变化的窗口。返回 name、provider、resourceBase、content 给工具展示层，renderSkillContent 才把正文呈现给模型。加载 SOP 没有顺带注册财务写入工具，也不会绕过工具 runtime 的授权。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S12",
+        "handoff": "步骤10：AGENTS.md 等工作区规则走 agent-instructions.compose，而非 SkillProvider.get。pre-step 回调把它接回同一请求边界。",
+        "interpretation": "compose 结合 workspace 信息和待进入消息生成 desired context。decision reject 或首次空输入时只同步 inbox，不制造一个独立模型请求；正常推进时先消除重复 pending，再插到 claimed batch 之后。工具触碰文件时另有结果监听来更新观察。读取文件引用的展开也是单独职责，不能说“所有 Markdown 都按 Skill 加载”。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/context/agent-instructions/src/index.ts",
+        315,
+        344,
+        "步骤10：AGENTS.md 等工作区规则走 agent-instructions.compose，而非 SkillProvider.get。pre-step 回调把它接回同一请求边界。",
+        "compose 结合 workspace 信息和待进入消息生成 desired context。decision reject 或首次空输入时只同步 inbox，不制造一个独立模型请求；正常推进时先消除重复 pending，再插到 claimed batch 之后。工具触碰文件时另有结果监听来更新观察。读取文件引用的展开也是单独职责，不能说“所有 Markdown 都按 Skill 加载”。"
+      ],
+      "缓存失效、加载取消与文件删除应分别观察：目录可不完整而保留旧事实；正文加载可因取消终止；文件已消失则返回不可用。源系统更新与工具执行是两个阶段，修改 SOP 不应自动重跑已经完成的企业操作。"
+    ]
+  },
+  "article_plan": {
+    "opening": "企业 SOP 的接入，首先是让正确的 Agent 找到正确版本的指令，然后才是加载正文。DSH 把这件事拆成 provider discovery、scoped catalog、按需 get，以及进入 Session 的上下文消息。本文沿这条链解释候选选择、缓存完整性和调用策略，并单独追踪 AGENTS.md，避免把所有指令来源误认为同一种加载器。",
+    "sections": [
+      "整体地图：指令来源、发现目录与实际正文",
+      "注册入口：provider 怎样贡献候选",
+      "来源选择：目录、作用域与同名冲突",
+      "catalog：缓存、观察完整性与变更通知",
+      "按需加载：从名称选择到工具与 Session 消费",
+      "独立指令路径：AGENTS.md 与文件引用",
+      "开发示例与验证：一个企业 SOP Skill",
+      "工程心得：目录可见、正文加载和执行授权分别建立事实"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：先建立数据关系，随后再看 provider 注册。list 和 get 接收、返回的并不是同一种结构。",
+      "interpretation": "SkillSummary 包含 name、description、source、provider 和 invocation；Candidate 增加 rank 与 locator，供 Registry 选择并回传来源；Definition 才有 content。locator 是 provider 私有句柄，消费者不应把它当可信本地路径。resourceBase 用于解释相对资源来源，也不会自动授予文件读取权限。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：registry 把候选生产委托给 provider.list，把正文读取委托给同一个 provider.get。",
+      "interpretation": "注册同步完成，远端认证和发现应在 list 内等待，避免 Host apply 被网络阻塞。control.invalidate 只对这次注册有效，signal 表示注册撤销；它们是 provider 生命周期的能力，不能复用到下一次注册。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S03",
+      "handoff": "最小 runtime contribution 则走 register，它直接为当前 Context 所在层保存完整 Definition。",
+      "interpretation": "同一层已有同名 runtime Skill 时会告警并忽略；返回 disposer 撤销本次贡献。默认允许 model/user invocation，企业若只开放人工命令，必须明确给出 policy，而不是期待 registry 推断。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤3：本地文件 provider 在 apply 中注册，并把 watcher 的退出纳入 ctx.effect。",
+      "interpretation": "本地 mutation 事件交给 observeHostMutation；它和文件 watcher 共同触发目录失效。apply 没有把一个无限后台循环留在归属系统之外。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤4：首次 list 根据 cwd 解析 roots，然后发现候选；选中以后 get 使用原 locator 重新读取文件。",
+      "interpretation": "watcher 启动失败时仍可返回可读候选，但 complete=false。这个状态表达“目前观察不权威”，区别于“没有 Skill”。get 不直接复用旧正文，文件已经删除就返回 undefined；目录中的旧名称因此不会保证加载成功。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S06",
+      "handoff": "候选交回 Registry 后，collectFresh 逐层合并；这里才确定同名覆盖关系。",
+      "interpretation": "先 global，后从远到近的 Scope layers，最后当前层覆盖同名。rank 比较只在同一层内部决定来源，不会让全局高优先级强压局部 Scope。企业可以据此提供公共 SOP 和项目专属 SOP，但必须给读者保留实际 provider/source，方便追溯最终选中了哪份政策。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤5：消费者调用 snapshot，得到 summaries 与完整性状态。",
+      "interpretation": "完整性是本次 catalog 的属性，不是某个 Skill content 的字段。list 是 snapshot.skills 的便捷接口，若要保留 last-good 目录，应使用 snapshot.complete。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤6：snapshot 内部进入 collect；缓存 key 同时包含 cwd、Scope chain 与 revision。",
+      "interpretation": "Scope 可被 recompose 改变父层而 registry revision 未变，因此 chain 本身必须参与 key。发现期间 revision 改变会再试一次；持续变化返回不缓存结果，避免宣称一个混合时刻的目录是稳定快照。缓存超过上限会移除最早 key；它缓存候选选择，不缓存永久有效的正文。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S09",
+      "handoff": "步骤7：模型真正消费目录时，tool-skill 的 pre-step listener 先等待后续 waterfall，再读取当前 Agent 视角。",
+      "interpretation": "只有同一个 skillTool definition 对当前 Agent 可见才注入 catalog，不能仅凭工具名称相同就继承原插件的目录。incomplete 时返回原 decision，保留此前已发布事实；完整变化时生成替换目录消息，并用 source entries/digest 检测重复。最终进入 Session 的是可追溯上下文，而不是一个隐含全局字符串。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "步骤8：模型选择名称以后，Registry.get 重新定位 winning candidate，并等待 provider 正文加载。",
+      "interpretation": "选择后和缓存命中后都要检查取消。provider.get 的返回 name 若与候选不一致，将失效该条选择并返回 undefined；这防止目录和正文错配，却不能代替企业对正文内容的审核。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S11",
+      "handoff": "步骤9：tool-skill 的 execute 把当前 Agent 的 cwd、Scope 与执行 signal 同时传给 list/get。",
+      "interpretation": "先检查 summary 的 modelInvocable，再检查最新 Definition 的 modelInvocable；两次检查覆盖发现到加载之间策略变化的窗口。返回 name、provider、resourceBase、content 给工具展示层，renderSkillContent 才把正文呈现给模型。加载 SOP 没有顺带注册财务写入工具，也不会绕过工具 runtime 的授权。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S12",
+      "handoff": "步骤10：AGENTS.md 等工作区规则走 agent-instructions.compose，而非 SkillProvider.get。pre-step 回调把它接回同一请求边界。",
+      "interpretation": "compose 结合 workspace 信息和待进入消息生成 desired context。decision reject 或首次空输入时只同步 inbox，不制造一个独立模型请求；正常推进时先消除重复 pending，再插到 claimed batch 之后。工具触碰文件时另有结果监听来更新观察。读取文件引用的展开也是单独职责，不能说“所有 Markdown 都按 Skill 加载”。"
+    }
+  ],
+  "data_contracts": [
+    "provider 与候选/summary/definition",
+    "cwd、Scope 与 catalog 观察状态",
+    "invocation policy、来源和缓存失效"
+  ],
+  "figure_plan": [
+    {
+      "stem": "18-skill-instruction-loading-fig-1",
+      "title": "指令来源与消费者地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Skill provider",
+          "生产候选与完整正文"
+        ],
+        [
+          "Registry",
+          "按 cwd / Scope 合并选择"
+        ],
+        [
+          "tool-skill",
+          "发布 catalog 与加载正文"
+        ],
+        [
+          "agent-instructions",
+          "独立 compose 工作区规则"
+        ]
+      ],
+      "note": "两条指令路径在 Session 消费边界交会",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-1.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-1.svg",
+      "png_sha256": "51d9af28bdc71dd345216e7f61e85cf5205f4c71f53dd3f28def94e0a8686ffd",
+      "svg_sha256": "f4802570e9f65fbf8e8135b6f5d9c3014be390e7561acab494f58662df277436"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-2",
+      "title": "provider→catalog→选择→加载时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "provider.list",
+          "cwd、Scope、signal"
+        ],
+        [
+          "Registry.snapshot",
+          "winning summaries + complete"
+        ],
+        [
+          "tool-skill选择name",
+          "检查 model invocation policy"
+        ],
+        [
+          "Registry.get → provider.get",
+          "name → candidate → Definition"
+        ]
+      ],
+      "note": "目录发现与正文加载是两次来源交接",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-2.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-2.svg",
+      "png_sha256": "4293815a54d037c336ff6d9571fd68ec241ce2b7cdc5264541d724d966867b24",
+      "svg_sha256": "356bafa16e0870dbdbc072f9b5cdcfcacaa2725e5c97b846a1bcd65511b0f835"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-3",
+      "title": "同名候选与 Scope 选择图",
+      "kind": "map",
+      "nodes": [
+        [
+          "global layer",
+          "公共候选"
+        ],
+        [
+          "ancestor layers",
+          "由远到近覆盖"
+        ],
+        [
+          "current Scope",
+          "同名优先于外层"
+        ],
+        [
+          "within one layer",
+          "rank 与来源顺序决定同名"
+        ]
+      ],
+      "note": "rank 只比较同层候选",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 3,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-3.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-3.svg",
+      "png_sha256": "67644804918ed6283b6027c8df1790838ebdcf8edec90f31bd64ee0166dcf967",
+      "svg_sha256": "6b594e7780285055d7e2a74922c6f11d66c7ab400fc0b96a5e984670676c7c90"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-4",
+      "title": "缓存失效、来源失败与取消分支图",
+      "kind": "map",
+      "nodes": [
+        [
+          "revision 改变",
+          "有限重试；不稳定结果不缓存"
+        ],
+        [
+          "incomplete discovery",
+          "消费者保留 last-good"
+        ],
+        [
+          "正文消失或错名",
+          "返回不可用并失效选择"
+        ],
+        [
+          "signal abort",
+          "停止等待；provider 配合退出"
+        ]
+      ],
+      "note": "不同异常保留不同事实",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-4.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-4.svg",
+      "png_sha256": "d2c30dafc1bb1caf3eb31252bf9ba3a7b34d9f31cf63aaf8bef52aaf66fed66d",
+      "svg_sha256": "f7db1c6fa57c6eb1009bd0f50addd96b0822e6179857fb90af9810f16aee5966"
+    }
+  ],
+  "lessons": [
+    "从这条链能获得的设计经验，是把“发现”当成一个有质量状态的观察。complete=false 比空数组更有表达力，能让消费者避免误删仍有效的目录事实。企业 connector 也可以采用这种契约，不必在网络暂时异常时声称所有能力消失。",
+    "summary、locator 与 content 分层，使成本控制和新鲜度检查落到了清楚的函数边界。二次开发时应保留来源与 policy，不要只把最终正文拼接成一个失去血缘的 Prompt。",
+    "最后，SOP 是指导任务的方法，授权是限制资源操作的能力。保留两条独立的消费链，让后续版本更新、审计和取消行为都有可验证的落点。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/skill/skill/tests/skill.spec.ts packages/skill/skill-filesystem/tests/skill-filesystem.spec.ts packages/skill/tool-skill/tests/tool-skill.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

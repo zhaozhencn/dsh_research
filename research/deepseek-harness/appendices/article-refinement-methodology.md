@@ -107,6 +107,8 @@
 
 可复用技能为[`source-code-article-refiner`](../../../skills/source-code-article-refiner/SKILL.md)。入口说明范围与流程，配套参考材料分别描述写作单元、插图设计和批量核对；结构化计划和辅助脚本让下次任务能保存自己的基线与证据。
 
+该技能归属于本项目，维护位置为 `skills/source-code-article-refiner/`，项目发现入口为[`.agents/skills/source-code-article-refiner`](../../../.agents/skills/source-code-article-refiner/SKILL.md)，通过相对符号链接指向维护目录。在本仓库中使用 `$source-code-article-refiner`；更新时直接修改维护目录，项目入口同步读取这些文件。
+
 单篇调用示例：
 
 ```text

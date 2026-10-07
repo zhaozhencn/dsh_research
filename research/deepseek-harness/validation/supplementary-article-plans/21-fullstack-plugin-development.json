@@ -1,0 +1,418 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/21-fullstack-plugin-development.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "一个可维护的企业 DSH 功能，需要连接 Host 服务、Remote 契约、Client 模块、状态模型和 UI Slot。本文以现有 agent-loop 设置卡片为完整源码样例，从 package 声明追到 React 的保存动作，并解释 Gateway 如何找到真正的业务方法。企业查询面板可沿同样的责任分层扩展，不能只复制一个 React 组件就认为接入已经完成。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/client/ui-settings-agent-loop/package.json",
+      "packages/client/modules/src/index.ts",
+      "packages/client/modules/src/client/index.ts",
+      "packages/client/ui-settings/src/client/settings-mirror.ts",
+      "packages/api/gateway/src/index.ts",
+      "packages/client/ui-primitives/src/settings-form/form-model.ts",
+      "packages/client/ui-settings/src/client/config-form.ts",
+      "packages/api/settings-controller/src/index.ts",
+      "packages/client/ui-settings-agent-loop/src/client/agent-loop-card-controller.ts",
+      "packages/client/ui-settings-agent-loop/src/client/index.ts",
+      "packages/client/ui-settings-agent-loop/src/client/AgentLoopCard.tsx",
+      "packages/client/ui-slots/src/index.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：双端入口由 exports 和 dsh.client 声明，而不是靠扫描所有 tsx 文件发现。",
+        "interpretation": "Host 默认入口与 ./client 浏览器产物分别导出；dsh.client.inject 表示 Client package dependencies，platform=web 限定载体。类型使用 type-only imports 引入 Context/SlotMap 合并，运行协作则通过 ctx.services，避免从别的 Client 插件导入运行实例。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：Host ClientModuleRegistry 先扫描当前 Loader entries，再建立 web carrier 和 index injections。",
+        "interpretation": "初始扫描复用 incremental dirty/flush 路径，扫描失败导致 composition error。服务提供 bundle route，HTML 注入 boot graph。一个 Host package 可以对应若干 Entry，但同名 Client package 的有冲突声明必须被检测；metadata 的缓存也意味着安装新产物后需正确 refresh/restart。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S03",
+        "handoff": "步骤3：HTML facade materialize 模块后，调用 createClientModuleSystem，将 boot manifest 交给浏览器模块系统。",
+        "interpretation": "module system 在 Cordis 前构造，这是加载机制无法通过自身加载的 bootstrap 例外；之后 apply 才将现有 Loader 的 internal 系统登记为 ctx.modules。不要把 Host apply 和 Client apply 写成同一进程内的一条普通函数调用。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：Client 设置模型通过 SettingsMirror 统一调用 remote.settings.describe，并把响应写入 snapshot store。",
+        "interpretation": "共享 mirror 串行化读取，合并 refresh 请求，避免每张卡片分别轮询。响应使用 RemoteResult 的 ok/error 语义；关闭后丢弃迟到结果。这里的“最新页面状态”既取决于服务器结果，也取决于 Client 请求代际及退出状态。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S05",
+        "handoff": "步骤5：describe 的 RPC 进入 Gateway.prepareInvocation，按 endpoint 找到 descriptor，然后确定 receiver Context。",
+        "interpretation": "assertExactArguments 检查形状；resolveReceiverContext 决定服务视角；resolveParameter 将 wire args 还原为业务参数。GatewayInvocation 携带 peer、signal 与 uplink，作为 Context 属性给业务服务，不让 caller 自行填一个 this.ctx。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤6：Gateway 在扩展后的 Context 中取得 service view，再准备调用指定 implementation。",
+        "interpretation": "strict generated descriptor 优先；如果 endpoint 曾经出现 strict 定义而后撤销，禁止回退 SRC。这个 fail-closed 细节避免 HMR 卸载期间突然退化成宽松接口。descriptor 只是类型和派发契约，身份授权仍由可信入口及业务资源层负责。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S12",
+        "handoff": "React保存动作进入SettingsFormModel.save，形成ops与baseline revision",
+        "interpretation": "scope.mutate接收表单写入；成功后清staged"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S13",
+        "handoff": "SettingsFormModel把ops交给ConfigForm.mutate，由它调用typed Remote",
+        "interpretation": "generation与排队保护保存结果；namespace view进入mirror或恢复读取"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤7：Host SettingsController 把 write 请求交给 settings domain，返回脱敏后的最新 namespace view。",
+        "interpretation": "它校验 namespace 和 input，将领域错误映射为 RemoteError。重读结果是保存之后页面恢复状态的依据；不是在 Client 先乐观显示“已生效”就结束。19篇已展开这里调用的 settings.mutate 与 ConfigEditor 写回。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S08",
+        "handoff": "步骤8：Client plugin 从 configForms.get 取得绑定 namespace 的 Scope，传给 AgentLoopCardController。",
+        "interpretation": "controller 用 SettingsFormModel 管理 staged edits，用 form.bind 生成 SnapshotStore。inject 返回 hooks 和 actions，这一 face 作为 Slot 注入提供给组件。由此 React 不需要知道 Gateway endpoint 或 profile 文件路径。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S09",
+        "handoff": "步骤9：apply 注册 locale、form subscription 与 plugins.item Slot，并分别挂到 ctx.effect。",
+        "interpretation": "whileServed 只有 Host namespace 可用时才显示页面；slots.inject 先等待 Slot 条件，再 register 卡片。Host 服务撤销会影响可显示性，plugin 卸载则释放 locale、controller 和 Slot contribution。页面寿命和 RPC carrier 寿命相关，但不是同一个 disposer。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "步骤10：renderer 将 face 绑定为 Props，React 通过 useAgentLoopCard 消费 snapshot，用 actions 提交用户编辑。",
+        "interpretation": "summary 与完整表单使用同一 state source；save、discard、edit、resetField 是 controller 暴露的动作。界面只表达可写性和当前 field 状态，schema、revision、secret 的细节由 ConfigForms/SettingsFormModel 处理。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S11",
+        "handoff": "步骤11：如果 Slot 注册冲突，错误出现在 SlotCore.register，而不是等 React 渲染后才随机选择。",
+        "interpretation": "未声明的 Slot 拒绝贡献；single、keyed、list 分别检查 priority 与 key/id 的占用。优先级相同抛错，不同优先级可 shadow。企业 UI 扩展应选公开的 SlotMap 契约，不能只用字符串假定任何布局位置都存在。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/client/ui-slots/src/index.ts",
+        1203,
+        1234,
+        "步骤11：如果 Slot 注册冲突，错误出现在 SlotCore.register，而不是等 React 渲染后才随机选择。",
+        "未声明的 Slot 拒绝贡献；single、keyed、list 分别检查 priority 与 key/id 的占用。优先级相同抛错，不同优先级可 shadow。企业 UI 扩展应选公开的 SlotMap 契约，不能只用字符串假定任何布局位置都存在。"
+      ],
+      "重连恢复的是通信 carrier 与服务观察，不代表已经失败的写请求可以自动重做。SettingsMirror 可再次读取快照，写动作则需要根据 RemoteResult 和 revision 确认状态。长流还要关闭 subscription 并处理 generation 变化；卸载 controller 后的迟到结果应被忽略。"
+    ]
+  },
+  "article_plan": {
+    "opening": "一个可维护的企业 DSH 功能，需要连接 Host 服务、Remote 契约、Client 模块、状态模型和 UI Slot。本文以现有 agent-loop 设置卡片为完整源码样例，从 package 声明追到 React 的保存动作，并解释 Gateway 如何找到真正的业务方法。企业查询面板可沿同样的责任分层扩展，不能只复制一个 React 组件就认为接入已经完成。",
+    "sections": [
+      "整体地图：一个业务功能经过哪些构建与运行环境",
+      "包声明与产物：dsh.client、exports 和双端构建",
+      "浏览器装配：Host Loader 到 Client module graph",
+      "业务调用：Remote 声明到 Gateway 派发",
+      "界面装配：Slots、store 与事件订阅",
+      "长连接与撤销：重连、取消和卸载",
+      "开发示例与验证：业务服务与查询面板",
+      "工程心得：功能边界应贯穿类型、传输与展示"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：双端入口由 exports 和 dsh.client 声明，而不是靠扫描所有 tsx 文件发现。",
+      "interpretation": "Host 默认入口与 ./client 浏览器产物分别导出；dsh.client.inject 表示 Client package dependencies，platform=web 限定载体。类型使用 type-only imports 引入 Context/SlotMap 合并，运行协作则通过 ctx.services，避免从别的 Client 插件导入运行实例。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：Host ClientModuleRegistry 先扫描当前 Loader entries，再建立 web carrier 和 index injections。",
+      "interpretation": "初始扫描复用 incremental dirty/flush 路径，扫描失败导致 composition error。服务提供 bundle route，HTML 注入 boot graph。一个 Host package 可以对应若干 Entry，但同名 Client package 的有冲突声明必须被检测；metadata 的缓存也意味着安装新产物后需正确 refresh/restart。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S03",
+      "handoff": "步骤3：HTML facade materialize 模块后，调用 createClientModuleSystem，将 boot manifest 交给浏览器模块系统。",
+      "interpretation": "module system 在 Cordis 前构造，这是加载机制无法通过自身加载的 bootstrap 例外；之后 apply 才将现有 Loader 的 internal 系统登记为 ctx.modules。不要把 Host apply 和 Client apply 写成同一进程内的一条普通函数调用。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：Client 设置模型通过 SettingsMirror 统一调用 remote.settings.describe，并把响应写入 snapshot store。",
+      "interpretation": "共享 mirror 串行化读取，合并 refresh 请求，避免每张卡片分别轮询。响应使用 RemoteResult 的 ok/error 语义；关闭后丢弃迟到结果。这里的“最新页面状态”既取决于服务器结果，也取决于 Client 请求代际及退出状态。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S05",
+      "handoff": "步骤5：describe 的 RPC 进入 Gateway.prepareInvocation，按 endpoint 找到 descriptor，然后确定 receiver Context。",
+      "interpretation": "assertExactArguments 检查形状；resolveReceiverContext 决定服务视角；resolveParameter 将 wire args 还原为业务参数。GatewayInvocation 携带 peer、signal 与 uplink，作为 Context 属性给业务服务，不让 caller 自行填一个 this.ctx。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤6：Gateway 在扩展后的 Context 中取得 service view，再准备调用指定 implementation。",
+      "interpretation": "strict generated descriptor 优先；如果 endpoint 曾经出现 strict 定义而后撤销，禁止回退 SRC。这个 fail-closed 细节避免 HMR 卸载期间突然退化成宽松接口。descriptor 只是类型和派发契约，身份授权仍由可信入口及业务资源层负责。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S12",
+      "handoff": "React保存动作进入SettingsFormModel.save，形成ops与baseline revision",
+      "interpretation": "scope.mutate接收表单写入；成功后清staged"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S13",
+      "handoff": "SettingsFormModel把ops交给ConfigForm.mutate，由它调用typed Remote",
+      "interpretation": "generation与排队保护保存结果；namespace view进入mirror或恢复读取"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤7：Host SettingsController 把 write 请求交给 settings domain，返回脱敏后的最新 namespace view。",
+      "interpretation": "它校验 namespace 和 input，将领域错误映射为 RemoteError。重读结果是保存之后页面恢复状态的依据；不是在 Client 先乐观显示“已生效”就结束。19篇已展开这里调用的 settings.mutate 与 ConfigEditor 写回。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S08",
+      "handoff": "步骤8：Client plugin 从 configForms.get 取得绑定 namespace 的 Scope，传给 AgentLoopCardController。",
+      "interpretation": "controller 用 SettingsFormModel 管理 staged edits，用 form.bind 生成 SnapshotStore。inject 返回 hooks 和 actions，这一 face 作为 Slot 注入提供给组件。由此 React 不需要知道 Gateway endpoint 或 profile 文件路径。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S09",
+      "handoff": "步骤9：apply 注册 locale、form subscription 与 plugins.item Slot，并分别挂到 ctx.effect。",
+      "interpretation": "whileServed 只有 Host namespace 可用时才显示页面；slots.inject 先等待 Slot 条件，再 register 卡片。Host 服务撤销会影响可显示性，plugin 卸载则释放 locale、controller 和 Slot contribution。页面寿命和 RPC carrier 寿命相关，但不是同一个 disposer。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "步骤10：renderer 将 face 绑定为 Props，React 通过 useAgentLoopCard 消费 snapshot，用 actions 提交用户编辑。",
+      "interpretation": "summary 与完整表单使用同一 state source；save、discard、edit、resetField 是 controller 暴露的动作。界面只表达可写性和当前 field 状态，schema、revision、secret 的细节由 ConfigForms/SettingsFormModel 处理。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S11",
+      "handoff": "步骤11：如果 Slot 注册冲突，错误出现在 SlotCore.register，而不是等 React 渲染后才随机选择。",
+      "interpretation": "未声明的 Slot 拒绝贡献；single、keyed、list 分别检查 priority 与 key/id 的占用。优先级相同抛错，不同优先级可 shadow。企业 UI 扩展应选公开的 SlotMap 契约，不能只用字符串假定任何布局位置都存在。"
+    }
+  ],
+  "data_contracts": [
+    "dsh.client 与 Web boot graph",
+    "Remote 声明、descriptor 与 Context lookup",
+    "UI Slot、store、事件与挂载寿命"
+  ],
+  "figure_plan": [
+    {
+      "stem": "21-fullstack-plugin-development-fig-1",
+      "title": "Host/Remote/Client/UI 整体地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Host Service",
+          "业务状态与领域写入"
+        ],
+        [
+          "Remote + Gateway",
+          "契约、派发与结果编码"
+        ],
+        [
+          "Client model",
+          "snapshot 与 staged edits"
+        ],
+        [
+          "Slot / React",
+          "注册、face 注入与渲染"
+        ]
+      ],
+      "note": "跨环境交接；不是同一进程的函数链",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-1.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-1.svg",
+      "png_sha256": "99a1e293c5a5a24e451969ec483d389e5852f7c8c1bba7a74cbfcec4ceb29f1e",
+      "svg_sha256": "de06e15e3608f646a6dc11584dc59d13d5bb6668ddf07cb331048a3ab612820a"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-2",
+      "title": "Loader→boot graph→Client 装配图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Host Loader entries",
+          "扫描 dsh.client"
+        ],
+        [
+          "ClientModuleRegistry",
+          "生成 graph 与 bundle route"
+        ],
+        [
+          "HTML facade",
+          "materialize bootstrap bundle"
+        ],
+        [
+          "Client module system",
+          "装配 browser plugins"
+        ]
+      ],
+      "note": "boot graph 是两端交接契约",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-2.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-2.svg",
+      "png_sha256": "f73b9dc21a7dad692a0af0e48826b07eadc6d3a0a02a93d76da1d5347aade9d1",
+      "svg_sha256": "4d6ec8ac40b4e665f4a795b6d004736986c3eaa30928377faf2f21bdd7a76705"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-3",
+      "title": "类型生成与业务调用交接图",
+      "kind": "map",
+      "nodes": [
+        [
+          "generated descriptor",
+          "参数、receiver 与 result"
+        ],
+        [
+          "GatewayInvocation",
+          "peer、signal、uplink"
+        ],
+        [
+          "SettingsController",
+          "调用领域 service"
+        ],
+        [
+          "RemoteResult / snapshot",
+          "Client 归一化状态"
+        ]
+      ],
+      "note": "调用数据在每层改变表示",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-3.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-3.svg",
+      "png_sha256": "84a8b617aa9fe9fac8494b383e583a5e3d4776530ea2d6a278e9499d0f5430d9",
+      "svg_sha256": "8d6b542bf84206ac4c89ec23f4f3a5a2c977de62aeb413d11ccfca6391d1890b"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-4",
+      "title": "重连、状态消费和卸载图",
+      "kind": "map",
+      "nodes": [
+        [
+          "carrier reconnect",
+          "重新建立服务观察"
+        ],
+        [
+          "whileServed",
+          "namespace 存在才挂载"
+        ],
+        [
+          "Context effect",
+          "释放 Slot、locale、form"
+        ],
+        [
+          "late result",
+          "检查代际与 disposed"
+        ]
+      ],
+      "note": "通信恢复不自动重做业务写入",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-4.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-4.svg",
+      "png_sha256": "2450304a96b63d652cc962dce23d7459f4f49e943271458ec9c3c23d1db5e736",
+      "svg_sha256": "35da6cd7be6fb77db1f146cce8a79109d8b07fafece07c90e5094f2c1c392673"
+    }
+  ],
+  "lessons": [
+    "沿完整插件走一次以后，最有价值的收获是功能边界贯穿了类型、传输、状态和展示。Host 决定事实与写入；Gateway 承担还原和派发；controller 决定页面编辑状态；Slot/React 决定显示。每一层都能明确回答自己的输入和退出责任。",
+    "这也提供了企业扩展的切入方法：先确定服务契约和 state model，再写组件；在 Context 退出时撤销每项贡献；构建产物变化时一起复核 exports、generated definitions 与 Client graph。如此形成的面板，才容易沿调用链排查“按钮正常但业务没有变化”的问题。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/client/modules/tests/node-half.client.spec.ts packages/client/ui-settings-agent-loop/tests/apply.client.spec.ts packages/client/ui-settings-agent-loop/tests/controller.client.spec.ts packages/client/ui-settings-agent-loop/tests/card.client.spec.tsx packages/api/gateway/tests/gateway.host.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

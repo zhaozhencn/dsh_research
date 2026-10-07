@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "node": "v24.19.0",
+  "package": "research-enterprise-harness",
+  "version": "0.1.0",
+  "tarballSha256": "33c9a8aa67da4d8ad9e6264a87e679a521f6c1b8fbf1ec6b57941d9aa6496e4d",
+  "files": [
+    "README.md",
+    "lib/ledger.js",
+    "lib/platform.js",
+    "lib/policy.js",
+    "lib/provision.js",
+    "lib/ticket-tool.js",
+    "package.json"
+  ],
+  "exportsExist": [
+    ".",
+    "./policy",
+    "./ticket-tool",
+    "./provision",
+    "./ledger"
+  ],
+  "observations": [
+    "unpacked ledger imports without monorepo aliases",
+    "business receipt stable on retry",
+    "receipt survives database reopen",
+    "one business audit record"
+  ],
+  "limitations": [
+    "Only ./ledger is imported: other plugin exports require their declared exact peer dependencies",
+    "No clean full DSH install, real model, browser, Desktop, native platform matrix or publication was performed"
+  ]
+}

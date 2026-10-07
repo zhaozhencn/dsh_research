@@ -1,0 +1,453 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/17-agent-creation-composition.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "Host 已经 ready，并不意味着业务所需的 Agent 已经存在。企业任务入口还需要创建 Session、建立 scoped 能力、选择 preset，并取得能负责退出的 handle。本文沿 AgentRegistry → AgentLoop → setupAndPublish 的实际交接展开，并进入 setup 中可选的 preset binding，重点解释一个 Agent 何时才可以被外部观察，以及失败时由谁收回资源。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/core/agent/src/index.ts",
+      "packages/core/scope/src/index.ts",
+      "packages/core/agent-loop/src/index.ts",
+      "packages/preset/agent-preset-registry/src/index.ts",
+      "packages/core/agent-loop/tests/scope-lifecycle.spec.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：先读创建输入。AgentRegistry 消费业务入口提供的 sessionId 和元数据；这些信息随后交给 Session 层验证与快照。",
+        "interpretation": "sessionId 是 Agent 和 Session 共享的 live identity。parentAgent 是当前运行对象的父引用，parentSession 则记录可持久化的 lineage，两者不能互换。seed 是事件前缀，inheritedEventCount 标记其中继承的范围；它不是任意文本数组。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S15",
+        "handoff": "CreateAgentOptions后半段继续定义seed、agentOptions、signal、setup；输入交给factory",
+        "interpretation": "setup用于可信装配而不驱动执行；commit与持久追加按实际顺序解释"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "输入对象确定后，再看能力容器怎样获得退出责任。createScope 将 Fiber 的原始 disposer 包装成可等待的 Scope。",
+        "interpretation": "关键不是简单添加一个标签。Scope 暴露 ctx、rawDispose 和 dispose；退出要等 Fiber 的 inertia 排空。插件中返回 disposer，或者把清理挂入 ctx.effect，才能进入这条归属链。企业扩展不能只把资源放进全局 Map 而绕开它。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S03",
+        "handoff": "步骤2：业务调用 ctx.agents.create(options)，进入 Registry。这里的关键交接是 ownerCtx，而非重新寻找一个全局 Context。",
+        "interpretation": "Registry 从已注册的 factory 获得 target，再通过 getTraceable 和 Reflect.apply 调用 createAgent。调用方的 ownerCtx 作为独立参数向后传递；factory 的服务来源和调用方的资源归属同时得到保留。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤3：createAgent 接住 ownerCtx 与 options，先调用 sessions.prepare，再等待可选持久写路径，最后进入 setupAndPublish。",
+        "interpretation": "prepare 得到的是尚未发布的 Session。持久创建异常会释放 preparation；signal 取消以后才迟到的 handle 也要关闭。ownership.trackWrapper 跟踪整个创建 Promise，使 factory 卸载不只看已返回的实例。到这里尚不能从 registries 读到一个完整 Agent。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S05",
+        "handoff": "步骤4：setupAndPublish 会先调用 prepare；prepare 接收同一个 ownerCtx、id、Session 与持久 handle，建立运行实例的归属。",
+        "interpretation": "先 assertActive，再关联调用方取消、factory teardown 和 owner effect。这种顺序让“资源尚在构造时 owner 就退出”的路径也能找到 disposer。这里的 AbortController 管的是创建和归属，不等同于某次业务 Turn 的 signal。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤5：prepare 返回 PreparedAgent 后，setupAndPublish 将真正的初始化操作交给 initializeAgent。",
+        "interpretation": "setup 返回值通过 raceAbort 等待；可选 commit 同步执行，随后 appendUnstoredSuffix 和 publish。代码中 commit 与 publish 之间仍有持久追加的 await，因此不要夸大成完全无异步间隙的数据库事务。commit 的作用是完成最后的装配检查，发布成功还需持久路径及后续通知成功。initializeAgent 用 maintenance 屏障执行这一过程；异常时取消并等待 dispose，保留原始 setup 错误。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤6：只有初始化准备完成，PreparedAgent.publish 才把 Session 和 Agent 放进各自 registry，并发送通知。",
+        "interpretation": "顺序为 sessions.enter → agents.enter → sessions.announce → await agents.announce。publication Promise 保留通知期间的 Session/Scope，避免 owner 卸载与异步 creation listener 交叉时提前释放。返回的 { agent, dispose } 才是业务方可以使用并承担清理的 handle。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S08",
+        "handoff": "步骤7：setup 可以请求 agentPresets.mount。先追它的前置对象：register 为定义创建 record，activate 装配一棵独立 preset Scope。",
+        "interpretation": "definition 和 generation 必须区分。definition 是当前可被选择的配置记录；generation 是已装配的能力树。激活失败写入 broken，保留可观察的诊断，但不会把失效 tree 当成可用 preset。users 从0开始，只有真正绑定或临时保留后才增加。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S09",
+        "handoff": "步骤8：mount 先 retain 一个可用 generation，再 bind 当前 Agent 的 Scope。",
+        "interpretation": "retain 的临时引用保证异步选择期间 revision 不被释放；bind/join 为 Agent 增加长期引用。mount 的 finally 只释放临时引用。Agent 退出时 ctx.effect 的清理再释放长期引用，所以刚返回 mount 不会卸载仍被 Agent 使用的 preset。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "步骤9：子 Agent 继承时进入 composeFrom，参数不是 preset 名称，而是 parent Context。",
+        "interpretation": "generationFor(parent) 找的是父实例实际使用的 revision。它将 child Scope 接入这棵树，避免配置热变更后 child 悄悄获得一套不同策略。bindScopeParent 的受控 rebind 也意味着 Scope 层次不能由任意扩展随意改写。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S11",
+        "handoff": "旧定义被注销以后，谁负责真正回收？答案在 collect 的两个条件里。",
+        "interpretation": "retired 标记已经退出选择目录；users===0 表示没有 Agent 或临时 lease 继续使用。两个条件同时成立才 dispose。这个机制保留了在途任务的环境一致性，其代价是旧 generation 会继续占用资源，运维需要观察活跃用户及退出是否完成。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S12",
+        "handoff": "步骤10：恢复不是重放一次 create。resumeWith 先获得持久 Session 的 write ownership，再读取已存在的事件。",
+        "interpretation": "先 open(write) 排除同一身份的并发恢复；read 返回物理有效日志后，由 Agent 层补 interruptedTurnClosers，再通过同一个 handle 追加。sessions.prepare 使用 persisted+closers 重建 live Session，随后仍走 setupAndPublish。恢复了历史事实，但 scoped 服务、缓存和连接是新装配的运行资源。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S13",
+        "handoff": "步骤11：创建失败、owner 卸载和主动 dispose 最终复用 prepare 内的同一清理 Promise。",
+        "interpretation": "disposing ??= 保证竞态调用等待同一退出结果。machine.cancel 后等待 whenIdle 和 Scope dispose；handle.close 负责持久 drain，最后撤出 registries。清理失败会累积并可能抛 AggregateError，而不是静默假装退出成功。factory 维护这些责任，所以 fork 需要正确提交 parentAgent 和继承历史，而不是复制一个 Agent 对象。"
+      },
+      {
+        "chapter": 7,
+        "source_id": "S14",
+        "handoff": "下面把发布失败的契约落到一个现成测试。测试通过真实 Registry/factory 装配，故意让异步 creation listener 失败。",
+        "interpretation": "断言关注三类对象一起撤销以及 Session/Agent 不再可见。此处故障在 publication listener，区别于更早的 setup rejection；业务扩展也应分别覆盖这两段。可在 setup 挂业务工具和 restrict 策略，创建 resolve 后再提交输入，持有 handle 的入口在 finally 中 await dispose。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/core/agent-loop/src/index.ts",
+        831,
+        866,
+        "步骤10：恢复不是重放一次 create。resumeWith 先获得持久 Session 的 write ownership，再读取已存在的事件。",
+        "先 open(write) 排除同一身份的并发恢复；read 返回物理有效日志后，由 Agent 层补 interruptedTurnClosers，再通过同一个 handle 追加。sessions.prepare 使用 persisted+closers 重建 live Session，随后仍走 setupAndPublish。恢复了历史事实，但 scoped 服务、缓存和连接是新装配的运行资源。"
+      ],
+      [
+        "packages/core/agent-loop/src/index.ts",
+        524,
+        572,
+        "步骤11：创建失败、owner 卸载和主动 dispose 最终复用 prepare 内的同一清理 Promise。",
+        "disposing ??= 保证竞态调用等待同一退出结果。machine.cancel 后等待 whenIdle 和 Scope dispose；handle.close 负责持久 drain，最后撤出 registries。清理失败会累积并可能抛 AggregateError，而不是静默假装退出成功。factory 维护这些责任，所以 fork 需要正确提交 parentAgent 和继承历史，而不是复制一个 Agent 对象。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "Host 已经 ready，并不意味着业务所需的 Agent 已经存在。企业任务入口还需要创建 Session、建立 scoped 能力、选择 preset，并取得能负责退出的 handle。本文沿 AgentRegistry → AgentLoop → setupAndPublish 的实际交接展开，并进入 setup 中可选的 preset binding，重点解释一个 Agent 何时才可以被外部观察，以及失败时由谁收回资源。",
+    "sections": [
+      "整体地图：启动完成以后，还需要装配什么",
+      "对象与所有权：Agent、Session、Context 和 Scope",
+      "创建入口：从调用参数进入 AgentRegistry.create()",
+      "发布之前：setup、commit 与观察者通知",
+      "preset 装配：选择、revision 保留与子 Agent 继承",
+      "resume、fork 和退出：复用哪些事实，重建哪些能力",
+      "开发示例与验证：创建一个有业务工具和策略的 Agent",
+      "工程心得：能力完整性应在发布边界建立"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：先读创建输入。AgentRegistry 消费业务入口提供的 sessionId 和元数据；这些信息随后交给 Session 层验证与快照。",
+      "interpretation": "sessionId 是 Agent 和 Session 共享的 live identity。parentAgent 是当前运行对象的父引用，parentSession 则记录可持久化的 lineage，两者不能互换。seed 是事件前缀，inheritedEventCount 标记其中继承的范围；它不是任意文本数组。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S15",
+      "handoff": "CreateAgentOptions后半段继续定义seed、agentOptions、signal、setup；输入交给factory",
+      "interpretation": "setup用于可信装配而不驱动执行；commit与持久追加按实际顺序解释"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "输入对象确定后，再看能力容器怎样获得退出责任。createScope 将 Fiber 的原始 disposer 包装成可等待的 Scope。",
+      "interpretation": "关键不是简单添加一个标签。Scope 暴露 ctx、rawDispose 和 dispose；退出要等 Fiber 的 inertia 排空。插件中返回 disposer，或者把清理挂入 ctx.effect，才能进入这条归属链。企业扩展不能只把资源放进全局 Map 而绕开它。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S03",
+      "handoff": "步骤2：业务调用 ctx.agents.create(options)，进入 Registry。这里的关键交接是 ownerCtx，而非重新寻找一个全局 Context。",
+      "interpretation": "Registry 从已注册的 factory 获得 target，再通过 getTraceable 和 Reflect.apply 调用 createAgent。调用方的 ownerCtx 作为独立参数向后传递；factory 的服务来源和调用方的资源归属同时得到保留。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤3：createAgent 接住 ownerCtx 与 options，先调用 sessions.prepare，再等待可选持久写路径，最后进入 setupAndPublish。",
+      "interpretation": "prepare 得到的是尚未发布的 Session。持久创建异常会释放 preparation；signal 取消以后才迟到的 handle 也要关闭。ownership.trackWrapper 跟踪整个创建 Promise，使 factory 卸载不只看已返回的实例。到这里尚不能从 registries 读到一个完整 Agent。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S05",
+      "handoff": "步骤4：setupAndPublish 会先调用 prepare；prepare 接收同一个 ownerCtx、id、Session 与持久 handle，建立运行实例的归属。",
+      "interpretation": "先 assertActive，再关联调用方取消、factory teardown 和 owner effect。这种顺序让“资源尚在构造时 owner 就退出”的路径也能找到 disposer。这里的 AbortController 管的是创建和归属，不等同于某次业务 Turn 的 signal。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤5：prepare 返回 PreparedAgent 后，setupAndPublish 将真正的初始化操作交给 initializeAgent。",
+      "interpretation": "setup 返回值通过 raceAbort 等待；可选 commit 同步执行，随后 appendUnstoredSuffix 和 publish。代码中 commit 与 publish 之间仍有持久追加的 await，因此不要夸大成完全无异步间隙的数据库事务。commit 的作用是完成最后的装配检查，发布成功还需持久路径及后续通知成功。initializeAgent 用 maintenance 屏障执行这一过程；异常时取消并等待 dispose，保留原始 setup 错误。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤6：只有初始化准备完成，PreparedAgent.publish 才把 Session 和 Agent 放进各自 registry，并发送通知。",
+      "interpretation": "顺序为 sessions.enter → agents.enter → sessions.announce → await agents.announce。publication Promise 保留通知期间的 Session/Scope，避免 owner 卸载与异步 creation listener 交叉时提前释放。返回的 { agent, dispose } 才是业务方可以使用并承担清理的 handle。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S08",
+      "handoff": "步骤7：setup 可以请求 agentPresets.mount。先追它的前置对象：register 为定义创建 record，activate 装配一棵独立 preset Scope。",
+      "interpretation": "definition 和 generation 必须区分。definition 是当前可被选择的配置记录；generation 是已装配的能力树。激活失败写入 broken，保留可观察的诊断，但不会把失效 tree 当成可用 preset。users 从0开始，只有真正绑定或临时保留后才增加。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S09",
+      "handoff": "步骤8：mount 先 retain 一个可用 generation，再 bind 当前 Agent 的 Scope。",
+      "interpretation": "retain 的临时引用保证异步选择期间 revision 不被释放；bind/join 为 Agent 增加长期引用。mount 的 finally 只释放临时引用。Agent 退出时 ctx.effect 的清理再释放长期引用，所以刚返回 mount 不会卸载仍被 Agent 使用的 preset。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "步骤9：子 Agent 继承时进入 composeFrom，参数不是 preset 名称，而是 parent Context。",
+      "interpretation": "generationFor(parent) 找的是父实例实际使用的 revision。它将 child Scope 接入这棵树，避免配置热变更后 child 悄悄获得一套不同策略。bindScopeParent 的受控 rebind 也意味着 Scope 层次不能由任意扩展随意改写。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S11",
+      "handoff": "旧定义被注销以后，谁负责真正回收？答案在 collect 的两个条件里。",
+      "interpretation": "retired 标记已经退出选择目录；users===0 表示没有 Agent 或临时 lease 继续使用。两个条件同时成立才 dispose。这个机制保留了在途任务的环境一致性，其代价是旧 generation 会继续占用资源，运维需要观察活跃用户及退出是否完成。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S12",
+      "handoff": "步骤10：恢复不是重放一次 create。resumeWith 先获得持久 Session 的 write ownership，再读取已存在的事件。",
+      "interpretation": "先 open(write) 排除同一身份的并发恢复；read 返回物理有效日志后，由 Agent 层补 interruptedTurnClosers，再通过同一个 handle 追加。sessions.prepare 使用 persisted+closers 重建 live Session，随后仍走 setupAndPublish。恢复了历史事实，但 scoped 服务、缓存和连接是新装配的运行资源。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S13",
+      "handoff": "步骤11：创建失败、owner 卸载和主动 dispose 最终复用 prepare 内的同一清理 Promise。",
+      "interpretation": "disposing ??= 保证竞态调用等待同一退出结果。machine.cancel 后等待 whenIdle 和 Scope dispose；handle.close 负责持久 drain，最后撤出 registries。清理失败会累积并可能抛 AggregateError，而不是静默假装退出成功。factory 维护这些责任，所以 fork 需要正确提交 parentAgent 和继承历史，而不是复制一个 Agent 对象。"
+    },
+    {
+      "chapter": 7,
+      "source_id": "S14",
+      "handoff": "下面把发布失败的契约落到一个现成测试。测试通过真实 Registry/factory 装配，故意让异步 creation listener 失败。",
+      "interpretation": "断言关注三类对象一起撤销以及 Session/Agent 不再可见。此处故障在 publication listener，区别于更早的 setup rejection；业务扩展也应分别覆盖这两段。可在 setup 挂业务工具和 restrict 策略，创建 resolve 后再提交输入，持有 handle 的入口在 finally 中 await dispose。"
+    }
+  ],
+  "data_contracts": [
+    "Agent / Session / Context / Scope 的身份与引用",
+    "创建输入与 setup/commit 边界",
+    "preset revision 与引用寿命"
+  ],
+  "figure_plan": [
+    {
+      "stem": "17-agent-creation-composition-fig-1",
+      "title": "Host/Agent/Session/Scope 所有权图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Host",
+          "factory 与公共服务已 ready"
+        ],
+        [
+          "Session",
+          "持久 metadata 与事件事实"
+        ],
+        [
+          "Agent",
+          "运行驱动与 scoped Context"
+        ],
+        [
+          "Scope",
+          "归属、能力层次与等待退出"
+        ]
+      ],
+      "note": "对象合作关系；并非按四个节点顺序创建",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-1.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-1.svg",
+      "png_sha256": "c32fe7f6e878d23cde29e1c876df1ee8f45fb2f21c8c4362c5d879af516db8ce",
+      "svg_sha256": "22374995c44c0cf10ffc9c935f1b6149762139f05c002c9ef06fb7e8f9e56158"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-2",
+      "title": "create→setup→commit→publication 时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Registry.create",
+          "传入 ownerCtx 与 options"
+        ],
+        [
+          "createAgent",
+          "prepare Session 与持久 handle"
+        ],
+        [
+          "setupAndPublish",
+          "prepare → await setup → commit"
+        ],
+        [
+          "publish",
+          "持久追加后 enter 与 announce"
+        ]
+      ],
+      "note": "commit 后仍需持久追加；发布成功才返回 handle",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-2.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-2.svg",
+      "png_sha256": "d38d427c50ce6a7a13d41da7dea3e076562b50e121306d74eef5d6f2d8857af3",
+      "svg_sha256": "3cdc87ff60c63a8c9b7535af34d5e817b1ed4d9b6933ad078830d3e9cafa2850"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-3",
+      "title": "preset revision 保留与父子继承图",
+      "kind": "map",
+      "nodes": [
+        [
+          "definition",
+          "当前可选择的 preset 配置"
+        ],
+        [
+          "generation",
+          "装配树，users 与 retired"
+        ],
+        [
+          "Agent binding",
+          "Agent 持有长期引用"
+        ],
+        [
+          "child composition",
+          "继承 parent 的精确 revision"
+        ]
+      ],
+      "note": "retired 且 users 为0时回收",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-3.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-3.svg",
+      "png_sha256": "fc77a729014a46e54d619e5e41a9a94ec5aa66a3684cd4739d25fa28227123d3",
+      "svg_sha256": "0e509e204143969eb820f29c129565b0854c2127122363a8bd4f170b966ac79b"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-4",
+      "title": "创建失败、恢复与退出分支图",
+      "kind": "map",
+      "nodes": [
+        [
+          "setup / listener 失败",
+          "取消并清理；创建不成功"
+        ],
+        [
+          "resume",
+          "write ownership → read → closers"
+        ],
+        [
+          "dispose",
+          "cancel → idle → Scope → close"
+        ],
+        [
+          "撤出 registries",
+          "清理完成；失败明确返回"
+        ]
+      ],
+      "note": "三类入口复用归属清理；不是同一顺序流程",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-4.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-4.svg",
+      "png_sha256": "f6c915ca2b8a7472d3c5bdf4dc2482acd9d5ee4b54206ce8000d660b8e5294b0",
+      "svg_sha256": "f05dfc62938a8cc1b967d24f1157ad7db5d126cf944353786b47926ff2325262"
+    }
+  ],
+  "lessons": [
+    "这条创建链给我的直接收获，是把“能力完整”定义在发布之前，把“责任完整”定义在返回 handle 之前。Agent 能被观察时，工具和策略应已装好；入口离开时，持久写路径和插件 effects 应能等待到确定的退出结果。",
+    "preset generation 则提供了另一种值得借鉴的稳定性：运行中的任务按实际 revision 继承，而不是每一步都重新查最新配置。企业开发可以把政策版本写入 Session metadata，并沿 generation 留存机制观察其使用寿命。",
+    "Scope 的价值是组织和归属。它让工程师可以推导谁能看到能力、谁负责退出；租户授权和不可信程序隔离仍需要另外的资源校验或执行环境。把这两类责任分别实现，创建入口才既清晰又可维护。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/core/agent-loop/tests/scope-lifecycle.spec.ts packages/preset/agent-preset-registry/tests/registry.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

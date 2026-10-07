@@ -1,0 +1,42 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "document": "research/deepseek-harness/appendices/supplementary-article-outlines.md",
+  "status": "outline-only",
+  "proposed_articles": 12,
+  "proposed_numbers": "17—28",
+  "topic_mapping": "R01—R12",
+  "chapters": 96,
+  "planned_figures": 48,
+  "companion_outline_documents": 3,
+  "source_entry_paths_checked": 42,
+  "protected_files_checked": 156,
+  "article_placeholders_created": false,
+  "runtime_tests_executed": false,
+  "checks": "topic/number/path mapping, distinct article outline units, required sections, source entry coverage and existence in pinned commit, absence of placeholder articles, existing article and asset hashes",
+  "limits": [
+    "Chapter/figure plans are planned research tasks, not completed implementation findings or verification.",
+    "No new article bodies, diagrams, example code or runtime-test results."
+  ],
+  "failures": [],
+  "ok": true,
+  "commands": [
+    {
+      "command": ".sources/article-skill-work/venv/bin/python .sources/supplementary-outline-work/write-outlines.py",
+      "exit_code": 0,
+      "log": ".sources/supplementary-outline-work/authoring.log"
+    },
+    {
+      "command": "Python outline consistency check via stdin",
+      "exit_code": 0
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": ".sources/supplementary-outline-work/artifact-check.log"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ]
+}

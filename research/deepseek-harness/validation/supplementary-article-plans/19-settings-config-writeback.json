@@ -1,0 +1,368 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/19-settings-config-writeback.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "企业配置页面的一次保存，要同时回答三个问题：用户编辑的是哪个 Entry，写入的是哪一层 patch，当前实例实际消费了什么值。本文从 Settings.describe 的表单对象进入 update/replace/mutate，再沿 ConfigEditor 的写锁、组合校验与 reconcile 返回运行树；重点解释 revision、secret 和 volatile 怎样共同保证可理解的写回。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/settings/settings/src/index.ts",
+      "packages/boot/config-editor/src/index.ts",
+      "packages/settings/settings/tests/configuration.spec.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：UI 或 API 调用 describe，Settings 从 configEditor.configuration 读取 Entry、inherited 与 override。",
+        "interpretation": "只有 ACTIVE Fiber、可用 runtime 和可构造的 volatileForm 才出现在结果中。revision 的原始签名含 fiber.uid、完整 schema 和 Entry config；实例重建、schema 改变或 raw config 改变都会影响观察。这里的 namespace 实际来自 Entry id，因此同一种插件的两个实例可以独立编辑。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S02",
+        "handoff": "步骤2：为了理解 describe 的三种值，需要进入其真正 caller 的数据生产者 ConfigEditor.configuration。",
+        "interpretation": "Editor 对 profile layers 和 Entry 身份建立继承/覆盖视图，再交回 Settings。Settings 随后对 inherited 做 interpolate 和 inheritedConfig，对 fiber.config 做 plainConfig。表单 base 是解释给用户的继承结果，写盘时仍要保持表达式和非编辑字段。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S03",
+        "handoff": "回到 Settings，value、base、user 分别投影，再由 redactSecrets 按 schema 的 secret 标记处理。",
+        "interpretation": "脱敏不是给所有字符串统一打码。前端应保留 secrets 元信息并采用局部 mutate；没有修改的 secret 路径不需要重新提交一个假值。是否脱敏由 describe 参数控制，因此入口必须选择适合其信任边界的调用方式。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S04",
+        "handoff": "步骤3：用户提交之后进入 update、replace 或 mutate。三个方法共享 write，但生成候选的语义不同。",
+        "interpretation": "update 合并 current；replace 从 base 开始覆盖表单 live 字段；mutate 顺序执行路径操作。数组 unset 删除元素，对象字段 unset 可恢复 inherited 值。此基线没有独立 reset 方法：表单重置由 replace 或根路径 unset 等操作表达，不能按提纲假设存在一个 API。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S05",
+        "handoff": "步骤4：write 找到 Entry 和 form，先检查路径，再把 change 回调交给 configEditor.edit。",
+        "interpretation": "revision 检查发生在 Editor 的编辑回调内，而不是 UI 请求刚进入时。这使并发写入在锁内读取到更新后的 descriptor。可选 expected 缺省允许无版本保护调用；企业后台应明确传入已读取 revision，冲突后提示重载并审阅差异。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤5：write 验证候选只修改 volatile 范围，并把 ordinary 配置合并回去。",
+        "interpretation": "strip 移除可编辑部分，保留 raw 的其余字段，然后合并 next。它解决了“小表单覆盖大配置”的问题。volatile 表示字段可以参与 live 配置编辑，插件仍必须正确读取动态值；它不自动把构造函数里截取的静态变量变成最新值。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S07",
+        "handoff": "步骤6：Editor.edit 接住 Entry 和修改函数，在 profile package.json 的文件锁内重新解析 YAML patch。",
+        "interpretation": "以 Entry 对象仍在当前 entries 集合中为条件，避免 Entry 已被替换却仍对旧对象写入；编辑使用 inherited 与现有有效 raw config。通过文档树修改，能保留必要结构并处理 __jsExpr 到 YAML tag 的转回。锁和可选 HMR.runExclusive 共同串行化编辑与运行更新。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S08",
+        "handoff": "步骤7：候选写盘前再走一次完整 profile patch 组合。",
+        "interpretation": "若 next 与 inherited 一致，可去掉冗余用户 config；不一致则建立或更新该 id 的覆盖。之后 composeEntries 计算最终 effective，若 home patch 或 CLI overlay 把候选覆盖掉，会直接拒绝。这个检查使“已保存”与“实际上被更高层盖住”不再混为一谈。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S09",
+        "handoff": "步骤8：writeFileAtomic 成功后，Editor await reconcileProfilePatches 将新配置交给运行树；异常进入恢复分支。",
+        "interpretation": "失败时先写回 before 文件，再 reconcile beforePatches，最后重新抛错。这是可见的补偿流程，并非跨插件外部副作用的数据库事务。若插件 apply 已在远端产生效果，单靠恢复 patch 不能撤回效果；配置层插件应尽量把激活前检查与业务写操作分开。"
+      },
+      {
+        "chapter": 7,
+        "source_id": "S10",
+        "handoff": "现成测试把一次 model 修改接到真实 consumer，再从重启视角读取持久配置。",
+        "interpretation": "测试同时断言值改变与实例不重挂载；它比只检查 YAML 更接近用户关心的行为。另有 concurrent writes、secret、nested ordinary sibling 和 activation failure 测试，可作为企业表单接入的回归起点。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/boot/config-editor/src/index.ts",
+        142,
+        156,
+        "步骤8：writeFileAtomic 成功后，Editor await reconcileProfilePatches 将新配置交给运行树；异常进入恢复分支。",
+        "失败时先写回 before 文件，再 reconcile beforePatches，最后重新抛错。这是可见的补偿流程，并非跨插件外部副作用的数据库事务。若插件 apply 已在远端产生效果，单靠恢复 patch 不能撤回效果；配置层插件应尽量把激活前检查与业务写操作分开。"
+      ],
+      "volatile 消费可以保留当前 Fiber 并更新引用，ordinary 配置变化则可能触发重建。当前 Settings 表单只开放 volatile 范围，但底层 reconcile 仍要验证候选是否能应用。观察实例状态和 settings/document-updated，才能判断一次保存后的 live 事实。"
+    ]
+  },
+  "article_plan": {
+    "opening": "企业配置页面的一次保存，要同时回答三个问题：用户编辑的是哪个 Entry，写入的是哪一层 patch，当前实例实际消费了什么值。本文从 Settings.describe 的表单对象进入 update/replace/mutate，再沿 ConfigEditor 的写锁、组合校验与 reconcile 返回运行树；重点解释 revision、secret 和 volatile 怎样共同保证可理解的写回。",
+    "sections": [
+      "整体地图：设置页面与运行配置之间有哪些交接",
+      "表单生产：Config schema 与 volatile 字段",
+      "值的来源：raw、inherited、override 与 effective",
+      "写入入口：update、replace、mutate 与 reset",
+      "配置写回：config-editor 怎样维护用户 patch",
+      "运行生效：Entry/Fiber 更新与失败状态",
+      "开发示例与验证：给业务插件增加设置表单",
+      "工程心得：设置接口应表达来源、并发与生效状态"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：UI 或 API 调用 describe，Settings 从 configEditor.configuration 读取 Entry、inherited 与 override。",
+      "interpretation": "只有 ACTIVE Fiber、可用 runtime 和可构造的 volatileForm 才出现在结果中。revision 的原始签名含 fiber.uid、完整 schema 和 Entry config；实例重建、schema 改变或 raw config 改变都会影响观察。这里的 namespace 实际来自 Entry id，因此同一种插件的两个实例可以独立编辑。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S02",
+      "handoff": "步骤2：为了理解 describe 的三种值，需要进入其真正 caller 的数据生产者 ConfigEditor.configuration。",
+      "interpretation": "Editor 对 profile layers 和 Entry 身份建立继承/覆盖视图，再交回 Settings。Settings 随后对 inherited 做 interpolate 和 inheritedConfig，对 fiber.config 做 plainConfig。表单 base 是解释给用户的继承结果，写盘时仍要保持表达式和非编辑字段。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S03",
+      "handoff": "回到 Settings，value、base、user 分别投影，再由 redactSecrets 按 schema 的 secret 标记处理。",
+      "interpretation": "脱敏不是给所有字符串统一打码。前端应保留 secrets 元信息并采用局部 mutate；没有修改的 secret 路径不需要重新提交一个假值。是否脱敏由 describe 参数控制，因此入口必须选择适合其信任边界的调用方式。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S04",
+      "handoff": "步骤3：用户提交之后进入 update、replace 或 mutate。三个方法共享 write，但生成候选的语义不同。",
+      "interpretation": "update 合并 current；replace 从 base 开始覆盖表单 live 字段；mutate 顺序执行路径操作。数组 unset 删除元素，对象字段 unset 可恢复 inherited 值。此基线没有独立 reset 方法：表单重置由 replace 或根路径 unset 等操作表达，不能按提纲假设存在一个 API。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S05",
+      "handoff": "步骤4：write 找到 Entry 和 form，先检查路径，再把 change 回调交给 configEditor.edit。",
+      "interpretation": "revision 检查发生在 Editor 的编辑回调内，而不是 UI 请求刚进入时。这使并发写入在锁内读取到更新后的 descriptor。可选 expected 缺省允许无版本保护调用；企业后台应明确传入已读取 revision，冲突后提示重载并审阅差异。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤5：write 验证候选只修改 volatile 范围，并把 ordinary 配置合并回去。",
+      "interpretation": "strip 移除可编辑部分，保留 raw 的其余字段，然后合并 next。它解决了“小表单覆盖大配置”的问题。volatile 表示字段可以参与 live 配置编辑，插件仍必须正确读取动态值；它不自动把构造函数里截取的静态变量变成最新值。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S07",
+      "handoff": "步骤6：Editor.edit 接住 Entry 和修改函数，在 profile package.json 的文件锁内重新解析 YAML patch。",
+      "interpretation": "以 Entry 对象仍在当前 entries 集合中为条件，避免 Entry 已被替换却仍对旧对象写入；编辑使用 inherited 与现有有效 raw config。通过文档树修改，能保留必要结构并处理 __jsExpr 到 YAML tag 的转回。锁和可选 HMR.runExclusive 共同串行化编辑与运行更新。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S08",
+      "handoff": "步骤7：候选写盘前再走一次完整 profile patch 组合。",
+      "interpretation": "若 next 与 inherited 一致，可去掉冗余用户 config；不一致则建立或更新该 id 的覆盖。之后 composeEntries 计算最终 effective，若 home patch 或 CLI overlay 把候选覆盖掉，会直接拒绝。这个检查使“已保存”与“实际上被更高层盖住”不再混为一谈。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S09",
+      "handoff": "步骤8：writeFileAtomic 成功后，Editor await reconcileProfilePatches 将新配置交给运行树；异常进入恢复分支。",
+      "interpretation": "失败时先写回 before 文件，再 reconcile beforePatches，最后重新抛错。这是可见的补偿流程，并非跨插件外部副作用的数据库事务。若插件 apply 已在远端产生效果，单靠恢复 patch 不能撤回效果；配置层插件应尽量把激活前检查与业务写操作分开。"
+    },
+    {
+      "chapter": 7,
+      "source_id": "S10",
+      "handoff": "现成测试把一次 model 修改接到真实 consumer，再从重启视角读取持久配置。",
+      "interpretation": "测试同时断言值改变与实例不重挂载；它比只检查 YAML 更接近用户关心的行为。另有 concurrent writes、secret、nested ordinary sibling 和 activation failure 测试，可作为企业表单接入的回归起点。"
+    }
+  ],
+  "data_contracts": [
+    "表单 descriptor、entry id 与 revision",
+    "raw / inherited / override / effective 值",
+    "secret 标记、字段操作与 volatile references"
+  ],
+  "figure_plan": [
+    {
+      "stem": "19-settings-config-writeback-fig-1",
+      "title": "设置→持久 patch→运行实例整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Settings descriptor",
+          "ns、revision、schema"
+        ],
+        [
+          "配置来源",
+          "value / base / user"
+        ],
+        [
+          "profile patch",
+          "持久化用户覆盖"
+        ],
+        [
+          "live Fiber",
+          "消费动态值并提供状态"
+        ]
+      ],
+      "note": "保存与生效由不同观察点确认",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-1.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-1.svg",
+      "png_sha256": "f74f00c192cf5d535fb02bbad64e3f447b858ae301441eeaea58d9a241edb274",
+      "svg_sha256": "0fdc45240d899560685f14b988c05b8682bc1ab6c3a6bc9e1b6ac685fc7f7ae4"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-2",
+      "title": "schema 与各类配置值的对应图",
+      "kind": "map",
+      "nodes": [
+        [
+          "schema",
+          "volatile 范围与 secret 标记"
+        ],
+        [
+          "raw / inherited",
+          "表达式与来源事实"
+        ],
+        [
+          "form projection",
+          "只展示可编辑字段"
+        ],
+        [
+          "redacted descriptor",
+          "值与 secrets 元信息"
+        ]
+      ],
+      "note": "页面值不是完整原始配置",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-2.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-2.svg",
+      "png_sha256": "de5a43fdffa21a71e56c8a47e450fc23d0be721870d01679b227ba1b59527dac",
+      "svg_sha256": "780c090e52c360a25999ada45a706d651c70c4332588d44dffca5546e7dc4230"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-3",
+      "title": "revision 检查和写回时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "mutate / update",
+          "携带 expectedRevision"
+        ],
+        [
+          "Editor.edit 锁内",
+          "再次 describe 并校验 revision"
+        ],
+        [
+          "compose candidate",
+          "确认高层 patch 未覆盖"
+        ],
+        [
+          "atomic write + reconcile",
+          "应用后刷新 descriptor"
+        ]
+      ],
+      "note": "revision 在编辑锁内检查",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-3.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-3.svg",
+      "png_sha256": "ff828f1d456b86d6aba08ab2099dae22f53b3d075c23a623ca9fd9885322f778",
+      "svg_sha256": "a0e747b8be3b85dd9554601df0b1b2e85eff978995443dd522ede04553ac3f0c"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-4",
+      "title": "volatile、重建与失败状态图",
+      "kind": "map",
+      "nodes": [
+        [
+          "volatile consumer",
+          "保留实例并读取更新引用"
+        ],
+        [
+          "invalid candidate",
+          "拒绝编辑，不发布候选"
+        ],
+        [
+          "reconcile 失败",
+          "恢复 patch 并重新 reconcile"
+        ],
+        [
+          "外部副作用",
+          "须由插件单独管理补偿"
+        ]
+      ],
+      "note": "配置恢复范围不等于外部事务",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-4.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-4.svg",
+      "png_sha256": "7dfa5cdc4080d16e6ee560f5b4037ce73bdaa81e85c0e1e8230510d7494914f3",
+      "svg_sha256": "8a58083b7051f4511801ab07ef9caaccdb470c01cd74da0fc1a68eb2a4e4e492"
+    }
+  ],
+  "lessons": [
+    "本篇最实用的经验，是设置 API 应同时表达来源、并发和运行结果。value/base/user 让用户理解继承；revision 让覆盖有明确前提；reconcile 和状态通知让保存结果能回到运行对象。",
+    "局部字段操作也适合企业凭据界面：用户未触碰的 secret 无须再次经过浏览器，unset 可以恢复继承，reset 不会把普通配置一起抹掉。这些都是从数据结构直接获得的维护收益。",
+    "开发时不妨用一句明确的验收问题收尾：保存后，目标 consumer 在既定生命周期中是否读取到了预期值？同时保留 patch 和实例观察，配置问题才容易定位到具体交接。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/settings/settings/tests/configuration.spec.ts packages/settings/settings/tests/configuration-inheritance.spec.ts packages/settings/settings/tests/editor-failures.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

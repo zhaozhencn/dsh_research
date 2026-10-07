@@ -1,6 +1,6 @@
 # 从源码理解 Agent Harness：架构、实现与工程取舍
 
-这套专栏以 DeepSeek Harness 为研究对象，围绕 16 项公共关注点解释技术架构、关键实现、正常与异常执行、优势和不足，并提炼适用于 Agent 系统设计的工程认识。文章面向有开发经验、希望理解或建设 Agent 系统的工程师与架构师，每篇可以独立阅读。
+这套专栏以 DeepSeek Harness 为研究对象，基础篇围绕16项公共关注点，补充篇围绕12个二次开发专题，解释技术架构、关键实现、正常与异常执行、优势和不足，并提炼适用于 Agent 系统设计的工程认识。文章面向有开发经验、希望理解或建设 Agent 系统的工程师与架构师，每篇可以独立阅读。
 
 研究基线为 **`0.2.1-alpha.1`／`5badb15009ae1756c3afe0ae0cef1faafc290ccc`**。文章在[源码运行报告](../02-runtime-source.md)基础上重新组织论证并复核关键实现，没有切换上游版本，也没有将项目尚未提供的能力写成现状。教学场景、源码事实、既有运行结果和应用改造建议分别表述。
 
@@ -32,7 +32,34 @@
 
 专题先梳理 profile、bundle 与 patch 来源，再跟踪 host 准备、Include／Entry／Fiber、激活审计、readiness、配置刷新和清理。逐段来源见[研究计划](../validation/config-startup-plan.json)，实际检查见[专题验证](../validation/config-startup-check.json)，配图定义见[专题图示清单](assets/config-startup-diagrams.json)。复现绘图使用 `validation/build-config-startup-assets.py`，核对使用 `validation/check-config-startup-article.py`。
 
+## 补充专栏17—28
+
+每篇沿真实调用与数据交接展开，保留八个提纲章节，包含源码原文、实现解读、例子、失败及退出路径、工程心得和四张PNG/SVG图。企业身份应先阅读27，再接入26的真实资源。
+
+|篇次|文章|模块|
+|---|---|---|
+|17|[从 Host 到一个可运行的 Agent：创建、Scope 与 preset 装配](17-agent-creation-composition.md)|M01|
+|18|[企业指令如何进入 Agent：Skill 发现、选择与按需加载](18-skill-instruction-loading.md)|M01|
+|19|[一个设置怎样真正生效：表单、patch 写回与实例更新](19-settings-config-writeback.md)|M02|
+|20|[扩展包如何进入运行系统：安装、启停、移除与恢复边界](20-plugin-package-management.md)|M02|
+|21|[从后端服务到浏览器面板：一个完整 DSH 插件的实现链](21-fullstack-plugin-development.md)|M03|
+|22|[让业务系统驱动 DSH：SDK、ACP 与 Web 的入口选择](22-sdk-acp-web-integration.md)|M03|
+|23|[一个 MCP server 怎样成为 Agent 能力：连接、发现与重连](23-mcp-connection-lifecycle.md)|M04|
+|24|[模型程序如何受控执行：PTC、bindings 与内部工具调用](24-ptc-program-execution.md)|M04|
+|25|[从 Agent 执行到任务编排：Workflow、Schedule 与 Hooks](25-workflow-schedule-hooks.md)|M05|
+|26|[把企业数据与远端操作接入 DSH：provider、授权与效果确认](26-enterprise-data-remote-execution.md)|M05|
+|27|[企业 Agent 的身份边界：可信入口、凭据与租户资源授权](27-identity-credentials-tenancy.md)|M06|
+|28|[从源码到企业发行包：构建、安装、升级与验证](28-build-package-distribution.md)|M06|
+
+跨专题配套：[扩展契约矩阵](../appendices/extension-contract-matrix.md) · [端到端样例及验证边界](../appendices/end-to-end-extension-example.md) · [改动影响与回归矩阵](../appendices/change-impact-regression-matrix.md)。
+
+新增源码摘录、篇章计划与图示位置保存在[补充专栏清单](../validation/supplementary-articles-manifest.json)及 `validation/supplementary-article-plans/`，48组插图见[图定义](assets/supplementary-diagrams.json)。复现与范围见[验证记录](../validation/supplementary-articles-validation.md)。原00—16正文和图示保持不变；原16篇的历史统计继续单独保留。逐篇要求与修正见[本轮复核](../validation/supplementary-articles-review.md)。
+
 ## 怎样阅读
+
+二次开发补充研究见[补充研究路线图](../appendices/supplementary-research-plan.md)：六个模块对应17—28篇，R01—R12保留为专题标识。正文、示例及测试的完成范围见[本批验证记录](../validation/supplementary-articles-validation.md)，没有切换源码版本。
+
+具体写作安排见[文档列表与大纲](../appendices/supplementary-article-outlines.md)：17—28篇已逐篇生成，逐篇列出文件名、章节、重点数据、四图安排与验证任务，并提供三份跨专题配套文档。
 
 本系列的深化方法已整理为[结构化方法说明](../appendices/article-refinement-methodology.md)，配套可复用技能为[`source-code-article-refiner`](../../../skills/source-code-article-refiner/SKILL.md)。它覆盖连续源码解读、核心数据、图文组织与系列复核。
 
@@ -46,7 +73,7 @@
 
 ## 图片与发布使用
 
-16篇正文各嵌入4张PNG，共64张，并提供同名SVG。其余15篇的60张图已按最新阅读逻辑重绘与重新分布，Agent Loop 篇（现第03篇）在该批次保持原样；本次统一更新各图的篇次标识。图示分别服务整体地图、关键交接、核心数据或寿命、条件分支，插在对应步骤附近；Agent、Turn、Step、attempt、Inbox、surface、Fiber 与源码类型标识保留英文。并列资源与成本关联不画成固定顺序调用，企业扩展明确标为建议。每张宽1200像素。图注与相邻源码共同说明范围，不能当作全量调用图；完整清单见[图示清单](assets/diagrams.json)，补充图的节点、步骤位置与摘录引用见[显式图定义](assets/diagram-supplements.json)。
+原01—16篇正文各嵌入4张PNG，共64张，并提供同名SVG。其余15篇的60张图已按最新阅读逻辑重绘与重新分布，Agent Loop 篇（现第03篇）在该批次保持原样；阅读顺序调整批次统一更新各图的篇次标识。图示分别服务整体地图、关键交接、核心数据或寿命、条件分支，插在对应步骤附近；Agent、Turn、Step、attempt、Inbox、surface、Fiber 与源码类型标识保留英文。并列资源与成本关联不画成固定顺序调用，企业扩展明确标为建议。每张宽1200像素。图注与相邻源码共同说明范围，不能当作全量调用图；完整清单见[图示清单](assets/diagrams.json)，补充图的节点、步骤位置与摘录引用见[显式图定义](assets/diagram-supplements.json)。
 
 文章正文采用短段落、小标题、局部代码和固定提交源码链接，适合转入图文编辑器。发布时使用对应 PNG，保留源码出处和基线；本地“上一篇／下一篇／附录”链接可按实际专栏地址替换。Markdown 文件是内容交付，不代表已经写入或发布到公众号。
 
@@ -60,12 +87,14 @@ node research/deepseek-harness/validation/check-artifacts.mjs
 
 上述虚拟环境是本机复现路径，其他环境需先安装Pillow。
 
+补充篇绘图入口为 `validation/build-supplementary-assets.py`，逐段原文、保护文件和图片检查入口为 `validation/check-supplementary-articles.py`；这些命令只处理17—28的新清单。
+
 ## 证据与验证范围
 
 初次专栏写作沿用原研究同一SHA的测试证据，当时累计36个文件、1,504 passed、1条条件skip；企业示例后累计为**37个文件、1,520 passed、1条条件skip**。原第01篇深化、全系列扩写、原第02篇修订和此前15篇同步完善均未新增或重跑行为测试。各历史批次与限制保存在验证附录中。已有完整正常／异常链、扩展编译、类型和选定子系统结果见[验证附录](../appendices/validation.md)。真实模型、完整发布安装、浏览器、跨平台沙箱和企业授权未由离线结果证明。
 
-首次写作有33段代码，原第01篇深化后为54段，全系列深化时为298段；原第02篇叙事及结构补充后为316段。此前为其余15篇增加48段核心数据与状态原文，当前共**364段**。本次只调整阅读顺序、篇次与引用，没有增删源码摘录或重跑行为测试。机器检查核对16项映射、显式标题约定、主体章节数量、逐段原文及hash、固定SHA与行号、每篇4图的顺序和位置、英文术语、链接、PNG/SVG及既有Mermaid。结果见[专栏检查](../validation/column-check.json)，摘录与篇章关系见[专栏清单](../validation/column-manifest.json)。这些检查验证可定位性与一致性，源码解释和图示关系由单一执行者另行复核。
+首次写作有33段代码，原第01篇深化后为54段，全系列深化时为298段；原第02篇叙事及结构补充后为316段。此前为其余15篇增加48段核心数据与状态原文，原01—16篇共**364段**。阅读顺序调整批次只修改篇次与引用，没有增删源码摘录或重跑行为测试；补充17—28篇本轮复核后共151段原文，独立行为测试记录另行保留。机器检查核对16项映射、显式标题约定、主体章节数量、逐段原文及hash、固定SHA与行号、每篇4图的顺序和位置、英文术语、链接、PNG/SVG及既有Mermaid。结果见[专栏检查](../validation/column-check.json)，摘录与篇章关系见[专栏清单](../validation/column-manifest.json)。这些检查验证可定位性与一致性，源码解释和图示关系由单一执行者另行复核。
 
-历史记录保留：[全系列深化](../validation/series-deepening-review.json)、[原第02篇叙事修订](../validation/agent-loop-review.json)、[原第02篇结构与行文优化](../validation/agent-loop-refinement-review.json)。此前逐篇新增结构、保留情况和验证命令见[15篇同步完善记录](../validation/series-refinement-review.json)；当前标题及图序见[编辑修订约定](../validation/column-editorial-revisions.json)，本次阅读顺序调整见[篇次调整记录](../validation/article-reorder-review.json)。
+历史记录保留：[全系列深化](../validation/series-deepening-review.json)、[原第02篇叙事修订](../validation/agent-loop-review.json)、[原第02篇结构与行文优化](../validation/agent-loop-refinement-review.json)。此前逐篇新增结构、保留情况和验证命令见[15篇同步完善记录](../validation/series-refinement-review.json)；当前标题及图序见[编辑修订约定](../validation/column-editorial-revisions.json)，阅读顺序调整批次见[篇次调整记录](../validation/article-reorder-review.json)。
 
 研究重查修正 E147 的反馈授权实现位置，并补充 E149 的进程内交接游标证据；这属于原基线证据完善，不是上游功能新增。

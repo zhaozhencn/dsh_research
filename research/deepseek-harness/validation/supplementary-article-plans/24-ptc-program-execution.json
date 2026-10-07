@@ -1,0 +1,409 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/24-ptc-program-execution.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "PTC 让模型编写程序，在程序中调用可见工具；它没有把模型代码直接放到 Host 执行。本文从 Agent tool presentation 进入 run_code bridge，再追 PtcRuntime.resolve/run、managed Node process 与 binding request，重点解释哪些权限仍由 ToolRuntime 判断，以及程序结束时在途工具怎样结算。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/core/agent-tool-presentation/src/index.ts",
+      "packages/ptc-runtime/ptc-runtime/src/types.ts",
+      "packages/ptc-runtime/ptc-runtime/src/index.ts",
+      "packages/core/tools/src/ptc.ts",
+      "packages/ptc-runtime/ptc-runtime-node/src/index.ts",
+      "packages/ptc-runtime/ptc-runtime-node/src/bindings.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：Agent composition 的 apply 选择 native/ptc/both，并按需等待 ptcRuntime。",
+        "interpretation": "native 不要求 PTC provider；ptc/both 缺 runtime 时 composition 保持不可用，preset activation audit 可以看到这个缺口。presentation 属于 scoped 声明，ToolRuntime 仍是共享 Host 服务；一个进程可同时有 native 和 PTC Agent。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：在 bridge 生成请求之前，先解释通用执行输入。",
+        "interpretation": "PtcRunRequest 包含 program、bindings、cwd、timeoutMs、sandboxPolicy、signal；bindings 是 Host 函数而非任意程序传入的 JS function。Namespace 使用 portable identifier，member 名可以是任意 own property，因此实现必须防 prototype 污染。signal 停止程序后，Host binding 的收敛仍由 caller 管理。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S03",
+        "handoff": "步骤3：PtcRuntime service 明确 language、isolation、resolve 与 run 的职责。",
+        "interpretation": "runtime 不知道 Agent/Session，也不负责选择哪些业务工具可见。resolve 形成有效执行规格；run 返回 program/budget/abort/substrate 结果，契约误用才 reject。isolation 的字符串是 substrate 描述，不能独立作为安全保证。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：run_code 为调用开始时 agent-visible schemas 建立 functions，再将其作为 tools namespace 交给 runtime。",
+        "interpretation": "functions 使用 null prototype，闭包保留 schema。程序可以 tools[name](args)，却不能通过请求一个不存在的名称扩展自己的权限。runtime 参数继承本次执行的 workspace、signal、timeout 与 sandboxPolicy。run_code 是运输入口，业务限制应落在每个实际工具及 bridge 执行边界。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤5：binding(schema) 将模型程序的请求重新放进 registry 的执行流程。",
+        "interpretation": "请求分配内部 call identity 和 run-scoped signal，带回 parent execution、agent 与 turn/step 来源。工具 runtime 的 prepare、guards、post-execute 和事件记录仍生效，不是函数对象的直接无监管调用。约束 run_code 这个外层名字不足以表达允许哪些业务 subcalls。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤6：bridge 的内部队列维护 entry 的启动、flight、commit 和 exclusivity，而非无条件 Promise.all。",
+        "interpretation": "副作用/串行工具会形成 barrier；普通可并行 body 可重叠，但 pre/post 阶段和 settle 事件保持设计的提交秩序。parent Step 能因此持有一致的事件边界。并发优势来自受控 scheduling，不来自放弃记录所有权。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤7：Node runtime.resolve 校验 absolute cwd、timeout 与 policy；run 验证 bindings 后登记 live execution。",
+        "interpretation": "timeoutMs=null 是显式无 deadline，数字会受 maxTimeoutMs 约束。finally 移除 live 并完成 completion，runtime unload 会先 abort 所有 live 再等待 finished。资源预算的含义要从这些数值与实际 provider 能力阅读，不能只看配置字段名。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤8：进程启动前 validateBindings 拒绝非法、保留与重复 namespace。",
+        "interpretation": "跨语言 reserved words 是共享契约，防止一个 namespace 在 Node 可用而在其他 backend 无效。error class 还有单独校验。这个验证解决 ABI 可用性，与业务授权检查承担不同职责。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S09",
+        "handoff": "步骤9：execute 去除可擦除 TypeScript syntax，生成 ProgramBootData，构造 argv 并按 policy confine，再启动受控 subprocess。",
+        "interpretation": "program 是 async function body，支持 await/return，不是一个可随意 import Host 内部对象的插件。namespaces 只向程序公布名字与 error class；真正函数留在 Host。环境剥离 ambient startup variables，heap/output/message limits 和 sandbox enforcement 共同提供约束；danger-full-access 分支不做 confinement，部署需真实选择策略。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "步骤10：子进程通过 control channel 发 call，Host 按递增 id、global、name 和 lossless JSON 检查后才执行 binding。",
+        "interpretation": "必须 own-property 命中已声明 fn；pending 数量与 bytes 超限是 protocol failure。binding value 先 snapshot，再编码 reply；错误变成可在程序中捕获的 rejection。即使程序发了合法 JSON，也不能跳出 Host 已声明的 binding 集合。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S11",
+        "handoff": "步骤11：执行完成统一进入 finish，terminate 后等待 handle.done、waitForExit 并 drain 输出，才向 caller 返回结果。",
+        "interpretation": "程序输出、deadline、取消和进程错误均需经过这一清理边界。sandbox 信息和 failure 一同保留；未知的退出状态不能被当成普通程序成功。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S12",
+        "handoff": "步骤12：bridge 在 runtime settled 后 abort runController，等待已开始的 subcalls 与队列结算，最后解除 outer signal listener。",
+        "interpretation": "停止程序以后，正在进行的 Host 工具仍可能产生结果，因此 bridge 要结算而非遗弃。结果超时或取消不代表外部写入被撤回；写工具还须具备幂等和效果查询。程序可以捕获工具 rejection 继续处理，外层 CodeRunFailedError 则表达程序级失败。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/ptc-runtime/ptc-runtime-node/src/index.ts",
+        166,
+        193,
+        "步骤11：执行完成统一进入 finish，terminate 后等待 handle.done、waitForExit 并 drain 输出，才向 caller 返回结果。",
+        "程序输出、deadline、取消和进程错误均需经过这一清理边界。sandbox 信息和 failure 一同保留；未知的退出状态不能被当成普通程序成功。"
+      ],
+      [
+        "packages/core/tools/src/ptc.ts",
+        710,
+        731,
+        "步骤12：bridge 在 runtime settled 后 abort runController，等待已开始的 subcalls 与队列结算，最后解除 outer signal listener。",
+        "停止程序以后，正在进行的 Host 工具仍可能产生结果，因此 bridge 要结算而非遗弃。结果超时或取消不代表外部写入被撤回；写工具还须具备幂等和效果查询。程序可以捕获工具 rejection 继续处理，外层 CodeRunFailedError 则表达程序级失败。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "PTC 让模型编写程序，在程序中调用可见工具；它没有把模型代码直接放到 Host 执行。本文从 Agent tool presentation 进入 run_code bridge，再追 PtcRuntime.resolve/run、managed Node process 与 binding request，重点解释哪些权限仍由 ToolRuntime 判断，以及程序结束时在途工具怎样结算。",
+    "sections": [
+      "整体地图：从工具列表到程序式调用",
+      "绑定阶段：可见工具怎样形成 SDK/bindings",
+      "请求阶段：run_code 怎样交给 PTC runtime",
+      "执行阶段：运行进程、协议与 host bindings",
+      "内部工具：授权、超时、并发和结果提交",
+      "异常与清理：程序失败、工具失败和取消",
+      "开发示例与验证：一次程序调用两个受控工具",
+      "工程心得：程序执行需要保留能力与结果边界"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：Agent composition 的 apply 选择 native/ptc/both，并按需等待 ptcRuntime。",
+      "interpretation": "native 不要求 PTC provider；ptc/both 缺 runtime 时 composition 保持不可用，preset activation audit 可以看到这个缺口。presentation 属于 scoped 声明，ToolRuntime 仍是共享 Host 服务；一个进程可同时有 native 和 PTC Agent。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：在 bridge 生成请求之前，先解释通用执行输入。",
+      "interpretation": "PtcRunRequest 包含 program、bindings、cwd、timeoutMs、sandboxPolicy、signal；bindings 是 Host 函数而非任意程序传入的 JS function。Namespace 使用 portable identifier，member 名可以是任意 own property，因此实现必须防 prototype 污染。signal 停止程序后，Host binding 的收敛仍由 caller 管理。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S03",
+      "handoff": "步骤3：PtcRuntime service 明确 language、isolation、resolve 与 run 的职责。",
+      "interpretation": "runtime 不知道 Agent/Session，也不负责选择哪些业务工具可见。resolve 形成有效执行规格；run 返回 program/budget/abort/substrate 结果，契约误用才 reject。isolation 的字符串是 substrate 描述，不能独立作为安全保证。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：run_code 为调用开始时 agent-visible schemas 建立 functions，再将其作为 tools namespace 交给 runtime。",
+      "interpretation": "functions 使用 null prototype，闭包保留 schema。程序可以 tools[name](args)，却不能通过请求一个不存在的名称扩展自己的权限。runtime 参数继承本次执行的 workspace、signal、timeout 与 sandboxPolicy。run_code 是运输入口，业务限制应落在每个实际工具及 bridge 执行边界。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤5：binding(schema) 将模型程序的请求重新放进 registry 的执行流程。",
+      "interpretation": "请求分配内部 call identity 和 run-scoped signal，带回 parent execution、agent 与 turn/step 来源。工具 runtime 的 prepare、guards、post-execute 和事件记录仍生效，不是函数对象的直接无监管调用。约束 run_code 这个外层名字不足以表达允许哪些业务 subcalls。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤6：bridge 的内部队列维护 entry 的启动、flight、commit 和 exclusivity，而非无条件 Promise.all。",
+      "interpretation": "副作用/串行工具会形成 barrier；普通可并行 body 可重叠，但 pre/post 阶段和 settle 事件保持设计的提交秩序。parent Step 能因此持有一致的事件边界。并发优势来自受控 scheduling，不来自放弃记录所有权。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤7：Node runtime.resolve 校验 absolute cwd、timeout 与 policy；run 验证 bindings 后登记 live execution。",
+      "interpretation": "timeoutMs=null 是显式无 deadline，数字会受 maxTimeoutMs 约束。finally 移除 live 并完成 completion，runtime unload 会先 abort 所有 live 再等待 finished。资源预算的含义要从这些数值与实际 provider 能力阅读，不能只看配置字段名。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤8：进程启动前 validateBindings 拒绝非法、保留与重复 namespace。",
+      "interpretation": "跨语言 reserved words 是共享契约，防止一个 namespace 在 Node 可用而在其他 backend 无效。error class 还有单独校验。这个验证解决 ABI 可用性，与业务授权检查承担不同职责。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S09",
+      "handoff": "步骤9：execute 去除可擦除 TypeScript syntax，生成 ProgramBootData，构造 argv 并按 policy confine，再启动受控 subprocess。",
+      "interpretation": "program 是 async function body，支持 await/return，不是一个可随意 import Host 内部对象的插件。namespaces 只向程序公布名字与 error class；真正函数留在 Host。环境剥离 ambient startup variables，heap/output/message limits 和 sandbox enforcement 共同提供约束；danger-full-access 分支不做 confinement，部署需真实选择策略。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "步骤10：子进程通过 control channel 发 call，Host 按递增 id、global、name 和 lossless JSON 检查后才执行 binding。",
+      "interpretation": "必须 own-property 命中已声明 fn；pending 数量与 bytes 超限是 protocol failure。binding value 先 snapshot，再编码 reply；错误变成可在程序中捕获的 rejection。即使程序发了合法 JSON，也不能跳出 Host 已声明的 binding 集合。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S11",
+      "handoff": "步骤11：执行完成统一进入 finish，terminate 后等待 handle.done、waitForExit 并 drain 输出，才向 caller 返回结果。",
+      "interpretation": "程序输出、deadline、取消和进程错误均需经过这一清理边界。sandbox 信息和 failure 一同保留；未知的退出状态不能被当成普通程序成功。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S12",
+      "handoff": "步骤12：bridge 在 runtime settled 后 abort runController，等待已开始的 subcalls 与队列结算，最后解除 outer signal listener。",
+      "interpretation": "停止程序以后，正在进行的 Host 工具仍可能产生结果，因此 bridge 要结算而非遗弃。结果超时或取消不代表外部写入被撤回；写工具还须具备幂等和效果查询。程序可以捕获工具 rejection 继续处理，外层 CodeRunFailedError 则表达程序级失败。"
+    }
+  ],
+  "data_contracts": [
+    "presentation 模式和生成 bindings",
+    "PtcRunRequest / PtcRunResult",
+    "transport 执行、内部调用、输出和运行进程"
+  ],
+  "figure_plan": [
+    {
+      "stem": "24-ptc-program-execution-fig-1",
+      "title": "presentation→program→tools 整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "presentation",
+          "native / ptc / both"
+        ],
+        [
+          "run_code bridge",
+          "Agent-visible tools 与调度"
+        ],
+        [
+          "PtcRuntime",
+          "通用 program + bindings seam"
+        ],
+        [
+          "Node process",
+          "confine、IPC、budget、cleanup"
+        ]
+      ],
+      "note": "通用 runtime 不直接决定业务工具权限",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-1.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-1.svg",
+      "png_sha256": "70d6d0b516d22f167065ada84afa5f504f7c4e351431c00029055ef50f016831",
+      "svg_sha256": "19343d2473b7cab7117df4d40f050294c2000e2c835fbc93560367980cc4a010"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-2",
+      "title": "bindings 与请求数据结构图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "run_code",
+          "生成 tools binding functions"
+        ],
+        [
+          "resolve / run",
+          "校验执行规格与声明"
+        ],
+        [
+          "child program",
+          "发送 declared binding call"
+        ],
+        [
+          "Host ToolRuntime",
+          "guard → body → settle"
+        ]
+      ],
+      "note": "内部工具调用回到受控 runtime",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-2.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-2.svg",
+      "png_sha256": "cc1ea5f3f17ade8528f5d17efd731350bb02264b23bd906c973dd05b7605d930",
+      "svg_sha256": "f0566a6cb2bf3f2cb07fdb5c3afdb3bafc0d7dc56f75aec702f6835c7c577a2a"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-3",
+      "title": "程序进程和内部工具调用图",
+      "kind": "map",
+      "nodes": [
+        [
+          "binding namespace",
+          "global、functions、errorClass"
+        ],
+        [
+          "ProgramBootData",
+          "代码与成员名字，不传 Host 函数"
+        ],
+        [
+          "control call",
+          "递增 id 与 lossless JSON args"
+        ],
+        [
+          "reply",
+          "value 或 typed rejection"
+        ]
+      ],
+      "note": "跨进程契约限制可请求的能力",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-3.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-3.svg",
+      "png_sha256": "7c704e8c765b09cf64c3f02b9866c14f7e2d4c0676feed9ed195b62a024c762c",
+      "svg_sha256": "126d8eb5e46a7157f019dea6de154b0239e9432c5fe1edb92acceff3a3a922b4"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-4",
+      "title": "错误归属、取消与清理图",
+      "kind": "map",
+      "nodes": [
+        [
+          "program failure",
+          "输出限制或错误结果"
+        ],
+        [
+          "abort / deadline",
+          "停止 managed process"
+        ],
+        [
+          "bridge settlement",
+          "等待在途 Host subcalls"
+        ],
+        [
+          "runtime dispose",
+          "abort live 并等待 finished"
+        ]
+      ],
+      "note": "程序停止与外部效果确认分别完成",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-4.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-4.svg",
+      "png_sha256": "1d3f486640d9a5136ba62e05e1a5d9859b34bfbe0bef3e3a64dbfb41b01dd7c8",
+      "svg_sha256": "b477537b4bd7764913bcc2837c732bcb8821dddc602a3a7764ce3d29ee4a644d"
+    }
+  ],
+  "lessons": [
+    "PTC 给我的关键启发是：执行程序与执行工具需要两套相接的边界。runtime 管理进程、消息、输出和退出；ToolRuntime 管理可见能力、guard、调度和记录。职责分开后，才能更换执行 substrate 而保持业务契约。",
+    "另一点是结束程序并不等于结束效果。bridge 继续等待已开始 subcalls，正是为了使取消成为可结算的事实。企业二次开发应沿这段接口把 idempotency、effect receipt 和审计加到实际 binding 工具，而不是只给 run_code 配一个更短 timeout。",
+    "在可验证的限制下用代码表达数据依赖，PTC 的效率收益才可持续：程序更紧凑，事件仍完整，退出责任仍明确。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/ptc-runtime/ptc-runtime/tests/reserved.spec.ts packages/ptc-runtime/ptc-runtime-node/tests/bindings.spec.ts packages/ptc-runtime/ptc-runtime-node/tests/runtime.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

@@ -302,7 +302,7 @@
   ],
   "checked_links": 90,
   "source_links": 78,
-  "protected_files_checked": 326,
+  "protected_files_checked": null,
   "runtime_evidence": "See config-startup-runtime-tests.json; this checker does not execute runtime tests.",
   "limits": [
     "Structure and provenance do not certify semantic quality or diagram readability.",

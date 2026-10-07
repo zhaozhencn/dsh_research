@@ -1,0 +1,2184 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "figures": [
+    {
+      "stem": "17-agent-creation-composition-fig-1",
+      "title": "Host/Agent/Session/Scope 所有权图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Host",
+          "factory 与公共服务已 ready"
+        ],
+        [
+          "Session",
+          "持久 metadata 与事件事实"
+        ],
+        [
+          "Agent",
+          "运行驱动与 scoped Context"
+        ],
+        [
+          "Scope",
+          "归属、能力层次与等待退出"
+        ]
+      ],
+      "note": "对象合作关系；并非按四个节点顺序创建",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-1.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-1.svg",
+      "png_sha256": "c32fe7f6e878d23cde29e1c876df1ee8f45fb2f21c8c4362c5d879af516db8ce",
+      "svg_sha256": "22374995c44c0cf10ffc9c935f1b6149762139f05c002c9ef06fb7e8f9e56158"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-2",
+      "title": "create→setup→commit→publication 时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Registry.create",
+          "传入 ownerCtx 与 options"
+        ],
+        [
+          "createAgent",
+          "prepare Session 与持久 handle"
+        ],
+        [
+          "setupAndPublish",
+          "prepare → await setup → commit"
+        ],
+        [
+          "publish",
+          "持久追加后 enter 与 announce"
+        ]
+      ],
+      "note": "commit 后仍需持久追加；发布成功才返回 handle",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-2.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-2.svg",
+      "png_sha256": "d38d427c50ce6a7a13d41da7dea3e076562b50e121306d74eef5d6f2d8857af3",
+      "svg_sha256": "3cdc87ff60c63a8c9b7535af34d5e817b1ed4d9b6933ad078830d3e9cafa2850"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-3",
+      "title": "preset revision 保留与父子继承图",
+      "kind": "map",
+      "nodes": [
+        [
+          "definition",
+          "当前可选择的 preset 配置"
+        ],
+        [
+          "generation",
+          "装配树，users 与 retired"
+        ],
+        [
+          "Agent binding",
+          "Agent 持有长期引用"
+        ],
+        [
+          "child composition",
+          "继承 parent 的精确 revision"
+        ]
+      ],
+      "note": "retired 且 users 为0时回收",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-3.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-3.svg",
+      "png_sha256": "fc77a729014a46e54d619e5e41a9a94ec5aa66a3684cd4739d25fa28227123d3",
+      "svg_sha256": "0e509e204143969eb820f29c129565b0854c2127122363a8bd4f170b966ac79b"
+    },
+    {
+      "stem": "17-agent-creation-composition-fig-4",
+      "title": "创建失败、恢复与退出分支图",
+      "kind": "map",
+      "nodes": [
+        [
+          "setup / listener 失败",
+          "取消并清理；创建不成功"
+        ],
+        [
+          "resume",
+          "write ownership → read → closers"
+        ],
+        [
+          "dispose",
+          "cancel → idle → Scope → close"
+        ],
+        [
+          "撤出 registries",
+          "清理完成；失败明确返回"
+        ]
+      ],
+      "note": "三类入口复用归属清理；不是同一顺序流程",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/17-agent-creation-composition-fig-4.png",
+      "svg": "articles/assets/17-agent-creation-composition-fig-4.svg",
+      "png_sha256": "f6c915ca2b8a7472d3c5bdf4dc2482acd9d5ee4b54206ce8000d660b8e5294b0",
+      "svg_sha256": "f05dfc62938a8cc1b967d24f1157ad7db5d126cf944353786b47926ff2325262"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-1",
+      "title": "指令来源与消费者地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Skill provider",
+          "生产候选与完整正文"
+        ],
+        [
+          "Registry",
+          "按 cwd / Scope 合并选择"
+        ],
+        [
+          "tool-skill",
+          "发布 catalog 与加载正文"
+        ],
+        [
+          "agent-instructions",
+          "独立 compose 工作区规则"
+        ]
+      ],
+      "note": "两条指令路径在 Session 消费边界交会",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-1.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-1.svg",
+      "png_sha256": "51d9af28bdc71dd345216e7f61e85cf5205f4c71f53dd3f28def94e0a8686ffd",
+      "svg_sha256": "f4802570e9f65fbf8e8135b6f5d9c3014be390e7561acab494f58662df277436"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-2",
+      "title": "provider→catalog→选择→加载时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "provider.list",
+          "cwd、Scope、signal"
+        ],
+        [
+          "Registry.snapshot",
+          "winning summaries + complete"
+        ],
+        [
+          "tool-skill选择name",
+          "检查 model invocation policy"
+        ],
+        [
+          "Registry.get → provider.get",
+          "name → candidate → Definition"
+        ]
+      ],
+      "note": "目录发现与正文加载是两次来源交接",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-2.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-2.svg",
+      "png_sha256": "23fe79b7e3caf785f034f7d025450536ac78756060085ad93eab08ad1717dab1",
+      "svg_sha256": "3b9ddde91f78609dd97ce1beef09e9879902b8aa3524f72952f94721c9f263f3"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-3",
+      "title": "同名候选与 Scope 选择图",
+      "kind": "map",
+      "nodes": [
+        [
+          "global layer",
+          "公共候选"
+        ],
+        [
+          "ancestor layers",
+          "由远到近覆盖"
+        ],
+        [
+          "current Scope",
+          "同名优先于外层"
+        ],
+        [
+          "within one layer",
+          "rank 与来源顺序决定同名"
+        ]
+      ],
+      "note": "rank 只比较同层候选",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 3,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-3.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-3.svg",
+      "png_sha256": "67644804918ed6283b6027c8df1790838ebdcf8edec90f31bd64ee0166dcf967",
+      "svg_sha256": "6b594e7780285055d7e2a74922c6f11d66c7ab400fc0b96a5e984670676c7c90"
+    },
+    {
+      "stem": "18-skill-instruction-loading-fig-4",
+      "title": "缓存失效、来源失败与取消分支图",
+      "kind": "map",
+      "nodes": [
+        [
+          "revision 改变",
+          "有限重试；不稳定结果不缓存"
+        ],
+        [
+          "incomplete discovery",
+          "消费者保留 last-good"
+        ],
+        [
+          "正文消失或错名",
+          "返回不可用并失效选择"
+        ],
+        [
+          "signal abort",
+          "停止等待；provider 配合退出"
+        ]
+      ],
+      "note": "不同异常保留不同事实",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/18-skill-instruction-loading-fig-4.png",
+      "svg": "articles/assets/18-skill-instruction-loading-fig-4.svg",
+      "png_sha256": "d2c30dafc1bb1caf3eb31252bf9ba3a7b34d9f31cf63aaf8bef52aaf66fed66d",
+      "svg_sha256": "f7db1c6fa57c6eb1009bd0f50addd96b0822e6179857fb90af9810f16aee5966"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-1",
+      "title": "设置→持久 patch→运行实例整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Settings descriptor",
+          "ns、revision、schema"
+        ],
+        [
+          "配置来源",
+          "value / base / user"
+        ],
+        [
+          "profile patch",
+          "持久化用户覆盖"
+        ],
+        [
+          "live Fiber",
+          "消费动态值并提供状态"
+        ]
+      ],
+      "note": "保存与生效由不同观察点确认",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-1.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-1.svg",
+      "png_sha256": "f74f00c192cf5d535fb02bbad64e3f447b858ae301441eeaea58d9a241edb274",
+      "svg_sha256": "0fdc45240d899560685f14b988c05b8682bc1ab6c3a6bc9e1b6ac685fc7f7ae4"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-2",
+      "title": "schema 与各类配置值的对应图",
+      "kind": "map",
+      "nodes": [
+        [
+          "schema",
+          "volatile 范围与 secret 标记"
+        ],
+        [
+          "raw / inherited",
+          "表达式与来源事实"
+        ],
+        [
+          "form projection",
+          "只展示可编辑字段"
+        ],
+        [
+          "redacted descriptor",
+          "值与 secrets 元信息"
+        ]
+      ],
+      "note": "页面值不是完整原始配置",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-2.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-2.svg",
+      "png_sha256": "de5a43fdffa21a71e56c8a47e450fc23d0be721870d01679b227ba1b59527dac",
+      "svg_sha256": "780c090e52c360a25999ada45a706d651c70c4332588d44dffca5546e7dc4230"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-3",
+      "title": "revision 检查和写回时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "mutate / update",
+          "携带 expectedRevision"
+        ],
+        [
+          "Editor.edit 锁内",
+          "再次 describe 并校验 revision"
+        ],
+        [
+          "compose candidate",
+          "确认高层 patch 未覆盖"
+        ],
+        [
+          "atomic write + reconcile",
+          "应用后刷新 descriptor"
+        ]
+      ],
+      "note": "revision 在编辑锁内检查",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-3.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-3.svg",
+      "png_sha256": "ff828f1d456b86d6aba08ab2099dae22f53b3d075c23a623ca9fd9885322f778",
+      "svg_sha256": "a0e747b8be3b85dd9554601df0b1b2e85eff978995443dd522ede04553ac3f0c"
+    },
+    {
+      "stem": "19-settings-config-writeback-fig-4",
+      "title": "volatile、重建与失败状态图",
+      "kind": "map",
+      "nodes": [
+        [
+          "volatile consumer",
+          "保留实例并读取更新引用"
+        ],
+        [
+          "invalid candidate",
+          "拒绝编辑，不发布候选"
+        ],
+        [
+          "reconcile 失败",
+          "恢复 patch 并重新 reconcile"
+        ],
+        [
+          "外部副作用",
+          "须由插件单独管理补偿"
+        ]
+      ],
+      "note": "配置恢复范围不等于外部事务",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/19-settings-config-writeback-fig-4.png",
+      "svg": "articles/assets/19-settings-config-writeback-fig-4.svg",
+      "png_sha256": "7dfa5cdc4080d16e6ee560f5b4037ce73bdaa81e85c0e1e8230510d7494914f3",
+      "svg_sha256": "8a58083b7051f4511801ab07ef9caaccdb470c01cd74da0fc1a68eb2a4e4e492"
+    },
+    {
+      "stem": "20-plugin-package-management-fig-1",
+      "title": "安装/选择/激活的对象关系图",
+      "kind": "map",
+      "nodes": [
+        [
+          "package files",
+          "manifest / lockfile / node_modules"
+        ],
+        [
+          "bundle selection",
+          "profile 配置层选择"
+        ],
+        [
+          "resolution table",
+          "包到模块的解析事实"
+        ],
+        [
+          "runtime tree",
+          "Entry / Fiber 激活状态"
+        ]
+      ],
+      "note": "四类事实相互关联但分别确认",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/20-plugin-package-management-fig-1.png",
+      "svg": "articles/assets/20-plugin-package-management-fig-1.svg",
+      "png_sha256": "8d310d28f7037917fa5cc1a4df5af7b3760b6155491d8ea0c455e68668318533",
+      "svg_sha256": "79bc6263130352dfe3ef6097fa357c7a00d38b4906b975566cb8736149a7d299"
+    },
+    {
+      "stem": "20-plugin-package-management-fig-2",
+      "title": "管理入口与包操作时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "change",
+          "profile 写锁与结果容器"
+        ],
+        [
+          "package preflight",
+          "spec 与 registry plan"
+        ],
+        [
+          "runProfilePnpm",
+          "子进程、日志、取消"
+        ],
+        [
+          "installBundle apply",
+          "验证 → selection → reload"
+        ]
+      ],
+      "note": "校验通过才进入 applying",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/20-plugin-package-management-fig-2.png",
+      "svg": "articles/assets/20-plugin-package-management-fig-2.svg",
+      "png_sha256": "b3e90256d78df716f51d0ab099e10afdaacf1b2226ab51ac28b8155bfee1d3b1",
+      "svg_sha256": "53111e4d697f4297533273d4407694abe362b9997178942702b5faa166b56ccd"
+    },
+    {
+      "stem": "20-plugin-package-management-fig-3",
+      "title": "bundle 变更到运行树更新图",
+      "kind": "map",
+      "nodes": [
+        [
+          "selectBundle",
+          "保存选择层"
+        ],
+        [
+          "refreshPackages",
+          "更新模块解析目录"
+        ],
+        [
+          "reload",
+          "HMR 下 reconcile"
+        ],
+        [
+          "restart-required",
+          "已加载包或无 live 更新能力"
+        ]
+      ],
+      "note": "restart-required 是明确结果，不是假成功",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/20-plugin-package-management-fig-3.png",
+      "svg": "articles/assets/20-plugin-package-management-fig-3.svg",
+      "png_sha256": "0c01c584b1b0db82d7bdf9bf38f293388e3bb70dabd60ee832006c25a67bf384",
+      "svg_sha256": "d65bedff58b9c8812940784823e37fa6e6e574761884be8df4d5723b2627683e"
+    },
+    {
+      "stem": "20-plugin-package-management-fig-4",
+      "title": "失败阶段与恢复范围矩阵图",
+      "kind": "map",
+      "nodes": [
+        [
+          "包操作失败",
+          "恢复保存文件"
+        ],
+        [
+          "compatibility denied",
+          "restore 后尝试 repair"
+        ],
+        [
+          "runtime application failed",
+          "返回阶段和实际磁盘状态"
+        ],
+        [
+          "remove",
+          "先卸载再删除依赖"
+        ]
+      ],
+      "note": "恢复按阶段判断，不承诺全局事务",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/20-plugin-package-management-fig-4.png",
+      "svg": "articles/assets/20-plugin-package-management-fig-4.svg",
+      "png_sha256": "e676b29888e637974882fc92425c1b80575a90f768fce62d824583260fcc58f5",
+      "svg_sha256": "aacb0a8b67b87cd37644d0e642dae98d469c7cb6bdbf73b43972c95cedb6523a"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-1",
+      "title": "Host/Remote/Client/UI 整体地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Host Service",
+          "业务状态与领域写入"
+        ],
+        [
+          "Remote + Gateway",
+          "契约、派发与结果编码"
+        ],
+        [
+          "Client model",
+          "snapshot 与 staged edits"
+        ],
+        [
+          "Slot / React",
+          "注册、face 注入与渲染"
+        ]
+      ],
+      "note": "跨环境交接；不是同一进程的函数链",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-1.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-1.svg",
+      "png_sha256": "99a1e293c5a5a24e451969ec483d389e5852f7c8c1bba7a74cbfcec4ceb29f1e",
+      "svg_sha256": "de06e15e3608f646a6dc11584dc59d13d5bb6668ddf07cb331048a3ab612820a"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-2",
+      "title": "Loader→boot graph→Client 装配图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Host Loader entries",
+          "扫描 dsh.client"
+        ],
+        [
+          "ClientModuleRegistry",
+          "生成 graph 与 bundle route"
+        ],
+        [
+          "HTML facade",
+          "materialize bootstrap bundle"
+        ],
+        [
+          "Client module system",
+          "装配 browser plugins"
+        ]
+      ],
+      "note": "boot graph 是两端交接契约",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-2.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-2.svg",
+      "png_sha256": "f73b9dc21a7dad692a0af0e48826b07eadc6d3a0a02a93d76da1d5347aade9d1",
+      "svg_sha256": "4d6ec8ac40b4e665f4a795b6d004736986c3eaa30928377faf2f21bdd7a76705"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-3",
+      "title": "类型生成与业务调用交接图",
+      "kind": "map",
+      "nodes": [
+        [
+          "generated descriptor",
+          "参数、receiver 与 result"
+        ],
+        [
+          "GatewayInvocation",
+          "peer、signal、uplink"
+        ],
+        [
+          "SettingsController",
+          "调用领域 service"
+        ],
+        [
+          "RemoteResult / snapshot",
+          "Client 归一化状态"
+        ]
+      ],
+      "note": "调用数据在每层改变表示",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-3.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-3.svg",
+      "png_sha256": "84a8b617aa9fe9fac8494b383e583a5e3d4776530ea2d6a278e9499d0f5430d9",
+      "svg_sha256": "8d6b542bf84206ac4c89ec23f4f3a5a2c977de62aeb413d11ccfca6391d1890b"
+    },
+    {
+      "stem": "21-fullstack-plugin-development-fig-4",
+      "title": "重连、状态消费和卸载图",
+      "kind": "map",
+      "nodes": [
+        [
+          "carrier reconnect",
+          "重新建立服务观察"
+        ],
+        [
+          "whileServed",
+          "namespace 存在才挂载"
+        ],
+        [
+          "Context effect",
+          "释放 Slot、locale、form"
+        ],
+        [
+          "late result",
+          "检查代际与 disposed"
+        ]
+      ],
+      "note": "通信恢复不自动重做业务写入",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/21-fullstack-plugin-development-fig-4.png",
+      "svg": "articles/assets/21-fullstack-plugin-development-fig-4.svg",
+      "png_sha256": "2450304a96b63d652cc962dce23d7459f4f49e943271458ec9c3c23d1db5e736",
+      "svg_sha256": "35da6cd7be6fb77db1f146cce8a79109d8b07fafece07c90e5094f2c1c392673"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-1",
+      "title": "SDK/ACP/Web 与执行内核关系图",
+      "kind": "map",
+      "nodes": [
+        [
+          "SDK",
+          "Node owns dsh subprocess"
+        ],
+        [
+          "ACP",
+          "协议 Session 与交互适配"
+        ],
+        [
+          "Web",
+          "Remote 与 streams carrier"
+        ],
+        [
+          "Agent factory",
+          "各入口分别安排装配"
+        ]
+      ],
+      "note": "共享内核不保证协议能力等价",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-1.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-1.svg",
+      "png_sha256": "d1b9dae451262f6b721491d6cf157da7e61e7ca8e341ab16d831f2b831dfc804",
+      "svg_sha256": "65aa227e4d431804855bf87e9cb7f76e9fa7a431e9963a8dd81fb5cf691200fc"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-2",
+      "title": "SDK 子进程与 Session 创建时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "resolveDshLaunch",
+          "profile、patches、processCwd"
+        ],
+        [
+          "initialize",
+          "服务器握手与工作区"
+        ],
+        [
+          "Server session record",
+          "agents.create 与 handle"
+        ],
+        [
+          "prompt receipt",
+          "messageId 返回调用方"
+        ]
+      ],
+      "note": "同一 id 不自动恢复持久历史",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-2.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-2.svg",
+      "png_sha256": "fb5545aaaeb6c8a1a3f8a94b3f907b8c02169acdc9d623d12fbb2f4ceaf79de8",
+      "svg_sha256": "d665c405e7efc5aa0d91b477def47ce43492af62921f55485d1247bbae68dfaf"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-3",
+      "title": "接纳、审批、事件和完成语义图",
+      "kind": "map",
+      "nodes": [
+        [
+          "accepted identity",
+          "队列接纳的 messageId"
+        ],
+        [
+          "inbox receipt",
+          "本次 run 开始收集"
+        ],
+        [
+          "events / approval",
+          "按入口契约适配"
+        ],
+        [
+          "idle / result",
+          "结束观察并解释 reason"
+        ]
+      ],
+      "note": "不同消息表达不同完成层次",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-3.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-3.svg",
+      "png_sha256": "4aca213b70b687b97fc8b4d21a18ed3b47b1cdccd43b7c592d200b4efd3e0dc3",
+      "svg_sha256": "8703c680b9da9fef75a222e5b2b975cee1a0f6433cbbfa62eab30f84423c4485"
+    },
+    {
+      "stem": "22-sdk-acp-web-integration-fig-4",
+      "title": "取消与关闭的所有权图",
+      "kind": "map",
+      "nodes": [
+        [
+          "request timeout",
+          "放弃等待；业务可能仍运行"
+        ],
+        [
+          "subscription.close",
+          "停止本次事件观察"
+        ],
+        [
+          "server.shutdown",
+          "等待 owned Agent 退出"
+        ],
+        [
+          "client.close",
+          "确认 runtime process 退出"
+        ]
+      ],
+      "note": "关闭责任沿资源层次落实",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/22-sdk-acp-web-integration-fig-4.png",
+      "svg": "articles/assets/22-sdk-acp-web-integration-fig-4.svg",
+      "png_sha256": "4550197a56f0e0c4e7dcc1b14313b06d1349e3488af0ee4fab6161395bdb01cf",
+      "svg_sha256": "0c3451549308adba31104447bfd54e1487fa10d19a50280bfe93ea4bc71182ae"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-1",
+      "title": "连接、工具、resources 与 instructions 地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "connection supervisor",
+          "transport 与 generation"
+        ],
+        [
+          "ToolRuntime bridge",
+          "tools/list → ToolDefinition"
+        ],
+        [
+          "mcpResources",
+          "独立 list/read 请求"
+        ],
+        [
+          "systemPrompt",
+          "server literal instructions"
+        ]
+      ],
+      "note": "连接与三类能力由不同消费者观察",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-1.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-1.svg",
+      "png_sha256": "89b3051022cbb8427f2739ae609c79862dc4e6d65a738a7dad7ef07603b7e1a7",
+      "svg_sha256": "ea4f2d5edbdfe8bb32ba7f08624ffe315b651d06939199cfa36e981a3d89e9a2"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-2",
+      "title": "初始连接与能力注册时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "apply",
+          "policy 与 namespace reservation"
+        ],
+        [
+          "connectGeneration",
+          "协商与 instructions"
+        ],
+        [
+          "enqueueSync",
+          "初始工具发现"
+        ],
+        [
+          "ready",
+          "按 failOnStartupError 决定激活"
+        ]
+      ],
+      "note": "ready 等待连接与初始同步",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-2.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-2.svg",
+      "png_sha256": "13e9a28811917f82ad9bb7bdd8e0b3ab010b637635f5ea11de678a9a3d4853de",
+      "svg_sha256": "9275dd896c032d5401871472aa81547c6ed5616fa51756c4fc60106cf800d0ae"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-3",
+      "title": "本地到远端调用及取消图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "ToolRuntime",
+          "已注册 definition 与 execution.signal"
+        ],
+        [
+          "definition.execute",
+          "规整 arguments 并调用 bridge"
+        ],
+        [
+          "client.callTool",
+          "rawName · arguments · timeout"
+        ],
+        [
+          "result validation",
+          "content / structuredContent；isError 抛错"
+        ]
+      ],
+      "note": "取消请求不等于撤销远端业务效果",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-3.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-3.svg",
+      "png_sha256": "d5e7f9b81f510617eb6e8d1bb5c118f7ecdb780996573102507c9f3d946758a8",
+      "svg_sha256": "cac61c4856e438688b2f4abb23c059cecb3f37e8152204627a4ff346c5405a3d"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-4",
+      "title": "connection generation 与撤销图",
+      "kind": "map",
+      "nodes": [
+        [
+          "connection lost",
+          "旧工具可能保留但调用失败"
+        ],
+        [
+          "reconnect budget",
+          "有限 backoff 与重新发现"
+        ],
+        [
+          "closure unconfirmed",
+          "停止重试避免双进程"
+        ],
+        [
+          "dispose",
+          "关代际资格并等待同步退出"
+        ]
+      ],
+      "note": "重连不重做远端业务效果",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-4.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-4.svg",
+      "png_sha256": "e476d436b16f1b832b32c9216e5f961c479eec4b16296e2b9edea37fdb3fc1e7",
+      "svg_sha256": "70a2b455f030a45d681321ad282ae3c7f0788dc0ff0c456df6ae92e24bbf15f6"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-1",
+      "title": "presentation→program→tools 整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "presentation",
+          "native / ptc / both"
+        ],
+        [
+          "run_code bridge",
+          "Agent-visible tools 与调度"
+        ],
+        [
+          "PtcRuntime",
+          "通用 program + bindings seam"
+        ],
+        [
+          "Node process",
+          "confine、IPC、budget、cleanup"
+        ]
+      ],
+      "note": "通用 runtime 不直接决定业务工具权限",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-1.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-1.svg",
+      "png_sha256": "70d6d0b516d22f167065ada84afa5f504f7c4e351431c00029055ef50f016831",
+      "svg_sha256": "19343d2473b7cab7117df4d40f050294c2000e2c835fbc93560367980cc4a010"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-2",
+      "title": "bindings 与请求数据结构图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "run_code",
+          "生成 tools binding functions"
+        ],
+        [
+          "resolve / run",
+          "校验执行规格与声明"
+        ],
+        [
+          "child program",
+          "发送 declared binding call"
+        ],
+        [
+          "Host ToolRuntime",
+          "guard → body → settle"
+        ]
+      ],
+      "note": "内部工具调用回到受控 runtime",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-2.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-2.svg",
+      "png_sha256": "cc1ea5f3f17ade8528f5d17efd731350bb02264b23bd906c973dd05b7605d930",
+      "svg_sha256": "f0566a6cb2bf3f2cb07fdb5c3afdb3bafc0d7dc56f75aec702f6835c7c577a2a"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-3",
+      "title": "程序进程和内部工具调用图",
+      "kind": "map",
+      "nodes": [
+        [
+          "binding namespace",
+          "global、functions、errorClass"
+        ],
+        [
+          "ProgramBootData",
+          "代码与成员名字，不传 Host 函数"
+        ],
+        [
+          "control call",
+          "递增 id 与 lossless JSON args"
+        ],
+        [
+          "reply",
+          "value 或 typed rejection"
+        ]
+      ],
+      "note": "跨进程契约限制可请求的能力",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-3.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-3.svg",
+      "png_sha256": "7c704e8c765b09cf64c3f02b9866c14f7e2d4c0676feed9ed195b62a024c762c",
+      "svg_sha256": "126d8eb5e46a7157f019dea6de154b0239e9432c5fe1edb92acceff3a3a922b4"
+    },
+    {
+      "stem": "24-ptc-program-execution-fig-4",
+      "title": "错误归属、取消与清理图",
+      "kind": "map",
+      "nodes": [
+        [
+          "program failure",
+          "输出限制或错误结果"
+        ],
+        [
+          "abort / deadline",
+          "停止 managed process"
+        ],
+        [
+          "bridge settlement",
+          "等待在途 Host subcalls"
+        ],
+        [
+          "runtime dispose",
+          "abort live 并等待 finished"
+        ]
+      ],
+      "note": "程序停止与外部效果确认分别完成",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/24-ptc-program-execution-fig-4.png",
+      "svg": "articles/assets/24-ptc-program-execution-fig-4.svg",
+      "png_sha256": "1d3f486640d9a5136ba62e05e1a5d9859b34bfbe0bef3e3a64dbfb41b01dd7c8",
+      "svg_sha256": "b477537b4bd7764913bcc2837c732bcb8821dddc602a3a7764ce3d29ee4a644d"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-1",
+      "title": "三种机制的职责地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Workflow",
+          "脚本与 Agent 数据依赖"
+        ],
+        [
+          "Schedule",
+          "持久 task 与提醒投递"
+        ],
+        [
+          "Hooks",
+          "既定扩展点的决策"
+        ],
+        [
+          "企业业务组合",
+          "通过明确调用另行连接"
+        ]
+      ],
+      "note": "三条独立入口，不是内置统一流水线",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-1.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-1.svg",
+      "png_sha256": "450807c4c0323766f534def70d5955621b8d128e6c3eddd8b8578e2a3b71bf56",
+      "svg_sha256": "40a03ad8a9437636e4bcc56da8835fc56bbd3b08999bd45d930f683ec6c80d92"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-2",
+      "title": "Workflow run 与子任务寿命图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Workflow.start",
+          "同步 meta / parse 检查"
+        ],
+        [
+          "PtcWorkflowRun",
+          "构造 guest 与 bindings"
+        ],
+        [
+          "host.startChild",
+          "SubagentRun 与 callId"
+        ],
+        [
+          "result / dispose",
+          "脚本和 children 收敛"
+        ]
+      ],
+      "note": "返回 run 后终态通过 stopReason 表达",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-2.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-2.svg",
+      "png_sha256": "545469423176703fc445629e99ac333de3e1505d2a6c8a115a2e49ead624e22d",
+      "svg_sha256": "123bea5fbd6d6d4192368ec0b5f0c42be088df6ed3c314be5a4f9dc49e68740e"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-3",
+      "title": "Schedule 提醒投递与持久提交图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "stored task",
+          "sessionId、record、history"
+        ],
+        [
+          "timer drive",
+          "恢复目标 Session 并 followup"
+        ],
+        [
+          "sessions.flush",
+          "确认 durable inbox receipt"
+        ],
+        [
+          "task commit",
+          "更新 status 与下一次时刻"
+        ]
+      ],
+      "note": "投递完成与业务完成分别确认",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-3.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-3.svg",
+      "png_sha256": "22aa36f39ad5e2da857eaec7794608c8eaa272f8bda8cdcaea2f57ac57fc4668",
+      "svg_sha256": "d4a857c07a8e9ddd7a03682a7c185f692cf8ed7b1f461c3bd9b0ceedfe273a72"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-4",
+      "title": "失败、持久性和恢复边界对照图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Workflow cancel",
+          "等待 pending starts 与 children"
+        ],
+        [
+          "Schedule failure",
+          "区分 receipt 与 task commit"
+        ],
+        [
+          "Hook pre-execute",
+          "body 前决策"
+        ],
+        [
+          "Hook post-execute",
+          "解释结果；不撤销外部效果"
+        ]
+      ],
+      "note": "每条入口有自己的退出与恢复边界",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-4.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-4.svg",
+      "png_sha256": "3455e6b20269c7f2898cbaa4cd72b9a0b66656bd025993a437f9e93209f3a85f",
+      "svg_sha256": "ba7b3ba91cdd16e6ba5dfcc82f8cab6fe0d2319d10a80632a91551d141171f37"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-1",
+      "title": "任务→企业资源→交付整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "business tool",
+          "授权后的结构化资料"
+        ],
+        [
+          "FileSystem",
+          "opaque target 与 processPath"
+        ],
+        [
+          "Subprocess / Shell",
+          "同一 execution world 的进程"
+        ],
+        [
+          "SSH helper",
+          "digest、lease 与 private protocol"
+        ]
+      ],
+      "note": "业务资源授权与 OS 能力分别建立",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-1.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-1.svg",
+      "png_sha256": "182f78c93c42cf61bfe28bad9e1fd987ba07060b86f3bc61a0beb59b3aba76fb",
+      "svg_sha256": "7ed8cb60818407c48f1ec827fdf0460bc525be3cd66c4275348b280ad8c48dba"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-2",
+      "title": "既有 provider 与新增 connector 边界图",
+      "kind": "map",
+      "nodes": [
+        [
+          "FileSystem",
+          "opaque target 与 processPath"
+        ],
+        [
+          "Subprocess / Shell",
+          "同一 execution world 与退出观察"
+        ],
+        [
+          "SSH provider",
+          "部署配置、helper digest 与 lease"
+        ],
+        [
+          "business connector",
+          "可信 Subject、授权查询与结构化结果"
+        ]
+      ],
+      "note": "模型参数不选择 SSH 身份或 helper",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-2.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-2.svg",
+      "png_sha256": "4e2a8f3e4b7b67a8b5841d1a88f69b5702c8585d1f2c83cc49988b85c8437a54",
+      "svg_sha256": "6005c16f2a04aff0399a58710d6a31f22cab4cd35fb09d4993c76f16fc7a5e4c"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-3",
+      "title": "数据读取、授权复核与业务回执对照",
+      "kind": "map",
+      "nodes": [
+        [
+          "Subject / TaskSpec",
+          "可信控制面的主体与资源"
+        ],
+        [
+          "readTicket",
+          "tenant filter 与 version"
+        ],
+        [
+          "ToolExecution result",
+          "await 后重新授权"
+        ],
+        [
+          "business receipt",
+          "独立于模型回答的效果事实"
+        ]
+      ],
+      "note": "读取结果与控制面提交具有不同消费边界",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-3.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-3.svg",
+      "png_sha256": "8d923f2284b832abd954f0169205f10e5f027386179ce90c4693c664b241ea75",
+      "svg_sha256": "e9b10b438fc2c065ff057f9b6c1e46c5f5a8da75246cc32ea7dd021af8819bc0"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-4",
+      "title": "断线、未知结果、恢复与幂等图",
+      "kind": "map",
+      "nodes": [
+        [
+          "abort / timeout",
+          "停止等待或执行；效果需确认"
+        ],
+        [
+          "SSH disconnect",
+          "remote outcome / cleanup unknown"
+        ],
+        [
+          "idempotent operation",
+          "inputHash + operationId"
+        ],
+        [
+          "reconciliation",
+          "查询 receipt 后决定下一步"
+        ]
+      ],
+      "note": "未知写入不自动重放",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-4.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-4.svg",
+      "png_sha256": "7541b450ab0d44edcbf75e316cf8e3db18ff6b0ab242c092dd150e3af8b89e34",
+      "svg_sha256": "32a8d904baa192ade373ebc6b73011307ff0a831a0837fe44329dcdddf2cb5cc"
+    },
+    {
+      "stem": "27-identity-credentials-tenancy-fig-1",
+      "title": "主体→Agent→Session→资源关系图",
+      "kind": "map",
+      "nodes": [
+        [
+          "API trust fence",
+          "Host / Origin 与 browser markers"
+        ],
+        [
+          "Gateway invocation",
+          "peer、signal、Context"
+        ],
+        [
+          "企业 identity plane",
+          "SSO 后 Subject 与 TaskSpec"
+        ],
+        [
+          "resource authorization",
+          "tenant、resource、revision"
+        ]
+      ],
+      "note": "前三者各有职责；API trust 本身不是认证",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/27-identity-credentials-tenancy-fig-1.png",
+      "svg": "articles/assets/27-identity-credentials-tenancy-fig-1.svg",
+      "png_sha256": "0a13951eb9b7a5916d9aac5432327992f1df700a98288546e815b292569cb2a9",
+      "svg_sha256": "b7b54a3af49d289e319362232b0a11c60893981cdde51640aabd3e64f47e2033"
+    },
+    {
+      "stem": "27-identity-credentials-tenancy-fig-2",
+      "title": "CredentialRef、CredentialKey 与凭据存储对照",
+      "kind": "map",
+      "nodes": [
+        [
+          "CredentialRef",
+          "每次操作 resolve 的 secret 引用"
+        ],
+        [
+          "CredentialKey",
+          "插件管理的凭据记录 key"
+        ],
+        [
+          "managed store",
+          "锁内读写与轮换"
+        ],
+        [
+          "enterprise namespace",
+          "vault 与 tenant 映射另行实现"
+        ]
+      ],
+      "note": "credential key 不自动成为 tenant 边界",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 3,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/27-identity-credentials-tenancy-fig-2.png",
+      "svg": "articles/assets/27-identity-credentials-tenancy-fig-2.svg",
+      "png_sha256": "de53f7ffaf9b9d55b2b43c81cdee81bf0f5e149e9fadcca75b5f1c3996dde258",
+      "svg_sha256": "a22aaf7b6826242f59a1cec10182cfc562639af2658d83bebaf3ced87b6c0af5"
+    },
+    {
+      "stem": "27-identity-credentials-tenancy-fig-3",
+      "title": "可信任务装配与执行检查时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "trusted provisioning",
+          "authorize Subject 与 task"
+        ],
+        [
+          "Agent setup",
+          "bind object identity 与 policy"
+        ],
+        [
+          "commit check",
+          "重查当前 grant"
+        ],
+        [
+          "resource execution",
+          "当前 identity + tenant 条件"
+        ]
+      ],
+      "note": "每个实际资源操作仍需授权检查",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/27-identity-credentials-tenancy-fig-3.png",
+      "svg": "articles/assets/27-identity-credentials-tenancy-fig-3.svg",
+      "png_sha256": "9625ac1f53697683120115ead52f7871887395ce333aa37a85aeb1ec991fa4f7",
+      "svg_sha256": "629f3e80f2fa9fc9a4f3dff270fae23cc2fe260012e6431741ef6c92dfa3673c"
+    },
+    {
+      "stem": "27-identity-credentials-tenancy-fig-4",
+      "title": "恢复、子任务和撤权后的授权图",
+      "kind": "map",
+      "nodes": [
+        [
+          "revoke / expiry",
+          "assertCurrent 拒绝旧 grant"
+        ],
+        [
+          "stale Agent",
+          "live registry identity 必须相同"
+        ],
+        [
+          "late backend data",
+          "await 后再次检查"
+        ],
+        [
+          "Context dispose",
+          "清 binding、timer 与执行"
+        ]
+      ],
+      "note": "取消信号和授权复核相互补充",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/27-identity-credentials-tenancy-fig-4.png",
+      "svg": "articles/assets/27-identity-credentials-tenancy-fig-4.svg",
+      "png_sha256": "638b76107213517ebbd10c8c5c9d79dc63edded107972266aca8b90b5cdad24a",
+      "svg_sha256": "9055a93519d27cddb063e96f56111e8ae85123ed6a1d1cf16c41fe05e41ecf75"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-1",
+      "title": "源码→构建→发行产物地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "source + types",
+          "固定 SHA 与 compiler faces"
+        ],
+        [
+          "Host / Typert",
+          "lib 与 generated contracts"
+        ],
+        [
+          "Client / native",
+          "browser bundles 与平台产物"
+        ],
+        [
+          "distribution",
+          "exports、files、profile、lockfile"
+        ]
+      ],
+      "note": "构建成功和安装可运行分别证明",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-1.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-1.svg",
+      "png_sha256": "aff37c7d58915874ae5a7ed1b90229ed27810c0a581270bb69a022b85b91c1ff",
+      "svg_sha256": "fba1c72e0a4ea1fb7b7a59f7ccb3edbcc80b8bed42c292bef6fa4785854f3d7f"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-2",
+      "title": "Host/Typert/Client 构建依赖图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "build:native-system",
+          "准备平台依赖"
+        ],
+        [
+          "build:lib:host",
+          "tsc → tsdown + Typert → Desktop"
+        ],
+        [
+          "build:lib:client",
+          "Client types 与 package bundles"
+        ],
+        [
+          "build:web + record",
+          "Vite artifact 与 digest"
+        ]
+      ],
+      "note": "Host 产物先于 Client 消费",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-2.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-2.svg",
+      "png_sha256": "6223a26685fb32d8b2585afe25e892994d36510a670d18651d98c1ee36f92dfe",
+      "svg_sha256": "945d68915f01db73a1d86defc0cd75e27a2f64283b202a44c27c917088d7ed03"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-3",
+      "title": "Web/Desktop/SDK 产物与入口图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Web",
+          "静态资源 + Host bundle route"
+        ],
+        [
+          "Desktop",
+          "Electron / Host / native artifacts"
+        ],
+        [
+          "SDK",
+          "同版本 dsh executable 与 profile"
+        ],
+        [
+          "SSH",
+          "helper / bootstrap digest 配对"
+        ]
+      ],
+      "note": "载体产物和运行前置不同",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-3.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-3.svg",
+      "png_sha256": "aa52c2c8799b7670874d8bcfbb722609acea9edf0e6a569a275a6cc4381cb07d",
+      "svg_sha256": "7ddfa8f80965016dfa1fdf17824bfdedc376bd55c6a9a6f4295bfb366ba0d890"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-4",
+      "title": "安装、升级、退出与失败验证矩阵图",
+      "kind": "map",
+      "nodes": [
+        [
+          "source contracts",
+          "类型与源码 fixtures"
+        ],
+        [
+          "packed consumer",
+          "tarball 清单与实际 imports"
+        ],
+        [
+          "upgrade / resume",
+          "旧配置、历史与锁定版本"
+        ],
+        [
+          "target platform",
+          "启动、能力、退出与资源"
+        ]
+      ],
+      "note": "每项验证按实际范围记录",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-4.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-4.svg",
+      "png_sha256": "b6660f44d63258705c490788948268caab2214de2cf9457b32475577d5804925",
+      "svg_sha256": "6d01c8e49e270aa2496fec8061d127072040bdee963fd90b2b352d3e92018296"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+
+ RUN  v4.1.8 /Users/zz/prj/dsh_research/.sources/deepseek-harness
+
+test: warning: 2 entries did not activate
+first (cordis:probe): ValidationError: invalid config:
+  - $.required missing required value (at required)
+    at resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:58:11)
+    at Fiber._resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:643:27)
+    at Fiber._reload (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:655:28)
+second (cordis:probe): ValidationError: invalid config:
+  - $.required missing required value (at required)
+    at resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:58:11)
+    at Fiber._resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:643:27)
+    at Fiber._reload (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:655:28)
+test: warning: 1 entry did not activate
+second (cordis:probe): ValidationError: invalid config:
+  - $.required missing required value (at required)
+    at resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:58:11)
+    at Fiber._resolveConfig (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:643:27)
+    at Fiber._reload (/Users/zz/prj/dsh_research/.sources/deepseek-harness/vendor/cordis/src/fiber.ts:655:28)
+(node:73010) Warning: Closing file descriptor 13 on garbage collection
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73010) [DEP0137] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated. Please close FileHandle objects explicitly using FileHandle.prototype.close(). In the future, an error will be thrown if a file descriptor is closed during garbage collection.
+
+ Test Files  11 passed (11)
+      Tests  372 passed (372)
+   Start at  18:35:33
+   Duration  7.32s (transform 4.23s, setup 365ms, import 6.00s, tests 15.68s, environment 1ms)

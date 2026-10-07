@@ -1,0 +1,1 @@
+First revision pass stopped with AssertionError: (25, 3) while relocating a figure already moved by section reorganization. Existing content remained available. The finish pass located figures by their actual chapter and completed metadata synchronization. No original source excerpt was removed.

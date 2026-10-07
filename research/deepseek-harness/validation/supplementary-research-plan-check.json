@@ -1,0 +1,41 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "modules": 6,
+  "planned_topics": 12,
+  "unique_source_entry_paths_checked": 42,
+  "prerequisite_graph_acyclic": true,
+  "protected_article_and_asset_files": 156,
+  "planning_status": "planned",
+  "behavior_tests_run": false,
+  "checks": "topic/module mapping, complete planned fields, Markdown/JSON agreement, topic anchors, prerequisite graph, fixed-commit source path existence, byte hashes of existing articles/assets",
+  "authoring_attempts": [
+    {
+      "command": "Python authoring script via stdin",
+      "exit_code": 1,
+      "log": ".sources/supplementary-plan-work/authoring-01-failure.log",
+      "reason": "planned ui-slots src/client/index.ts absent; corrected to src/index.ts before writing plan outputs"
+    },
+    {
+      "command": ".sources/article-skill-work/venv/bin/python .sources/supplementary-plan-work/write-plan.py",
+      "exit_code": 0,
+      "log": ".sources/supplementary-plan-work/authoring-02.log"
+    }
+  ],
+  "limitations": [
+    "Research plan only; acceptance items and examples are not executed results.",
+    "Source path existence does not certify implementation semantics."
+  ],
+  "failures": [],
+  "ok": true,
+  "additional_commands": [
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": ".sources/supplementary-plan-work/artifact-check.log"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ]
+}

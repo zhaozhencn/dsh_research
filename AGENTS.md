@@ -10,6 +10,7 @@ This repository contains Chinese, source-backed DeepSeek Harness research and ru
 - `examples/`: TypeScript plugins, package manifests, configuration patches, and compiled `lib/` artifacts.
 - `validation/` and `appendices/`: tests, verification scripts, logs, source evidence, and baseline metadata.
 - `skills/harness-research-sync/`: reusable research workflow and Python tooling.
+- `skills/source-code-article-refiner/`: maintained article-refinement skill; `.agents/skills/source-code-article-refiner` links here for repository-scoped discovery. Edit the maintained directory to update the skill.
 - `.sources/`: ignored upstream checkouts and local environments; never commit this directory.
 
 ## Build, Test, and Development Commands

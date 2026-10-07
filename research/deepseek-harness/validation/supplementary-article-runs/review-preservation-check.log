@@ -1,0 +1,113 @@
+{
+  "ok": true,
+  "articles": [
+    {
+      "article": "articles/17-agent-creation-composition.md",
+      "before_sha256": "21761f58be7ee3d43f45ac245850e30961e194a90b114a2150fbe6ac453ba480",
+      "current_sha256": "5a3317d6a06d62563565de735a8eb1b3552d7c2485ce6b987e617833546c95aa",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 15,
+      "current_code_blocks": 16
+    },
+    {
+      "article": "articles/18-skill-instruction-loading.md",
+      "before_sha256": "83ada55f42c3f6a7f68cdec011e5be286a53b25caae7c90836553d2c2295e3eb",
+      "current_sha256": "836b1ae06ff97f8cfbf461c6f3e379afec4f0e4e24c9a3753c58139ca2f33838",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 14,
+      "current_code_blocks": 14
+    },
+    {
+      "article": "articles/19-settings-config-writeback.md",
+      "before_sha256": "5003f687b6f623390ce864fcf5dfeed84cd50c2981da33957d2deb02d1842269",
+      "current_sha256": "10552eb74d9bfbffa5b334caaeb47b80cc6cc2a6082e60dbc3dd75b4ef50726c",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 11,
+      "current_code_blocks": 11
+    },
+    {
+      "article": "articles/20-plugin-package-management.md",
+      "before_sha256": "b14ace517c36408ac8be15d2696b2373f8ccb1e02751a4df2a02162c9ce03e0e",
+      "current_sha256": "b14ace517c36408ac8be15d2696b2373f8ccb1e02751a4df2a02162c9ce03e0e",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 13,
+      "current_code_blocks": 13
+    },
+    {
+      "article": "articles/21-fullstack-plugin-development.md",
+      "before_sha256": "5ebc283db65cd6b1ce2c196f7a667291690f1a2b4f9ccd9c1817782eba63ea67",
+      "current_sha256": "8e3efa3d1df3b0dea741a6e869e9d19193656a04aba007962e36e07baf246c68",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 12,
+      "current_code_blocks": 14
+    },
+    {
+      "article": "articles/22-sdk-acp-web-integration.md",
+      "before_sha256": "102dcef5c589cbcf2de9f38819c705d9ca85300fffd49844fbb51e35a5e2d914",
+      "current_sha256": "d0442cef5d16203230ed2eec5c9cb8ac63b542c34362cae16559d8ebc5adef59",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 14,
+      "current_code_blocks": 14
+    },
+    {
+      "article": "articles/23-mcp-connection-lifecycle.md",
+      "before_sha256": "b19dda1bb6c535ee64f8fb990a4efba9baab8c8ba442ac1cc11184dea884bf9b",
+      "current_sha256": "bbb8c19c37c6f7f64c6370da8d4f13baa704bf2e46eec7a93211ed4217f1af41",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 15,
+      "current_code_blocks": 15
+    },
+    {
+      "article": "articles/24-ptc-program-execution.md",
+      "before_sha256": "41a1ad8b00e0474868e998216de46b10723a3d59f4e96ed1c0e03870015a0eca",
+      "current_sha256": "199545aeb906aeed065210570f2f5bae39b8ec9fdd6e9fafef7aa2b7217c4fdb",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 14,
+      "current_code_blocks": 14
+    },
+    {
+      "article": "articles/25-workflow-schedule-hooks.md",
+      "before_sha256": "5f71f6c15ea78cb9cfd1a6e52ecdee1d8e260f6a7e55ca0909e1659ebce33de9",
+      "current_sha256": "0d7d24084bc3a5eb0af1c1a6ba034a4f5da5506059f64495cfd3e107f3f8a486",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 15,
+      "current_code_blocks": 15
+    },
+    {
+      "article": "articles/26-enterprise-data-remote-execution.md",
+      "before_sha256": "a439c1a7296967c6768f76cc3ffec0131ca1e6711b15080fb7f90b928c0be5d7",
+      "current_sha256": "07246192c89c6adbb1529ca3c116b28dab79f92e69fb9c67e4051b7efee7bd68",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 14,
+      "current_code_blocks": 14
+    },
+    {
+      "article": "articles/27-identity-credentials-tenancy.md",
+      "before_sha256": "7c20447ce8acc8b7fc18d1ad1293ff50110f95f9eb9b5ac91a7ff1c93b278172",
+      "current_sha256": "4b907e03da0c5f82e4b70c63fb42f36805503544bf1d3cc87d1846232e410e6c",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 13,
+      "current_code_blocks": 13
+    },
+    {
+      "article": "articles/28-build-package-distribution.md",
+      "before_sha256": "1bdbce3190fbdecf7cdf7e4c2378e9ad57b0e2f98994ff6f0c0cb725345b13e0",
+      "current_sha256": "6d12bb3ab87104902aed33f4c802287b2e309565e17d7e6087446b7a25e0fa67",
+      "original_headings_preserved": true,
+      "original_code_blocks_preserved": true,
+      "before_code_blocks": 13,
+      "current_code_blocks": 13
+    }
+  ]
+}

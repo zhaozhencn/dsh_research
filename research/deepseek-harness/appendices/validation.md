@@ -255,3 +255,7 @@ git diff --check
 本次同步文章及图像文件名、篇次标识、篇间导航、当前目录与清单；历史摘录ID、结构基线、复核JSON和日志保留原编号。全部364段原文摘录及主体标题与编辑前一致，64组PNG／SVG仅更新对应篇次，图示机制定义保留。绘图入口按原关注点选取机制，材料检查按显式对应关系核验，避免将阅读顺序误认为原报告编号。
 
 专栏检查与完整材料检查退出0，结果分别见[专栏日志](../validation/article-reorder-column.log)、[材料日志](../validation/article-reorder-artifacts.log)和[调整记录](../validation/article-reorder-review.json)。查看了新顺序的16图总览。本次未新增或重跑类型、构建及runtime行为测试，没有切换上游SHA，也没有执行外部发布。
+
+## 补充专栏17—28的独立验证记录
+
+本批新增12篇文章及48组PNG/SVG插图。源码引用、保护范围和相关测试独立记录，原有统计继续作为历史证据保留；本批结果不与历史用例累加。见[本批验证记录](../validation/supplementary-articles-validation.md)、[源码与资产检查](../validation/supplementary-articles-check.json)及[运行命令与退出码](../validation/supplementary-runtime-runs.json)。

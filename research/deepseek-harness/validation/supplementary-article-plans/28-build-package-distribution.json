@@ -1,0 +1,408 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/28-build-package-distribution.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "企业扩展在源码 checkout 中运行，只证明了一种开发环境。真正交付还要确认 Host/Client 产物、Remote 生成契约、package exports、native dependencies 和 profile 在目标环境相互匹配。本文沿根构建脚本逐步追到发行文件，再解释干净目录消费、版本升级和本批实际执行的验证范围。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "package.json",
+      "tsdown.config.ts",
+      "scripts/build.ts",
+      "apps/cli/package.json",
+      "scripts/publish-npm-baseline.ts",
+      "scripts/client-build-environment.ts",
+      "packages/sdk/client/src/launch.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：根 package.json 指定完整 build，以及顺序执行的 Host/Client lib 阶段。",
+        "interpretation": "build:lib 先 host 后 client；host tsc -b 产生 JS/types，tsdown Host pass 运行 Typert，随后 Desktop bundle 消费已生成 lib；client tsc 与 package-local bundle 才接着进行。Context merges 的两个 compiler faces 应保持隔离，不能把整个 monorepo 塞到一个 TypeScript Program。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：tsdown 根据 DSH_BUILD_FACE 选择 workspace 与 entry，并仅在 Host pass 挂 typertPlugin。",
+        "interpretation": "Client pass 的 entry 为空，由声明 browser bundle 的 package-local config 生产 Node loader 与 Client artifact。build 调度不能推定每个 workspace 包内构建有自动依赖排序；配置特意把 Desktop bundling 放在 Host lib 完成之后。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S03",
+        "handoff": "步骤3：build.ts 校验 Node TypeScript stripping、解析公共 Client 环境，移除旧 build record，再按 native → lib → web 推进。",
+        "interpretation": "runScript 对任何非零退出抛错，只有全链成功才 writeClientBuildRecord。旧 record 先删除避免一次失败构建沿用上次成功凭证。完整 build 与 typecheck 的工作量不同，实际命令需要从脚本读取，而不是凭名称判断。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：CLI package 的 bin 与 files 明确运行入口 lib/bin.js 和公开文件范围。",
+        "interpretation": "workspace source files 不能补救 tarball 缺失的入口。新增企业包同样要检查 exports/types/files，声明所有实际 runtime imports 为依赖或适当 peer；仅放 devDependencies 会让 monorepo 可用而独立安装失败。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤5：上游 baseline 发布工具先发现完整包集合，校验名称和版本关系。",
+        "interpretation": "此脚本要求 stable X.Y.Z，而本文基线是0.2.1-alpha.1；不能直接提供一条命令声称它可发布当前 checkout。其设计值得参考：统一 baseline、拒绝重复 names、明确 vendor origin。企业要制定自己的版本与 registry 规则，不直接篡改上游 package namespace。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S06",
+        "handoff": "步骤6：stage 在隔离 release 场景统一 version，并改写内部 dependencies，移除 private。",
+        "interpretation": "这是发行准备操作，不是本篇执行行为。私有业务扩展可继续保留 private 防误发布；本地 npm pack 与公网 publish 是不同动作。20篇管理 bundle 的 version compatibility 还需在运行安装阶段重新检查。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤7：Web/Client 公共 build metadata 从 repository version、commit 和 dirty state 产生。",
+        "interpretation": "DSH_CLIENT_ 前缀的值会被编译进 browser artifact，必须只存公开信息。Git SHA 用于定位源码，version 用于包契约，两者共同有价值，但不替代产物 digest。企业 brand/build profile 可使用公开字段，secret 必须留在 credentials provider。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤8：clientBuildEnvironmentDefines 对确定名称做静态替换，动态 process.env 观察为空对象。",
+        "interpretation": "这减少无意把完整环境嵌入浏览器的风险。品牌配置只替换一半 Client bundles 会造成不一致；完整根构建向 Vite 与 dynamic Client packages 提供同一 environment。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S09",
+        "handoff": "步骤9：SDK 发行消费者要求同版本 dsh，并从 manifests 定位 built executable；源码 fallback 是另一套明确前置。",
+        "interpretation": "SDK npm consumer、Web 静态资源、Desktop 主进程/Electron 与 SSH helper 是不同运行入口。Desktop 有平台 native 依赖，Web 需要 Host bundle route，SDK 拥有进程，SSH 需要部署配对的 helper digest，不能互相复制一个 dist 目录就视为等价。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S10",
+        "handoff": "步骤10：完整 Client build 成功后记录 environment 与 artifact digest。",
+        "interpretation": "record 的 fileCount/hash 来自本次实际 Client files，不是“package.json 已更新”的替代证明。CI 应把 record、文件清单、source SHA、toolchain 与测试范围一起保留。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S11",
+        "handoff": "步骤11：consumer 读取 record 后重新计算 digest，若当前文件与记录不同则要求重新完整构建。",
+        "interpretation": "此检查能发现手工改产物、混合构建与旧资源残留，却不会证明页面业务流程无误。干净目录验收还要 import exports、加载 Client graph、创建任务、退出并观察资源；本篇实际只对已有 enterprise 包的部分产物做本地 pack/ledger smoke，未宣布完整应用已安装验收。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S12",
+        "handoff": "步骤12：升级/回归准备必须区分 public typecheck、contracts-ready 与 native test 前置。",
+        "interpretation": "public typecheck 先构建 Host lib/Remote contracts，internal contracts-ready 假定已准备。源码 Vitest 通过不能证明 native ABI、旧 Session schema 或不同平台可用。企业升级前应排空 owned Agent/子进程，保留旧 profile/lockfile 与应用数据，再在隔离目录核对新产物和真实恢复。"
+      }
+    ],
+    "branches": [
+      [
+        "package.json",
+        49,
+        58,
+        "步骤12：升级/回归准备必须区分 public typecheck、contracts-ready 与 native test 前置。",
+        "public typecheck 先构建 Host lib/Remote contracts，internal contracts-ready 假定已准备。源码 Vitest 通过不能证明 native ABI、旧 Session schema 或不同平台可用。企业升级前应排空 owned Agent/子进程，保留旧 profile/lockfile 与应用数据，再在隔离目录核对新产物和真实恢复。"
+      ],
+      "|变化面|最低复核事实|本文实际范围|\n|---|---|---|\n|Remote/schema|Host 生成与 Client consumer 匹配|上游契约/组件测试|\n|业务扩展代码|types、ESM、compiled integration|enterprise 示例已执行|\n|pack files/exports|tarball 清单与独立 consumer|本地 pack 与 ledger smoke|\n|旧 Session/config|恢复、migrate、拒绝策略|相关实现分析，未全量升级验收|\n|Web/Desktop/native|目标平台运行与退出|未构建完整发行产品|"
+    ]
+  },
+  "article_plan": {
+    "opening": "企业扩展在源码 checkout 中运行，只证明了一种开发环境。真正交付还要确认 Host/Client 产物、Remote 生成契约、package exports、native dependencies 和 profile 在目标环境相互匹配。本文沿根构建脚本逐步追到发行文件，再解释干净目录消费、版本升级和本批实际执行的验证范围。",
+    "sections": [
+      "整体地图：哪些产物组成一份可运行发行包",
+      "构建主线：Host、Typert 与 Client 的依赖顺序",
+      "扩展包主线：exports、依赖与打包内容",
+      "应用产物：Web、Desktop 与 SDK 的装配差异",
+      "安装验证：从干净目录和目标产物启动",
+      "升级验证：旧数据、兼容与失败处理",
+      "开发示例与验证：打包并安装教学扩展",
+      "工程心得：发行能力应由安装产物证明"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：根 package.json 指定完整 build，以及顺序执行的 Host/Client lib 阶段。",
+      "interpretation": "build:lib 先 host 后 client；host tsc -b 产生 JS/types，tsdown Host pass 运行 Typert，随后 Desktop bundle 消费已生成 lib；client tsc 与 package-local bundle 才接着进行。Context merges 的两个 compiler faces 应保持隔离，不能把整个 monorepo 塞到一个 TypeScript Program。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：tsdown 根据 DSH_BUILD_FACE 选择 workspace 与 entry，并仅在 Host pass 挂 typertPlugin。",
+      "interpretation": "Client pass 的 entry 为空，由声明 browser bundle 的 package-local config 生产 Node loader 与 Client artifact。build 调度不能推定每个 workspace 包内构建有自动依赖排序；配置特意把 Desktop bundling 放在 Host lib 完成之后。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S03",
+      "handoff": "步骤3：build.ts 校验 Node TypeScript stripping、解析公共 Client 环境，移除旧 build record，再按 native → lib → web 推进。",
+      "interpretation": "runScript 对任何非零退出抛错，只有全链成功才 writeClientBuildRecord。旧 record 先删除避免一次失败构建沿用上次成功凭证。完整 build 与 typecheck 的工作量不同，实际命令需要从脚本读取，而不是凭名称判断。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：CLI package 的 bin 与 files 明确运行入口 lib/bin.js 和公开文件范围。",
+      "interpretation": "workspace source files 不能补救 tarball 缺失的入口。新增企业包同样要检查 exports/types/files，声明所有实际 runtime imports 为依赖或适当 peer；仅放 devDependencies 会让 monorepo 可用而独立安装失败。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤5：上游 baseline 发布工具先发现完整包集合，校验名称和版本关系。",
+      "interpretation": "此脚本要求 stable X.Y.Z，而本文基线是0.2.1-alpha.1；不能直接提供一条命令声称它可发布当前 checkout。其设计值得参考：统一 baseline、拒绝重复 names、明确 vendor origin。企业要制定自己的版本与 registry 规则，不直接篡改上游 package namespace。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S06",
+      "handoff": "步骤6：stage 在隔离 release 场景统一 version，并改写内部 dependencies，移除 private。",
+      "interpretation": "这是发行准备操作，不是本篇执行行为。私有业务扩展可继续保留 private 防误发布；本地 npm pack 与公网 publish 是不同动作。20篇管理 bundle 的 version compatibility 还需在运行安装阶段重新检查。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤7：Web/Client 公共 build metadata 从 repository version、commit 和 dirty state 产生。",
+      "interpretation": "DSH_CLIENT_ 前缀的值会被编译进 browser artifact，必须只存公开信息。Git SHA 用于定位源码，version 用于包契约，两者共同有价值，但不替代产物 digest。企业 brand/build profile 可使用公开字段，secret 必须留在 credentials provider。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤8：clientBuildEnvironmentDefines 对确定名称做静态替换，动态 process.env 观察为空对象。",
+      "interpretation": "这减少无意把完整环境嵌入浏览器的风险。品牌配置只替换一半 Client bundles 会造成不一致；完整根构建向 Vite 与 dynamic Client packages 提供同一 environment。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S09",
+      "handoff": "步骤9：SDK 发行消费者要求同版本 dsh，并从 manifests 定位 built executable；源码 fallback 是另一套明确前置。",
+      "interpretation": "SDK npm consumer、Web 静态资源、Desktop 主进程/Electron 与 SSH helper 是不同运行入口。Desktop 有平台 native 依赖，Web 需要 Host bundle route，SDK 拥有进程，SSH 需要部署配对的 helper digest，不能互相复制一个 dist 目录就视为等价。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S10",
+      "handoff": "步骤10：完整 Client build 成功后记录 environment 与 artifact digest。",
+      "interpretation": "record 的 fileCount/hash 来自本次实际 Client files，不是“package.json 已更新”的替代证明。CI 应把 record、文件清单、source SHA、toolchain 与测试范围一起保留。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S11",
+      "handoff": "步骤11：consumer 读取 record 后重新计算 digest，若当前文件与记录不同则要求重新完整构建。",
+      "interpretation": "此检查能发现手工改产物、混合构建与旧资源残留，却不会证明页面业务流程无误。干净目录验收还要 import exports、加载 Client graph、创建任务、退出并观察资源；本篇实际只对已有 enterprise 包的部分产物做本地 pack/ledger smoke，未宣布完整应用已安装验收。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S12",
+      "handoff": "步骤12：升级/回归准备必须区分 public typecheck、contracts-ready 与 native test 前置。",
+      "interpretation": "public typecheck 先构建 Host lib/Remote contracts，internal contracts-ready 假定已准备。源码 Vitest 通过不能证明 native ABI、旧 Session schema 或不同平台可用。企业升级前应排空 owned Agent/子进程，保留旧 profile/lockfile 与应用数据，再在隔离目录核对新产物和真实恢复。"
+    }
+  ],
+  "data_contracts": [
+    "Host/Client faces 与生成产物",
+    "package exports、依赖及 native 产物",
+    "profile/bundle、安装环境与版本/验证矩阵"
+  ],
+  "figure_plan": [
+    {
+      "stem": "28-build-package-distribution-fig-1",
+      "title": "源码→构建→发行产物地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "source + types",
+          "固定 SHA 与 compiler faces"
+        ],
+        [
+          "Host / Typert",
+          "lib 与 generated contracts"
+        ],
+        [
+          "Client / native",
+          "browser bundles 与平台产物"
+        ],
+        [
+          "distribution",
+          "exports、files、profile、lockfile"
+        ]
+      ],
+      "note": "构建成功和安装可运行分别证明",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-1.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-1.svg",
+      "png_sha256": "aff37c7d58915874ae5a7ed1b90229ed27810c0a581270bb69a022b85b91c1ff",
+      "svg_sha256": "fba1c72e0a4ea1fb7b7a59f7ccb3edbcc80b8bed42c292bef6fa4785854f3d7f"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-2",
+      "title": "Host/Typert/Client 构建依赖图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "build:native-system",
+          "准备平台依赖"
+        ],
+        [
+          "build:lib:host",
+          "tsc → tsdown + Typert → Desktop"
+        ],
+        [
+          "build:lib:client",
+          "Client types 与 package bundles"
+        ],
+        [
+          "build:web + record",
+          "Vite artifact 与 digest"
+        ]
+      ],
+      "note": "Host 产物先于 Client 消费",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-2.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-2.svg",
+      "png_sha256": "6223a26685fb32d8b2585afe25e892994d36510a670d18651d98c1ee36f92dfe",
+      "svg_sha256": "945d68915f01db73a1d86defc0cd75e27a2f64283b202a44c27c917088d7ed03"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-3",
+      "title": "Web/Desktop/SDK 产物与入口图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Web",
+          "静态资源 + Host bundle route"
+        ],
+        [
+          "Desktop",
+          "Electron / Host / native artifacts"
+        ],
+        [
+          "SDK",
+          "同版本 dsh executable 与 profile"
+        ],
+        [
+          "SSH",
+          "helper / bootstrap digest 配对"
+        ]
+      ],
+      "note": "载体产物和运行前置不同",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-3.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-3.svg",
+      "png_sha256": "aa52c2c8799b7670874d8bcfbb722609acea9edf0e6a569a275a6cc4381cb07d",
+      "svg_sha256": "7ddfa8f80965016dfa1fdf17824bfdedc376bd55c6a9a6f4295bfb366ba0d890"
+    },
+    {
+      "stem": "28-build-package-distribution-fig-4",
+      "title": "安装、升级、退出与失败验证矩阵图",
+      "kind": "map",
+      "nodes": [
+        [
+          "source contracts",
+          "类型与源码 fixtures"
+        ],
+        [
+          "packed consumer",
+          "tarball 清单与实际 imports"
+        ],
+        [
+          "upgrade / resume",
+          "旧配置、历史与锁定版本"
+        ],
+        [
+          "target platform",
+          "启动、能力、退出与资源"
+        ]
+      ],
+      "note": "每项验证按实际范围记录",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/28-build-package-distribution-fig-4.png",
+      "svg": "articles/assets/28-build-package-distribution-fig-4.svg",
+      "png_sha256": "b6660f44d63258705c490788948268caab2214de2cf9457b32475577d5804925",
+      "svg_sha256": "6d01c8e49e270aa2496fec8061d127072040bdee963fd90b2b352d3e92018296"
+    }
+  ],
+  "lessons": [
+    "发行研究的最大收获，是让“可运行”落到明确的 consumer。源码测试、tarball import、Host 启动、真实浏览器与跨平台 native 各自验证不同事实；把结论与 consumer 绑定，研发和运维就能清楚知道还缺哪一步。",
+    "构建顺序同样是一种架构契约。Host 类型和 Typert contribution 是 Client 的输入，public environment 是所有 Client artifact 的共同输入，build record 则给这组产物一个可核验的身份。企业团队应保留这些关系，而不是简化成一个失去证据的打包脚本。",
+    "最终交付可以从小而完整的扩展开始：固定源码版本，编译并验证业务契约，检查 pack 内容，确认实际安装与退出，再逐步增加载体和平台覆盖。这样的迭代能让二次开发始终有可信的完成边界。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "node research/deepseek-harness/validation/enterprise-example.mjs typecheck",
+      "node research/deepseek-harness/validation/enterprise-example.mjs build",
+      "node research/deepseek-harness/validation/enterprise-example.mjs test",
+      "node research/deepseek-harness/validation/supplementary-pack-smoke.mjs",
+      "pnpm exec vitest run scripts/client-build-environment.client.spec.ts scripts/npm-baseline-packages.spec.ts scripts/pnpm-invocation.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/23-mcp-connection-lifecycle.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "MCP server 接入 DSH，要经过 transport、协议协商、工具发现、本地注册和生命周期监督。本文从 mcp-client.apply 追到 ToolRuntime，再把 resources 和 server instructions 的独立消费路径接上，重点解释 generation 如何阻止旧连接改写新状态，以及断线后的哪些事实仍需单独确认。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/mcp/mcp-client/src/index.ts",
+      "packages/mcp/mcp-client/src/transport.ts",
+      "packages/mcp/mcp-client/src/connection.ts",
+      "packages/mcp/mcp-client/src/tools.ts",
+      "packages/mcp/mcp-client/src/server-context.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：apply 先解析 reconnect policy，再在当前 Scope/root 预留 serverName，最后启动 connection supervisor。",
+        "interpretation": "重复名称拒绝当前实例，先前实例不受影响。scopeOf(ctx) 参与 reservation owner，因而不同 scoped composition 可以有独立来源。policy 配置错误在资源注册前失败，避免先建立连接才发现无法监督退出。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：connection.ready 决定初始插件激活；connection.dispose 同时挂到 effect 与 unfinished apply 的卸载观察。",
+        "interpretation": "failOnStartupError=true 才将初始故障转成 Fiber 激活失败；否则记录错误并继续 supervisor 重连。这两个部署策略各有用途，页面需要区分“插件 active”与“server 已连接”。stopping Promise 让多个退出触发者等待同一 dispose。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S03",
+        "handoff": "步骤3：supervisor 使用 createTransport，根据 stdio 或 HTTP 配置构造 transport。",
+        "interpretation": "stdio 涉及受控环境中的子进程，HTTP 涉及 URL、headers 与网络连接；它们共享 MCP Client 协商，却不共享进程所有权。企业应分别配置命令允许范围和网络目的地策略，不能把 serverName 的合法性当作执行信任证明。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：connectGeneration await connect 后检查是否已关闭或过期，再读取带 server attribution 的 instructions，最后 enqueueSync。",
+        "interpretation": "generation 必须仍是 current 才继续注册。instructions 有字节上限，超过上限使本次协商失败；这是输入约束，不代表提示词内容已经可信。startup 使用更严格的 registrationFailure 策略，后续同步则可 containment。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤5：远端工具名经 publicToolName 转换成本地模型可用名字。",
+        "interpretation": "合法短名称保留 mcp__server__rawName；不合法字符或长度截断会附 identity hash。hash 减少有损规范化的碰撞风险，不是数学上无限唯一的证明。调用闭包一直保留 rawName，不通过解析 publicName 反推远端名称。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S06",
+        "handoff": "步骤6：syncTools 第一阶段刷新 tools/list，并把每个远端 definition 构造成本地 ToolDefinition。",
+        "interpretation": "重复 publicName 拒绝整代候选，previous registrations 尚未变。参数 schema、output schema、taskSupport 和 per-call timeout 一起进入 bridge；taskRequired 不代表此 bridge 已支持 task execution。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S07",
+        "handoff": "步骤7：候选全量准备后，syncTools 才 dispose previous 并逐项 register。",
+        "interpretation": "注册冲突会撤销本次部分成功的工具，结果为完整一代或没有该 server 工具；它不恢复已撤销旧代。fetch/build 失败保留旧代，swap 失败归零，这两个恢复边界必须分开。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S08",
+        "handoff": "步骤8：enqueueSync 使用一条跨 generation 的 syncChain，避免两次 list_changed 回调交叉 swap。",
+        "interpretation": "每次 run 先 isCurrent 检查。chain tail 吞掉前次 rejection 只为允许后续同步，真正的 enqueuing caller 仍负责报告错误。generationDown 清空 client owner 再安排重连，旧回调失去 current 资格，不会覆盖新连接状态。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S09",
+        "handoff": "步骤9：ToolRuntime 调用本地 definition 后，闭包将 args 与 execution.signal 传到 client.callTool。",
+        "interpretation": "signal 和 timeout 控制当前请求，raw tool name 才发到 tools/call。MCP 协议取消只能表达中止请求，不能确认远端数据库没有提交；写操作要额外使用业务 idempotency key 或状态查询。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S10",
+        "handoff": "步骤10：createMcpToolDefinition 的 execute 校验 MCP response，将协议 isError 转换为本地工具错误。",
+        "interpretation": "不支持 task-required 工具时立即拒绝；非 object 输入交给 server 得到明确参数错误。content 保留 MCP blocks，structuredContent 单独保留，图片还涉及 attachment admission 与持久引用，不应该简单 JSON.stringify 后丢掉语义。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S11",
+        "handoff": "步骤11：连接上下文使用两个独立服务贡献 resources 与 systemPrompt section。",
+        "interpretation": "resources 由 mcpResources registry 分派；instructions 被设置 interpolate=false，保持 server literal text。两者依赖注入的生效与退出跟随 Context，而不是一次 tools/list 返回值。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S12",
+        "handoff": "resources consumer 最终通过 connection.resources.request 找到当前 client，并携带 ToolExecution signal。",
+        "interpretation": "list、templates/list、read 对应不同 wire method。server 暂时不可用时不能从旧工具 registration 推出 resources 请求仍可用；消费者应观察调用结果。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S13",
+        "handoff": "步骤12：断线后 scheduleReconnect 按稳定窗口和预算决定重试，不是一个无限循环。",
+        "interpretation": "禁用重连时，已注册工具可保留但调用失败；预算耗尽时队列撤销工具并清空 instructions。重连前若无法确认上一 transport 已退出，则停止重连，避免 overlapping server processes。成功重连重新发现工具，不会重做已完成的业务调用。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S14",
+        "handoff": "步骤13：dispose 标记结束、清 timer、关闭 current generation，等待 settling 和 syncChain，最后撤销工具。",
+        "interpretation": "先夺走 current 资格，再 await 关闭，避免退出期间 callback 继续换代。退出无法确认 transport closure 会明确报告；不能把 close 请求已经发送解释成远端进程已退出。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/mcp/mcp-client/src/connection.ts",
+        211,
+        244,
+        "步骤12：断线后 scheduleReconnect 按稳定窗口和预算决定重试，不是一个无限循环。",
+        "禁用重连时，已注册工具可保留但调用失败；预算耗尽时队列撤销工具并清空 instructions。重连前若无法确认上一 transport 已退出，则停止重连，避免 overlapping server processes。成功重连重新发现工具，不会重做已完成的业务调用。"
+      ],
+      [
+        "packages/mcp/mcp-client/src/connection.ts",
+        388,
+        409,
+        "步骤13：dispose 标记结束、清 timer、关闭 current generation，等待 settling 和 syncChain，最后撤销工具。",
+        "先夺走 current 资格，再 await 关闭，避免退出期间 callback 继续换代。退出无法确认 transport closure 会明确报告；不能把 close 请求已经发送解释成远端进程已退出。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "MCP server 接入 DSH，要经过 transport、协议协商、工具发现、本地注册和生命周期监督。本文从 mcp-client.apply 追到 ToolRuntime，再把 resources 和 server instructions 的独立消费路径接上，重点解释 generation 如何阻止旧连接改写新状态，以及断线后的哪些事实仍需单独确认。",
+    "sections": [
+      "整体地图：连接不是能力加载的终点",
+      "启动入口：stdio/HTTP transport 与 readiness",
+      "工具发现：远端定义到本地注册",
+      "工具调用：本地 ToolRuntime 到远端请求",
+      "资源与指令：独立消费者与作用域",
+      "运行变化：重连、重新发现与 dispose",
+      "开发示例与验证：受控 server 的完整生命周期",
+      "工程心得：连接状态、能力状态与业务效果分别确认"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：apply 先解析 reconnect policy，再在当前 Scope/root 预留 serverName，最后启动 connection supervisor。",
+      "interpretation": "重复名称拒绝当前实例，先前实例不受影响。scopeOf(ctx) 参与 reservation owner，因而不同 scoped composition 可以有独立来源。policy 配置错误在资源注册前失败，避免先建立连接才发现无法监督退出。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：connection.ready 决定初始插件激活；connection.dispose 同时挂到 effect 与 unfinished apply 的卸载观察。",
+      "interpretation": "failOnStartupError=true 才将初始故障转成 Fiber 激活失败；否则记录错误并继续 supervisor 重连。这两个部署策略各有用途，页面需要区分“插件 active”与“server 已连接”。stopping Promise 让多个退出触发者等待同一 dispose。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S03",
+      "handoff": "步骤3：supervisor 使用 createTransport，根据 stdio 或 HTTP 配置构造 transport。",
+      "interpretation": "stdio 涉及受控环境中的子进程，HTTP 涉及 URL、headers 与网络连接；它们共享 MCP Client 协商，却不共享进程所有权。企业应分别配置命令允许范围和网络目的地策略，不能把 serverName 的合法性当作执行信任证明。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：connectGeneration await connect 后检查是否已关闭或过期，再读取带 server attribution 的 instructions，最后 enqueueSync。",
+      "interpretation": "generation 必须仍是 current 才继续注册。instructions 有字节上限，超过上限使本次协商失败；这是输入约束，不代表提示词内容已经可信。startup 使用更严格的 registrationFailure 策略，后续同步则可 containment。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤5：远端工具名经 publicToolName 转换成本地模型可用名字。",
+      "interpretation": "合法短名称保留 mcp__server__rawName；不合法字符或长度截断会附 identity hash。hash 减少有损规范化的碰撞风险，不是数学上无限唯一的证明。调用闭包一直保留 rawName，不通过解析 publicName 反推远端名称。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S06",
+      "handoff": "步骤6：syncTools 第一阶段刷新 tools/list，并把每个远端 definition 构造成本地 ToolDefinition。",
+      "interpretation": "重复 publicName 拒绝整代候选，previous registrations 尚未变。参数 schema、output schema、taskSupport 和 per-call timeout 一起进入 bridge；taskRequired 不代表此 bridge 已支持 task execution。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S07",
+      "handoff": "步骤7：候选全量准备后，syncTools 才 dispose previous 并逐项 register。",
+      "interpretation": "注册冲突会撤销本次部分成功的工具，结果为完整一代或没有该 server 工具；它不恢复已撤销旧代。fetch/build 失败保留旧代，swap 失败归零，这两个恢复边界必须分开。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S08",
+      "handoff": "步骤8：enqueueSync 使用一条跨 generation 的 syncChain，避免两次 list_changed 回调交叉 swap。",
+      "interpretation": "每次 run 先 isCurrent 检查。chain tail 吞掉前次 rejection 只为允许后续同步，真正的 enqueuing caller 仍负责报告错误。generationDown 清空 client owner 再安排重连，旧回调失去 current 资格，不会覆盖新连接状态。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S09",
+      "handoff": "步骤9：ToolRuntime 调用本地 definition 后，闭包将 args 与 execution.signal 传到 client.callTool。",
+      "interpretation": "signal 和 timeout 控制当前请求，raw tool name 才发到 tools/call。MCP 协议取消只能表达中止请求，不能确认远端数据库没有提交；写操作要额外使用业务 idempotency key 或状态查询。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S10",
+      "handoff": "步骤10：createMcpToolDefinition 的 execute 校验 MCP response，将协议 isError 转换为本地工具错误。",
+      "interpretation": "不支持 task-required 工具时立即拒绝；非 object 输入交给 server 得到明确参数错误。content 保留 MCP blocks，structuredContent 单独保留，图片还涉及 attachment admission 与持久引用，不应该简单 JSON.stringify 后丢掉语义。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S11",
+      "handoff": "步骤11：连接上下文使用两个独立服务贡献 resources 与 systemPrompt section。",
+      "interpretation": "resources 由 mcpResources registry 分派；instructions 被设置 interpolate=false，保持 server literal text。两者依赖注入的生效与退出跟随 Context，而不是一次 tools/list 返回值。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S12",
+      "handoff": "resources consumer 最终通过 connection.resources.request 找到当前 client，并携带 ToolExecution signal。",
+      "interpretation": "list、templates/list、read 对应不同 wire method。server 暂时不可用时不能从旧工具 registration 推出 resources 请求仍可用；消费者应观察调用结果。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S13",
+      "handoff": "步骤12：断线后 scheduleReconnect 按稳定窗口和预算决定重试，不是一个无限循环。",
+      "interpretation": "禁用重连时，已注册工具可保留但调用失败；预算耗尽时队列撤销工具并清空 instructions。重连前若无法确认上一 transport 已退出，则停止重连，避免 overlapping server processes。成功重连重新发现工具，不会重做已完成的业务调用。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S14",
+      "handoff": "步骤13：dispose 标记结束、清 timer、关闭 current generation，等待 settling 和 syncChain，最后撤销工具。",
+      "interpretation": "先夺走 current 资格，再 await 关闭，避免退出期间 callback 继续换代。退出无法确认 transport closure 会明确报告；不能把 close 请求已经发送解释成远端进程已退出。"
+    }
+  ],
+  "data_contracts": [
+    "server 配置与连接 generation",
+    "远端工具 definition、public name 和 schema",
+    "resources/instructions 与注册 disposer"
+  ],
+  "figure_plan": [
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-1",
+      "title": "连接、工具、resources 与 instructions 地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "connection supervisor",
+          "transport 与 generation"
+        ],
+        [
+          "ToolRuntime bridge",
+          "tools/list → ToolDefinition"
+        ],
+        [
+          "mcpResources",
+          "独立 list/read 请求"
+        ],
+        [
+          "systemPrompt",
+          "server literal instructions"
+        ]
+      ],
+      "note": "连接与三类能力由不同消费者观察",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-1.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-1.svg",
+      "png_sha256": "89b3051022cbb8427f2739ae609c79862dc4e6d65a738a7dad7ef07603b7e1a7",
+      "svg_sha256": "ea4f2d5edbdfe8bb32ba7f08624ffe315b651d06939199cfa36e981a3d89e9a2"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-2",
+      "title": "初始连接与能力注册时序图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "apply",
+          "policy 与 namespace reservation"
+        ],
+        [
+          "connectGeneration",
+          "协商与 instructions"
+        ],
+        [
+          "enqueueSync",
+          "初始工具发现"
+        ],
+        [
+          "ready",
+          "按 failOnStartupError 决定激活"
+        ]
+      ],
+      "note": "ready 等待连接与初始同步",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-2.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-2.svg",
+      "png_sha256": "13e9a28811917f82ad9bb7bdd8e0b3ab010b637635f5ea11de678a9a3d4853de",
+      "svg_sha256": "9275dd896c032d5401871472aa81547c6ed5616fa51756c4fc60106cf800d0ae"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-3",
+      "title": "本地到远端调用及取消图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "ToolRuntime",
+          "已注册 definition 与 execution.signal"
+        ],
+        [
+          "definition.execute",
+          "规整 arguments 并调用 bridge"
+        ],
+        [
+          "client.callTool",
+          "rawName · arguments · timeout"
+        ],
+        [
+          "result validation",
+          "content / structuredContent；isError 抛错"
+        ]
+      ],
+      "note": "取消请求不等于撤销远端业务效果",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-3.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-3.svg",
+      "png_sha256": "d5e7f9b81f510617eb6e8d1bb5c118f7ecdb780996573102507c9f3d946758a8",
+      "svg_sha256": "cac61c4856e438688b2f4abb23c059cecb3f37e8152204627a4ff346c5405a3d"
+    },
+    {
+      "stem": "23-mcp-connection-lifecycle-fig-4",
+      "title": "connection generation 与撤销图",
+      "kind": "map",
+      "nodes": [
+        [
+          "connection lost",
+          "旧工具可能保留但调用失败"
+        ],
+        [
+          "reconnect budget",
+          "有限 backoff 与重新发现"
+        ],
+        [
+          "closure unconfirmed",
+          "停止重试避免双进程"
+        ],
+        [
+          "dispose",
+          "关代际资格并等待同步退出"
+        ]
+      ],
+      "note": "重连不重做远端业务效果",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/23-mcp-connection-lifecycle-fig-4.png",
+      "svg": "articles/assets/23-mcp-connection-lifecycle-fig-4.svg",
+      "png_sha256": "e476d436b16f1b832b32c9216e5f961c479eec4b16296e2b9edea37fdb3fc1e7",
+      "svg_sha256": "70a2b455f030a45d681321ad282ae3c7f0788dc0ff0c456df6ae92e24bbf15f6"
+    }
+  ],
+  "lessons": [
+    "MCP 这一层最值得借鉴的是 generation ownership：不是所有旧 Promise 都需要立刻结束，但它们必须失去修改当前世界的资格。current guard、串行 swap 和退出等待把这一原则落实到了实际函数。",
+    "第二个收获是 readiness 应包含真正的能力发现。只报告 TCP/HTTP 连接成功不足以让上层开始任务，先完成初始工具同步才能建立“能力已经可消费”的事实。",
+    "企业 connector 在此基础上再补业务效果确认即可形成更完整闭环：连接可观察、能力有来源、请求可取消、结果可验证。把这几段保留为独立状态，比一个简单 connected 布尔值更利于故障排查。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/mcp/mcp-client/tests/reconnect.spec.ts packages/mcp/mcp-client/tests/negotiation-lifecycle.spec.ts packages/mcp/mcp-client/tests/tool-definition.spec.ts packages/mcp/mcp-client/tests/server-context.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "editorial_followup": "Added contract contrasts and concrete race/failure interpretation; source excerpts preserved.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

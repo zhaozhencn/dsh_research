@@ -1,0 +1,430 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/26-enterprise-data-remote-execution.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "企业数据接入有两种常见形态：通过受控业务工具读取数据库/API，通过同一执行世界的 fs、shell、subprocess provider 操作文件与远端环境。本文先建立 DSH 的能力 seam，再分别展开本仓库授权工单connector与现有SSH实现，说明输入、授权、执行、结果与效果凭证怎样相接。身份设计先落实27篇，再开始真实资源接入。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/fs/fs/src/index.ts",
+      "packages/subprocess/subprocess/src/index.ts",
+      "packages/shell/shell/src/index.ts",
+      "local:research/deepseek-harness/examples/enterprise-harness/ticket-tool.ts",
+      "local:research/deepseek-harness/examples/enterprise-harness/platform.ts",
+      "local:research/deepseek-harness/examples/enterprise-harness/ledger.ts",
+      "packages/ssh/ssh/src/index.ts",
+      "packages/ssh/fs-ssh/src/index.ts",
+      "packages/ssh/subprocess-ssh/src/index.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：调用文件工具前，consumer 先 await fs.resolve 得到 FsTarget，再用 processPath 交给 OS 能力。",
+        "interpretation": "targetKey 是 opaque stable identity，processPath 是实际执行世界的 absolute path，displayPath 则用于展示。processPathFromHostPath 默认没有映射，远端 provider 不应把 Host 路径直接当成可读路径。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：SubprocessRuntime 规定 executable 与 fs 属于同一 execution world，done 与 waitForExit 共同描述受控范围。",
+        "interpretation": "单独换一个 fs provider、仍用 local subprocess 读取 remote path，会破坏契约。spawn 同步返回 live handle，远端准备通过内部 Promise 处理；terminate 发起过程，waitForExit 才观察收敛，不能把发送信号当成退出确认。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S03",
+        "handoff": "步骤3：ShellExecutor 在这一基础上提供 resolve → execute → result，分别解释等待和进程寿命。",
+        "interpretation": "前后台区别取决于 caller 等待什么；onExpiry:none 允许放弃等待而不停止命令。nonzero、timeout、abort 通过 descriptive result 表达，基础设施故障才 reject。executor-only reload 不一定停掉 subprocess owner 持有的进程。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S09",
+        "handoff": "步骤8：结构化数据接入不必暴露通用 shell。enterprise_ticket_read 使用明确参数和输出 schema，读取被批准的工单。",
+        "interpretation": "exec.agent 只用于找到可信 grant，model 参数不能决定租户。返回 ticketId/title/status/version，有助于回答引用与业务版本核对。输出投影收窄范围，但数据正文仍应被解释为资料，而不是新权限来源。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S10",
+        "handoff": "步骤9：EnterprisePlatform.readTicket 是替换为真实 connector 的边界，它在 await 前后检查 signal。",
+        "interpretation": "真实实现应按 grant 选择 tenant-authorized backend，设置明确请求 deadline、输出大小和 provenance。不能把 CRM 凭据交给模型 program，也不能为了通用性开放任意 URL/SQL。此示例使用本地 ledger，不声称已经接入真实数据库或 CRM。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S11",
+        "handoff": "步骤10：ledger.readTicket 检查 current grant 和确切 ticketId，再使用 tenant_id 条件读取并裁剪结果。",
+        "interpretation": "同一 ticketId 在不同 tenant 可存在不同数据，resource-side filter 才真正落实隔离。权限若在 async backend 之后撤销，ticket-tool 会再次 current；它防止迟到数据进入 ToolRuntime result 和 Session。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S04",
+        "handoff": "步骤4：SSH provider 的 host、node、helperHash 和 workspace 来自部署配置，而非模型工具参数。",
+        "interpretation": "known-host/user/key 由 OpenSSH host alias 确定。helper 和可选 PTC bootstrap 必须提供 digest，leaseMs 监督断开后的清理。这不是自动远端 provisioner，也没有按 tenant 字符串自动分配主机。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S05",
+        "handoff": "步骤5：SshConnection.start 使用严格 host key checking、禁用 agent forwarding，启动 helper 并进行 hello/digest 校验。",
+        "interpretation": "protocol version、workspace、lease 与返回 hash 共同确定配对。child close 将结果与清理状态标为 unknown；连接不自动重连重放。heartbeat 只保留一个在途请求，避免 lease 检查堆积。源码已经提供这些机制，不应将它们描述为未来才需新增的抽象。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S06",
+        "handoff": "步骤6：fs-ssh 建立执行坐标并把 resolve/contains/read 操作交给 ssh.request；先读它的 target 组织与校验。",
+        "interpretation": "fs.resolve 直接将经 schema 检查的 helper target 返回；当前 backend 在 processPath 内解释 targetKey，普通 consumer 不能模仿它解析。write/edit 向 helper 传 expected 与 policy，读改写的观测规则由消费和策略层继续约束。ssh.request 的 result schema 是 wire boundary 校验，不等于企业 data classification 或 tenant authorization。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "远端进程的交接还要继续追到 subprocess-ssh.start：先 process.prepare，建立独立 streams，再 process.start。",
+        "interpretation": "prepared.id 是 helper 私有进程身份；stdout/stderr 的 collect 与 pipe 走不同分支，control stream 独立传输。任何建立流失败都不能直接假定进程尚未执行，清理和 launch acknowledgement 需要跟随 handle 的状态。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤7：ssh.request await ready 后重新确认 open，为行政请求加 deadline 再派给 RPC peer。",
+        "interpretation": "wait=true 允许 process observation 超过普通行政 deadline；调用取消不撤销已经完成的 remote mutation。fs-ssh、subprocess-ssh、sandbox-ssh 应使用同一 ssh service，才能共享 helper coordinates 和受控寿命。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S12",
+        "handoff": "步骤11：参考方案的写操作 closeTicket 留在可信应用控制面，未注册为模型工具；它将效果、receipt 与审计放进同一 SQLite transaction。",
+        "interpretation": "operationId 由 task 生成，input hash 固定主体/资源/版本/目标状态。重复调用返回已有 receipt，输入不一致拒绝；expectedVersion 控制并发更新。这是在本地同一数据库内的可测试事务，不能搬到远端 HTTP 后仍宣称原子性。"
+      },
+      {
+        "chapter": 6,
+        "source_id": "S13",
+        "handoff": "步骤12：SSH fail 收回连接 owner，关闭 RPC/socket 并停止本地 SSH 子进程。",
+        "interpretation": "远端 effects 可能已经发生，lease 会启动 helper 的 managed cleanup，但断线的 caller 不能由此确认数据库、文件和进程已全部恢复。企业新增 connector 应提供 operationId 状态查询；unknown 进入人工或程序化 reconciliation，不直接重发非幂等命令。"
+      }
+    ],
+    "branches": [
+      [
+        "local:research/deepseek-harness/examples/enterprise-harness/ledger.ts",
+        132,
+        160,
+        "步骤11：参考方案的写操作 closeTicket 留在可信应用控制面，未注册为模型工具；它将效果、receipt 与审计放进同一 SQLite transaction。",
+        "operationId 由 task 生成，input hash 固定主体/资源/版本/目标状态。重复调用返回已有 receipt，输入不一致拒绝；expectedVersion 控制并发更新。这是在本地同一数据库内的可测试事务，不能搬到远端 HTTP 后仍宣称原子性。"
+      ],
+      [
+        "packages/ssh/ssh/src/index.ts",
+        246,
+        255,
+        "步骤12：SSH fail 收回连接 owner，关闭 RPC/socket 并停止本地 SSH 子进程。",
+        "远端 effects 可能已经发生，lease 会启动 helper 的 managed cleanup，但断线的 caller 不能由此确认数据库、文件和进程已全部恢复。企业新增 connector 应提供 operationId 状态查询；unknown 进入人工或程序化 reconciliation，不直接重发非幂等命令。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "企业数据接入有两种常见形态：通过受控业务工具读取数据库/API，通过同一执行世界的 fs、shell、subprocess provider 操作文件与远端环境。本文先建立 DSH 的能力 seam，再分别展开本仓库授权工单connector与现有SSH实现，说明输入、授权、执行、结果与效果凭证怎样相接。身份设计先落实27篇，再开始真实资源接入。",
+    "sections": [
+      "业务场景与整体地图：从任务到企业资源",
+      "既有接缝：fs、shell、subprocess 与 Workspace",
+      "企业数据接入：connector 与知识检索的新增契约",
+      "远端执行接入：位置、身份与执行环境",
+      "业务效果确认：幂等、回执与未知结果",
+      "恢复与交付：重新授权、结果核验与产物保存",
+      "开发示例与验证：企业查询和一次可确认写入",
+      "工程心得：Agent 结果需要连接业务事实"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：调用文件工具前，consumer 先 await fs.resolve 得到 FsTarget，再用 processPath 交给 OS 能力。",
+      "interpretation": "targetKey 是 opaque stable identity，processPath 是实际执行世界的 absolute path，displayPath 则用于展示。processPathFromHostPath 默认没有映射，远端 provider 不应把 Host 路径直接当成可读路径。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：SubprocessRuntime 规定 executable 与 fs 属于同一 execution world，done 与 waitForExit 共同描述受控范围。",
+      "interpretation": "单独换一个 fs provider、仍用 local subprocess 读取 remote path，会破坏契约。spawn 同步返回 live handle，远端准备通过内部 Promise 处理；terminate 发起过程，waitForExit 才观察收敛，不能把发送信号当成退出确认。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S03",
+      "handoff": "步骤3：ShellExecutor 在这一基础上提供 resolve → execute → result，分别解释等待和进程寿命。",
+      "interpretation": "前后台区别取决于 caller 等待什么；onExpiry:none 允许放弃等待而不停止命令。nonzero、timeout、abort 通过 descriptive result 表达，基础设施故障才 reject。executor-only reload 不一定停掉 subprocess owner 持有的进程。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S09",
+      "handoff": "步骤8：结构化数据接入不必暴露通用 shell。enterprise_ticket_read 使用明确参数和输出 schema，读取被批准的工单。",
+      "interpretation": "exec.agent 只用于找到可信 grant，model 参数不能决定租户。返回 ticketId/title/status/version，有助于回答引用与业务版本核对。输出投影收窄范围，但数据正文仍应被解释为资料，而不是新权限来源。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S10",
+      "handoff": "步骤9：EnterprisePlatform.readTicket 是替换为真实 connector 的边界，它在 await 前后检查 signal。",
+      "interpretation": "真实实现应按 grant 选择 tenant-authorized backend，设置明确请求 deadline、输出大小和 provenance。不能把 CRM 凭据交给模型 program，也不能为了通用性开放任意 URL/SQL。此示例使用本地 ledger，不声称已经接入真实数据库或 CRM。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S11",
+      "handoff": "步骤10：ledger.readTicket 检查 current grant 和确切 ticketId，再使用 tenant_id 条件读取并裁剪结果。",
+      "interpretation": "同一 ticketId 在不同 tenant 可存在不同数据，resource-side filter 才真正落实隔离。权限若在 async backend 之后撤销，ticket-tool 会再次 current；它防止迟到数据进入 ToolRuntime result 和 Session。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S04",
+      "handoff": "步骤4：SSH provider 的 host、node、helperHash 和 workspace 来自部署配置，而非模型工具参数。",
+      "interpretation": "known-host/user/key 由 OpenSSH host alias 确定。helper 和可选 PTC bootstrap 必须提供 digest，leaseMs 监督断开后的清理。这不是自动远端 provisioner，也没有按 tenant 字符串自动分配主机。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S05",
+      "handoff": "步骤5：SshConnection.start 使用严格 host key checking、禁用 agent forwarding，启动 helper 并进行 hello/digest 校验。",
+      "interpretation": "protocol version、workspace、lease 与返回 hash 共同确定配对。child close 将结果与清理状态标为 unknown；连接不自动重连重放。heartbeat 只保留一个在途请求，避免 lease 检查堆积。源码已经提供这些机制，不应将它们描述为未来才需新增的抽象。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S06",
+      "handoff": "步骤6：fs-ssh 建立执行坐标并把 resolve/contains/read 操作交给 ssh.request；先读它的 target 组织与校验。",
+      "interpretation": "fs.resolve 直接将经 schema 检查的 helper target 返回；当前 backend 在 processPath 内解释 targetKey，普通 consumer 不能模仿它解析。write/edit 向 helper 传 expected 与 policy，读改写的观测规则由消费和策略层继续约束。ssh.request 的 result schema 是 wire boundary 校验，不等于企业 data classification 或 tenant authorization。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "远端进程的交接还要继续追到 subprocess-ssh.start：先 process.prepare，建立独立 streams，再 process.start。",
+      "interpretation": "prepared.id 是 helper 私有进程身份；stdout/stderr 的 collect 与 pipe 走不同分支，control stream 独立传输。任何建立流失败都不能直接假定进程尚未执行，清理和 launch acknowledgement 需要跟随 handle 的状态。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤7：ssh.request await ready 后重新确认 open，为行政请求加 deadline 再派给 RPC peer。",
+      "interpretation": "wait=true 允许 process observation 超过普通行政 deadline；调用取消不撤销已经完成的 remote mutation。fs-ssh、subprocess-ssh、sandbox-ssh 应使用同一 ssh service，才能共享 helper coordinates 和受控寿命。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S12",
+      "handoff": "步骤11：参考方案的写操作 closeTicket 留在可信应用控制面，未注册为模型工具；它将效果、receipt 与审计放进同一 SQLite transaction。",
+      "interpretation": "operationId 由 task 生成，input hash 固定主体/资源/版本/目标状态。重复调用返回已有 receipt，输入不一致拒绝；expectedVersion 控制并发更新。这是在本地同一数据库内的可测试事务，不能搬到远端 HTTP 后仍宣称原子性。"
+    },
+    {
+      "chapter": 6,
+      "source_id": "S13",
+      "handoff": "步骤12：SSH fail 收回连接 owner，关闭 RPC/socket 并停止本地 SSH 子进程。",
+      "interpretation": "远端 effects 可能已经发生，lease 会启动 helper 的 managed cleanup，但断线的 caller 不能由此确认数据库、文件和进程已全部恢复。企业新增 connector 应提供 operationId 状态查询；unknown 进入人工或程序化 reconciliation，不直接重发非幂等命令。"
+    }
+  ],
+  "data_contracts": [
+    "能力定义、provider 与 consumer",
+    "主体/资源/凭据和业务输入",
+    "操作 id、回执、未知结果与产物记录（新增设计）"
+  ],
+  "figure_plan": [
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-1",
+      "title": "任务→企业资源→交付整体图",
+      "kind": "map",
+      "nodes": [
+        [
+          "business tool",
+          "授权后的结构化资料"
+        ],
+        [
+          "FileSystem",
+          "opaque target 与 processPath"
+        ],
+        [
+          "Subprocess / Shell",
+          "同一 execution world 的进程"
+        ],
+        [
+          "SSH helper",
+          "digest、lease 与 private protocol"
+        ]
+      ],
+      "note": "业务资源授权与 OS 能力分别建立",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-1.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-1.svg",
+      "png_sha256": "182f78c93c42cf61bfe28bad9e1fd987ba07060b86f3bc61a0beb59b3aba76fb",
+      "svg_sha256": "7ed8cb60818407c48f1ec827fdf0460bc525be3cd66c4275348b280ad8c48dba"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-2",
+      "title": "既有 provider 与新增 connector 边界图",
+      "kind": "map",
+      "nodes": [
+        [
+          "FileSystem",
+          "opaque target 与 processPath"
+        ],
+        [
+          "Subprocess / Shell",
+          "同一 execution world 与退出观察"
+        ],
+        [
+          "SSH provider",
+          "部署配置、helper digest 与 lease"
+        ],
+        [
+          "business connector",
+          "可信 Subject、授权查询与结构化结果"
+        ]
+      ],
+      "note": "模型参数不选择 SSH 身份或 helper",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-2.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-2.svg",
+      "png_sha256": "bb610be40a051e8341411f5e7ba28c4d25faa26f6e0e6df2e4ba1b33cde27a95",
+      "svg_sha256": "1dfa5e0e6108b7eaaa087439d85f211d9a4c5a8193fc54d968e2e1ffe9c6fc69"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-3",
+      "title": "数据读取、授权复核与业务回执对照",
+      "kind": "map",
+      "nodes": [
+        [
+          "Subject / TaskSpec",
+          "可信控制面的主体与资源"
+        ],
+        [
+          "readTicket",
+          "tenant filter 与 version"
+        ],
+        [
+          "ToolExecution result",
+          "await 后重新授权"
+        ],
+        [
+          "business receipt",
+          "独立于模型回答的效果事实"
+        ]
+      ],
+      "note": "读取结果与控制面提交具有不同消费边界",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 5,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-3.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-3.svg",
+      "png_sha256": "8d923f2284b832abd954f0169205f10e5f027386179ce90c4693c664b241ea75",
+      "svg_sha256": "e9b10b438fc2c065ff057f9b6c1e46c5f5a8da75246cc32ea7dd021af8819bc0"
+    },
+    {
+      "stem": "26-enterprise-data-remote-execution-fig-4",
+      "title": "断线、未知结果、恢复与幂等图",
+      "kind": "map",
+      "nodes": [
+        [
+          "abort / timeout",
+          "停止等待或执行；效果需确认"
+        ],
+        [
+          "SSH disconnect",
+          "remote outcome / cleanup unknown"
+        ],
+        [
+          "idempotent operation",
+          "inputHash + operationId"
+        ],
+        [
+          "reconciliation",
+          "查询 receipt 后决定下一步"
+        ]
+      ],
+      "note": "未知写入不自动重放",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/26-enterprise-data-remote-execution-fig-4.png",
+      "svg": "articles/assets/26-enterprise-data-remote-execution-fig-4.svg",
+      "png_sha256": "7541b450ab0d44edcbf75e316cf8e3db18ff6b0ab242c092dd150e3af8b89e34",
+      "svg_sha256": "32a8d904baa192ade373ebc6b73011307ff0a831a0837fe44329dcdddf2cb5cc"
+    }
+  ],
+  "lessons": [
+    "这一专题的收获是：provider abstraction 应保留“执行在哪里”和“由谁确认结果”两个事实。opaque targetKey、execution world、waitForExit 和 helper digest，让消费者不用猜测坐标或所有权。企业开发应保持 fs、subprocess 与 sandbox 配对，而不是只替换表面接口。",
+    "业务 connector 则应缩小到任务需要的能力。结构化输出、资源版本和授权后的 grant，使模型更容易正确使用资料，也使开发者能明确查证一次访问为何获准。",
+    "写操作的关键是承认并管理效果状态。await 失败只说明调用结果未取得；receipt、幂等键和查询协议才能进一步解释效果。将 unknown 变成有来源、有后续动作的状态，是企业 Agent 从演示走向稳定运行的重要一步。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "node research/deepseek-harness/validation/enterprise-example.mjs test",
+      "pnpm exec vitest run packages/ssh/fs-ssh/tests/provider.spec.ts packages/ssh/ssh/tests/protocol-disposal.spec.ts packages/ssh/subprocess-ssh/tests/lifecycle.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "editorial_followup": "Added contract contrasts and concrete race/failure interpretation; source excerpts preserved.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}

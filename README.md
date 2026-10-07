@@ -14,9 +14,11 @@
 | 内容 | 入口 |
 | --- | --- |
 | 四篇主题报告 | [宏观架构](research/deepseek-harness/01-architecture.md) · [源码运行](research/deepseek-harness/02-runtime-source.md) · [扩展实践](research/deepseek-harness/03-extension-practices.md) · [企业开发](research/deepseek-harness/04-enterprise-harness-practices.md) |
-| 16 篇技术专栏与机制图 | [专栏目录](research/deepseek-harness/articles/README.md) |
+| 29 篇技术专栏与机制图（00—28） | [专栏目录](research/deepseek-harness/articles/README.md) |
+| 12 篇二次开发补充专题 | [文档列表与大纲](research/deepseek-harness/appendices/supplementary-article-outlines.md) · [扩展契约矩阵](research/deepseek-harness/appendices/extension-contract-matrix.md) · [回归矩阵](research/deepseek-harness/appendices/change-impact-regression-matrix.md) |
 | 可运行的 TypeScript 示例 | [示例与环境准备](research/deepseek-harness/examples/README.md) |
 | 源码证据与验证记录 | [证据索引](research/deepseek-harness/appendices/evidence-index.md) · [验证附录](research/deepseek-harness/appendices/validation.md) |
+| 源码文章深化技能 | [Source Code Article Refiner](skills/source-code-article-refiner/SKILL.md) |
 | 可复用研究与版本同步流程 | [Harness Research Sync](skills/harness-research-sync/SKILL.md) |
 
 建议从宏观架构开始，按需进入源码运行与技术专栏；二次开发可直接阅读扩展实践和示例。
@@ -24,6 +26,8 @@
 ## 基线与验证
 
 研究基于 DeepSeek Harness **`0.2.1-alpha.1`**，固定提交 **`5badb15009ae1756c3afe0ae0cef1faafc290ccc`**，详见[研究基线](research/deepseek-harness/appendices/baseline.md)。已有记录覆盖选定上游契约与自定义扩展，合计 **1,520 个用例通过、1 个条件跳过**。
+
+补充专栏本批另行复核了 **848 项通过、1 项平台条件跳过**，并完成参考扩展的本地 tarball ledger 消费检查；与历史用例存在重叠，不累加统计。范围及失败日志见[本批验证记录](research/deepseek-harness/validation/supplementary-articles-validation.md)。
 
 按示例说明准备固定源码 checkout、依赖及 vendor 声明后，在仓库根目录运行：
 

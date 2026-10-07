@@ -1,0 +1,573 @@
+{
+  "schema_version": 1,
+  "status": "articles-generated",
+  "title": "DSH 二次开发补充研究路线图",
+  "source_baseline": {
+    "version": "0.2.1-alpha.1",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "entry_paths_verified_in_commit": true,
+    "latest_version_claim": false
+  },
+  "scope": {
+    "existing_articles": "00—16",
+    "new_topics": 12,
+    "topic_ids_are_article_numbers": false,
+    "classification_is_native_runtime_layering": false,
+    "article_bodies_created": true,
+    "new_runtime_tests_executed": true
+  },
+  "priorities": {
+    "P0": "先补核心开发链路，不表示线上风险等级。",
+    "P1": "在相关基础明确后深化；具体样例的必要构建先行。",
+    "CONDITIONAL": "企业条件前置；出现多用户、敏感资源或远端业务操作时提前做设计。"
+  },
+  "modules": [
+    {
+      "id": "M01",
+      "name": "对象与能力组织",
+      "central_question": "一个 Agent 怎样获得自己的运行环境",
+      "topics": [
+        "R01",
+        "R02"
+      ]
+    },
+    {
+      "id": "M02",
+      "name": "配置与扩展管理",
+      "central_question": "运行中的配置与插件怎样被管理",
+      "topics": [
+        "R03",
+        "R04"
+      ]
+    },
+    {
+      "id": "M03",
+      "name": "前后端与系统接入",
+      "central_question": "业务系统和用户界面怎样接入 Harness",
+      "topics": [
+        "R05",
+        "R06"
+      ]
+    },
+    {
+      "id": "M04",
+      "name": "外部能力与程序执行",
+      "central_question": "外部工具与模型程序怎样进入受控执行链",
+      "topics": [
+        "R07",
+        "R08"
+      ]
+    },
+    {
+      "id": "M05",
+      "name": "任务编排与企业集成",
+      "central_question": "多个执行单元怎样形成有业务结果的任务",
+      "topics": [
+        "R09",
+        "R10"
+      ]
+    },
+    {
+      "id": "M06",
+      "name": "身份治理与产品交付",
+      "central_question": "运行边界怎样落到企业身份和可安装产品",
+      "topics": [
+        "R11",
+        "R12"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "R01",
+      "module": "M01",
+      "title": "Agent 的创建、作用域与 preset 装配",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "Host 启动之后，一个完整且可执行的 Agent 如何建立？",
+      "research_questions": [
+        "Agent、Session、Context、Scope 分别保存什么身份和状态，谁拥有和释放？",
+        "create/setup/commit/publication 怎样交接，创建失败如何撤销未发布资源？",
+        "preset revision 怎样保留，子 Agent 怎样继承，resume/fork 怎样再次装配？"
+      ],
+      "source_entry_points": [
+        "packages/core/agent/src/index.ts",
+        "packages/core/scope/src/index.ts",
+        "packages/preset/agent-preset-registry/src/index.ts"
+      ],
+      "existing_articles": [
+        "00",
+        "01",
+        "03",
+        "06",
+        "09"
+      ],
+      "study_prerequisites": [],
+      "expected_artifact": "带 scoped 工具和策略的 Agent 创建示例，附对象所有权图。",
+      "acceptance": [
+        "成功创建后能力可用；setup 失败不发布 Agent；退出释放资源。"
+      ],
+      "boundary": "Scope 和 Context 的能力可见性不能直接作为不可信代码或租户隔离证明。",
+      "article": "articles/17-agent-creation-composition.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R02",
+      "module": "M01",
+      "title": "Skill 与工作区指令的发现、选择和加载",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "一份企业指令如何成为当前 Agent 可以发现和消费的能力？",
+      "research_questions": [
+        "provider、候选、catalog 和完整正文分别怎样生产与消费？",
+        "同名来源、作用域、invocation policy、缓存及失效怎样影响选择？",
+        "Skill、AGENTS.md 和文件引用通过哪些不同路径进入 Session，何时更新和清理？"
+      ],
+      "source_entry_points": [
+        "packages/skill/skill/src/index.ts",
+        "packages/skill/skill-filesystem/src/index.ts",
+        "packages/skill/tool-skill/src/index.ts",
+        "packages/context/agent-instructions/src/index.ts"
+      ],
+      "existing_articles": [
+        "01",
+        "05",
+        "10"
+      ],
+      "study_prerequisites": [
+        "R01"
+      ],
+      "expected_artifact": "企业 SOP Skill 的 provider 与加载示例，附来源选择和指令进入 Session 的流程。",
+      "acceptance": [
+        "核对同名选择、catalog/正文分离、来源变更及取消；说明结果作用域。"
+      ],
+      "boundary": "指令加载和工具执行授权分别研究；invocation policy 不等于企业认证。",
+      "article": "articles/18-skill-instruction-loading.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R03",
+      "module": "M02",
+      "title": "设置表单、配置写回与运行生效",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "用户修改一个设置后，磁盘配置和运行实例分别发生了什么？",
+      "research_questions": [
+        "Config schema、volatile 字段、表单描述与 live 值怎样对应？",
+        "revision、secret 保留、update/replace/mutate/reset 怎样参与写入？",
+        "config-editor 怎样生成 patch，更新怎样到达 Entry/Fiber，失败留下什么状态？"
+      ],
+      "source_entry_points": [
+        "packages/settings/settings/src/index.ts",
+        "packages/boot/config-editor/src/index.ts",
+        "packages/api/settings-controller/src/index.ts"
+      ],
+      "existing_articles": [
+        "00",
+        "01",
+        "02"
+      ],
+      "study_prerequisites": [],
+      "expected_artifact": "可配置业务插件的设置与写回示例，附字段值、raw config、patch 和实例的交接图。",
+      "acceptance": [
+        "验证正常保存、陈旧 revision、secret 保留及失败边界；区分保存与运行生效。"
+      ],
+      "boundary": "Settings 字段编辑与 patch 整个 config 覆盖各有契约，不混为同一种 merge。",
+      "article": "articles/19-settings-config-writeback.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R04",
+      "module": "M02",
+      "title": "Plugin Manager 与扩展包管理生命周期",
+      "priority": "P1",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "一个扩展包从安装到启用、移除，经过哪些提交和清理边界？",
+      "research_questions": [
+        "包操作、profile 锁、manifest 与 lockfile 怎样协调？",
+        "bundle 选择、兼容检查、RuntimeResolution 发布和 HMR 怎样衔接？",
+        "安装取消、验证失败、启用失败和移除失败分别保留或恢复哪些事实？"
+      ],
+      "source_entry_points": [
+        "packages/boot/plugin-manager/src/operations.ts",
+        "packages/boot/plugin-manager/src/index.ts",
+        "packages/boot/app-boot/src/profile.ts"
+      ],
+      "existing_articles": [
+        "00",
+        "01",
+        "02",
+        "10"
+      ],
+      "study_prerequisites": [
+        "R03"
+      ],
+      "expected_artifact": "教学 bundle 的安装/启停/移除案例，附阶段结果和恢复矩阵。",
+      "acceptance": [
+        "分别验证保存状态、安装状态、激活状态；失败和取消后清理包管理进程。"
+      ],
+      "boundary": "管理操作涉及 Host 代码和安装脚本；配置恢复不等于包目录及业务副作用的全局回滚。",
+      "article": "articles/20-plugin-package-management.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R05",
+      "module": "M03",
+      "title": "一个完整前后端插件的装配与调用",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "一个业务功能如何从 Host 服务进入浏览器，并在卸载时完整退出？",
+      "research_questions": [
+        "dsh.client、Loader 扫描、Web boot graph 与 Client 激活怎样连接？",
+        "Remote 声明、Typert 生成、参数/返回值、Context lookup、流和取消怎样交接？",
+        "UI Slots、store、事件与 effect 怎样组织展示并处理重连和卸载？"
+      ],
+      "source_entry_points": [
+        "packages/client/modules/src/index.ts",
+        "packages/api/gateway/src/index.ts",
+        "packages/client/ui-slots/src/index.ts",
+        "docs/development.md"
+      ],
+      "existing_articles": [
+        "00",
+        "01",
+        "16"
+      ],
+      "study_prerequisites": [
+        "R01",
+        "R03"
+      ],
+      "expected_artifact": "业务服务＋Remote API＋Client 插件＋UI 面板的完整样例。",
+      "acceptance": [
+        "正常调用与展示；断线/取消后的正确状态；卸载后调用和展示资源撤销。"
+      ],
+      "boundary": "实例须完成类型生成和 Client 构建；源码可调用不等于浏览器产物可用。",
+      "article": "articles/21-fullstack-plugin-development.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R06",
+      "module": "M03",
+      "title": "SDK、ACP 与 Web 的接入边界",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "企业应用应通过哪种入口创建 Session 并驱动同一运行内核？",
+      "research_questions": [
+        "各入口怎样创建/恢复 Session、传递参数和业务输入？",
+        "结果、审批、事件、错误与取消分别经过哪些协议对象？",
+        "SDK 子进程、连接与 Session 由谁拥有，调用方关闭后怎样处理？"
+      ],
+      "source_entry_points": [
+        "packages/sdk/client/src/index.ts",
+        "packages/sdk/server/src/index.ts",
+        "packages/acp/README.md",
+        "packages/api/session-controller/src/index.ts"
+      ],
+      "existing_articles": [
+        "00",
+        "03",
+        "06",
+        "11",
+        "16"
+      ],
+      "study_prerequisites": [
+        "R01"
+      ],
+      "expected_artifact": "同一教学任务的入口对比及一个可运行 SDK 集成示例。",
+      "acceptance": [
+        "核对接纳与完成、正常结果、审批/取消和调用方退出；记录子进程清理。"
+      ],
+      "boundary": "协议能力逐项核对，不假定 SDK、ACP 与 Web 的所有操作完全等价。",
+      "article": "articles/22-sdk-acp-web-integration.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R07",
+      "module": "M04",
+      "title": "MCP 连接、发现、重连与能力撤销",
+      "priority": "P0",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "远端能力如何变成本地可见、可调用且有生命周期的工具与资源？",
+      "research_questions": [
+        "stdio/HTTP 连接与初始 readiness 怎样建立？",
+        "工具发现、命名、schema、resources 和 instructions 怎样接入各自消费者？",
+        "重连 generation、注册更换、执行取消与 dispose 怎样衔接？"
+      ],
+      "source_entry_points": [
+        "packages/mcp/mcp-client/src/index.ts",
+        "packages/mcp/mcp-client/src/connection.ts",
+        "packages/mcp/mcp-client/src/tools.ts",
+        "packages/mcp/mcp-resources/src/index.ts"
+      ],
+      "existing_articles": [
+        "07",
+        "08",
+        "10"
+      ],
+      "study_prerequisites": [
+        "R01"
+      ],
+      "expected_artifact": "受控 MCP server 的连接与调用样例，附连接代际和注册生命周期。",
+      "acceptance": [
+        "验证正常调用、断线/重新发现、取消与卸载；明确远端副作用是否可确认。"
+      ],
+      "boundary": "MCP connection、instructions 和工具注册不替代资源授权或远端幂等协议。",
+      "article": "articles/23-mcp-connection-lifecycle.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R08",
+      "module": "M04",
+      "title": "PTC 的程序执行与内部工具调用",
+      "priority": "P1",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "模型程序如何通过 bindings 调用工具，并返回可解释的结果？",
+      "research_questions": [
+        "native/ptc/both presentation、生成 SDK/bindings 与 run_code 怎样形成请求？",
+        "运行进程、内部工具派发、权限、超时和并发怎样交接？",
+        "程序结果、工具结果、输出、取消与进程清理分别由谁提交？"
+      ],
+      "source_entry_points": [
+        "packages/core/agent-tool-presentation/src/index.ts",
+        "packages/ptc-runtime/ptc-runtime/src/index.ts",
+        "packages/ptc-runtime/ptc-runtime-node/src/index.ts"
+      ],
+      "existing_articles": [
+        "07",
+        "08",
+        "09",
+        "10",
+        "12"
+      ],
+      "study_prerequisites": [
+        "R01"
+      ],
+      "expected_artifact": "调用两个受控工具的程序示例，附内部调用链、失败和取消记录。",
+      "acceptance": [
+        "验证内部工具授权；程序/工具错误可区分；取消后清理进程。"
+      ],
+      "boundary": "PTC runtime 与 Session/工具语义分别核对，不预设性能提升幅度。",
+      "article": "articles/24-ptc-program-execution.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R09",
+      "module": "M05",
+      "title": "Workflow、Schedule 与 Hooks 的编排边界",
+      "priority": "P1",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "任务编排、定时触发和执行钩子各自负责哪一段运行过程？",
+      "research_questions": [
+        "分别建立三种机制的入口、执行者与结果链，不拼成虚构的统一调用链。",
+        "父子任务、触发来源、取消、重入与清理怎样表达？",
+        "逐项核对持久性、重启行为、失败传播和重复触发范围。"
+      ],
+      "source_entry_points": [
+        "packages/workflow/workflow/src/index.ts",
+        "packages/workflow/workflow-ptc/src/index.ts",
+        "packages/schedule/schedule/src/index.ts",
+        "packages/hooks/hook-protocol/src/index.ts"
+      ],
+      "existing_articles": [
+        "08",
+        "09",
+        "11",
+        "15"
+      ],
+      "study_prerequisites": [
+        "R01",
+        "R08"
+      ],
+      "expected_artifact": "任务编排示例与三种机制的寿命/恢复对照表。",
+      "acceptance": [
+        "核对普通失败、基础设施失败、取消、重复触发与 owner 退出；说明实际持久范围。"
+      ],
+      "boundary": "不预设 Schedule 是持久企业调度器，或 Workflow 有业务事务保证。",
+      "article": "articles/25-workflow-schedule-hooks.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R10",
+      "module": "M05",
+      "title": "企业数据与远端执行的接入设计",
+      "priority": "CONDITIONAL",
+      "research_type": "source-plus-design",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "业务数据、知识检索和远端执行怎样通过扩展接缝进入任务？",
+      "research_questions": [
+        "沿 fs/shell/subprocess/workspace provider 找到定义、调用方和替换边界。",
+        "用具体系统说明数据返回前授权、凭据使用、检索来源和远端操作回执。",
+        "连接丢失、取消、未知结果、再次执行与产物保存怎样取得可验证事实？"
+      ],
+      "source_entry_points": [
+        "packages/fs/fs/src/index.ts",
+        "packages/shell/shell/src/index.ts",
+        "packages/subprocess/subprocess/src/index.ts",
+        "packages/workspace/workspace/src/index.ts"
+      ],
+      "existing_articles": [
+        "07",
+        "08",
+        "10",
+        "15",
+        "16"
+      ],
+      "study_prerequisites": [
+        "R01",
+        "R07",
+        "R11"
+      ],
+      "expected_artifact": "企业数据查询＋一次可确认业务写入的案例；需要远端执行时单列 provider 协议。",
+      "acceptance": [
+        "受控外部系统验证权限、幂等/未知结果、取消与交付；显式记录 mock 范围。"
+      ],
+      "boundary": "provider 契约是源码研究；企业 connector、RAG 或远端后端是新增设计，不描述为默认能力。",
+      "article": "articles/26-enterprise-data-remote-execution.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R11",
+      "module": "M06",
+      "title": "身份、凭据与企业租户边界",
+      "priority": "CONDITIONAL",
+      "research_type": "source-plus-design",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "可信主体如何关联 Agent、Session、Workspace、模型、凭据和业务资源？",
+      "research_questions": [
+        "盘点请求可信性、Context lookup、Session/Workspace 归属与凭据保护的既有边界。",
+        "定义 principal/tenant 与授权策略的新契约，定位跨租户与后台任务检查。",
+        "恢复、delegation、缓存、审计和撤权后再次执行时，哪些身份必须重新验证？"
+      ],
+      "source_entry_points": [
+        "packages/client/connection/src/api-request-trust.ts",
+        "packages/api/gateway/src/index.ts",
+        "packages/credentials/credentials/src/index.ts",
+        "packages/credentials/credentials-local/src/index.ts"
+      ],
+      "existing_articles": [
+        "06",
+        "09",
+        "10",
+        "13"
+      ],
+      "study_prerequisites": [
+        "R01",
+        "R06"
+      ],
+      "expected_artifact": "企业授权链设计、资源归属矩阵及越权/撤权测试案例。",
+      "acceptance": [
+        "验证跨租户拒绝、凭据不越界、恢复与子任务重新授权；区分进程与资源隔离。"
+      ],
+      "boundary": "承接企业报告已有责任划分继续深化，不宣称 DSH 当前已有完整多租户平台。",
+      "article": "articles/27-identity-credentials-tenancy.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    },
+    {
+      "id": "R12",
+      "module": "M06",
+      "title": "构建、打包、安装与发行验证",
+      "priority": "P1",
+      "research_type": "source-deepening",
+      "status": "source-reviewed-and-article-generated",
+      "central_question": "二次开发成果怎样从源码成为目标环境真正可运行的产品？",
+      "research_questions": [
+        "追踪 Host/Client build faces、Typert 产物、exports 与 native 依赖。",
+        "核对 Web/Desktop/SDK 产物怎样提供 profiles、bundles 和运行入口。",
+        "建立实际安装、旧数据、退出排空、升级失败及依赖兼容验证矩阵。"
+      ],
+      "source_entry_points": [
+        "docs/development.md",
+        "package.json",
+        "scripts/build.ts",
+        "apps/desktop/README.md"
+      ],
+      "existing_articles": [
+        "00",
+        "02",
+        "14"
+      ],
+      "study_prerequisites": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "expected_artifact": "教学扩展的打包与安装记录，附产物依赖图和目标环境矩阵。",
+      "acceptance": [
+        "从产物启动；记录目标平台、依赖、退出与升级的实际验证限制。"
+      ],
+      "boundary": "完整发行研究最后汇总；每个样例所需构建和类型生成从一开始执行。",
+      "article": "articles/28-build-package-distribution.md",
+      "validation": "validation/supplementary-articles-validation.md",
+      "production_acceptance": "not-established"
+    }
+  ],
+  "phases": [
+    {
+      "id": "S1",
+      "goal": "对象、能力和配置基础",
+      "topics": [
+        "R01",
+        "R02",
+        "R03"
+      ]
+    },
+    {
+      "id": "S2",
+      "goal": "完整接入和管理链",
+      "topics": [
+        "R05",
+        "R06",
+        "R07",
+        "R04"
+      ]
+    },
+    {
+      "id": "S3",
+      "goal": "程序执行与任务编排",
+      "topics": [
+        "R08",
+        "R09"
+      ]
+    },
+    {
+      "id": "S4",
+      "goal": "企业集成与产品验收",
+      "topics": [
+        "R10",
+        "R12"
+      ],
+      "conditional_gate": "完成 R01/R06 后可提前研究 R11；真实企业资源接入前完成身份设计。"
+    }
+  ],
+  "maintained_artifacts": [
+    "扩展契约矩阵",
+    "完整扩展样例",
+    "改动影响与回归矩阵"
+  ],
+  "validation_limits": [
+    "本轮为计划结构化，入口存在性不代表实现已经完整深读。",
+    "问题、样例和验收条目为待执行计划，不是已完成结果。",
+    "无新增运行测试、无上游版本变化，保留现有文章正文和插图。"
+  ],
+  "completion_record": "validation/supplementary-articles-check.json"
+}

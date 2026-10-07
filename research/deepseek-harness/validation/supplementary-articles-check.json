@@ -1,0 +1,115 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "ok": true,
+  "article_count": 12,
+  "articles": [
+    {
+      "number": 17,
+      "article": "articles/17-agent-creation-composition.md",
+      "source_excerpts": 15,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2647
+    },
+    {
+      "number": 18,
+      "article": "articles/18-skill-instruction-loading.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2409
+    },
+    {
+      "number": 19,
+      "article": "articles/19-settings-config-writeback.md",
+      "source_excerpts": 10,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2168
+    },
+    {
+      "number": 20,
+      "article": "articles/20-plugin-package-management.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2209
+    },
+    {
+      "number": 21,
+      "article": "articles/21-fullstack-plugin-development.md",
+      "source_excerpts": 13,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2217
+    },
+    {
+      "number": 22,
+      "article": "articles/22-sdk-acp-web-integration.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 1952
+    },
+    {
+      "number": 23,
+      "article": "articles/23-mcp-connection-lifecycle.md",
+      "source_excerpts": 14,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2061
+    },
+    {
+      "number": 24,
+      "article": "articles/24-ptc-program-execution.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2104
+    },
+    {
+      "number": 25,
+      "article": "articles/25-workflow-schedule-hooks.md",
+      "source_excerpts": 14,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2386
+    },
+    {
+      "number": 26,
+      "article": "articles/26-enterprise-data-remote-execution.md",
+      "source_excerpts": 13,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2797
+    },
+    {
+      "number": 27,
+      "article": "articles/27-identity-credentials-tenancy.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 2415
+    },
+    {
+      "number": 28,
+      "article": "articles/28-build-package-distribution.md",
+      "source_excerpts": 12,
+      "figures": 4,
+      "sections": 8,
+      "cjk_characters_excluding_code_links": 1991
+    }
+  ],
+  "source_excerpt_count": 151,
+  "png_count": 48,
+  "svg_count": 48,
+  "checked_article_links": 284,
+  "protected_file_count": 156,
+  "source_checkout_clean": true,
+  "failures": [],
+  "limits": [
+    "Checks validate provenance, file structure and assets; they do not certify interpretation or business correctness.",
+    "Diagrams were visually reviewed separately. Source snippets are partial excerpts, not standalone programs.",
+    "Runtime evidence and its scope are recorded in supplementary-articles-validation.md."
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "source_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "node": "24.19.0",
+  "pnpm": "11.7.0",
+  "vitest": "4.1.8",
+  "platform": "darwin",
+  "runs": [
+    {
+      "log": "supplementary-article-runs/test-17-20-pinned.log",
+      "cwd": ".sources/deepseek-harness",
+      "exit_code": 0,
+      "passed": 372,
+      "skipped": 0,
+      "test_files": 11,
+      "reproduction_command": "pnpm exec vitest run --reporter=dot packages/core/agent-loop/tests/scope-lifecycle.spec.ts packages/preset/agent-preset-registry/tests/registry.spec.ts packages/skill/skill/tests/skill.spec.ts packages/skill/skill-filesystem/tests/skill-filesystem.spec.ts packages/skill/tool-skill/tests/tool-skill.spec.ts packages/settings/settings/tests/configuration.spec.ts packages/settings/settings/tests/configuration-inheritance.spec.ts packages/settings/settings/tests/editor-failures.spec.ts packages/boot/plugin-manager/tests/manager.spec.ts packages/boot/plugin-manager/tests/operations.spec.ts packages/boot/plugin-manager/tests/package-reload.spec.ts",
+      "execution_entrypoint": "checkout node_modules/.bin/vitest; child pnpm commands pinned via PATH wrapper"
+    },
+    {
+      "log": "supplementary-article-runs/test-21-24.log",
+      "cwd": ".sources/deepseek-harness",
+      "exit_code": 0,
+      "passed": 274,
+      "skipped": 1,
+      "test_files": 16,
+      "reproduction_command": "pnpm exec vitest run --reporter=dot packages/client/modules/tests/node-half.client.spec.ts packages/client/ui-settings-agent-loop/tests/apply.client.spec.ts packages/client/ui-settings-agent-loop/tests/controller.client.spec.ts packages/client/ui-settings-agent-loop/tests/card.client.spec.tsx packages/api/gateway/tests/gateway.host.spec.ts packages/sdk/client/tests/sdk-client.spec.ts packages/sdk/client/tests/launch.spec.ts packages/sdk/client/tests/dispose.spec.ts packages/acp/acp/tests/approval.spec.ts packages/mcp/mcp-client/tests/reconnect.spec.ts packages/mcp/mcp-client/tests/negotiation-lifecycle.spec.ts packages/mcp/mcp-client/tests/tool-definition.spec.ts packages/mcp/mcp-client/tests/server-context.spec.ts packages/ptc-runtime/ptc-runtime/tests/reserved.spec.ts packages/ptc-runtime/ptc-runtime-node/tests/bindings.spec.ts packages/ptc-runtime/ptc-runtime-node/tests/runtime.spec.ts",
+      "execution_entrypoint": "checkout node_modules/.bin/vitest; child pnpm commands pinned via PATH wrapper"
+    },
+    {
+      "log": "supplementary-article-runs/test-25-27.log",
+      "cwd": ".sources/deepseek-harness",
+      "exit_code": 0,
+      "passed": 131,
+      "skipped": 0,
+      "test_files": 8,
+      "reproduction_command": "pnpm exec vitest run --reporter=dot packages/workflow/workflow-ptc/tests/integration.spec.ts packages/schedule/schedule/tests/delivery.spec.ts packages/schedule/schedule/tests/recovery.spec.ts packages/hooks/hook-protocol/tests/runner.spec.ts packages/hooks/hook-protocol/tests/merge.spec.ts packages/hooks/hooks-codex/tests/bridge.spec.ts",
+      "execution_entrypoint": "checkout node_modules/.bin/vitest; child pnpm commands pinned via PATH wrapper"
+    },
+    {
+      "log": "supplementary-article-runs/test-26-28.log",
+      "cwd": ".sources/deepseek-harness",
+      "exit_code": 0,
+      "passed": 55,
+      "skipped": 0,
+      "test_files": 6,
+      "reproduction_command": "pnpm exec vitest run --reporter=dot packages/ssh/fs-ssh/tests/provider.spec.ts packages/ssh/ssh/tests/protocol-disposal.spec.ts packages/ssh/subprocess-ssh/tests/lifecycle.spec.ts scripts/client-build-environment.client.spec.ts scripts/npm-baseline-packages.spec.ts scripts/pnpm-invocation.spec.ts",
+      "execution_entrypoint": "checkout node_modules/.bin/vitest; child pnpm commands pinned via PATH wrapper"
+    },
+    {
+      "log": "supplementary-article-runs/enterprise-typecheck.log",
+      "cwd": "repository root",
+      "exit_code": 0,
+      "command": "node research/deepseek-harness/validation/enterprise-example.mjs typecheck"
+    },
+    {
+      "log": "supplementary-article-runs/enterprise-build.log",
+      "cwd": "repository root",
+      "exit_code": 0,
+      "command": "node research/deepseek-harness/validation/enterprise-example.mjs build"
+    },
+    {
+      "log": "supplementary-article-runs/enterprise-test.log",
+      "cwd": "repository root",
+      "exit_code": 0,
+      "command": "node research/deepseek-harness/validation/enterprise-example.mjs test"
+    },
+    {
+      "log": "supplementary-article-runs/packed-smoke.log",
+      "cwd": "repository root",
+      "exit_code": 0,
+      "command": "node research/deepseek-harness/validation/supplementary-pack-smoke.mjs"
+    }
+  ],
+  "upstream_passed": 832,
+  "enterprise_passed": 16,
+  "skipped": 1,
+  "skip_reason": "PTC Windows grant-lock/native-temp case: process.platform !== win32 on this Darwin host",
+  "limits": [
+    "Batch files overlap historical runs; do not add counts to the historical 1,520.",
+    "No real model/MCP/SSH/SSO, browser E2E, full distribution build, clean full Harness install, cross-platform migration or production deployment."
+  ],
+  "structural_checks": [
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-supplementary-articles.py",
+      "exit_code": 0,
+      "log": "supplementary-article-runs/supplementary-check.log"
+    },
+    {
+      "command": "node research/deepseek-harness/validation/check-artifacts.mjs",
+      "exit_code": 0,
+      "log": "supplementary-article-runs/artifact-check.log"
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-column.py",
+      "exit_code": 0,
+      "log": "supplementary-article-runs/column-check.log"
+    },
+    {
+      "command": ".sources/column-work/.venv/bin/python research/deepseek-harness/validation/check-config-startup-article.py",
+      "exit_code": 0,
+      "log": "supplementary-article-runs/startup-check.log"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log": "supplementary-article-runs/diff-check.log"
+    }
+  ],
+  "retained_failed_runs": [
+    {
+      "log": "supplementary-article-runs/test-17-20.log",
+      "exit_code": 127
+    },
+    {
+      "log": "supplementary-article-runs/test-17-20-direct.log",
+      "exit_code": 1
+    },
+    {
+      "log": "supplementary-article-runs/test-17-20-ready.log",
+      "exit_code": 1
+    },
+    {
+      "log": "supplementary-article-runs/supplementary-check-first.log",
+      "exit_code": 1
+    },
+    {
+      "log": "supplementary-article-runs/artifact-check-first.log",
+      "exit_code": 1
+    },
+    {
+      "log": "supplementary-article-runs/column-check-first.log",
+      "exit_code": 1
+    }
+  ]
+}

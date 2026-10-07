@@ -1,0 +1,451 @@
+{
+  "scope": {
+    "mode": "new-article",
+    "article": "articles/25-workflow-schedule-hooks.md",
+    "audience": "DSH 二次开发者",
+    "central_question": "Workflow、Schedule 和 Hooks 都会影响 Agent 的执行，但职责各不相同：Workflow 组织多个 Agent 的数据依赖，Schedule 持久保存并投递提醒，Hooks 在既定扩展点改变决策或上下文。本文分别沿三个真实入口展开，再回到它们共同依赖的 Session、子任务和退出边界，避免画出源码并不存在的统一流水线。",
+    "preserve": "00—16正文和插图",
+    "protected_files": "validation/supplementary-protected-baseline.json"
+  },
+  "source_baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "full_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+    "version": "0.2.1-alpha.1"
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "packages/workflow/workflow-ptc/src/index.ts",
+      "packages/workflow/workflow-ptc/src/host.ts",
+      "packages/workflow/workflow-ptc/src/guest.ts",
+      "packages/schedule/schedule/src/index.ts",
+      "packages/schedule/schedule/src/runtime.ts",
+      "packages/hooks/hook-protocol/src/runner.ts",
+      "packages/hooks/hook-protocol/src/merge.ts",
+      "packages/hooks/hooks-codex/src/index.ts",
+      "packages/workflow/workflow-ptc/tests/integration.spec.ts"
+    ],
+    "edges": [
+      {
+        "chapter": 2,
+        "source_id": "S01",
+        "handoff": "步骤1：WorkflowEngine.start 接收 script、meta、args、parent 与 signal，先同步检查能否开始。",
+        "interpretation": "validateMeta 和 assertBodyParses 失败直接 throw；只有返回 WorkflowRun 后，错误才通过 result.stopReason 结算。limits 同时控制并发 Agent、总量和单次 items，maxConcurrent=0 会根据 CPU 生成受限值，不能解释为无限并发。"
+      },
+      {
+        "chapter": 2,
+        "source_id": "S02",
+        "handoff": "步骤2：start 将输入、捕获的 services、parent policy 和事件 observer 交给 PtcWorkflowRun。",
+        "interpretation": "事件 workflow/end 只携带 stopReason/error/agentsStarted，value 留给 holder。持有 run 的 caller 拥有取消与退出责任，engine service 卸载与 holder-owned run 的寿命不能简单划等号。Workflow backend 还要求 TypeScript PTC，不能由语言字符串推定 Python 也可运行同一脚本。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S03",
+        "handoff": "步骤3：PtcWorkflowRun.drive 使用 workflowHost bindings 启动 PTC program，交给 guest runtime 执行脚本。",
+        "interpretation": "timeoutMs=null 是这里显式的选择；脚本同步预算和 Agent 总量由 Workflow 层另行约束。PTC 的 policy 来自 parent Session，脚本不是在 Host 内直接 eval。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S04",
+        "handoff": "步骤4：guest 的 startAgent 通过 host.startChild 拿到 callId/childId，再等待 childResult，dispose 前先 drain progress。",
+        "interpretation": "进度事件只允许一个 batch 在途，避免消息无限堆积；child failure 也挂有 rejection handler，防止用户漏 await 造成 unhandled。guest 请求并不能直接取得 Host SubagentRun 对象，只拿到序列化 identity。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S05",
+        "handoff": "步骤5：Host.startChild 调用 subagents.start，记录 ChildRecord，且在 await 返回后重新检查取消。",
+        "interpretation": "provider 可能在 signal 已发出后才发布 child，因此迟到 child 仍要 dispose。parent、prompt、outputSchema 和 agentOptions 明确传给子任务。这一责任跟第17篇的 late handle 清理一致，属于可复用的归属模式。"
+      },
+      {
+        "chapter": 3,
+        "source_id": "S06",
+        "handoff": "步骤6：Workflow 无论成功还是失败都进入 finally，停止 guest 并等待 pending starts 与已发布 children 退出。",
+        "interpretation": "result 用 completed/error/cancelled 表示终态。普通子 Agent 任务失败和执行 substrate 故障不同，脚本可根据 child output 做业务处理；基础设施故障则可能终止 run。企业 pipeline 应明确何时继续、何时 fail，而不是对所有 null 一律重试。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S07",
+        "handoff": "步骤7：ScheduleService 是另一条入口。它先 open scheduleDomain，核对 stored task key，再构造 timer runtime。",
+        "interpretation": "这个基线已经有持久 storage domain、delivery history 以及 restart/recovery 逻辑，不应描述成临时 setTimeout 插件。退出顺序为停止 runtime、等待串行写链、关闭 domain。task 数据和 timer 的生命周期分别管理。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S08",
+        "handoff": "步骤8：schedule.create 在 serialize 内检查目标、等待 domain、检查 signal，然后持久写 task 并通知 runtime。",
+        "interpretation": "取消在持久开始前检查；写入在途取消不承诺 rollback。task 保存 sessionId、record、status 与 deliveryHistory，提醒不要求目标 Agent 此刻一定已经 live。daily/weekly/cron 等 recurrence 会计算下一次时刻，仍需以实际领域规则而非系统 crontab 理解。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S09",
+        "handoff": "步骤9：到期投递的提交点在 Agent.followup 之后的 sessions.flush；只有持久确认后才更新提醒状态和 history。",
+        "interpretation": "message source.kind=schedule，messageId 进入 delivery receipt。一次性任务变 inactive，recurring 推进 nextScheduledAt。提醒已投递到 inbox 不代表 Agent 完成报告，更不代表下游写入成功；那是后续 Session/业务结果的观察。"
+      },
+      {
+        "chapter": 4,
+        "source_id": "S10",
+        "handoff": "步骤10：flush 或 task commit 失败时，runtime 区分已成功提交和仍未确认的任务，记录警告。",
+        "interpretation": "inbox durable append 与 scheduleDomain task commit 是两个提交点，崩溃窗口需要恢复逻辑核对 receipt/history。不能据正常路径的 await 次序宣称跨后端 exactly-once。企业可在业务工具进一步提供幂等，防止重投递最终变成重复效果。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S11",
+        "handoff": "步骤11：Hooks 使用共享 runHook 执行 command，由 bridge 提供 payload、cwd、env、signal 和 expectedEventName。",
+        "interpretation": "它通过 shell.resolve/execute 而不是直接 shell 字符串拼接到一个未归属的进程。timeoutSec 转毫秒，exitCode 及 stdout/stderr 经 codec 解释。基础设施无法执行 hook 的错误在协议层可被作为非阻断错误；企业关键策略不应只依赖这种可选旁路检查。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S12",
+        "handoff": "步骤12：多个 matched outputs 由 mergeHookOutputs 合并，采用最严格决策和 sticky stop。",
+        "interpretation": "deny > ask > allow；保留胜出 rank 的 reasons，additionalContext 和 systemMessages 则按顺序累计。它定义共享合并语义，不统一 Claude Code/Codex 的 matcher、payload 或 event mapping。"
+      },
+      {
+        "chapter": 5,
+        "source_id": "S13",
+        "handoff": "步骤13：Codex bridge 把合并结果接到 tools/pre-execute 与 post-execute，再由 ToolRuntime 消费 decision。",
+        "interpretation": "此 Codex bridge 的 pre-execute 只映射 deny，其余进入 next；共享 merge 支持 ask 不意味着此 bridge 已映射人工审批；post-execute 只能解释结果、添加上下文或停止后续推进，不能撤销已发生的外部写入。Hook durable events 负责审计调用与结果，detached hooks 还有独立的 quiescence owner。"
+      },
+      {
+        "chapter": 7,
+        "source_id": "S14",
+        "handoff": "真实的两阶段 Workflow 样例将第一步 prose 接到第二个带 schema 的 child，并检查结果及总量。",
+        "interpretation": "代码的 parent 来自已装配 mock adapter、subagent provider 和 PTC 的 setup fixture。script 使用 phase/agent/return，结果只能在 await run.result 后解读；最后 await run.dispose 完成 children 清理。"
+      }
+    ],
+    "branches": [
+      [
+        "packages/hooks/hook-protocol/src/runner.ts",
+        67,
+        95,
+        "步骤11：Hooks 使用共享 runHook 执行 command，由 bridge 提供 payload、cwd、env、signal 和 expectedEventName。",
+        "它通过 shell.resolve/execute 而不是直接 shell 字符串拼接到一个未归属的进程。timeoutSec 转毫秒，exitCode 及 stdout/stderr 经 codec 解释。基础设施无法执行 hook 的错误在协议层可被作为非阻断错误；企业关键策略不应只依赖这种可选旁路检查。"
+      ],
+      [
+        "packages/hooks/hook-protocol/src/merge.ts",
+        68,
+        100,
+        "步骤12：多个 matched outputs 由 mergeHookOutputs 合并，采用最严格决策和 sticky stop。",
+        "deny > ask > allow；保留胜出 rank 的 reasons，additionalContext 和 systemMessages 则按顺序累计。它定义共享合并语义，不统一 Claude Code/Codex 的 matcher、payload 或 event mapping。"
+      ],
+      [
+        "packages/hooks/hooks-codex/src/index.ts",
+        231,
+        261,
+        "步骤13：Codex bridge 把合并结果接到 tools/pre-execute 与 post-execute，再由 ToolRuntime 消费 decision。",
+        "此 Codex bridge 的 pre-execute 只映射 deny，其余进入 next；共享 merge 支持 ask 不意味着此 bridge 已映射人工审批；post-execute 只能解释结果、添加上下文或停止后续推进，不能撤销已发生的外部写入。Hook durable events 负责审计调用与结果，detached hooks 还有独立的 quiescence owner。"
+      ]
+    ]
+  },
+  "article_plan": {
+    "opening": "Workflow、Schedule 和 Hooks 都会影响 Agent 的执行，但职责各不相同：Workflow 组织多个 Agent 的数据依赖，Schedule 持久保存并投递提醒，Hooks 在既定扩展点改变决策或上下文。本文分别沿三个真实入口展开，再回到它们共同依赖的 Session、子任务和退出边界，避免画出源码并不存在的统一流水线。",
+    "sections": [
+      "整体地图：编排、触发和钩子各解决什么问题",
+      "Workflow 主线：脚本怎样成为一个 run",
+      "子任务主线：并行、阶段、失败与清理",
+      "Schedule 支线：注册、触发和 owner 退出",
+      "Hooks 支线：协议适配和控制权",
+      "组合边界：恢复、取消与业务流程保证",
+      "开发示例与验证：一个可观察的任务编排",
+      "工程心得：触发成功、运行结算与业务完成分别记录"
+    ]
+  },
+  "steps": [
+    {
+      "chapter": 2,
+      "source_id": "S01",
+      "handoff": "步骤1：WorkflowEngine.start 接收 script、meta、args、parent 与 signal，先同步检查能否开始。",
+      "interpretation": "validateMeta 和 assertBodyParses 失败直接 throw；只有返回 WorkflowRun 后，错误才通过 result.stopReason 结算。limits 同时控制并发 Agent、总量和单次 items，maxConcurrent=0 会根据 CPU 生成受限值，不能解释为无限并发。"
+    },
+    {
+      "chapter": 2,
+      "source_id": "S02",
+      "handoff": "步骤2：start 将输入、捕获的 services、parent policy 和事件 observer 交给 PtcWorkflowRun。",
+      "interpretation": "事件 workflow/end 只携带 stopReason/error/agentsStarted，value 留给 holder。持有 run 的 caller 拥有取消与退出责任，engine service 卸载与 holder-owned run 的寿命不能简单划等号。Workflow backend 还要求 TypeScript PTC，不能由语言字符串推定 Python 也可运行同一脚本。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S03",
+      "handoff": "步骤3：PtcWorkflowRun.drive 使用 workflowHost bindings 启动 PTC program，交给 guest runtime 执行脚本。",
+      "interpretation": "timeoutMs=null 是这里显式的选择；脚本同步预算和 Agent 总量由 Workflow 层另行约束。PTC 的 policy 来自 parent Session，脚本不是在 Host 内直接 eval。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S04",
+      "handoff": "步骤4：guest 的 startAgent 通过 host.startChild 拿到 callId/childId，再等待 childResult，dispose 前先 drain progress。",
+      "interpretation": "进度事件只允许一个 batch 在途，避免消息无限堆积；child failure 也挂有 rejection handler，防止用户漏 await 造成 unhandled。guest 请求并不能直接取得 Host SubagentRun 对象，只拿到序列化 identity。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S05",
+      "handoff": "步骤5：Host.startChild 调用 subagents.start，记录 ChildRecord，且在 await 返回后重新检查取消。",
+      "interpretation": "provider 可能在 signal 已发出后才发布 child，因此迟到 child 仍要 dispose。parent、prompt、outputSchema 和 agentOptions 明确传给子任务。这一责任跟第17篇的 late handle 清理一致，属于可复用的归属模式。"
+    },
+    {
+      "chapter": 3,
+      "source_id": "S06",
+      "handoff": "步骤6：Workflow 无论成功还是失败都进入 finally，停止 guest 并等待 pending starts 与已发布 children 退出。",
+      "interpretation": "result 用 completed/error/cancelled 表示终态。普通子 Agent 任务失败和执行 substrate 故障不同，脚本可根据 child output 做业务处理；基础设施故障则可能终止 run。企业 pipeline 应明确何时继续、何时 fail，而不是对所有 null 一律重试。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S07",
+      "handoff": "步骤7：ScheduleService 是另一条入口。它先 open scheduleDomain，核对 stored task key，再构造 timer runtime。",
+      "interpretation": "这个基线已经有持久 storage domain、delivery history 以及 restart/recovery 逻辑，不应描述成临时 setTimeout 插件。退出顺序为停止 runtime、等待串行写链、关闭 domain。task 数据和 timer 的生命周期分别管理。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S08",
+      "handoff": "步骤8：schedule.create 在 serialize 内检查目标、等待 domain、检查 signal，然后持久写 task 并通知 runtime。",
+      "interpretation": "取消在持久开始前检查；写入在途取消不承诺 rollback。task 保存 sessionId、record、status 与 deliveryHistory，提醒不要求目标 Agent 此刻一定已经 live。daily/weekly/cron 等 recurrence 会计算下一次时刻，仍需以实际领域规则而非系统 crontab 理解。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S09",
+      "handoff": "步骤9：到期投递的提交点在 Agent.followup 之后的 sessions.flush；只有持久确认后才更新提醒状态和 history。",
+      "interpretation": "message source.kind=schedule，messageId 进入 delivery receipt。一次性任务变 inactive，recurring 推进 nextScheduledAt。提醒已投递到 inbox 不代表 Agent 完成报告，更不代表下游写入成功；那是后续 Session/业务结果的观察。"
+    },
+    {
+      "chapter": 4,
+      "source_id": "S10",
+      "handoff": "步骤10：flush 或 task commit 失败时，runtime 区分已成功提交和仍未确认的任务，记录警告。",
+      "interpretation": "inbox durable append 与 scheduleDomain task commit 是两个提交点，崩溃窗口需要恢复逻辑核对 receipt/history。不能据正常路径的 await 次序宣称跨后端 exactly-once。企业可在业务工具进一步提供幂等，防止重投递最终变成重复效果。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S11",
+      "handoff": "步骤11：Hooks 使用共享 runHook 执行 command，由 bridge 提供 payload、cwd、env、signal 和 expectedEventName。",
+      "interpretation": "它通过 shell.resolve/execute 而不是直接 shell 字符串拼接到一个未归属的进程。timeoutSec 转毫秒，exitCode 及 stdout/stderr 经 codec 解释。基础设施无法执行 hook 的错误在协议层可被作为非阻断错误；企业关键策略不应只依赖这种可选旁路检查。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S12",
+      "handoff": "步骤12：多个 matched outputs 由 mergeHookOutputs 合并，采用最严格决策和 sticky stop。",
+      "interpretation": "deny > ask > allow；保留胜出 rank 的 reasons，additionalContext 和 systemMessages 则按顺序累计。它定义共享合并语义，不统一 Claude Code/Codex 的 matcher、payload 或 event mapping。"
+    },
+    {
+      "chapter": 5,
+      "source_id": "S13",
+      "handoff": "步骤13：Codex bridge 把合并结果接到 tools/pre-execute 与 post-execute，再由 ToolRuntime 消费 decision。",
+      "interpretation": "此 Codex bridge 的 pre-execute 只映射 deny，其余进入 next；共享 merge 支持 ask 不意味着此 bridge 已映射人工审批；post-execute 只能解释结果、添加上下文或停止后续推进，不能撤销已发生的外部写入。Hook durable events 负责审计调用与结果，detached hooks 还有独立的 quiescence owner。"
+    },
+    {
+      "chapter": 7,
+      "source_id": "S14",
+      "handoff": "真实的两阶段 Workflow 样例将第一步 prose 接到第二个带 schema 的 child，并检查结果及总量。",
+      "interpretation": "代码的 parent 来自已装配 mock adapter、subagent provider 和 PTC 的 setup fixture。script 使用 phase/agent/return，结果只能在 await run.result 后解读；最后 await run.dispose 完成 children 清理。"
+    }
+  ],
+  "data_contracts": [
+    "workflow 请求、run、子任务与结果",
+    "schedule 触发记录及寿命",
+    "hook 请求、响应、来源与执行 Context"
+  ],
+  "figure_plan": [
+    {
+      "stem": "25-workflow-schedule-hooks-fig-1",
+      "title": "三种机制的职责地图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Workflow",
+          "脚本与 Agent 数据依赖"
+        ],
+        [
+          "Schedule",
+          "持久 task 与提醒投递"
+        ],
+        [
+          "Hooks",
+          "既定扩展点的决策"
+        ],
+        [
+          "企业业务组合",
+          "通过明确调用另行连接"
+        ]
+      ],
+      "note": "三条独立入口，不是内置统一流水线",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 1,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-1.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-1.svg",
+      "png_sha256": "450807c4c0323766f534def70d5955621b8d128e6c3eddd8b8578e2a3b71bf56",
+      "svg_sha256": "40a03ad8a9437636e4bcc56da8835fc56bbd3b08999bd45d930f683ec6c80d92"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-2",
+      "title": "Workflow run 与子任务寿命图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "Workflow.start",
+          "同步 meta / parse 检查"
+        ],
+        [
+          "PtcWorkflowRun",
+          "构造 guest 与 bindings"
+        ],
+        [
+          "host.startChild",
+          "SubagentRun 与 callId"
+        ],
+        [
+          "result / dispose",
+          "脚本和 children 收敛"
+        ]
+      ],
+      "note": "返回 run 后终态通过 stopReason 表达",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 2,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-2.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-2.svg",
+      "png_sha256": "545469423176703fc445629e99ac333de3e1505d2a6c8a115a2e49ead624e22d",
+      "svg_sha256": "123bea5fbd6d6d4192368ec0b5f0c42be088df6ed3c314be5a4f9dc49e68740e"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-3",
+      "title": "Schedule 提醒投递与持久提交图",
+      "kind": "sequence",
+      "nodes": [
+        [
+          "stored task",
+          "sessionId、record、history"
+        ],
+        [
+          "timer drive",
+          "恢复目标 Session 并 followup"
+        ],
+        [
+          "sessions.flush",
+          "确认 durable inbox receipt"
+        ],
+        [
+          "task commit",
+          "更新 status 与下一次时刻"
+        ]
+      ],
+      "note": "投递完成与业务完成分别确认",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 4,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-3.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-3.svg",
+      "png_sha256": "22aa36f39ad5e2da857eaec7794608c8eaa272f8bda8cdcaea2f57ac57fc4668",
+      "svg_sha256": "d4a857c07a8e9ddd7a03682a7c185f692cf8ed7b1f461c3bd9b0ceedfe273a72"
+    },
+    {
+      "stem": "25-workflow-schedule-hooks-fig-4",
+      "title": "失败、持久性和恢复边界对照图",
+      "kind": "map",
+      "nodes": [
+        [
+          "Workflow cancel",
+          "等待 pending starts 与 children"
+        ],
+        [
+          "Schedule failure",
+          "区分 receipt 与 task commit"
+        ],
+        [
+          "Hook pre-execute",
+          "body 前决策"
+        ],
+        [
+          "Hook post-execute",
+          "解释结果；不撤销外部效果"
+        ]
+      ],
+      "note": "每条入口有自己的退出与恢复边界",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "position": 6,
+      "width": 1200,
+      "height": 1400,
+      "png": "articles/assets/25-workflow-schedule-hooks-fig-4.png",
+      "svg": "articles/assets/25-workflow-schedule-hooks-fig-4.svg",
+      "png_sha256": "3455e6b20269c7f2898cbaa4cd72b9a0b66656bd025993a437f9e93209f3a85f",
+      "svg_sha256": "ba7b3ba91cdd16e6ba5dfcc82f8cab6fe0d2319d10a80632a91551d141171f37"
+    }
+  ],
+  "lessons": [
+    "这三条实现共同给出的收获，是将编排、投递和策略放在不同完成边界。Workflow result 描述脚本与子任务结算，Schedule receipt 描述 durable inbox delivery，Hook outcome 描述扩展点决策。企业平台可以组合这些事实建立任务看板，而不必强行把它们改成一个通用 status。",
+    "持久提醒尤其说明了“时间到了”与“任务完成”的距离。flush 和 history 让投递可追溯；业务工具的 effect receipt 再让结果可确认。把这两层一起设计，重复投递和恢复就有明确的诊断依据。",
+    "另外，退出时等待迟到子任务、进度和写链收敛，是可复用的工程模式。二次开发无论增加何种编排入口，都应先明确 holder、pending Promise 和 terminal result 的归属。"
+  ],
+  "review": {
+    "status": "followup source/editorial review and structure checks passed",
+    "commands": [
+      "pnpm exec vitest run packages/workflow/workflow-ptc/tests/integration.spec.ts packages/schedule/schedule/tests/delivery.spec.ts packages/schedule/schedule/tests/recovery.spec.ts packages/hooks/hook-protocol/tests/runner.spec.ts packages/hooks/hook-protocol/tests/merge.spec.ts packages/hooks/hooks-codex/tests/bridge.spec.ts"
+    ],
+    "limitations": [
+      "本篇摘录来自固定 Git 对象；mock/contract 测试不能证明真实外部服务及生产部署",
+      "企业方案和教学片段单独标注；未执行的构建或部署不作为实测"
+    ],
+    "record": "validation/supplementary-articles-validation.md",
+    "runtime_record": "validation/supplementary-runtime-runs.json",
+    "visual_review": "Four figures per article inspected in contact sheets; representative full-resolution figures checked.",
+    "checks": "validation/supplementary-articles-check.json",
+    "followup_record": "validation/supplementary-articles-review.md"
+  }
+}
