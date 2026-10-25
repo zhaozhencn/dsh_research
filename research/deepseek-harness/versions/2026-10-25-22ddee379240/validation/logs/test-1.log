@@ -1,0 +1,16 @@
+SHA: 22ddee3792402c3e70ec5f86a63c3e3e895a2f60
+CWD: /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25
+COMMAND: ["corepack","pnpm","exec","vitest","run","--config","/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-test-37961.config.ts","--reporter=default","--reporter=json","--outputFile.json=/Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/extensions-results.json"]
+
+ RUN  v4.1.11 /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25
+
+ ✓ ../../research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/extensions.spec.ts (8 tests) 41ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  19:21:53
+   Duration  484ms (transform 293ms, setup 0ms, import 375ms, tests 41ms, environment 0ms)
+
+JSON report written to /Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/extensions-results.json
+
+EXIT: 0

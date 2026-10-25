@@ -1,0 +1,5 @@
+SHA: 22ddee3792402c3e70ec5f86a63c3e3e895a2f60
+CWD: /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25
+COMMAND: ["corepack","pnpm","exec","tsc","-p","/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-typecheck-37873.json"]
+
+EXIT: 0

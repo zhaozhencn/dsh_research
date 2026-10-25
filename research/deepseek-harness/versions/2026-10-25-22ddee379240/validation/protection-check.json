@@ -1,0 +1,15 @@
+{
+  "checked": 494,
+  "changed": [
+    "research/deepseek-harness/articles/README.md",
+    "research/deepseek-harness/examples/README.md",
+    "research/deepseek-harness/validation/check-artifacts.mjs"
+  ],
+  "allowed": [
+    "research/deepseek-harness/articles/README.md",
+    "research/deepseek-harness/examples/README.md",
+    "research/deepseek-harness/validation/check-artifacts.mjs"
+  ],
+  "unexpected": [],
+  "ok": true
+}

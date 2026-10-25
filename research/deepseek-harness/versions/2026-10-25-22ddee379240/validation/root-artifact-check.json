@@ -1,0 +1,138 @@
+{
+  "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "markdown_files": 52,
+  "checked_links": 2402,
+  "checked_source_links": 1561,
+  "evidence_anchors": 149,
+  "workspace_members": 341,
+  "pnpm_projects": 342,
+  "mermaid_version": "11.16.0",
+  "diagrams": [
+    {
+      "file": "01-architecture.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "01-architecture.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 2,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 3,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 4,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 5,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 6,
+      "ok": true
+    },
+    {
+      "file": "02-runtime-source.md",
+      "index": 7,
+      "ok": true
+    },
+    {
+      "file": "03-extension-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 1,
+      "ok": true
+    },
+    {
+      "file": "04-enterprise-harness-practices.md",
+      "index": 2,
+      "ok": true
+    }
+  ],
+  "version_reports": [
+    {
+      "directory": "2026-10-25-22ddee379240",
+      "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "checks": {
+        "ok": true,
+        "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+        "final_mode": true,
+        "evidence_records": 40,
+        "workspace_members": 386,
+        "markdown_files": 14,
+        "inline_links": 206,
+        "source_links": 165,
+        "errors": [],
+        "limits": [
+          "Checks are structural, not semantic. Only inline Markdown links are parsed; internal heading anchors and HTTP availability are not tested. Mermaid requires separate parser execution."
+        ]
+      },
+      "diagrams": {
+        "ok": true,
+        "mermaid_version": "11.17.2",
+        "parsed": 2,
+        "minimum": 1,
+        "records": [
+          {
+            "file": "01-architecture.md",
+            "line": 8,
+            "outcome": "passed"
+          },
+          {
+            "file": "02-runtime-source.md",
+            "line": 8,
+            "outcome": "passed"
+          }
+        ],
+        "limits": [
+          "Syntax parsing only; diagram rendering and source semantics require separate review."
+        ]
+      }
+    }
+  ],
+  "source_checkout_clean": true,
+  "checks": "local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status / independent version reports",
+  "note": "Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.",
+  "failures": [],
+  "ok": true
+}

@@ -1,0 +1,400 @@
+[
+  {
+    "id": "typecheck-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "tsc",
+      "-p",
+      "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-typecheck-37873.json"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "extension-type"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/typecheck-1.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "build-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "typescript.transpileModule",
+      "sum-tool/index.ts",
+      "route-policy/index.ts"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "extension-type"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/build-1.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "test-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "--config",
+      "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-test-37961.config.ts",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/extensions-results.json"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "normal-loop",
+      "abnormal-or-cancel",
+      "extension-runtime",
+      "cleanup"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/test-1.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "typecheck-2",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "tsc",
+      "-p",
+      "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-typecheck-38312.json"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "extension-type"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/typecheck-2.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "build-2",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "typescript.transpileModule",
+      "sum-tool/index.ts",
+      "route-policy/index.ts"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "extension-type"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/build-2.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "test-2",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "--config",
+      "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/.research-test-38310.config.ts",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/extensions-results.json"
+    ],
+    "scope": "两个参考扩展；固定源码 runtime＋受控模型；编译插件产物",
+    "purposes": [
+      "normal-loop",
+      "abnormal-or-cancel",
+      "extension-runtime",
+      "cleanup"
+    ],
+    "inputs": "本目录及 examples 源码",
+    "expected": "exit 0",
+    "actual": "exit 0; see log",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/test-2.log",
+    "limitations": [
+      "源码 alias 集成，未验证发布包安装、UI和真实模型"
+    ]
+  },
+  {
+    "id": "install-setup-failed",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "zsh",
+      "-c",
+      "corepack pnpm install --frozen-lockfile --ignore-scripts > /Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/install.log 2>&1"
+    ],
+    "scope": "shell 日志重定向准备",
+    "purposes": [],
+    "inputs": "固定提交源码及锁文件；测试输入见所列文件",
+    "expected": "退出 0；测试非零数量",
+    "actual": "目标日志父目录未建立，pnpm 未运行；修复目录后安装成功",
+    "exit_code": 1,
+    "outcome": "failed",
+    "log_path": "validation/logs/install-setup-failed.log",
+    "limitations": [],
+    "superseded_by": "install-1"
+  },
+  {
+    "id": "install-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "install",
+      "--frozen-lockfile",
+      "--ignore-scripts"
+    ],
+    "scope": "独立目标 checkout 依赖安装",
+    "purposes": [
+      "environment"
+    ],
+    "inputs": "固定提交源码及锁文件；测试输入见所列文件",
+    "expected": "退出 0；测试非零数量",
+    "actual": "退出0；checkout 内 pnpm 11.28.5",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/install.log",
+    "limitations": []
+  },
+  {
+    "id": "native-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "run",
+      "build:native-system"
+    ],
+    "scope": "目标 host addon 构建",
+    "purposes": [
+      "environment"
+    ],
+    "inputs": "固定提交源码及锁文件；测试输入见所列文件",
+    "expected": "退出 0；测试非零数量",
+    "actual": "退出0；非全仓构建",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/native-build.log",
+    "limitations": []
+  },
+  {
+    "id": "vendor-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "tsc",
+      "-b",
+      "vendor/cordis",
+      "vendor/schemastery"
+    ],
+    "scope": "vendor 类型声明构建",
+    "purposes": [
+      "extension-type"
+    ],
+    "inputs": "固定提交源码及锁文件；测试输入见所列文件",
+    "expected": "退出 0；测试非零数量",
+    "actual": "退出0；日志空输出以本记录和执行结果确认",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/vendor-types.log",
+    "limitations": []
+  },
+  {
+    "id": "upstream-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "command": [
+      "corepack",
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "packages/core/tools/tests/activation.spec.ts",
+      "packages/core/tools/tests/execution-mode.spec.ts",
+      "packages/core/agent/tests/model-selection.spec.ts",
+      "packages/core/agent-loop/tests/model.spec.ts",
+      "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "packages/core/agent-loop/tests/cancel.spec.ts",
+      "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "packages/session/session-projection/tests/compatibility.spec.ts",
+      "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "--maxWorkers=2",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/upstream-results.json"
+    ],
+    "scope": "13 个上游文件；模型/工具/取消/scope/投影/兼容/patch/RemoteAccess host",
+    "purposes": [
+      "repository-regression",
+      "abnormal-or-cancel",
+      "cleanup"
+    ],
+    "inputs": "固定提交源码及锁文件；测试输入见所列文件",
+    "expected": "退出 0；测试非零数量",
+    "actual": "13 文件 284 项通过；0 failed/0 skipped",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/upstream.log",
+    "limitations": [
+      "source plane；未运行完整 Gateway 网络、浏览器、真实模型和全仓 suite"
+    ]
+  },
+  {
+    "id": "artifact-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research",
+    "command": [
+      "python3",
+      "skills/harness-research-sync/scripts/research.py",
+      "check",
+      "--repo",
+      ".sources/deepseek-harness-2026-10-25",
+      "--report",
+      "research/deepseek-harness/versions/2026-10-25-22ddee379240",
+      "--final"
+    ],
+    "scope": "当前三篇、40 条证据、386 包覆盖、源码范围/hash 与链接",
+    "purposes": [
+      "artifact"
+    ],
+    "inputs": "本次报告和 Git 固定对象；历史报告按其原基线",
+    "expected": "exit0；无失败",
+    "actual": "通过；见日志",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/artifact-check.log",
+    "limitations": [
+      "结构/语法检查不替代语义复核或外部服务验收"
+    ]
+  },
+  {
+    "id": "diagram-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research",
+    "command": [
+      "node",
+      "skills/harness-research-sync/scripts/check-diagrams.mjs",
+      "--report",
+      "research/deepseek-harness/versions/2026-10-25-22ddee379240",
+      "--dependencies",
+      ".sources/deepseek-harness-2026-10-25"
+    ],
+    "scope": "当前两张 Mermaid，parser 11.17.2",
+    "purposes": [
+      "diagram"
+    ],
+    "inputs": "本次报告和 Git 固定对象；历史报告按其原基线",
+    "expected": "exit0；无失败",
+    "actual": "通过；见日志",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/diagrams.log",
+    "limitations": [
+      "结构/语法检查不替代语义复核或外部服务验收"
+    ]
+  },
+  {
+    "id": "root-artifact-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research",
+    "command": [
+      "node",
+      "research/deepseek-harness/validation/check-artifacts.mjs",
+      ".sources/deepseek-harness",
+      "research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/root-artifact-check.json"
+    ],
+    "scope": "历史报告与各自独立版本报告，按各自 SHA 校验",
+    "purposes": [
+      "artifact"
+    ],
+    "inputs": "本次报告和 Git 固定对象；历史报告按其原基线",
+    "expected": "exit0；无失败",
+    "actual": "通过；见日志",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/logs/root-artifact-check.log",
+    "limitations": [
+      "结构/语法检查不替代语义复核或外部服务验收"
+    ]
+  },
+  {
+    "id": "protection-1",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "cwd": "/Volumes/Ext_SSD/prj/dsh_research",
+    "command": [
+      "python3",
+      "research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/review.py"
+    ],
+    "scope": "494 个原有文件；仅三个导航/校验文件按授权修改；AGENTS.md 和 plugin-ideas.md 一致",
+    "purposes": [
+      "artifact"
+    ],
+    "inputs": "本次报告和 Git 固定对象；历史报告按其原基线",
+    "expected": "exit0；无失败",
+    "actual": "通过；见日志",
+    "exit_code": 0,
+    "outcome": "passed",
+    "log_path": "validation/protection-check.json",
+    "limitations": [
+      "结构/语法检查不替代语义复核或外部服务验收"
+    ]
+  }
+]

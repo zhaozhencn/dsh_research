@@ -1,0 +1,5617 @@
+[
+  {
+    "path": "apps/cli",
+    "name": "@deepseek-ai/dsh",
+    "responsibility": "dsh CLI: profile launch, plugin management, and configuration inspection",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "apps/desktop",
+    "name": "@deepseek-ai/dsh-desktop",
+    "responsibility": "Electron desktop shell for a bundled dsh runtime and external plugins",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "apps/desktop-host",
+    "name": "@deepseek-ai/dsh-desktop-host",
+    "responsibility": "Private Node-mode host process for the Electron desktop application",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "apps/plugin-market-generator",
+    "name": "@deepseek-ai/dsh-plugin-market-generator",
+    "responsibility": "Reference generator of plugin market index files from a list of npm packages and Git repositories",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "apps/web",
+    "name": "@deepseek-ai/dsh-web-frontend",
+    "responsibility": "Web application entry: vite build over the @deepseek-ai/dsh-client-web shell library; dist/ served by apps/cli's dsh web",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "benchmarks",
+    "name": "@deepseek-ai/dsh-benchmarks",
+    "responsibility": "",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system",
+    "name": "@deepseek-ai/node-addon-system-workspace",
+    "responsibility": "",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system/packages/darwin-arm64",
+    "name": "@deepseek-ai/node-addon-system-darwin-arm64",
+    "responsibility": "Prebuilt POSIX flock Node-API binding for macOS arm64",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system/packages/darwin-x64",
+    "name": "@deepseek-ai/node-addon-system-darwin-x64",
+    "responsibility": "Prebuilt POSIX flock Node-API binding for macOS x64",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system/packages/entry",
+    "name": "@deepseek-ai/node-addon-system",
+    "responsibility": "Prebuilt system primitives: a Linux Landlock launcher and asynchronous POSIX flock through stable Node-API",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system/packages/linux-arm64",
+    "name": "@deepseek-ai/node-addon-system-linux-arm64",
+    "responsibility": "Linux arm64 system binaries: static Landlock launcher and glibc/musl Node-API flock addons",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "native/system/packages/linux-x64",
+    "name": "@deepseek-ai/node-addon-system-linux-x64",
+    "responsibility": "Linux x64 system binaries: static Landlock launcher and glibc/musl Node-API flock addons",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/acp/acp",
+    "name": "@deepseek-ai/dsh-acp",
+    "responsibility": "Automation-only Agent Client Protocol server for driving DeepSeek Harness agents over JSON-RPC stdio",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/account-controller",
+    "name": "@deepseek-ai/dsh-api-account-controller",
+    "responsibility": "Expose safe account operations over authenticated Remote",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/gateway",
+    "name": "@deepseek-ai/dsh-api-gateway",
+    "responsibility": "Typert Remote Host dispatcher and Client API endpoint",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/api/gateway/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/api/gateway/src/index.ts",
+        "start": 783,
+        "end": 825
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/job-controller",
+    "name": "@deepseek-ai/dsh-api-job-controller",
+    "responsibility": "Job Remote observation stream and the reference-counted client job-output service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/remote-access",
+    "name": "@deepseek-ai/dsh-api-remote-access",
+    "responsibility": "Method-level Remote access control for non-owner Peers and the per-Peer access snapshot",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/api/remote-access/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/api/remote-access/src/index.ts",
+        "start": 160,
+        "end": 227
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/remotes",
+    "name": "@deepseek-ai/dsh-api-remotes",
+    "responsibility": "Remote BFF assembly for application-selected Host capabilities",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/session-controller",
+    "name": "@deepseek-ai/dsh-api-session-controller",
+    "responsibility": "Session Remote commands, cold reads, and live control transport",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/settings-controller",
+    "name": "@deepseek-ai/dsh-api-settings-controller",
+    "responsibility": "Remote owner for the configuration surfaces over the settings-domain seams",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/terminal-controller",
+    "name": "@deepseek-ai/dsh-api-terminal-controller",
+    "responsibility": "Session-owned interactive terminals with shell discovery, screen recovery and typed Remote control",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/workspace-controller",
+    "name": "@deepseek-ai/dsh-api-workspace-controller",
+    "responsibility": "Workspace Remote commands and reconnect-safe state transport",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/api/workspace-files",
+    "name": "@deepseek-ai/dsh-api-workspace-files",
+    "responsibility": "Workspace file service and Client resource provider: bounded reads, directory listing, and live metadata over the workspaceFiles Remote namespace",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/attachment/attachment",
+    "name": "@deepseek-ai/dsh-attachment",
+    "responsibility": "Durable immutable attachment storage seam for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/attachment/attachment-local",
+    "name": "@deepseek-ai/dsh-attachment-local",
+    "responsibility": "Private content-addressed DSH_HOME attachment storage",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/app-boot",
+    "name": "@deepseek-ai/dsh-app-boot",
+    "responsibility": "Shared boot glue for the app bins: .env loading, fail-loud Loader guards, snapshot-aware config resolution, and the Loader boot sequence",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/boot/app-boot/src/plugin-compatibility.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/boot/app-boot/src/plugin-compatibility.ts",
+        "start": 52,
+        "end": 101
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/cmdline",
+    "name": "@deepseek-ai/dsh-cmdline",
+    "responsibility": "Immutable command-line handoff from a dsh launcher to any app plugin that injects cmdlineArgs",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/config-editor",
+    "name": "@deepseek-ai/dsh-config-editor",
+    "responsibility": "Persist plugin configuration through profile patches and Loader reconciliation",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/boot/config-editor/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/boot/config-editor/src/index.ts",
+        "start": 80,
+        "end": 153
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/hmr",
+    "name": "@deepseek-ai/dsh-hmr",
+    "responsibility": "Coordinated module and profile configuration hot reload",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/plugin-manager",
+    "name": "@deepseek-ai/dsh-plugin-manager",
+    "responsibility": "Current-profile plugin and bundle management shared by dsh CLI, Web and agent tools",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/boot/plugin-manager/README.md"
+    ],
+    "ranges": [
+      {
+        "path": "packages/boot/plugin-manager/README.md",
+        "start": 31,
+        "end": 79
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/boot/plugin-market",
+    "name": "@deepseek-ai/dsh-plugin-market",
+    "responsibility": "Configured plugin market indexes for the Web Discover page and the plugin_market agent tool",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/browser-use/browser-use",
+    "name": "@deepseek-ai/dsh-browser-use",
+    "responsibility": "Exclusive named browser-use provider registration",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/acp-app",
+    "name": "@deepseek-ai/dsh-acp-app",
+    "responsibility": "The dsh ACP profile bundle: automation-only JSON-RPC stdio and process lifecycle over dsh-base",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/base",
+    "name": "@deepseek-ai/dsh-base",
+    "responsibility": "The shared dsh core as a profile bundle: the first patch layer of base-backed profiles, inserting core rows over the empty profile root",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/headless",
+    "name": "@deepseek-ai/dsh-headless",
+    "responsibility": "The dsh one-shot bundle: a direct core Agent/Session runner over dsh-base with no Host, HTTP, or browser layer",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/sdk-app",
+    "name": "@deepseek-ai/dsh-sdk-app",
+    "responsibility": "The dsh SDK profile bundle: stdio JSON-RPC serving and process lifecycle over dsh-base",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/sdk-minimal",
+    "name": "@deepseek-ai/dsh-sdk-minimal",
+    "responsibility": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, and JSONL sessions",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/bundle/web-app",
+    "name": "@deepseek-ai/dsh-web-app",
+    "responsibility": "The dsh browser-surface bundle: the web patch layer over dsh-base plus the runtime glue plugin (frontend dist serving, bash runtime variables, URL line)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/connection",
+    "name": "@deepseek-ai/dsh-client-connection",
+    "responsibility": "Authenticated RPC transport and generation lifecycle",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/file-upload",
+    "name": "@deepseek-ai/dsh-client-file-upload",
+    "responsibility": "Agent-scoped browser file upload, streaming intake, and staged receipt service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/hmr",
+    "name": "@deepseek-ai/dsh-client-hmr",
+    "responsibility": "Web client graph synchronization and rebuilt-bundle reload transport",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/locale",
+    "name": "@deepseek-ai/dsh-client-locale",
+    "responsibility": "Locale plugin: Host-backed preference, extensible language catalog, browser fallback, and typed built-in dictionaries",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/modules",
+    "name": "@deepseek-ai/dsh-client-modules",
+    "responsibility": "Client module system, dual-face: node half composes the __DSH_BOOT__ entry graph (incremental dsh.client scan, bundle route, index tap, webPlugins service); browser half is the lazy-CJS module table the vendored cordis Loader consumes as its internal seam",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/client/modules/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/client/modules/src/index.ts",
+        "start": 889,
+        "end": 919
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/product-analytics",
+    "name": "@deepseek-ai/dsh-client-product-analytics",
+    "responsibility": "Desktop product event collection and authenticated Host reporting",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/resources",
+    "name": "@deepseek-ai/dsh-client-resources",
+    "responsibility": "Unified client resource model: protocol-registered providers turn URL addresses into live values, consumed through the useResource global standard hook",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/shortcuts",
+    "name": "@deepseek-ai/dsh-client-shortcuts",
+    "responsibility": "Application keyboard command registry and physical-key routing",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/store",
+    "name": "@deepseek-ai/dsh-client-store",
+    "responsibility": "React-free observable and snapshot-store contracts with the shared Zustand/Immer engine",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-agent-preset",
+    "name": "@deepseek-ai/dsh-client-ui-agent-preset",
+    "responsibility": "Agent-preset surfaces: the default for later sessions, this session's seat, and the composition editor",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-approval",
+    "name": "@deepseek-ai/dsh-client-ui-approval",
+    "responsibility": "Approval composer takeover over the scoped Remote Event waterfall",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-attachment",
+    "name": "@deepseek-ai/dsh-client-ui-attachment",
+    "responsibility": "Dynamic attachment presentation plugin for conversation input, message-image, and trajectory image slots",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-brand-official",
+    "name": "@deepseek-ai/dsh-client-ui-brand-official",
+    "responsibility": "Official DeepSeek Harness brand occupants for the Web client's sidebar slots",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-chat",
+    "name": "@deepseek-ai/dsh-client-ui-chat",
+    "responsibility": "Chat Conversation target, node definitions, renderers, and details surface",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-commands",
+    "name": "@deepseek-ai/dsh-client-ui-commands",
+    "responsibility": "Client command surface: global directory cache, '/' source, three command UI kinds, popupSelect registry",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-conversation",
+    "name": "@deepseek-ai/dsh-client-ui-conversation",
+    "responsibility": "Target-neutral Conversation assembly, shell, composer, queue, and view navigation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-deepseek-model-label-1017",
+    "name": "@deepseek-ai/dsh-client-ui-deepseek-model-label-1017",
+    "responsibility": "Temporary 1017 release badge for official DeepSeek Flash model labels",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-deliverables",
+    "name": "@deepseek-ai/dsh-client-ui-deliverables",
+    "responsibility": "Changed-files card with per-file comparison tabs, delivery cards, and clickable final-response file references for Web",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-directory-picker-browse",
+    "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+    "responsibility": "In-app directory browsing surface: the workspace directory-flow owner rendering the host's listing and creation primitives",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-directory-picker-native",
+    "name": "@deepseek-ai/dsh-client-ui-directory-picker-native",
+    "responsibility": "Native directory-picker surface: the renderless workspace directory-flow occupant driving the local Desktop or Host OS chooser",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-dockkit",
+    "name": "@deepseek-ai/dsh-client-ui-dockkit",
+    "responsibility": "Docking layout kit: split-tree engine with invertible operations, and the React components that render and drive it (zero cordis)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-entry-customization",
+    "name": "@deepseek-ai/dsh-client-ui-entry-customization",
+    "responsibility": "Customize plugin entries in the left sidebar, conversation views, and right sidebar, and quickly create new plugins.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-file-drag",
+    "name": "@deepseek-ai/dsh-client-ui-file-drag",
+    "responsibility": "Application-owned file drag transfers and localized failure feedback",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-goal",
+    "name": "@deepseek-ai/dsh-client-ui-goal",
+    "responsibility": "Session goal surface: GoalBar docked above the composer, read from the goal session projection",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-input-trigger",
+    "name": "@deepseek-ai/dsh-client-ui-input-trigger",
+    "responsibility": "Input trigger pipeline: '/' and '@' detection, candidate menu, pick routing to registered sources",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-jobs",
+    "name": "@deepseek-ai/dsh-client-ui-jobs",
+    "responsibility": "Session-header background-job list with on-demand streaming record panels",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-layout",
+    "name": "@deepseek-ai/dsh-client-ui-layout",
+    "responsibility": "Shell plugin: three-column AppFrame with drag handles, ctx.layout viewing-state service (navigation + panels)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-message-feedback",
+    "name": "@deepseek-ai/dsh-client-ui-message-feedback",
+    "responsibility": "The Web feedback surface: per-message Like/Dislike in the assistant-message action strip and the feedback dialog behind both ratings and /feedback, backed by the messageFeedback and sessionFeedback Host Remotes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-model-selection",
+    "name": "@deepseek-ai/dsh-client-ui-model-selection",
+    "responsibility": "Model selection over the shared model catalog, Session projection, and session.selectModel",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-open-in-app",
+    "name": "@deepseek-ai/dsh-client-ui-open-in-app",
+    "responsibility": "Web \"Open In...\" controls: the Session-header split button opening the workspace directory in an installed application, and the document preview's default-application controls for one file",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-permission-presets",
+    "name": "@deepseek-ai/dsh-client-ui-permission-presets",
+    "responsibility": "Permission surfaces: a new-session default in General settings and a current-session /permission popup over the permissions projection",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-plan",
+    "name": "@deepseek-ai/dsh-client-ui-plan",
+    "responsibility": "Plan mode controls, persistent transcript plan cards, and sidebar Markdown previews",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-plugin-manager",
+    "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
+    "responsibility": "Plugin management for the dsh web client: the sidebar Plugins panel installs, enables, disables, retries, and composes installed plugin packages",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-plugin-market",
+    "name": "@deepseek-ai/dsh-client-ui-plugin-market",
+    "responsibility": "Discover tab of the dsh web Plugins page: browse configured plugin market indexes and install their bundles",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-primitives",
+    "name": "@deepseek-ai/dsh-client-ui-primitives",
+    "responsibility": "Pure React atoms for the dsh web UI: controls, icons, markdown, and JSON inspectors (zero cordis)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-reference",
+    "name": "@deepseek-ai/dsh-client-ui-reference",
+    "responsibility": "Unified Web @file and @session reference source",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-renderer",
+    "name": "@deepseek-ai/dsh-client-ui-renderer",
+    "responsibility": "Browser UI renderer: React slot bindings, ctx.uiRenderer, and the assembled application root",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-schedule",
+    "name": "@deepseek-ai/dsh-client-ui-schedule",
+    "responsibility": "Host task management page and Session reminder catalog",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-secret-mask",
+    "name": "@deepseek-ai/dsh-client-ui-secret-mask",
+    "responsibility": "Web display masking for recognized credentials in sent user text",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-session",
+    "name": "@deepseek-ai/dsh-client-ui-session",
+    "responsibility": "Session Controller adapter for React and session-scoped slots",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings",
+    "name": "@deepseek-ai/dsh-client-ui-settings",
+    "responsibility": "Settings domain base plugin: shared configuration forms and the canonical settings slot-type contract",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-account",
+    "name": "@deepseek-ai/dsh-client-ui-settings-account",
+    "responsibility": "Manage DeepSeek login and open Platform billing pages",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-agent-loop",
+    "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+    "responsibility": "Settings page of the agent loop on the dsh web client's Plugins page: the parallel tool-call cap of the agent-loop namespace",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-general",
+    "name": "@deepseek-ai/dsh-client-ui-settings-general",
+    "responsibility": "Settings ownerless-copy and product onboarding plugin: the General section, shell trigger/header chrome content, settings dictionaries, and the versioned welcome notice",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-models",
+    "name": "@deepseek-ai/dsh-client-ui-settings-models",
+    "responsibility": "Models settings and shared product-onboarding dialogs over existing settings and credential joins",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-plugin-inventory",
+    "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+    "responsibility": "Read-only Cordis Loader inventory tab in Web Plugins settings",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-plugins",
+    "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
+    "responsibility": "Built-in plugins settings section for the dsh web client: the Settings navigation entry and the tab chrome feature-owned tabs register into",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-session-log",
+    "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
+    "responsibility": "General settings control for Session-log upload with DeepSeek API requests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-shell",
+    "name": "@deepseek-ai/dsh-client-ui-settings-shell",
+    "responsibility": "Settings page of the shell executor on the dsh web client's Plugins page: the command timeout and the per-stream output cap of the shell namespace",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-subagent",
+    "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
+    "responsibility": "Settings page of Subagent delegation on the dsh web client's Plugins page: recursion depth, parallel capacity, and the models agents may choose for subagents",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-settings-web-search",
+    "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
+    "responsibility": "Settings page of the DeepSeek web-search provider on the dsh web client's Plugins page: its API key, endpoint, and per-request search budget",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-shortcuts",
+    "name": "@deepseek-ai/dsh-client-ui-shortcuts",
+    "responsibility": "Keyboard shortcut reference, recording, and local preference editing",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar",
+    "responsibility": "Sidebar plugin: session multi-level tree, search, grouping, state dots",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar-browser",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+    "responsibility": "Sandboxed Web browser tabs for the right Sidebar",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar-documentpreview",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+    "responsibility": "Extensible Sidebar previews for Office documents, spreadsheets, Markdown, code, images, PDF, HTML, and plain text",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar-files",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
+    "responsibility": "Workspace file tree tab type for the right Sidebar: lazy directory listing over the workspaceFiles Remote namespace, opening files into the Sidebar",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar-right",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
+    "responsibility": "Right Sidebar: the docking surface's session-bound state, its panel and header expand control, and the navigation service over it",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-sidebar-terminal",
+    "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+    "responsibility": "Interactive shell tabs for the right Sidebar",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-skill",
+    "name": "@deepseek-ai/dsh-client-ui-skill",
+    "responsibility": "Web skill references and the dedicated skill tool row",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-slots",
+    "name": "@deepseek-ai/dsh-client-ui-slots",
+    "responsibility": "Slot registry pure core: typed ordinary Slots and reusable Component Factories, derived props, Store seats, and renderer installation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-subagent",
+    "name": "@deepseek-ai/dsh-client-ui-subagent",
+    "responsibility": "Subagent conversation catalog, continuation routing UI, and '@' reference source",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-theme",
+    "name": "@deepseek-ai/dsh-client-ui-theme",
+    "responsibility": "Theme plugin: Host bootstrap for the pre-plugin palette; ThemeRuntime for light/dark/system state and icon replacements; --dsw-* token styles and Appearance settings row",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-tool",
+    "name": "@deepseek-ai/dsh-client-ui-tool",
+    "responsibility": "Client Tool call-tree renderer and keyed per-tool presentation slot",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-trajectory",
+    "name": "@deepseek-ai/dsh-client-ui-trajectory",
+    "responsibility": "Trajectory event ledger with an interactive timing overview: pure-consumer plugin registering into the conversation ViewMap (no service)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-user-questions",
+    "name": "@deepseek-ai/dsh-client-ui-user-questions",
+    "responsibility": "Web ask_user_question composer takeover and plan-review presentation UI",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-workflow-run",
+    "name": "@deepseek-ai/dsh-client-ui-workflow-run",
+    "responsibility": "Durable workflow-run Conversation Node and nested member disclosure for dsh web",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/ui-workspace",
+    "name": "@deepseek-ai/dsh-client-ui-workspace",
+    "responsibility": "Workspace picker plugin: one WorkspacePicker registered into the sidebar and empty-state workspace slots",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/client/web",
+    "name": "@deepseek-ai/dsh-client-web",
+    "responsibility": "Web boot kernel: static module table, Cordis loader, framework-free boot page, and UI-renderer handoff",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/compaction/command-compact",
+    "name": "@deepseek-ai/dsh-command-compact",
+    "responsibility": "Human-facing slash command for explicit session compaction",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/compaction/compaction",
+    "name": "@deepseek-ai/dsh-compaction",
+    "responsibility": "Abstract compaction service seam (ctx.compaction) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/compaction/compaction-basic",
+    "name": "@deepseek-ai/dsh-compaction-basic",
+    "responsibility": "Token-meter-driven compaction policy and LLM summarization backend for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/compaction/compaction-image-offload",
+    "name": "@deepseek-ai/dsh-compaction-image-offload",
+    "responsibility": "Durable image offload for image-capable routes: replace over-budget request images with placeholders and retry",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/compaction/compaction-tool-result-pruner",
+    "name": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+    "responsibility": "Replay-safe model-free head/middle/tail pruning for tool-result surface nodes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/computer-use/computer-use",
+    "name": "@deepseek-ai/dsh-computer-use",
+    "responsibility": "Exclusive named computer-use provider registration",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/agent-instructions",
+    "name": "@deepseek-ai/dsh-agent-instructions",
+    "responsibility": "Workspace context loader for AGENTS.md/CLAUDE.md instruction files",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/file-reference",
+    "name": "@deepseek-ai/dsh-file-reference",
+    "responsibility": "File-reference discovery contract and shared @file grammar",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/file-reference-local",
+    "name": "@deepseek-ai/dsh-file-reference-local",
+    "responsibility": "Local-filesystem ctx.fileReferences provider with bounded fuzzy indexes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/harness-dev-context",
+    "name": "@deepseek-ai/dsh-harness-dev-context",
+    "responsibility": "Model context naming the DeepSeek Harness checkout and Web GUI URL without letting either change the system prompt",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/session-reference",
+    "name": "@deepseek-ai/dsh-session-reference",
+    "responsibility": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/time-context",
+    "name": "@deepseek-ai/dsh-time-context",
+    "responsibility": "Durable per-step context with the current time and elapsed time",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/context/tmux-context",
+    "name": "@deepseek-ai/dsh-tmux-context",
+    "responsibility": "Opt-in durable per-step context with this agent's tmux pane and window location",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/agent",
+    "name": "@deepseek-ai/dsh-agent",
+    "responsibility": "Agent interface, registry, initiator scope, and event vocabulary for the DeepSeek Harness",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/core/agent/src/model-selection.ts",
+      "packages/core/agent/src/runtime-types.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/core/agent/src/model-selection.ts",
+        "start": 17,
+        "end": 174
+      },
+      {
+        "path": "packages/core/agent/src/runtime-types.ts",
+        "start": 53,
+        "end": 72
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/agent-default-model",
+    "name": "@deepseek-ai/dsh-agent-default-model",
+    "responsibility": "Default model selection shared by Agent entry points",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/agent-loop",
+    "name": "@deepseek-ai/dsh-agent-loop",
+    "responsibility": "The concrete agent loop plugin for the DeepSeek Harness",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/core/agent-loop/src/agent.ts",
+      "packages/core/agent-loop/src/index.ts",
+      "packages/core/agent-loop/tests/cancel.spec.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 276,
+        "end": 310
+      },
+      {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 335,
+        "end": 390
+      },
+      {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 606,
+        "end": 651
+      },
+      {
+        "path": "packages/core/agent-loop/src/index.ts",
+        "start": 616,
+        "end": 651
+      },
+      {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 430,
+        "end": 475
+      },
+      {
+        "path": "packages/core/agent-loop/tests/cancel.spec.ts",
+        "start": 1,
+        "end": 99
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/agent-tool-presentation",
+    "name": "@deepseek-ai/dsh-agent-tool-presentation",
+    "responsibility": "Deprecated tool presentation selector; use dsh-tool-executor-native or dsh-tool-executor-ptc directly",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/scope",
+    "name": "@deepseek-ai/dsh-scope",
+    "responsibility": "Scoped-context registration primitive (scope tags, scope-filtered event dispatch) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/session",
+    "name": "@deepseek-ai/dsh-session",
+    "responsibility": "Event-sourced session store for the DeepSeek Harness",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/core/session/src/types.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/core/session/src/types.ts",
+        "start": 83,
+        "end": 101
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/system-prompt",
+    "name": "@deepseek-ai/dsh-system-prompt",
+    "responsibility": "System prompt assembly registry for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/tool-executor-native",
+    "name": "@deepseek-ai/dsh-tool-executor-native",
+    "responsibility": "Native tool execution plugin",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/core/tool-executor-native/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/core/tool-executor-native/src/index.ts",
+        "start": 1,
+        "end": 35
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/tool-executor-ptc",
+    "name": "@deepseek-ai/dsh-tool-executor-ptc",
+    "responsibility": "PTC program execution, tool bindings, and generated SDK prompts",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/core/tools",
+    "name": "@deepseek-ai/dsh-tools",
+    "responsibility": "Tool registry and execution pipeline for the DeepSeek Harness",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/core/tools/src/contracts.ts",
+      "packages/core/tools/src/executor.ts",
+      "packages/core/tools/src/index.ts",
+      "packages/core/tools/src/pipeline.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/core/tools/src/contracts.ts",
+        "start": 104,
+        "end": 137
+      },
+      {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 230,
+        "end": 300
+      },
+      {
+        "path": "packages/core/tools/src/executor.ts",
+        "start": 20,
+        "end": 102
+      },
+      {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 99,
+        "end": 115
+      },
+      {
+        "path": "packages/core/tools/src/pipeline.ts",
+        "start": 254,
+        "end": 290
+      },
+      {
+        "path": "packages/core/tools/src/pipeline.ts",
+        "start": 327,
+        "end": 394
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/credentials/authorization",
+    "name": "@deepseek-ai/dsh-authorization",
+    "responsibility": "Authorization seam (ctx.authorization): plugin-owned flows that obtain a credential through a conversation with the human",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/credentials/credentials",
+    "name": "@deepseek-ai/dsh-credentials",
+    "responsibility": "Abstract credential seam (ctx.credentials): settings carry references to secrets, providers own the values",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/credentials/credentials-local",
+    "name": "@deepseek-ai/dsh-credentials-local",
+    "responsibility": "File-backed credentials provider ($DSH_HOME/.env under the live process environment) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/credentials/deepseek-account",
+    "name": "@deepseek-ai/dsh-deepseek-account",
+    "responsibility": "Read account state and resolve official API credentials",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/credentials/deepseek-account-platform",
+    "name": "@deepseek-ai/dsh-deepseek-account-platform",
+    "responsibility": "Authorize DeepSeek accounts through browser PKCE",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/deliverables/deliverable-file-references",
+    "name": "@deepseek-ai/dsh-deliverable-file-references",
+    "responsibility": "Shared model guidance for file links and deliverables across DeepSeek Harness hosts",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/deliverables/tool-present",
+    "name": "@deepseek-ai/dsh-tool-present",
+    "responsibility": "Explicit workspace file delivery declarations for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/deliverables/workspace-changes",
+    "name": "@deepseek-ai/dsh-workspace-changes",
+    "responsibility": "Per-turn workspace file changes recorded from git working-tree snapshots and whole-file captures, with per-file comparisons, for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/document/office-to-pdf",
+    "name": "@deepseek-ai/dsh-office-to-pdf",
+    "responsibility": "Shared Office-to-PDF conversion with bounded queues and caching",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/action-cards",
+    "name": "@deepseek-ai/dsh-action-cards",
+    "responsibility": "Optional action cards below answers: one shared proposal tool, card state, user actions and status notices",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/agent-team",
+    "name": "@deepseek-ai/dsh-experimental-agent-team",
+    "responsibility": "Implicit-root Agent Teams roster, direct peer messaging, and shared task DAG",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/agent-team-profile",
+    "name": "@deepseek-ai/dsh-experimental-agent-team-profile",
+    "responsibility": "Agent Teams collaboration, tools, and Web UI in one experimental bundle",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/api-speech-to-text",
+    "name": "@deepseek-ai/dsh-experimental-api-speech-to-text",
+    "responsibility": "Authenticated experimental speech transcription for browser clients",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/auto-review",
+    "name": "@deepseek-ai/dsh-experimental-auto-review",
+    "responsibility": "Per-tool LLM authorization review for the DeepSeek Harness Auto permission preset",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/badge-skill-bundle",
+    "name": "@deepseek-ai/dsh-experimental-badge-skill-bundle",
+    "responsibility": "Let agents add a “powered by dsh” badge to documents, pull requests, and other outputs.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/browser-use-chrome-devtools-mcp",
+    "name": "@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp",
+    "responsibility": "Experimental per-Session Chromium browser tools through chrome-devtools-mcp",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/browser-use-playwright-mcp",
+    "name": "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp",
+    "responsibility": "Experimental per-Session Chromium browser tools through @playwright/mcp",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/browser-use-runtime",
+    "name": "@deepseek-ai/dsh-experimental-browser-use-runtime",
+    "responsibility": "Session-owned browser resource lifecycles and MCP integration for experimental providers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/browser-use-stagehand-native",
+    "name": "@deepseek-ai/dsh-experimental-browser-use-stagehand-native",
+    "responsibility": "Experimental Stagehand browser tools with separately configured native models",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/claude-code-mods",
+    "name": "@deepseek-ai/dsh-experimental-claude-code-mods",
+    "responsibility": "Experimental bridge: load Claude Code mods (hooks modules) and run their hook chains on DeepSeek Harness extension points",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-action-cards",
+    "name": "@deepseek-ai/dsh-client-ui-action-cards",
+    "responsibility": "Action cards below completed answers: the shared card frame, kind bodies and the compact tool row",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-agent-team",
+    "name": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+    "responsibility": "Web Agent Teams roster, task board, and teammate navigation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-claude-code-mods",
+    "name": "@deepseek-ai/dsh-experimental-client-ui-claude-code-mods",
+    "responsibility": "Web band above the prompt for Claude Code mods: draws each session's mod tree and sends button presses back to the bridge",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-cot-translation",
+    "name": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+    "responsibility": "Optional machine translation of expanded reasoning, preserving original Session text",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-creation-recommendations",
+    "name": "@deepseek-ai/dsh-client-ui-creation-recommendations",
+    "responsibility": "Body of the personalized page card: location choice, creation progress, Keep, Undo and Restore",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-plugin-recommendations",
+    "name": "@deepseek-ai/dsh-client-ui-plugin-recommendations",
+    "responsibility": "Official plugin card body with catalog text and enabling",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/client-ui-voice-input",
+    "name": "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+    "responsibility": "Record speech and insert editable text into the conversation draft",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/computer-use-cua-driver-mcp",
+    "name": "@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp",
+    "responsibility": "Experimental computer use through an installed Cua Driver MCP executable",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/computer-use-cua-driver-native",
+    "name": "@deepseek-ai/dsh-experimental-computer-use-cua-driver-native",
+    "responsibility": "Experimental computer-use provider embedding the Cua Driver native npm SDK",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/cot-translation-bundle",
+    "name": "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+    "responsibility": "Experimental machine translation of expanded reasoning",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/creation-recommendations",
+    "name": "@deepseek-ai/dsh-creation-recommendations",
+    "responsibility": "Create persistent removable interface plugins from explicit conversation needs",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/cua",
+    "name": "@deepseek-ai/dsh-cua",
+    "responsibility": "Shared Computer Use application objects, authorization, and logged tool execution",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/cua-bundle",
+    "name": "@deepseek-ai/dsh-cua-bundle",
+    "responsibility": "Optional macOS Computer Use and permission setup",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/cua-macos",
+    "name": "@deepseek-ai/dsh-experimental-cua-macos",
+    "responsibility": "macOS native provider for shared Computer Use application and window objects",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/hook-protocol",
+    "name": "@deepseek-ai/dsh-hook-protocol",
+    "responsibility": "Shared Claude Code / Codex hook wire protocol: matcher engine, stdin/exit-code/stdout codec, multi-hook merge, and hook/* session events",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/hooks-claude-code",
+    "name": "@deepseek-ai/dsh-hooks-claude-code",
+    "responsibility": "Bridge plugin: run a Claude Code hooks.json / settings hook config on the DeepSeek Harness interception seams",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/hooks-codex",
+    "name": "@deepseek-ai/dsh-hooks-codex",
+    "responsibility": "Bridge plugin: run a Codex hooks.json hook config on the DeepSeek Harness interception seams",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/inspector",
+    "name": "@deepseek-ai/dsh-experimental-inspector",
+    "responsibility": "Experimental cross-realm CDP hub for Host debugging and Client Runtime inspection",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/inspector-profile",
+    "name": "@deepseek-ai/dsh-experimental-inspector-profile",
+    "responsibility": "Optional Web bundle for raw Session logs and Chat node inspection",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/liveshare-protocol",
+    "name": "@deepseek-ai/dsh-experimental-liveshare-protocol",
+    "responsibility": "Liveshare wire frames and the identity contract shared by the owner bundle and the Relay",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/personalized-recommendations",
+    "name": "@deepseek-ai/dsh-personalized-recommendations",
+    "responsibility": "Personalized pages and built-in plugin recommendations offered as cards below answers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/plugin-market-bundle",
+    "name": "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+    "responsibility": "Experimental custom plugin indexes: a Discover tab that browses and installs bundles from plugin indexes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/plugin-recommendations",
+    "name": "@deepseek-ai/dsh-plugin-recommendations",
+    "responsibility": "Official plugin suggestions with explicit user activation and persistent conversation decisions",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/ptc-runtime-python",
+    "name": "@deepseek-ai/dsh-experimental-ptc-runtime-python",
+    "responsibility": "CPython subprocess implementation of the DeepSeek Harness PTC execution seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/ralph-bundle",
+    "name": "@deepseek-ai/dsh-experimental-ralph-bundle",
+    "responsibility": "Run explicitly requested repeated work with fresh agents.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/session-inspector",
+    "name": "@deepseek-ai/dsh-experimental-session-inspector",
+    "responsibility": "Experimental virtualized Session log and live Chat group/node inspectors",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/session-search",
+    "name": "@deepseek-ai/dsh-experimental-session-search",
+    "responsibility": "Give agents tools to search and read earlier sessions from the current workspace.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/session-title-all-prompts-llm",
+    "name": "@deepseek-ai/dsh-session-title-all-prompts-llm",
+    "responsibility": "All-user-messages LLM provider plugin for DeepSeek Harness session titles",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/session-titles-bundle",
+    "name": "@deepseek-ai/dsh-experimental-session-titles-bundle",
+    "responsibility": "Refresh session titles as new human prompts arrive.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/skill-badge",
+    "name": "@deepseek-ai/dsh-skill-badge",
+    "responsibility": "Bundled dsh badge skill provider for DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/speech-to-text",
+    "name": "@deepseek-ai/dsh-experimental-speech-to-text",
+    "responsibility": "Experimental speech recognition with independently selectable providers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/speech-to-text-sensevoice",
+    "name": "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+    "responsibility": "Local SenseVoice ONNX transcription with a managed sherpa-onnx process",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/subagent-oar",
+    "name": "@deepseek-ai/dsh-experimental-subagent-oar",
+    "responsibility": "Experimental one-shot subagents through OAR runtimes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/terminal-bundle",
+    "name": "@deepseek-ai/dsh-experimental-terminal-bundle",
+    "responsibility": "Keep shell processes alive across tool calls.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-agent-team",
+    "name": "@deepseek-ai/dsh-experimental-tool-agent-team",
+    "responsibility": "Scoped model-facing Agent Teams tools over ctx.agentTeams",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-ralph",
+    "name": "@deepseek-ai/dsh-tool-ralph",
+    "responsibility": "Model-facing fresh-agent Ralph loop over the workflow and subagent seams",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-session-query",
+    "name": "@deepseek-ai/dsh-tool-session-query",
+    "responsibility": "Workspace-authorized model-facing session history search, trace, and event read tools",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-subagent-oar",
+    "name": "@deepseek-ai/dsh-experimental-tool-subagent-oar",
+    "responsibility": "Delegate standalone tasks to configured external subagent providers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-terminal",
+    "name": "@deepseek-ai/dsh-tool-terminal",
+    "responsibility": "Six model-facing persistent PTY tools with owner isolation and generic background-job integration",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/tool-worktree",
+    "name": "@deepseek-ai/dsh-experimental-tool-worktree",
+    "responsibility": "Model tool that creates and enters a new Git worktree",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/translator",
+    "name": "@deepseek-ai/dsh-experimental-translator",
+    "responsibility": "Machine translation with reusable Session results",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/voice-input-bundle",
+    "name": "@deepseek-ai/dsh-experimental-voice-input-bundle",
+    "responsibility": "Experimental voice input with local SenseVoice; downloads its runtime on first use",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/webhook",
+    "name": "@deepseek-ai/dsh-webhook",
+    "responsibility": "Fire-and-forget webhook rule runtime that creates Workspace-backed DeepSeek Harness Sessions",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/webhook-github",
+    "name": "@deepseek-ai/dsh-webhook-github",
+    "responsibility": "Signed GitHub HTTP webhook adapter for the DeepSeek Harness webhook runtime",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/webworker-packer",
+    "name": "@deepseek-ai/dsh-experimental-webworker-packer",
+    "responsibility": "Build-time packer for the browser runtime's base VFS image and ordered data-overlay archives",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/webworker-runtime",
+    "name": "@deepseek-ai/dsh-experimental-webworker-runtime",
+    "responsibility": "Browser-only harness runtime: in-memory VFS, module transform and loader, postMessage tunnel, and the dedicated Web Worker assembly, with the Node-compatibility layer that lets the host tree run unchanged",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/experimental/worktree",
+    "name": "@deepseek-ai/dsh-experimental-worktree",
+    "responsibility": "Creates a named Git worktree and changes the calling Session working directory",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/extensions/cordis-client-runner",
+    "name": "@deepseek-ai/dsh-cordis-client-runner",
+    "responsibility": "Browser half of dynamic dual-half plugin packages: event subscription, closure evaluation, guard facade, and loader entries",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/extensions/cordis-host-runner",
+    "name": "@deepseek-ai/dsh-cordis-host-runner",
+    "responsibility": "Dynamic package definition registry, host-half sandbox lifecycle, and invoke handler table for model-mounted dual-half packages",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/extensions/tool-cordis",
+    "name": "@deepseek-ai/dsh-tool-cordis",
+    "responsibility": "Read-only runtime API inspection for Harness plugin development",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/extensions/ui-cordis",
+    "name": "@deepseek-ai/dsh-client-ui-cordis",
+    "responsibility": "Cordis dynamic-plugin definition card: the keyed cordis_define tool row with its run/stop switch",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/feedback/command-feedback",
+    "name": "@deepseek-ai/dsh-command-feedback",
+    "responsibility": "Log-only session feedback: the record event, the sessionFeedback Host Remote, and the human-facing slash command",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/feedback/message-feedback",
+    "name": "@deepseek-ai/dsh-message-feedback",
+    "responsibility": "Canonical Session-log ratings and notes for finalized assistant messages",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/fs",
+    "name": "@deepseek-ai/dsh-fs",
+    "responsibility": "Abstract filesystem capability seam (ctx.fs) for the DeepSeek Harness — vocabulary types, the FileSystem service (text IO + optional version-guarded atomic mutations), and the fs/* policy event vocabulary",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/fs-local",
+    "name": "@deepseek-ai/dsh-fs-local",
+    "responsibility": "Local-filesystem implementation of the DeepSeek Harness filesystem seam (ctx.fs)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/fs-observation-policy",
+    "name": "@deepseek-ai/dsh-fs-observation-policy",
+    "responsibility": "File-context policy plugin for the DeepSeek Harness — observed-state, read-before-edit, and version-guarded write/edit added over the ctx.fs provider seam through the fs/* event gate (no service API)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/fs-sandbox",
+    "name": "@deepseek-ai/dsh-fs-sandbox",
+    "responsibility": "Sandbox-enforcing implementation of the DeepSeek Harness filesystem seam: fences write/edit by the per-call sandbox mode (read-only denies mutation, workspace-write contains it to the workspace + temp roots) while reads pass through",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/tool-fs",
+    "name": "@deepseek-ai/dsh-tool-fs",
+    "responsibility": "Model-facing filesystem tools (read, write, edit) over the DeepSeek Harness filesystem seam (ctx.fs)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/tool-fs-search",
+    "name": "@deepseek-ai/dsh-tool-fs-search",
+    "responsibility": "Model-facing filesystem discovery tools (glob, grep) backed by the packaged ripgrep binary (@vscode/ripgrep)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/fs/tool-str-replace-editor",
+    "name": "@deepseek-ai/dsh-tool-str-replace-editor",
+    "responsibility": "Model-facing view, create, literal replace, and line insert tool over the Harness filesystem service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/goal/command-goal",
+    "name": "@deepseek-ai/dsh-command-goal",
+    "responsibility": "Human-facing slash command for persisted same-session goals",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/goal/goal",
+    "name": "@deepseek-ai/dsh-goal",
+    "responsibility": "Event-sourced same-session goal state and lifecycle service for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/goal/goal-round-driver",
+    "name": "@deepseek-ai/dsh-goal-round-driver",
+    "responsibility": "Race-fenced same-session goal-round driver",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/goal/tool-goal",
+    "name": "@deepseek-ai/dsh-tool-goal",
+    "responsibility": "Model-facing same-session goal tools with execution-time authority checks",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/guard/repeat-tool-reminder",
+    "name": "@deepseek-ai/dsh-repeat-tool-reminder",
+    "responsibility": "Repeat-tool-call guard plugin: advisory reminders when an agent loops on identical tool calls",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/guard/timeout-policy",
+    "name": "@deepseek-ai/dsh-tool-call-timeout-policy",
+    "responsibility": "Tool-call timeout policy: a tools/execute wrapper that arms a per-tool deadline on exec.signal and returns TOOL_TIMEOUT when it wins",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/directory-picker",
+    "name": "@deepseek-ai/dsh-host-directory-picker",
+    "responsibility": "Abstract workspace-directory picking seam (ctx.directoryPicker) for the DeepSeek Harness web GUI host",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/directory-picker-auto",
+    "name": "@deepseek-ai/dsh-host-directory-picker-auto",
+    "responsibility": "Adaptive chooser of the directory-picker seam: resolves the host situation at boot and mounts the native or browse backend for the DeepSeek Harness web GUI host",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/directory-picker-browse",
+    "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+    "responsibility": "In-app browsing backend of the directory-picker seam (listing/creation primitives over the host filesystem)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/directory-picker-native",
+    "name": "@deepseek-ai/dsh-host-directory-picker-native",
+    "responsibility": "Native-OS-chooser backend of the directory-picker seam for the DeepSeek Harness web GUI host",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/frontend-static",
+    "name": "@deepseek-ai/dsh-host-frontend-static",
+    "responsibility": "SPA dist server for the Web shell: owns the webserver fallback seat, serving explicit index entries and static assets with traversal rejection and 404 misses",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/open-in-app",
+    "name": "@deepseek-ai/dsh-host-open-in-app",
+    "responsibility": "Host half of open-in-app: resolved application catalog, icons, and the launch endpoint as three webServer routes",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/plugin-inventory",
+    "name": "@deepseek-ai/dsh-host-plugin-inventory",
+    "responsibility": "Read-only Remote projection of current Cordis Loader plugin state",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/product-telemetry-otel",
+    "name": "@deepseek-ai/dsh-host-product-telemetry-otel",
+    "responsibility": "Explicit product usage events exported through OpenTelemetry HTTP logs",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/host/webserver",
+    "name": "@deepseek-ai/dsh-host-webserver",
+    "responsibility": "Web route-registration plugin: HTTP and upgrade routes, per-Peer index transform taps, and static dist fallback",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/identity/anonymous-user-id",
+    "name": "@deepseek-ai/dsh-anonymous-user-id",
+    "responsibility": "Shared anonymous user identity for DeepSeek Harness telemetry and feedback correlation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/interaction/commands",
+    "name": "@deepseek-ai/dsh-commands",
+    "responsibility": "Plugin-owned human command registry for DeepSeek Harness UIs",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/interaction/permission-presets",
+    "name": "@deepseek-ai/dsh-permission-presets",
+    "responsibility": "User-facing permission presets (ctx.permissionPresets) for the DeepSeek Harness: one product-level Permissions select bundling the sandbox-mode and approval-policy knobs, written through to their own session events",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/interaction/tool-ask-user",
+    "name": "@deepseek-ai/dsh-tool-ask-user",
+    "responsibility": "Model-facing ask_user_question tool over the ctx.userQuestions seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/interaction/user-approval",
+    "name": "@deepseek-ai/dsh-user-approval",
+    "responsibility": "User-approval seam (ctx.approval) for the DeepSeek Harness: one-shot permission decisions dispatched to composed answerers over the approval/request waterfall, fail-closed by default",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/interaction/user-questions",
+    "name": "@deepseek-ai/dsh-user-questions",
+    "responsibility": "Abstract user-questions seam (ctx.userQuestions) for asking the human during agent runs",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/jobs/jobs",
+    "name": "@deepseek-ai/dsh-jobs",
+    "responsibility": "Background job registry (ctx.jobs) for the DeepSeek Harness — shared ids, owner isolation, polling, cancellation, and completion listeners for long-running tool work",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/jobs/jobs-local",
+    "name": "@deepseek-ai/dsh-jobs-local",
+    "responsibility": "Process-local implementation of the DeepSeek Harness background job registry seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/jobs/tool-jobs",
+    "name": "@deepseek-ai/dsh-tool-jobs",
+    "responsibility": "Model-facing background job control tools (job_output, job_list, job_kill) over the ctx.jobs registry",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/deepseek-llm-api-extensions",
+    "name": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+    "responsibility": "Additive request-field registry for the official DeepSeek LLM API adapter",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm",
+    "name": "@deepseek-ai/dsh-llm",
+    "responsibility": "Provider-neutral LLM service interface for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm-deepseek",
+    "name": "@deepseek-ai/dsh-llm-deepseek",
+    "responsibility": "DeepSeek Messages adapter",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm-deepseek-account",
+    "name": "@deepseek-ai/dsh-llm-deepseek-account",
+    "responsibility": "DeepSeek account provider authentication and discovery",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm-deepseek-api-key",
+    "name": "@deepseek-ai/dsh-llm-deepseek-api-key",
+    "responsibility": "DeepSeek api-key provider authentication and discovery",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm-pi-ai",
+    "name": "@deepseek-ai/dsh-llm-pi-ai",
+    "responsibility": "pi-ai-backed DeepSeek adapter for the DeepSeek Harness LLM seam (design-verification twin of dsh-llm-deepseek)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/llm-retry",
+    "name": "@deepseek-ai/dsh-llm-retry",
+    "responsibility": "Provider-routed LLM request retry policy for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/plugin-package-inventory-deepseek",
+    "name": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+    "responsibility": "Active Loader-backed plugin package inventory for official DeepSeek LLM API requests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/llm/token-meter",
+    "name": "@deepseek-ai/dsh-token-meter",
+    "responsibility": "Replay-aware token measurement service (ctx.tokenMeter) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/lsp/lsp",
+    "name": "@deepseek-ai/dsh-lsp",
+    "responsibility": "Abstract LSP capability seam (ctx.lsp) for the DeepSeek Harness — language-server provider registry keyed by branded id and extension mapping, order-independent per-query selection, normalized definition/references/implementation/hover requests and results, and the LspError taxonomy",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/lsp/lsp-stdio",
+    "name": "@deepseek-ai/dsh-lsp-stdio",
+    "responsibility": "Generic stdio language-server provider for the DeepSeek Harness LSP capability seam (ctx.lsp) — spawns configured servers, translates JSON-RPC, and serves transient-open goToDefinition/findReferences/goToImplementation/hover queries in the host filesystem namespace",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/lsp/tool-lsp",
+    "name": "@deepseek-ai/dsh-tool-lsp",
+    "responsibility": "Model-facing lsp tool over the DeepSeek Harness LSP capability seam (ctx.lsp) — one read-only tool with goToDefinition/findReferences/goToImplementation/hover operations, one-based UTF-16 cursor coordinates, bounded location rendering, and hover normalization",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/mcp/mcp-client",
+    "name": "@deepseek-ai/dsh-mcp-client",
+    "responsibility": "MCP client bridge: connects to MCP servers and registers their tools on ctx.tools",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/mcp/mcp-resources",
+    "name": "@deepseek-ai/dsh-mcp-resources",
+    "responsibility": "Scoped MCP resource discovery and reading through shared model tools",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/plan/plan-mode",
+    "name": "@deepseek-ai/dsh-plan-mode",
+    "responsibility": "Logged per-agent plan mode with deployment guidance, a direct slash command, and a user-reviewed exit",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/preset/agent-preset",
+    "name": "@deepseek-ai/dsh-agent-preset",
+    "responsibility": "Declare an Agent capability composition in Cordis YAML",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/preset/agent-preset-registry",
+    "name": "@deepseek-ai/dsh-agent-preset-registry",
+    "responsibility": "Declarative Agent preset registry and profile-backed editing",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/preset/persona",
+    "name": "@deepseek-ai/dsh-persona",
+    "responsibility": "Composition-authored deployment persona section for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ptc-runtime/ptc-runtime",
+    "name": "@deepseek-ai/dsh-ptc-runtime",
+    "responsibility": "Abstract PTC execution seam (ctx.ptcRuntime) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ptc-runtime/ptc-runtime-node",
+    "name": "@deepseek-ai/dsh-ptc-runtime-node",
+    "responsibility": "Node PTC execution with per-call sandboxed processes or in-memory REPL state",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sandbox/sandbox",
+    "name": "@deepseek-ai/dsh-sandbox",
+    "responsibility": "Abstract process-sandbox seam (ctx.sandbox) for the DeepSeek Harness: same-world confinement vocabulary and the SandboxProvider contract",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sandbox/sandbox-local",
+    "name": "@deepseek-ai/dsh-sandbox-local",
+    "responsibility": "Local process-sandbox backends for the DeepSeek Harness sandbox seam: bwrap, the npm-distributed landlock-run launcher, macOS Seatbelt, or the Windows ACL restricted-token runner — functionally probed, fail-closed",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sandbox/sandbox-policy",
+    "name": "@deepseek-ai/dsh-sandbox-policy",
+    "responsibility": "Per-call sandbox policy resolver and current model context: deployment fallbacks plus each session's mode and workspace root, shared by every enforcing capability family",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sandbox/sandbox-windows-acl",
+    "name": "@deepseek-ai/dsh-sandbox-windows-acl",
+    "responsibility": "Windows ACL write-restriction sandbox backend (restricted-token spawn with capability-SID write allowlist) for the DeepSeek Harness sandbox seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/schedule/schedule",
+    "name": "@deepseek-ai/dsh-schedule",
+    "responsibility": "Host-wide durable reminders with shared management and original-Session delivery",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/schedule/tool-schedule",
+    "name": "@deepseek-ai/dsh-tool-schedule",
+    "responsibility": "Model-facing reminder management tools (schedule_create, schedule_list, schedule_update, schedule_delete) over the Host ctx.schedule service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sdk/client",
+    "name": "@deepseek-ai/dsh-sdk-client",
+    "responsibility": "TypeScript client SDK for driving a DeepSeek Harness runtime subprocess over stdio JSON-RPC: the DeepSeekHarness high-level turns API and the lower-level HarnessClient",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sdk/protocol",
+    "name": "@deepseek-ai/dsh-sdk-protocol",
+    "responsibility": "Shared wire protocol for the DeepSeek Harness SDK runtime: the newline-delimited JSON-RPC stdio transport and the named request, result, and notification types spoken between the runtime server and SDK clients",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/sdk/server",
+    "name": "@deepseek-ai/dsh-sdk-jsonrpc-server",
+    "responsibility": "Stdio JSON-RPC server plugin for out-of-process DeepSeek Harness SDK clients",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session-query/session-log-export",
+    "name": "@deepseek-ai/dsh-session-log-export",
+    "responsibility": "Web Session-log ZIP export and Session Markdown copy",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session-query/session-query",
+    "name": "@deepseek-ai/dsh-session-query",
+    "responsibility": "Combined session query service contract with concrete reads, traces, and filters",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session-query/session-query-sqlite",
+    "name": "@deepseek-ai/dsh-session-query-sqlite",
+    "responsibility": "Concrete ctx.sessionQuery backend with SQLite FTS5 search",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/message-quotes",
+    "name": "@deepseek-ai/dsh-message-quotes",
+    "responsibility": "Selected-text quotation and Markdown blockquote presentation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-checkpoint-policy",
+    "name": "@deepseek-ai/dsh-session-checkpoint-policy",
+    "responsibility": "Semantic session durability checkpoints before model requests and tool side effects",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format",
+    "name": "@deepseek-ai/dsh-session-format",
+    "responsibility": "Streaming adjacent Session format migration machinery",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format-catalog",
+    "name": "@deepseek-ai/dsh-session-format-catalog",
+    "responsibility": "Build-static first-party Session format codec and migration catalog",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format-v0-to-v1",
+    "name": "@deepseek-ai/dsh-session-format-v0-to-v1",
+    "responsibility": "Frozen released-v0 Session codec and identity migration to v1",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format-v1-to-v2",
+    "name": "@deepseek-ai/dsh-session-format-v1-to-v2",
+    "responsibility": "Frozen released-v1 Session codec and assistant-stream migration to v2",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format-v2-to-v3",
+    "name": "@deepseek-ai/dsh-session-format-v2-to-v3",
+    "responsibility": "Streaming system-prompt, canonical-envelope and PTC migration into V3",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-format-v3-to-v4",
+    "name": "@deepseek-ai/dsh-session-format-v3-to-v4",
+    "responsibility": "Streaming tool-role migration and delivery validation from Session V3 to V4",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-log-deepseek",
+    "name": "@deepseek-ai/dsh-session-log-deepseek",
+    "responsibility": "Incremental lossless session-log request extension for the official DeepSeek LLM API",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-persistence",
+    "name": "@deepseek-ai/dsh-session-persistence",
+    "responsibility": "Abstract durable session persistence seam (ctx.sessionPersistence) for the DeepSeek Harness",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/session/session-persistence/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/session/session-persistence/src/index.ts",
+        "start": 144,
+        "end": 213
+      }
+    ],
+    "verification": [],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-persistence-jsonl",
+    "name": "@deepseek-ai/dsh-session-persistence-jsonl",
+    "responsibility": "JSONL durable session persistence backend for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-projection",
+    "name": "@deepseek-ai/dsh-session-projection",
+    "responsibility": "Session-projection seam: the merge-extensible projection type table, the provider contract, and the ctx.sessionProjections registry serving whole current values of log-derived per-session state",
+    "depth": "selected-source-ranges",
+    "read_paths": [
+      "packages/session/session-projection/README.md",
+      "packages/session/session-projection/src/index.ts"
+    ],
+    "ranges": [
+      {
+        "path": "packages/session/session-projection/src/index.ts",
+        "start": 302,
+        "end": 430
+      },
+      {
+        "path": "packages/session/session-projection/README.md",
+        "start": 62,
+        "end": 106
+      }
+    ],
+    "verification": [
+      "selected-unit-tests"
+    ],
+    "chapters": [
+      "01-architecture",
+      "02-runtime-source",
+      "03-extension-practices"
+    ],
+    "open": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-projection-cache",
+    "name": "@deepseek-ai/dsh-session-projection-cache",
+    "responsibility": "Persisted projection cache (ctx.sessionProjectionCache): durable per-session checkpoint records on the session_projcache storage domain (per-record layout), throttled write-behind, and the cached listing read",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-stats",
+    "name": "@deepseek-ai/dsh-session-stats",
+    "responsibility": "Whole-log conversation counts and wall times projection (sessionStats) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-telemetry",
+    "name": "@deepseek-ai/dsh-session-telemetry",
+    "responsibility": "SessionTelemetryBackend seam for the DeepSeek Harness: session-event capture, projection, redaction, and handoff to a reporting backend",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-telemetry-otel",
+    "name": "@deepseek-ai/dsh-session-telemetry-otel",
+    "responsibility": "Feedback-authorized Session logs over byte-bounded OpenTelemetry HTTP requests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-title",
+    "name": "@deepseek-ai/dsh-session-title",
+    "responsibility": "Log-backed session title service and provider registry for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-title-first-prompt-llm",
+    "name": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+    "responsibility": "First-message LLM provider plugin for DeepSeek Harness session titles",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-title-llm",
+    "name": "@deepseek-ai/dsh-session-title-llm",
+    "responsibility": "Shared LLM generation policy for DeepSeek Harness session-title providers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/session-turn-outline",
+    "name": "@deepseek-ai/dsh-session-turn-outline",
+    "responsibility": "Whole-log turn outline projection (turnOutline) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/tool-working-directory",
+    "name": "@deepseek-ai/dsh-tool-working-directory",
+    "responsibility": "Read and change the active Session working directory",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/session/working-directory",
+    "name": "@deepseek-ai/dsh-working-directory",
+    "responsibility": "Session working directories with durable changes and model context",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/settings/settings",
+    "name": "@deepseek-ai/dsh-settings",
+    "responsibility": "Abstract user-settings seam (ctx.settings) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/bash-local",
+    "name": "@deepseek-ai/dsh-bash-local",
+    "responsibility": "Local-subprocess implementation of the DeepSeek Harness bash executor seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/bash-sandbox",
+    "name": "@deepseek-ai/dsh-bash-sandbox",
+    "responsibility": "Sandbox-consuming implementation of the DeepSeek Harness bash executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/pwsh-local",
+    "name": "@deepseek-ai/dsh-pwsh-local",
+    "responsibility": "Local PowerShell implementation of the DeepSeek Harness bash executor seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/pwsh-sandbox",
+    "name": "@deepseek-ai/dsh-pwsh-sandbox",
+    "responsibility": "Sandbox-consuming implementation of the DeepSeek Harness PowerShell executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/shell",
+    "name": "@deepseek-ai/dsh-shell",
+    "responsibility": "Abstract bash executor seam (ctx.shell) for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/shell-env",
+    "name": "@deepseek-ai/dsh-shell-env",
+    "responsibility": "Tool-independent managed DSH_* shell environment registry",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/tool-bash",
+    "name": "@deepseek-ai/dsh-tool-bash",
+    "responsibility": "Model-facing bash tool with optional generic background-job and sandbox-escalation support",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/tool-bash-persistent",
+    "name": "@deepseek-ai/dsh-tool-bash-persistent",
+    "responsibility": "Model-facing owner-scoped persistent Bash tool backed by the Harness PTY service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/tool-pwsh",
+    "name": "@deepseek-ai/dsh-tool-pwsh",
+    "responsibility": "Model-facing pwsh tool over the bash executor seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/shell/tool-pwsh-persistent",
+    "name": "@deepseek-ai/dsh-tool-pwsh-persistent",
+    "responsibility": "Model-facing owner-scoped persistent PowerShell tool backed by the Harness PTY service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/skill/skill",
+    "name": "@deepseek-ai/dsh-skill",
+    "responsibility": "Agent skill provider registry for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/skill/skill-filesystem",
+    "name": "@deepseek-ai/dsh-skill-filesystem",
+    "responsibility": "Local filesystem skill provider for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/skill/skill-office",
+    "name": "@deepseek-ai/dsh-skill-office",
+    "responsibility": "Bundled Word, PowerPoint, and Excel workflows and LibreOffice Kit operations",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/skill/tool-skill",
+    "name": "@deepseek-ai/dsh-tool-skill",
+    "responsibility": "Model-facing skill loading tool for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/skill/tool-workspace-dependencies",
+    "name": "@deepseek-ai/dsh-tool-workspace-dependencies",
+    "responsibility": "The load_workspace_dependencies tool: absolute paths into a bundled Python, Node.js, and pnpm payload",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/spill/spill",
+    "name": "@deepseek-ai/dsh-spill",
+    "responsibility": "Abstract spill storage seam (ctx.spillStore) for the DeepSeek Harness — save oversized tool text and return a retrieval locator",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/spill/spill-local",
+    "name": "@deepseek-ai/dsh-spill-local",
+    "responsibility": "Local-filesystem implementation of the DeepSeek Harness spill storage seam (private session-scoped files)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/spill/spill-policy",
+    "name": "@deepseek-ai/dsh-spill-policy",
+    "responsibility": "Token-budgeted tool-result retention with recoverable text and image paths",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ssh/fs-ssh",
+    "name": "@deepseek-ai/dsh-fs-ssh",
+    "responsibility": "Filesystem provider over the shared POSIX SSH helper",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ssh/sandbox-ssh",
+    "name": "@deepseek-ai/dsh-sandbox-ssh",
+    "responsibility": "Remote POSIX sandbox argv provider over the shared SSH helper",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ssh/ssh",
+    "name": "@deepseek-ai/dsh-ssh",
+    "responsibility": "Shared OpenSSH connection and versioned POSIX remote helper",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ssh/ssh-helper-runtime",
+    "name": "@deepseek-ai/dsh-ssh-helper-runtime",
+    "responsibility": "Private executable carrier for the POSIX SSH helper and managed workers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/ssh/subprocess-ssh",
+    "name": "@deepseek-ai/dsh-subprocess-ssh",
+    "responsibility": "Subprocess and terminal provider over the shared POSIX SSH helper",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/storage/storage",
+    "name": "@deepseek-ai/dsh-storage",
+    "responsibility": "Storage hub (ctx.storage): named backend registry plus mounted data-form facilities for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/storage/storage-domain",
+    "name": "@deepseek-ai/dsh-storage-domain",
+    "responsibility": "Domain data form (ctx.storage.domain): schema-validated, event-emitting KV domains over storage backends for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/storage/storage-json",
+    "name": "@deepseek-ai/dsh-storage-json",
+    "responsibility": "JSON file KV storage backend for the DeepSeek Harness storage hub",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/storage/storage-sqlite",
+    "name": "@deepseek-ai/dsh-storage-sqlite",
+    "responsibility": "SQLite storage backend (kv facet) for the DeepSeek Harness storage hub",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent",
+    "name": "@deepseek-ai/dsh-subagent",
+    "responsibility": "Abstract subagent seam (ctx.subagents): named-provider registry for delegating to child agents",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-acp",
+    "name": "@deepseek-ai/dsh-subagent-acp",
+    "responsibility": "Out-of-process ACP subagent backend: drives a child agent in a spawned subprocess over the Agent Client Protocol",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-claude-code",
+    "name": "@deepseek-ai/dsh-subagent-claude-code",
+    "responsibility": "One-shot Claude Code subagent provider over the official Agent SDK",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-codex",
+    "name": "@deepseek-ai/dsh-subagent-codex",
+    "responsibility": "One-shot Codex subagent provider over the official app-server protocol",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-dsh-sdk",
+    "name": "@deepseek-ai/dsh-subagent-dsh-sdk",
+    "responsibility": "Out-of-process SDK subagent backend: drives a child DeepSeek Harness runtime subprocess over stdio JSON-RPC through the TypeScript SDK client",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-fork-in-process",
+    "name": "@deepseek-ai/dsh-subagent-fork-in-process",
+    "responsibility": "In-process fork subagent backend: runs a child agent seeded with a prefix of the parent's log",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/subagent-spawn-in-process",
+    "name": "@deepseek-ai/dsh-subagent-spawn-in-process",
+    "responsibility": "In-process spawn subagent backend: runs a fresh child agent on ctx.agents",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/tool-subagent",
+    "name": "@deepseek-ai/dsh-tool-subagent",
+    "responsibility": "Model-facing subagent delegation tool over the ctx.subagents seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subagent/tool-subagent-control",
+    "name": "@deepseek-ai/dsh-tool-subagent-control",
+    "responsibility": "Shared messaging, interruption, and child discovery tools for subagents",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subprocess/subprocess",
+    "name": "@deepseek-ai/dsh-subprocess",
+    "responsibility": "Subprocess seam (ctx.subprocess) for the DeepSeek Harness — managed process groups, bounded spill-backed output, and escalated kills behind one abstract service",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subprocess/subprocess-local",
+    "name": "@deepseek-ai/dsh-subprocess-local",
+    "responsibility": "Local-subprocess implementation of the DeepSeek Harness subprocess seam",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/subprocess/win32-process",
+    "name": "@deepseek-ai/dsh-win32-process",
+    "responsibility": "Shared low-level Win32 process, stdio, and Job Object primitives",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/telemetry/otel",
+    "name": "@deepseek-ai/dsh-otel",
+    "responsibility": "Cordis service for independent ordinary-event and byte-bounded Session-log OTLP channels",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/terminal/terminal",
+    "name": "@deepseek-ai/dsh-terminal",
+    "responsibility": "Persistent PTY session seam for the DeepSeek Harness — owner-scoped ids, backend registry, interactive sends, reads, signals, and awaited cleanup",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/terminal/terminal-bash",
+    "name": "@deepseek-ai/dsh-terminal-bash",
+    "responsibility": "Persistent shell PTY backend over the DeepSeek Harness subprocess terminal primitive",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/agent-loop-testkit",
+    "name": "@deepseek-ai/dsh-agent-loop-testkit",
+    "responsibility": "Prerequisite mounting, production AgentLoop drivers, and Inbox stubs for tests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/client-runtime",
+    "name": "@deepseek-ai/dsh-client-test-runtime",
+    "responsibility": "Browser test runtimes: a jsdom slot bench with test-owned Session and Workspace doubles, and a whole-client tier that boots the web roster through the production bootClient over an endpoint-named Remote mock",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/llm-mock-server",
+    "name": "@deepseek-ai/dsh-llm-mock-server",
+    "responsibility": "Scriptable Messages HTTP/SSE fault server for LLM recovery tests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/llm-replay",
+    "name": "@deepseek-ai/dsh-llm-replay",
+    "responsibility": "Replay LLM plugin: short-circuits llm/stream with model chunks reconstructed from a recorded session JSONL (keyless snapshot tests)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/loader-smoke",
+    "name": "@deepseek-ai/dsh-loader-smoke",
+    "responsibility": "Shared subprocess and direct-agent harness for keyless real-Loader example smoke tests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/remote-mock",
+    "name": "@deepseek-ai/dsh-remote-mock",
+    "responsibility": "Endpoint-named mock for Typert Remote traffic: unary answers and stream scripts per <namespace>/<method>, live stream control, a log, and the Connection carrier face whole-client specs install",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/session-snapshot",
+    "name": "@deepseek-ai/dsh-session-snapshot",
+    "responsibility": "Session-log snapshot core with an ACP protocol adapter, expected-output normalization, and fixture invariants",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/test-support/tool-testkit",
+    "name": "@deepseek-ai/dsh-tool-testkit",
+    "responsibility": "Tool definition and execution fixtures for tests and benchmarks",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/todo/tool-todo",
+    "name": "@deepseek-ai/dsh-tool-todo",
+    "responsibility": "Model-facing todo_write tool over the DeepSeek Harness event-sourced session log",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/typert/generator",
+    "name": "@deepseek-ai/dsh-typert-generator",
+    "responsibility": "TypeScript project analyzer and model-driven Typert artifact generator",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/typert/loader",
+    "name": "@deepseek-ai/dsh-typert-loader",
+    "responsibility": "Loader integration for generated Typert package contributions",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/typert/protocol",
+    "name": "@deepseek-ai/dsh-typert-protocol",
+    "responsibility": "Compiler-independent Remote metadata and Typert provider protocols",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/typert/registry",
+    "name": "@deepseek-ai/dsh-typert-registry",
+    "responsibility": "Runtime registry for generated package reflection and Zod schemas",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/atomic-write",
+    "name": "@deepseek-ai/dsh-atomic-write",
+    "responsibility": "Zero-dependency atomic file replacement: exclusive-create random-suffix temp + rename carrying the caller-stated permissions (writeFileAtomic)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/brand",
+    "name": "@deepseek-ai/dsh-brand",
+    "responsibility": "Stateless branded primitive types for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/chunked-list",
+    "name": "@deepseek-ai/dsh-chunked-list",
+    "responsibility": "Persistent append-only chunked lists with bounded copying and JSON checkpoint validation",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/code-language",
+    "name": "@deepseek-ai/dsh-util-code-language",
+    "responsibility": "Single file-extension to syntax-highlighting language table shared by Client code surfaces and the Host read card",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/crypto",
+    "name": "@deepseek-ai/dsh-util-crypto",
+    "responsibility": "Zero-dependency browser-safe UUID and byte-encoding helpers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/deque",
+    "name": "@deepseek-ai/dsh-deque",
+    "responsibility": "Zero-dependency circular deque with amortized constant-time end operations and bounded vacant storage",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/file-drag",
+    "name": "@deepseek-ai/dsh-util-file-drag",
+    "responsibility": "Shared file drag names and native transfer requests",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/home-paths",
+    "name": "@deepseek-ai/dsh-home-paths",
+    "responsibility": "Shared filesystem path helpers for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/http-proxy",
+    "name": "@deepseek-ai/dsh-http-proxy",
+    "responsibility": "Process-wide outbound HTTP proxy policy for DeepSeek Harness: resolve it from the launch environment and install it as undici's global dispatcher",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/launch-environment",
+    "name": "@deepseek-ai/dsh-launch-environment",
+    "responsibility": "Immutable DeepSeek Harness launch environment that records which layer supplied each value",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/lazy-require",
+    "name": "@deepseek-ai/dsh-lazy-require",
+    "responsibility": "Caller-relative, success-cached lazy loading for CommonJS-compatible Host dependencies",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/native-command",
+    "name": "@deepseek-ai/dsh-native-command",
+    "responsibility": "Host-native command and path-opening utilities with shell-free execution, cancellation, desktop detection, and WSL handoff",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/official-bundles",
+    "name": "@deepseek-ai/dsh-official-bundles",
+    "responsibility": "Installation-owned lists of official dsh bundles (shipped profile templates, optional, on-demand, and retired bundles) and the plugin manager's protected and presented packages",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/output-retention",
+    "name": "@deepseek-ai/dsh-output-retention",
+    "responsibility": "Zero-dependency bounded-retention primitive: ItemRetainer/TextRetainer + neutral notice helpers (what did we keep, what did we omit)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/package-manifest",
+    "name": "@deepseek-ai/dsh-package-manifest",
+    "responsibility": "Shared type declarations for package.json.dsh configuration fields",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/plugin-detail",
+    "name": "@deepseek-ai/dsh-plugin-detail",
+    "responsibility": "Plugin detail documents: meta.detail or README selection, image paths, and local and npm CDN file sources",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/plugin-market-index",
+    "name": "@deepseek-ai/dsh-plugin-market-index",
+    "responsibility": "Plugin market index format 1: JSON validation, relative icon resolution, and pinned install arguments",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/time",
+    "name": "@deepseek-ai/dsh-util-time",
+    "responsibility": "Time vocabulary shared by the boundaries that accept a caller's zone, a wall-clock selector, or an elapsed time: canonicalClientTimeZone (IANA zone validation and canonicalization), strict RFC 3339 instant, local-calendar, and zone resolution, and a millisecond Duration span",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/timeout",
+    "name": "@deepseek-ai/dsh-timeout",
+    "responsibility": "Zero-dependency timeout/deadline primitive: clampTimeout, deadline, timeoutOf, TimeoutReason (timing + classification only, no termination)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/values",
+    "name": "@deepseek-ai/dsh-util-values",
+    "responsibility": "Duplicate-install-safe value primitives for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/util/workspace-path",
+    "name": "@deepseek-ai/dsh-util-workspace-path",
+    "responsibility": "Browser-safe Workspace path and display helpers",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/tool-web",
+    "name": "@deepseek-ai/dsh-tool-web",
+    "responsibility": "Model-facing web tools (web_search, web_fetch) over the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web",
+    "name": "@deepseek-ai/dsh-web",
+    "responsibility": "Abstract web access capability seam (ctx.web) for the DeepSeek Harness — search/fetch provider registry, registration-order-independent selection, request/result vocabulary, and the WebError taxonomy",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web-deepseek-api",
+    "name": "@deepseek-ai/dsh-web-deepseek-api",
+    "responsibility": "DeepSeek Search and Fetch API providers for the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web-fetch-http",
+    "name": "@deepseek-ai/dsh-web-fetch-http",
+    "responsibility": "Anonymous HTTP(S) fetch provider for the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web-search-deepseek",
+    "name": "@deepseek-ai/dsh-web-search-deepseek",
+    "responsibility": "DeepSeek-backed search provider (native web_search via the Anthropic-compatible API) for the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web-search-exa",
+    "name": "@deepseek-ai/dsh-web-search-exa",
+    "responsibility": "Exa-backed search provider for the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/web/web-search-perplexity",
+    "name": "@deepseek-ai/dsh-web-search-perplexity",
+    "responsibility": "Perplexity-backed search provider for the DeepSeek Harness web capability seam (ctx.web)",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/workflow/tool-workflow",
+    "name": "@deepseek-ai/dsh-tool-workflow",
+    "responsibility": "Model-facing workflow tool: run a JavaScript orchestration script over ctx.workflowEngine",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/workflow/workflow",
+    "name": "@deepseek-ai/dsh-workflow",
+    "responsibility": "Workflow capability seam: ctx.workflowEngine service, run vocabulary, and workflow/* events",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/workflow/workflow-ptc",
+    "name": "@deepseek-ai/dsh-workflow-ptc",
+    "responsibility": "Workflow orchestration in the shared sandboxed Node PTC runtime",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "packages/workspace/workspace",
+    "name": "@deepseek-ai/dsh-workspace",
+    "responsibility": "Workspace entity registry (ctx.workspaceRegistry): durable workspace records with validated session attachment over the domain data form for the DeepSeek Harness",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "python/sdk-runtime",
+    "name": "dsh-python-runtime-closure",
+    "responsibility": "Dependency-only deploy root defining the dsh executable shipped by the Python runtime wheel.",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/cordis",
+    "name": "@deepseek-ai/cordis",
+    "responsibility": "Meta-Framework for Modern JavaScript Applications",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/cosmokit",
+    "name": "@deepseek-ai/cosmokit",
+    "responsibility": "A collection of common utilities",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/group",
+    "name": "@deepseek-ai/cordis-plugin-group",
+    "responsibility": "Nested plugin group for cordis",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/hmr",
+    "name": "@deepseek-ai/cordis-plugin-hmr",
+    "responsibility": "Hot Module Replacement Plugin for Cordis",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/include",
+    "name": "@deepseek-ai/cordis-plugin-include",
+    "responsibility": "Include files in cordis configurations",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/loader",
+    "name": "@deepseek-ai/cordis-plugin-loader",
+    "responsibility": "Plugin loader for cordis",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/logger-console",
+    "name": "@deepseek-ai/cordis-plugin-logger-console",
+    "responsibility": "Console logger exporter for cordis",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/schemastery",
+    "name": "@deepseek-ai/schemastery",
+    "responsibility": "Type driven schema validator",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "vendor/timer",
+    "name": "@deepseek-ai/cordis-plugin-timer",
+    "responsibility": "Timer service for cordis",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "path": "website",
+    "name": "@deepseek-ai/website",
+    "responsibility": "",
+    "depth": "manifest-only",
+    "read_paths": [],
+    "ranges": [],
+    "verification": [],
+    "chapters": [],
+    "open": [
+      "本轮未做该包实现深读，不继承旧版运行结论"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  }
+]

@@ -1,0 +1,6 @@
+SHA: 22ddee3792402c3e70ec5f86a63c3e3e895a2f60
+CWD: /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25
+COMMAND: ["typescript.transpileModule","sum-tool/index.ts","route-policy/index.ts"]
+Compiled two ESM plugins; bare peer imports retained.
+
+EXIT: 0

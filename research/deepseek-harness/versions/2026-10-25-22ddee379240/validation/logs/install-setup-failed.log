@@ -1,0 +1,4 @@
+COMMAND: corepack pnpm install --frozen-lockfile --ignore-scripts > /Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/install.log 2>&1
+zsh:1: no such file or directory: /Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness/versions/2026-10-25-22ddee379240/validation/install.log
+EXIT: 1
+Installer did not run; created validation/logs and reran installation successfully.

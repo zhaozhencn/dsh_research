@@ -1,0 +1,17 @@
+{
+  ".agents": 3953,
+  ".claude": 1,
+  ".github": 60,
+  "[root files]": 47,
+  "apps": 1421,
+  "benchmarks": 48,
+  "docs": 867,
+  "native": 79,
+  "packages": 10322,
+  "patches": 10,
+  "python": 53,
+  "scripts": 429,
+  "snapshots": 1781,
+  "vendor": 80,
+  "website": 37
+}

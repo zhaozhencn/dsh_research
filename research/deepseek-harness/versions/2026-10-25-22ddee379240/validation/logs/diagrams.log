@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "mermaid_version": "11.17.2",
+  "parsed": 2,
+  "minimum": 1,
+  "records": [
+    {
+      "file": "01-architecture.md",
+      "line": 8,
+      "outcome": "passed"
+    },
+    {
+      "file": "02-runtime-source.md",
+      "line": 8,
+      "outcome": "passed"
+    }
+  ],
+  "limits": [
+    "Syntax parsing only; diagram rendering and source semantics require separate review."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "mode": "incremental",
+  "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+  "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "previous_report": "/Volumes/Ext_SSD/prj/dsh_research/research/deepseek-harness",
+  "previous_status": "legacy-ungraded",
+  "prepared_at": "2026-10-25T11:19:01.321879+00:00",
+  "note": "本轮插件扩展开发同步完成；三篇当前报告、迁移/证据附录、两个参考插件及验证交付；未将旧全系列实测结论继承到新 SHA。",
+  "scope": "插件扩展开发同步；全仓盘点，深读与运行验证限扩展影响闭包",
+  "completed_at": "2026-10-25T11:44:26.960040+00:00",
+  "assurance": "limited",
+  "checks": [
+    "typecheck-1",
+    "build-1",
+    "test-1",
+    "typecheck-2",
+    "build-2",
+    "test-2",
+    "install-1",
+    "native-1",
+    "vendor-1",
+    "upstream-1",
+    "artifact-1",
+    "diagram-1",
+    "root-artifact-1",
+    "protection-1"
+  ],
+  "limitations": [
+    "全仓仅 manifest/tracked 盘点，深读限插件扩展相关路径",
+    "未做整仓产品构建与全仓测试",
+    "真实模型、企业后端、网络 Gateway E2E、浏览器和 tarball 安装未测",
+    "Python SDK、数据迁移、PTC/SSH/Team 全链和跨平台 sandbox 未测",
+    "历史 29 篇正文/图片与企业示例继续固定 alpha.1"
+  ],
+  "summary": {
+    "workspace_packages": 386,
+    "tracked_files": 19188,
+    "reviewed_evidence": 40,
+    "extension_test_instances_passed": 8,
+    "upstream_test_instances_passed": 284,
+    "upstream_files": 13,
+    "mermaid_diagrams": 2,
+    "protected_files": 494
+  }
+}

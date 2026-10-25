@@ -2,6 +2,14 @@
 
 面向 Agent 系统开发者与架构师的中文技术研究：从源码还原 DeepSeek Harness 的架构与运行机制，以可复现的 TypeScript 扩展连接原理与工程落地，为专属智能体和私有 AI 工作台提供设计依据。
 
+## 当前插件开发文档（2026-10-25）
+
+已查阅官方 `master` 并固定到 **`22ddee3792402c3e70ec5f86a63c3e3e895a2f60` / `0.2.1-rc.3`**。当前插件开发请从[新版总览](research/deepseek-harness/versions/2026-10-25-22ddee379240/README.md)进入：[架构](research/deepseek-harness/versions/2026-10-25-22ddee379240/01-architecture.md) · [运行链](research/deepseek-harness/versions/2026-10-25-22ddee379240/02-runtime-source.md) · [开发实践](research/deepseek-harness/versions/2026-10-25-22ddee379240/03-extension-practices.md) · [升级差异](research/deepseek-harness/versions/2026-10-25-22ddee379240/appendices/delta.md)。
+
+本轮迁移模型选择策略、显式工具执行器、Step 条件工具和投影 handle，并复核 Remote 资源授权、兼容声明与 Client 模块规则。两个新版插件通过严格类型、编译与 **8 项集成测试**；另有 **284 项选定上游测试通过**。范围和限制见[本轮验证](research/deepseek-harness/versions/2026-10-25-22ddee379240/appendices/validation.md)。
+
+下面四篇主题报告、29 篇专栏及企业示例保留 **alpha.1 历史基线**；未整体升级到 rc.3。历史路由插件使用的 `agent/request` 选模写法已不适用当前版，请使用新版示例。
+
 ## 技术价值
 
 - **理解执行机制**：深入 Agent Loop、模型适配、上下文组装、工具调度与状态持久化，追踪正常、失败和取消链路。
@@ -13,7 +21,7 @@
 
 | 内容 | 入口 |
 | --- | --- |
-| 四篇主题报告 | [宏观架构](research/deepseek-harness/01-architecture.md) · [源码运行](research/deepseek-harness/02-runtime-source.md) · [扩展实践](research/deepseek-harness/03-extension-practices.md) · [企业开发](research/deepseek-harness/04-enterprise-harness-practices.md) |
+| 四篇历史主题报告（alpha.1） | [宏观架构](research/deepseek-harness/01-architecture.md) · [源码运行](research/deepseek-harness/02-runtime-source.md) · [扩展实践](research/deepseek-harness/03-extension-practices.md) · [企业开发](research/deepseek-harness/04-enterprise-harness-practices.md) |
 | 29 篇技术专栏与机制图（00—28） | [专栏目录](research/deepseek-harness/articles/README.md) |
 | 12 篇二次开发补充专题 | [文档列表与大纲](research/deepseek-harness/appendices/supplementary-article-outlines.md) · [扩展契约矩阵](research/deepseek-harness/appendices/extension-contract-matrix.md) · [回归矩阵](research/deepseek-harness/appendices/change-impact-regression-matrix.md) |
 | 可运行的 TypeScript 示例 | [示例与环境准备](research/deepseek-harness/examples/README.md) |
@@ -23,7 +31,7 @@
 
 建议从宏观架构开始，按需进入源码运行与技术专栏；二次开发可直接阅读扩展实践和示例。
 
-## 基线与验证
+## 历史基线与验证
 
 研究基于 DeepSeek Harness **`0.2.1-alpha.1`**，固定提交 **`5badb15009ae1756c3afe0ae0cef1faafc290ccc`**，详见[研究基线](research/deepseek-harness/appendices/baseline.md)。已有记录覆盖选定上游契约与自定义扩展，合计 **1,520 个用例通过、1 个条件跳过**。
 

@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "mode": "version",
+    "article": "03-extension-practices.md",
+    "audience": "AI 架构师与 TypeScript 插件开发者",
+    "central_question": "如何按新版 API 开发并验证可交付的插件",
+    "preserve": [
+      "原研究历史正文和资产不覆盖"
+    ],
+    "protected_files": "validation/protected-before.json"
+  },
+  "source_baseline": {
+    "repository": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+    "full_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "official_base_url": "https://github.com/deepseek-ai/deepseek-harness",
+    "historical_runtime_evidence": [
+      "旧版数据只作历史，不纳入本批通过"
+    ]
+  },
+  "mechanism_map": {
+    "entrypoints": [
+      "dsh profile",
+      "agents.create/setup",
+      "agent.model.select",
+      "tools.register"
+    ],
+    "edges": [
+      {
+        "from": "AgentLoop.preStep",
+        "to": "ToolsService.resolve",
+        "kind": "call",
+        "evidence": [
+          "E05",
+          "E04"
+        ]
+      },
+      {
+        "from": "PreparedStep",
+        "to": "prepareRequest / ToolsService.execute",
+        "kind": "read",
+        "evidence": [
+          "E07",
+          "E10"
+        ]
+      },
+      {
+        "from": "ToolExecutionPipeline",
+        "to": "tool/result",
+        "kind": "commit",
+        "evidence": [
+          "E32",
+          "E33"
+        ]
+      }
+    ],
+    "branches": [
+      "when false / throw",
+      "abort",
+      "registration withdraw",
+      "Agent creation failure"
+    ]
+  },
+  "article_plan": {
+    "opening": "如何按新版 API 开发并验证可交付的插件",
+    "sections": [
+      {
+        "current_heading": "1. 用需求选择扩展点",
+        "question": "1. 用需求选择扩展点",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "2. 先做一个有完整数据契约的工具",
+        "question": "2. 先做一个有完整数据契约的工具",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "3. 程序调用与模型调用共享准入",
+        "question": "3. 程序调用与模型调用共享准入",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "4. 迁移模型策略：在准备 Step 前选好",
+        "question": "4. 迁移模型策略：在准备 Step 前选好",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "5. 从工具扩展到前后端插件",
+        "question": "5. 从工具扩展到前后端插件",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "6. 给 Remote 能力完整命名资源",
+        "question": "6. 给 Remote 能力完整命名资源",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "7. 配置和包交付",
+        "question": "7. 配置和包交付",
+        "handoff": "按本文真实对象与生命周期接续"
+      },
+      {
+        "current_heading": "8. 本地复现与升级验收",
+        "question": "8. 本地复现与升级验收",
+        "handoff": "按本文真实对象与生命周期接续"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "create",
+      "caller": "AgentLoop factory maintenance",
+      "callee": "sessions.enter/announce → setup → agents.enter/announce",
+      "previous_output": "driver 与可选 persistence handle 已构建",
+      "input": "session、setup、abort.signal",
+      "core_decision": "每个 await 后 assertLive；setup 成功才发布 Agent",
+      "output": "owned AgentHandle",
+      "consumer": "应用或测试调用 followup",
+      "await_boundary": "appendUnstoredSuffix/setup/agents.announce",
+      "commit_point": "Session 事件可先于 handle 返回持久存在",
+      "branches": [
+        "失败取消并 dispose；不释放 queued work"
+      ],
+      "evidence": [
+        "E21",
+        "E22"
+      ]
+    },
+    {
+      "id": "admission",
+      "caller": "ReactLoopAgent.turn",
+      "callee": "ReactLoopAgent.preStep → ToolsService.resolve",
+      "previous_output": "运行 phase 与待 claim 输入",
+      "input": "agent、modelSelection、signal",
+      "core_decision": "when 完成且未取消才生成完整准入集；view 检查定义和注册身份",
+      "output": "PreparedStep {assembly,selection,toolSet,...decision}",
+      "consumer": "step 与 executor",
+      "await_boundary": "resolve、assemble、agent/pre-step",
+      "commit_point": "此时未进入 step/start；turn 随后提交",
+      "branches": [
+        "reject/throw 立即 dispose",
+        "Turn finally dispose"
+      ],
+      "evidence": [
+        "E03",
+        "E04",
+        "E05",
+        "E06"
+      ]
+    },
+    {
+      "id": "request",
+      "caller": "ReactLoopAgent.step attempt loop",
+      "callee": "prepareRequest → llm.prepareCall",
+      "previous_output": "PreparedStep.selection 与 prompt assembly",
+      "input": "turn/step/selection/signal",
+      "core_decision": "deprecated agent/request 不得修改已捕获路线/effort",
+      "output": "config / preparedCall",
+      "consumer": "system prompt admission 与 buildRequest",
+      "await_boundary": "agent/request waterfall 与 prepareCall",
+      "commit_point": "准备成功并取消检查后提交 system/user",
+      "branches": [
+        "route mismatch throw",
+        "NO_ADAPTER 兼容 middleware 路径"
+      ],
+      "evidence": [
+        "E07",
+        "E30"
+      ]
+    },
+    {
+      "id": "tools",
+      "caller": "ToolsService.execute → NativeToolExecutor.execute",
+      "callee": "executeToolBatch → ToolExecutionPipeline.dispatchToolBody/complete",
+      "previous_output": "模型 calls 与 Step toolSet",
+      "input": "ToolBatchInput",
+      "core_decision": "重新查可执行定义，融合 signal；body 返回后规范化/后处理",
+      "output": "按模型顺序的 results/additionalContexts/concluded",
+      "consumer": "Loop 下一 Step / PTC 程序",
+      "await_boundary": "tool.execute 与 postExecute",
+      "commit_point": "tool/result 结算，不等同外部事务",
+      "branches": [
+        "UNKNOWN_TOOL",
+        "ABORTED/排空",
+        "post failure 转 error"
+      ],
+      "evidence": [
+        "E09",
+        "E10",
+        "E32",
+        "E33"
+      ]
+    },
+    {
+      "id": "projection",
+      "caller": "领域 plugin activation",
+      "callee": "sessionProjections.register → acquire",
+      "previous_output": "ProjectionDefinition 与 owner Fiber",
+      "input": "key/stateVersion/schema/init/apply/wire",
+      "core_decision": "同 key version 共享；await 后确认 owner active",
+      "output": "retained ProjectionHandle",
+      "consumer": "领域 service methods / carrier snapshots",
+      "await_boundary": "acquire microtask handoff",
+      "commit_point": "effect 内安装 registration",
+      "branches": [
+        "最后 dispose 撤全局参与",
+        "原 handle 按需继续读取原 unit"
+      ],
+      "evidence": [
+        "E12",
+        "E37"
+      ]
+    },
+    {
+      "id": "remote",
+      "caller": "ApiGateway.prepareInvocation",
+      "callee": "callResources → remoteAccess.decide → resolveReceiverContext",
+      "previous_output": "Peer 和 validated arguments",
+      "input": "principal/action/resources/args",
+      "core_decision": "非 owner 对全部资源有允许 binding 才继续；owner 直接允许",
+      "output": "允许后的 receiver invocation 或 remote-access/denied",
+      "consumer": "领域 Remote concrete method",
+      "await_boundary": "receiver lookup 发生在授权之后",
+      "commit_point": "授权不是业务事务提交",
+      "branches": [
+        "resource-invalid",
+        "no-allow",
+        "policy-failed"
+      ],
+      "evidence": [
+        "E13",
+        "E14",
+        "E19"
+      ]
+    }
+  ],
+  "data_contracts": [
+    {
+      "symbol": "ModelSelection / ResolvedToolSet / ToolBatchInput",
+      "declaration": [
+        "E03",
+        "E10",
+        "E23"
+      ],
+      "producer": "AgentModel / ToolsService.resolve / Loop",
+      "consumers": [
+        "prompt assembly",
+        "prepared call",
+        "ToolExecutor"
+      ],
+      "state_transitions": [
+        "pending → lastUsed",
+        "admitted → disposed"
+      ],
+      "commit_point": "Session append / tool result",
+      "release_owner": "AgentHandle / Step finally / plugin Fiber"
+    }
+  ],
+  "figure_plan": [],
+  "lessons": [
+    {
+      "fact": "先固定选择再执行，卸载和持久事实分开",
+      "practice": "逐项定义注册、调用提交与资源释放",
+      "conditions": "固定版本、可信插件",
+      "step_ids": [
+        "E03",
+        "E08",
+        "E10",
+        "E20",
+        "E19",
+        "E11"
+      ]
+    }
+  ],
+  "review": {
+    "status": "semantic-reviewed",
+    "commands": [
+      "node validation/check.mjs typecheck/build/test（从仓库根目录按 README 的完整路径）",
+      "research.py check --final：logs/artifact-check.log",
+      "check-diagrams.mjs：logs/diagrams.log"
+    ],
+    "semantic_checks": [
+      "caller/callee 顺序",
+      "scope 与取消",
+      "模型选择时点",
+      "工具撤销身份",
+      "Remote 非 owner 授权",
+      "当前/历史测试分开"
+    ],
+    "limitations": [
+      "没有 UI、真实模型和 tarball 安装验证"
+    ],
+    "run_ids": [
+      "typecheck-2",
+      "build-2",
+      "test-2",
+      "upstream-1",
+      "artifact-1",
+      "diagram-1",
+      "root-artifact-1",
+      "protection-1"
+    ]
+  }
+}

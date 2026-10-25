@@ -13,7 +13,9 @@ const {default:mermaid}=await import(pathToFileURL(req.resolve('mermaid')).href)
 mermaid.initialize({startOnLoad:false,securityLevel:'strict'})
 const sha='5badb15009ae1756c3afe0ae0cef1faafc290ccc'
 const failures=[],diagrams=[],mdFiles=[]
-async function walk(dir) {for(const d of await readdir(dir,{withFileTypes:true})){const path=resolve(dir,d.name);if(d.isDirectory()) await walk(path);else if(d.name.endsWith('.md'))mdFiles.push(path)}}
+// Each version has its own source SHA, inventory, and validation ledger.
+const versionsRoot=resolve(root,'versions')
+async function walk(dir) {for(const d of await readdir(dir,{withFileTypes:true})){const path=resolve(dir,d.name);if(path===versionsRoot)continue;if(d.isDirectory()) await walk(path);else if(d.name.endsWith('.md'))mdFiles.push(path)}}
 await walk(root)
 let links=0,sourceLinks=0
 for(const path of mdFiles) {
@@ -54,6 +56,23 @@ const current=execFileSync('git',['rev-parse','HEAD'],{cwd:repo,encoding:'utf8'}
 const trackedStatus=execFileSync('git',['status','--short'],{cwd:repo,encoding:'utf8'}).trim()
 if(current!==sha)failures.push('checkout SHA changed')
 if(trackedStatus)failures.push(`checkout dirty: ${trackedStatus}`)
-const result={sha,markdown_files:mdFiles.length,checked_links:links,checked_source_links:sourceLinks,evidence_anchors:Object.keys(evidence).length,workspace_members:members.size,pnpm_projects:pnpm.length,mermaid_version:'11.16.0',diagrams,source_checkout_clean:trackedStatus==='',checks:'local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status',note:'Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.',failures,ok:failures.length===0}
-await writeFile(resolve(here,'artifact-check.json'),JSON.stringify(result,null,2)+'\n')
+const versionReports=[]
+let versionDirs=[]
+try {versionDirs=await readdir(versionsRoot,{withFileTypes:true})}catch(error){if(error.code!=='ENOENT')throw error}
+for(const dir of versionDirs.filter(entry=>entry.isDirectory())){
+ const report=resolve(versionsRoot,dir.name)
+ try{
+  const baseline=JSON.parse(await readFile(resolve(report,'appendices/baseline.json'),'utf8'))
+  const localCheckout=resolve(root,'../../.sources',`deepseek-harness-${dir.name.slice(0,10)}`)
+  let checkout=localCheckout
+  try{await stat(resolve(checkout,'.git'))}catch{checkout=baseline.checkout??baseline.clone_path}
+  if(!checkout)throw new Error('No source checkout recorded for version')
+  const script=resolve(root,'../../skills/harness-research-sync/scripts/research.py')
+  const checked=JSON.parse(execFileSync('python3',[script,'check','--repo',checkout,'--report',report,'--final'],{encoding:'utf8'}))
+  const parsed=JSON.parse(execFileSync(process.execPath,[resolve(root,'../../skills/harness-research-sync/scripts/check-diagrams.mjs'),'--report',report,'--dependencies',checkout],{encoding:'utf8'}))
+  versionReports.push({directory:dir.name,sha:baseline.sha,checks:checked,diagrams:parsed})
+ }catch(error){failures.push(`version ${dir.name}: ${error.message}`)}
+}
+const result={sha,markdown_files:mdFiles.length,checked_links:links,checked_source_links:sourceLinks,evidence_anchors:Object.keys(evidence).length,workspace_members:members.size,pnpm_projects:pnpm.length,mermaid_version:JSON.parse(await readFile(resolve(dirname(req.resolve('mermaid')),'../package.json'),'utf8')).version,diagrams,version_reports:versionReports,source_checkout_clean:trackedStatus==='',checks:'local targets / source SHA and ranges / source anchors / diagram parser / workspace counts / compiled peer imports / checkout status / independent version reports',note:'Mermaid parse only; no visual rendering or browser E2E. GitHub links validated against fixed checkout, not individually fetched online.',failures,ok:failures.length===0}
+await writeFile(resolve(process.argv[3]??resolve(here,'artifact-check.json')),JSON.stringify(result,null,2)+'\n')
 console.log(JSON.stringify(result,null,2));process.exitCode=result.ok?0:1

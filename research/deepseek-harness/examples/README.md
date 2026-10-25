@@ -1,5 +1,7 @@
 # 固定版本扩展示例
 
+> 当前版示例位于 [2026-10-25 / rc.3](../versions/2026-10-25-22ddee379240/examples/README.md)，已迁移条件工具与持久模型选择。本目录继续保存 alpha.1 的历史示例；企业实现也未在本批迁到 rc.3。
+
 适用SHA `5badb15009ae1756c3afe0ae0cef1faafc290ccc`；Harness API包0.2.1-alpha.1，Cordis4.0.5-alpha.1、Schemastery3.18.5-alpha.1；Node24.19.0、pnpm11.7.0、TypeScript6.0.3验证。每例都有独立package.json和ESM源码／编译文件。
 
 - [sum-tool](sum-tool/README.md)：canonical number输出、typed args、取消、并发标记与卸载。

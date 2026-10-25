@@ -1,0 +1,2 @@
+$ tsx native/system/scripts/build.ts --host-addon-only
+build: built darwin-arm64/bin/system.node

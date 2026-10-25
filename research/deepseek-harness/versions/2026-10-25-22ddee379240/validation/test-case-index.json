@@ -1,0 +1,1711 @@
+{
+  "reporter_passed": 284,
+  "unique_file_and_titles": 280,
+  "note": "四组 it.each 的 null/undefined 在 reporter 中同标题；parameter_instance 保留其独立参数实例。未与重跑或历史批次叠加。",
+  "cases": [
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version reads the exact version with a string path accepted by executable virtual filesystems",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects an invalid or absent package version: {}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects an invalid or absent package version: {\"version\":null}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects an invalid or absent package version: {\"version\":1}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects an invalid or absent package version: {\"version\":\"\"}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects an invalid or absent package version: {\"version\":\"not-semver\"}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects non-object package JSON: null",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects non-object package JSON: []",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects non-object package JSON: 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version rejects non-object package JSON: \"text\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "dsh runtime version propagates malformed JSON and read failures",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility defaults to the installed runtime and needs no identity without mismatches",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range *",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range ^0.1.0",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range ~0.1.0",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range >=0.1.0 <0.2.0",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range 0.1.x",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range 0.1.0 - 0.1.9",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range ^0.2.0 || ^0.1.0",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility includes prereleases in supported semver range 0.1.7-alpha.1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility uses the source runtime for workspace:^",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility uses the source runtime for workspace:~",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility uses the source runtime for workspace:*",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility checks the intersection of dsh requirements and returns only mismatches",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"^0.2.0\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \">=0.1.7\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"broken\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \" \"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"workspace:>=0.2.0\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"file:../dsh\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility fails closed for an incompatible or malformed range \"npm:dsh@*\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility ignores unrelated names and dependency fields",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: null",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: undefined",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: \"bad\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: false",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects malformed peerDependencies: undefined",
+      "parameter_instance": 2,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: null",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: undefined",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: {}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: false",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects non-string peer ranges: undefined",
+      "parameter_instance": 2,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility requires own non-empty name on a mismatch",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility requires own non-empty version on a mismatch",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility ignores inherited peer declarations and inherited peer entries",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects an invalid explicit runtime even when no peers are declared",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "plugin compatibility rejects array plugin manifests",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh decides alone when satisfied by ^0.1.0, ignoring failing peers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh decides alone when satisfied by >=0.1.7-alpha.0, ignoring failing peers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh decides alone when satisfied by 0.1.x, ignoring failing peers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh decides alone when satisfied by 0.1.7-alpha.1, ignoring failing peers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh decides alone when unsatisfied, ignoring passing peers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \"\" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \" \" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \"broken\" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \"workspace:^\" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \"workspace:*\" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh treats \"workspace:~\" as an unmet range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: null",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: undefined",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: \"bad\"",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: false",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects malformed engines: undefined",
+      "parameter_instance": 2,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: null",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: undefined",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: {}",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: false",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh rejects a non-string engines.dsh: undefined",
+      "parameter_instance": 2,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh falls back to peers when engines has no own dsh member",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "engines.dsh applies exact-version exemptions to an engines mismatch",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions exempts only the exact scoped plugin and runtime versions",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not interpret exemption value * as a range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not interpret exemption value ^0.1.0 as a range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not interpret exemption value 0.1.7 as a range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not interpret exemption value 0.1.7-alpha.2 as a range",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not accept inherited exemptions, but accepts own entries on null-prototype maps",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions handles plugin identity constructor without prototype lookup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions handles plugin identity hasOwnProperty without prototype lookup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions handles plugin identity __proto__ without prototype lookup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "exact-version exemptions does not produce issues for compatible exempted plugins",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "compatibility warning retains mismatch details and risk when exemption status is false",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/app-boot/tests/plugin-compatibility.spec.ts",
+      "name": "compatibility warning retains mismatch details and risk when exemption status is true",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "preserves comments, expressions, unrelated configuration and the last override",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "creates a missing patch file and appends after insertions",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "refuses malformed documents without overwriting - id: [broken",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "refuses malformed documents without overwriting mapping: true\n",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "retains name-asserting overrides and appends an unambiguous switch",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "reports read failures without replacing a directory with configuration",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "updates the last matching named override and leaves mismatched names untouched",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "removes or omits a plain switch that restates the bundle layers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps a switch that carries other settings or differs from the bundle layers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps the comment above a removed switch and prunes a switch the composition already implies",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "treats insertions in the profile patch as part of the inherited composition",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps a switch whose anchor on a value other entries reference",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps a switch whose anchor on the entry other entries reference",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps a switch whose anchor on a key other entries reference",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/boot/plugin-manager/tests/patch.spec.ts",
+      "name": "keeps a switch whose value is an alias",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService registrations removes a policy with its disposer and with the plugin fiber that registered it",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService registrations accepts one policy per principal kind",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide allows the owner without any policy and refuses a kind without a policy",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide allows only actions a bound role lists on the resource the binding names",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide requires the action on every resource of the target",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide asks a matching binding's condition, which can refuse with its own reason",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide names the reason explain() gives once no binding allows, without changing the decision",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide refuses with policy-failed when bindings(), a condition, or explain() throws, logging each policy once per change",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.decide always lets a Peer open its own access snapshot",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.allows filters list items for non-owners on one resource without arguments",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.allows reads the bindings on every check, so a running call sees binding changes from its next check on",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "RemoteAccessService.allows allows nothing when the principal kind has no policy or the policy fails",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "first snapshots gives the owner the owner baseline and a non-owner its current grants",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "first snapshots injects the access snapshot of the Peer each index speaks for",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "first snapshots lists per bound resource the endpoint actions decide() allows there without arguments, and no grant where none is allowed",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "first snapshots gives a principal whose bindings() throws no grant",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "remoteAccess/follow sends the owner one owner baseline and nothing else",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "remoteAccess/follow pushes upserts and removals after invalidation and policy changes",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "remoteAccess/follow keeps no abort listener from a wait that a change ended",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "remoteAccess/follow ends every open generation when the service unloads, so a reloaded service starts from a fresh baseline",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/api/remote-access/tests/remote-access.host.spec.ts",
+      "name": "remoteAccess/follow stops a non-owner generation that is cancelled while waiting",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "Session model selection uses initial options only until a selection or request is recorded and returns detached values",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "Session model selection retires only a matching pending selection and reconstructs it from the log",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "Session model selection leaves adapter-defaulted reasoning unselected while retaining explicit effort",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "Session model selection reuses fold state for duplicate recorded selections and unrelated events",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "Session model selection replaces the complete selection and clears an omitted explicit effort",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "installModelSelection() announces the fixed step route, preserves request-series declarations, and repeats before a header commits",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "installModelSelection() does not announce initial, same-route, effort-only, rejected, aborted, or disposed steps",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent/tests/model-selection.spec.ts",
+      "name": "installModelSelection() preserves empty no-call decisions and announces an empty tool continuation",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() records 'user' cancellation without the stack a transport assigned to the abort reason",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() records 'parent' cancellation without the stack a transport assigned to the abort reason",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() records 'hook' cancellation without the stack a transport assigned to the abort reason",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() records 'disposed' cancellation without the stack a transport assigned to the abort reason",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() closes a cancelled turn whose abort reason acquired an own property JSON discards",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel() on an idle agent with nothing queued is a no-op; the next prompt runs (F2 leak guard)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel({ keepInbox: true }) does not restore work already claimed by a waking send",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel({ keepInbox: true }) parks queued work after an active turn aborts",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel({ keepInbox: true }) latches a waking send landing in the abort-to-idle window",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel() without keepInbox clears a latched wake alongside the inbox",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() removing the latched wake before convergence suppresses the replay",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() latches a wake arriving deep into a slow abort convergence",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() does not latch a wake landing after disposal begins",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel after waking send closes its synchronously opened turn without a step",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() disposal from the running notification drops queued work before turn start",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() a whenIdle() waiter registered BEFORE a pre-step cancel resolves (F1 hang guard)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() idle-listener cancellation settles its waiter without cancelling later work",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() replacement work queued after idle-listener cancellation replays at convergence",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel() mid-step aborts the active turn and drops every queued tail item",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel from an assistant/message observer skips execution but balances replay",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() a prompt sent AFTER a cancelled turn settles runs normally (marker reset)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel mid-stream finalizes the streamed prefix onto the surface",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() retains terminal replay state when cancellation races the final stream chunk",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel during reasoning-only streaming finalizes the reasoning prefix",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel drops a half-streamed tool call and keeps the completed text before it",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel during error recovery does not finalize the failed stream",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() retry retains the failed attempt while the final message embeds only its own stream",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() retains a partial attempt when stream middleware rejects without cancellation",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel before any visible content finalizes nothing",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel from a synchronous step/start session-event listener drops the step (post-step-start window)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() disposal from a synchronous step/start session-event listener stops before adapter dispatch",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel during the stopping window ends the turn aborted and runs no further step",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel from a synchronous agent/status(running) listener drops the turn (window 2)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() a running-listener cancellation replays replacement work at convergence",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() a prompt queued during pre-step cancellation replays at convergence",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() cancel clears the turn's steering — it is not re-enqueued as a fresh turn",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() replays replacement work queued synchronously by an abort observer",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() keeps the first typed cause for an active turn",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() preserves the first user cancellation when lifecycle teardown races it",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() lets a cooperative pre-step boundary settle from the explicit turn signal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() lets a cooperative system-prompt boundary settle from the explicit turn signal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() lets a cooperative request boundary settle from the explicit turn signal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() lets a cooperative stopping boundary settle from the explicit turn signal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "name": "Agent.cancel() lets a cooperative tool boundary settle from the explicit turn signal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/model.spec.ts",
+      "name": "Agent model ownership waits for model projection registration before publishing the factory",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/model.spec.ts",
+      "name": "Agent model ownership binds each model instance to its Agent and makes it available during setup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/model.spec.ts",
+      "name": "Agent model ownership retains model selection until Agent cleanup finishes on loop disposal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/model.spec.ts",
+      "name": "Agent model ownership retains model selection until Agent cleanup finishes on root disposal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle awaits serial creation before caller readiness",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle retains both entries and scoped effects until an asynchronous creation listener settles on owner unload",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle rolls back both registries and the scope when asynchronous creation fails",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle rejects an already-aborted creation signal before publishing either object",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle joins cleanup when an abort lands reentrantly during scope preparation",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle normalizes non-Error create failures for rollback while rethrowing the original value",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle tags agent.ctx with the Agent scope key",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle records an explicitly owned Agent as a non-root runtime child",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle scoped registrations live in the agent world and die with the agent",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle owns the inbox projection until AgentLoop unloads",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle agent.ctx listeners hear only their own agent (scoped dispatch end to end)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle runs setup in the guaranteed slot: scoped world complete before agent/created and the first assembly",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle announces the Session before setup and the Agent after setup completes",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle rejects a concurrent same-id creation before its setup starts",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle uses signal only for creation: aborts pending setup but not a returned live handle",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle owner unload aborts pending setup and disposes the announced Session",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle an AgentLoop unload aborts pending setup, awaits cleanup, and releases both ids",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle factory unload during scope minting prevents setup and drains cleanup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle caller unload during scope minting owns and drains the half-built child",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle create rechecks provider liveness before its first publication edge",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle create leaves no lifecycle state when session preparation fails",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle factory unload awaits provisional cleanup when scope preparation throws",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle AgentLoop unload is a structural co-owner of every live programmatic agent",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle keeps AgentLoop dependencies available when the caller injects only agents",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle keeps the Session live through reentrant session/created teardown without starting setup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle keeps both entries and the scope live through a reentrant agent/created teardown",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle rechecks caller liveness after agent/created before starting the driver",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle a rejecting setup disposes the announced Session and unwinds the unpublished Agent scope",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle rejects an exotic durable seed before publishing either object",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle a throwing session/created listener disposes the scope (pre-nesting rollback window)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle pairs session and agent announcements when agent creation aborts publication",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle the config create helper rolls back when publication throws",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle registrations through a disposed agent ctx throw INACTIVE_EFFECT",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle agentEvents fuses carrier and subject for custom drivers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle owner unload honors the documented teardown order: unregistration AFTER the drain, before detach",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle handle.dispose() during owner unload still awaits true quiescence (shared boundary)",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle successful handle disposal retires its caller ownership effect",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle owner unload after handle-first teardown follows the same in-flight boundary",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle reopens ids after the prior private scope finishes quiescing",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/scope-lifecycle.spec.ts",
+      "name": "agent scope lifecycle drains a run re-entered by cancel's own idle transition before removing the scope",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "shares the registry and selects an independent executor through the preset scope chain",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "dispatches through the current Agent scope after prompt listeners rebuild the assembly",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "rejects new batches after unload while an accepted batch settles on its original executor",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "refreshes executor projections without emitting tool registry changes",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "rolls back executor section registrations when occupied is rejected",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "rolls back executor section registrations when invalid-order is rejected",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "assembles independent tools and section text for overlapping prompt assemblies",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "keeps the foundation usable for registration and requires an explicit executor for calls",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "hands the executor raw calls and the resolved loop limit undefined",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "hands the executor raw calls and the resolved loop limit 1",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "hands the executor raw calls and the resolved loop limit 6",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-executors.spec.ts",
+      "name": "keeps Agent scope without a model step and logs raw calls only with a logging step",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "tool update emission logs additions bound to the new header and removals without one, after the first header",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "tool update emission sends deferred declarations and recorded update blocks on an in-history route",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation uses the step model selection for asynchronous conditions and rejects a historical name after removal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation cancels an asynchronous condition without committing the step request",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation keeps one model selection, tool set, and prompt across retries without admitting users again",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation reports condition failures without admitting a partial request",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation closes the step tool set after a rejected proposal and after its step",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "name": "step-time tool activation shares the selected set with prompt guidance",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "activates and deactivates a registered tool without allowing historical calls",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "applies a batch admission to the calls its executor runs",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "keeps admissions specific to the requesting agent",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "applies live restrictions and closes step admission permanently",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "settles calls of a cancelled step through cancellation with their finalizers",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "reports a wrapper result completed at cancellation as cancelled rather than unknown",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "does not substitute a same-name registration after admission",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "does not restore a registration removed during its asynchronous condition",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "propagates cancellation after an asynchronous condition settles",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/activation.spec.ts",
+      "name": "reports condition failures without treating them as disabled tools",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode returns parallel only for an explicit true classifier",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode defaults to exclusive for a tool with no isConcurrencySafe declaration",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode returns exclusive for an unknown tool",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode returns exclusive when the classifier returns false for these args",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode classifies invalid defineContentToolFixture arguments as exclusive without throwing",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode treats a throwing raw classifier as exclusive",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode treats a truthy non-boolean raw result as exclusive",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode passes parsed arguments directly to a raw definition",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode isConcurrencySafe never reaches the model-facing schemas() projection",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/core/tools/tests/execution-mode.spec.ts",
+      "name": "ToolExecutionPipeline.executionMode ToolExecutionMode is the object-tagged union",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility awaits modern registration, keeps Promise chaining, and never warns for handle cleanup",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility lets an asynchronous plugin await registration later in its initialization",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility loads an unawaited legacy registration and warns once per key for keyed reads",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility materializes every registered unit on a legacy keyed read without producing unrelated wire views",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility keeps callable early disposal idempotent without invalidating an awaited reader",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility releases a registration called before the asynchronous handle handoff",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility unloads a legacy return registration",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility unloads a legacy effect registration",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility unloads a legacy generator registration",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility rejects an async plugin that returns the legacy registration as a disposer",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility leaves an async generator yield owned by the plugin instead of the composed effect",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility transfers the original disposer into a composed effect and retains it until earlier cleanup settles",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility preserves explicit rejection handling and returns a harmless legacy disposer for failed acquisition",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility logs an ignored legacy registration rejection and keeps the plugin active",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility lets a modern plugin handle rejected registration and finish activation",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility warns again for a new registry instance without sharing warning state between applications",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility drops an ignored rejection when its plugin unloads before handoff",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/compatibility.spec.ts",
+      "name": "projection registration compatibility keeps an observed registration owned when its plugin unloads before handoff",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers reads new events after handle disposal without rejoining snapshots or notifications",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers reads new events after fiber disposal without rejoining snapshots or notifications",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers keeps the original unit when the same key is registered with a new version",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers reads only the selected unit without materializing unrelated registrations",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers rejects initialization when the owner unloads before the handle is returned",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers releases one reference once under twice disposal",
+      "parameter_instance": 1,
+      "status": "passed"
+    },
+    {
+      "file": "packages/session/session-projection/tests/registration-reader.spec.ts",
+      "name": "retained projection readers releases one reference once under owner-unload disposal",
+      "parameter_instance": 1,
+      "status": "passed"
+    }
+  ]
+}

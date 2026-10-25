@@ -1,0 +1,2850 @@
+{
+  "old_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "new_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+  "note": "Text matching only. All semantic conclusions require review; no old runtime results are carried forward.",
+  "records": {
+    "E01": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/architecture.md",
+        "start": 15,
+        "end": 55,
+        "symbol": "Profiles / Supported application entrypoints",
+        "category": "官方说明"
+      },
+      "candidate_path": "docs/architecture.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "d6bc9e58e053dd31bb261ab2f7c9590373dd52d920da78cdeba11417b7e6233e"
+    },
+    "E02": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/cordis/src/context.ts",
+        "start": 70,
+        "end": 145,
+        "symbol": "Context.constructor / extend / isolate / intercept",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/cordis/src/context.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "37ada3b5d60606c7142e4a1abee75d2008f64c19f6c66828778f2b5fef8ed157",
+      "candidate_start": 70,
+      "candidate_end": 145,
+      "candidate_snippet_hash": "37ada3b5d60606c7142e4a1abee75d2008f64c19f6c66828778f2b5fef8ed157",
+      "candidate_blob": "0488423088e4da284d28c2d2cef887a5c69ed0f5"
+    },
+    "E03": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/cordis/src/reflect.ts",
+        "start": 277,
+        "end": 327,
+        "symbol": "ReflectService.provide / notify",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/cordis/src/reflect.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "4d918cd0de86d75cbb0391502e18ac47fe05d3de8d0037d0e3e91d73408999a7",
+      "candidate_start": 277,
+      "candidate_end": 327,
+      "candidate_snippet_hash": "4d918cd0de86d75cbb0391502e18ac47fe05d3de8d0037d0e3e91d73408999a7",
+      "candidate_blob": "7bbe1ae9919b930230844ec3d4365466a78e90a8"
+    },
+    "E04": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/cordis/src/fiber.ts",
+        "start": 611,
+        "end": 752,
+        "symbol": "Fiber._refresh / _reload / _unload / update",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/cordis/src/fiber.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "41390bd2826c7c177ad94ecb3924922413b1735b3f78b8ae7dc2e20484de43df"
+    },
+    "E05": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/cordis/src/fiber.ts",
+        "start": 418,
+        "end": 550,
+        "symbol": "Fiber.effect",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/cordis/src/fiber.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "98932f733ff53ee16fcc3256fee1594f4d2f48279e90002b8f2a28d738933d36",
+      "candidate_start": 418,
+      "candidate_end": 550,
+      "candidate_snippet_hash": "98932f733ff53ee16fcc3256fee1594f4d2f48279e90002b8f2a28d738933d36",
+      "candidate_blob": "d4aed3158f65b3a9881536d97669c25587872b04"
+    },
+    "E06": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/cordis/src/events.ts",
+        "start": 180,
+        "end": 242,
+        "symbol": "EventsService.parallel / emit / serial / waterfall",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/cordis/src/events.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "6a38920300717ff5848bae62c769bdd2d927063649c6e2b27bbb561739afb118",
+      "candidate_start": 180,
+      "candidate_end": 242,
+      "candidate_snippet_hash": "6a38920300717ff5848bae62c769bdd2d927063649c6e2b27bbb561739afb118",
+      "candidate_blob": "c7bf42632e5468b19c4a846bfdda5daaa2d3c27a"
+    },
+    "E07": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/loader/src/config/entry.ts",
+        "start": 118,
+        "end": 237,
+        "symbol": "Entry.update / _commitVolatile / _init",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/loader/src/config/entry.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "7ec9ae0fc68ae3b58030a34b1a88e3c5aa086075a3d15dec7366e5097456f8f1"
+    },
+    "E08": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/include/src/index.ts",
+        "start": 57,
+        "end": 123,
+        "symbol": "applyEntryPatches",
+        "category": "源码事实"
+      },
+      "candidate_path": "vendor/include/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "d74887001bae9421b8467212c3a8b79f4a1a15199837b21afa36d5025e6990f2",
+      "candidate_start": 57,
+      "candidate_end": 123,
+      "candidate_snippet_hash": "d74887001bae9421b8467212c3a8b79f4a1a15199837b21afa36d5025e6990f2",
+      "candidate_blob": "ee4dd53fb853af9197b59f4820dfe6348698f026"
+    },
+    "E09": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "apps/cli/src/bin.ts",
+        "start": 26,
+        "end": 73,
+        "symbol": "runCli",
+        "category": "源码事实"
+      },
+      "candidate_path": "apps/cli/src/bin.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "a32687cebbedd3d04c201c6d6fb58c90eb43d773012b4b1cb9c2763c5bd68cc3",
+      "candidate_start": 26,
+      "candidate_end": 73,
+      "candidate_snippet_hash": "a32687cebbedd3d04c201c6d6fb58c90eb43d773012b4b1cb9c2763c5bd68cc3",
+      "candidate_blob": "1ae0c4a59182c3ebe7dd38fcc17292e185332cdc"
+    },
+    "E10": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "apps/cli/src/profile-boot.ts",
+        "start": 244,
+        "end": 326,
+        "symbol": "runProfile",
+        "category": "源码事实"
+      },
+      "candidate_path": "apps/cli/src/profile-boot.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "e21c64aa7c04f98452a4b8458122fdfd7cdee36578066f3b0153b72d06c5d47e",
+      "candidate_start": 271,
+      "candidate_end": 353,
+      "candidate_snippet_hash": "e21c64aa7c04f98452a4b8458122fdfd7cdee36578066f3b0153b72d06c5d47e",
+      "candidate_blob": "da14308bd650a7680151d2d6b3e0fc018210716e"
+    },
+    "E11": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/boot/app-boot/src/profile-context.ts",
+        "start": 63,
+        "end": 74,
+        "symbol": "readProfilePatches",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/boot/app-boot/src/profile-context.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "c120469101df637e3f8d6852794142bffd54f00c5d65edd156d77c2fc06043f0"
+    },
+    "E12": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/boot/app-boot/src/index.ts",
+        "start": 973,
+        "end": 1036,
+        "symbol": "boot",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/boot/app-boot/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "68184942c1c0541176993b9385c50969e46d777f854ae4fe285274eb1d3ded6a"
+    },
+    "E13": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/boot/app-boot/src/index.ts",
+        "start": 274,
+        "end": 302,
+        "symbol": "reconcileProfilePatches",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/boot/app-boot/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "d37cddf0e93818126e5b85682ee35ac45a44c184e39e88fb2725c025e2d0d38d"
+    },
+    "E14": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/boot/hmr/src/index.ts",
+        "start": 525,
+        "end": 732,
+        "symbol": "Hmr.partialReload",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/boot/hmr/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "ee827f0e989af82b1ef2eb84fd21b7a187f227f8f174679f2608fc4d6600b89d"
+    },
+    "E15": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/bundle/base/cordis.patch.yml",
+        "start": 20,
+        "end": 40,
+        "symbol": "base 配置 timer / HMR / LLM",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/bundle/base/cordis.patch.yml",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "c7ee54554b54d3fb6fae20397bf67a3f997acd3188c809bd6a676f074acb53bc",
+      "candidate_start": 20,
+      "candidate_end": 40,
+      "candidate_snippet_hash": "c7ee54554b54d3fb6fae20397bf67a3f997acd3188c809bd6a676f074acb53bc",
+      "candidate_blob": "863d194bf5ae78d83e9473589e466744f05a76df"
+    },
+    "E16": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent/src/index.ts",
+        "start": 358,
+        "end": 415,
+        "symbol": "AgentRegistry.setFactory / create / resume",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "1707ee9b7ee0f3a4cd8421958aa564240e174ed8ee906ee93a517d73a5a9c20b",
+      "candidate_start": 383,
+      "candidate_end": 440,
+      "candidate_snippet_hash": "1707ee9b7ee0f3a4cd8421958aa564240e174ed8ee906ee93a517d73a5a9c20b",
+      "candidate_blob": "c93ebbc94d76d279d3de8536632f37645ac70058"
+    },
+    "E17": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/index.ts",
+        "start": 479,
+        "end": 640,
+        "symbol": "AgentLoop.prepare / dispose / publish",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "9b4073d4118306295a68d1c94614c680cdc0cbaa199d201241827a8a7f93e9eb"
+    },
+    "E18": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/index.ts",
+        "start": 807,
+        "end": 866,
+        "symbol": "AgentLoop.resume / resumeWith",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "f7eda5434bcff7f9a539e60e4a9ff31f6573b3f19067e8980edd4d52289855fe",
+      "candidate_start": 753,
+      "candidate_end": 812,
+      "candidate_snippet_hash": "f7eda5434bcff7f9a539e60e4a9ff31f6573b3f19067e8980edd4d52289855fe",
+      "candidate_blob": "cb5007c28f141624b26fca656acb2d933faea145"
+    },
+    "E19": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 154,
+        "end": 241,
+        "symbol": "ReactLoopAgent.send / followup / steer / inject / cancel / whenIdle",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "f29d22fe85d938b5e9f424dd61e2f940e6df2fe00a6ef83f9fb944d14de03011",
+      "candidate_start": 163,
+      "candidate_end": 250,
+      "candidate_snippet_hash": "f29d22fe85d938b5e9f424dd61e2f940e6df2fe00a6ef83f9fb944d14de03011",
+      "candidate_blob": "03c4c0c2bfe6ffa31cb4be07fd39965e980327ad"
+    },
+    "E20": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 296,
+        "end": 395,
+        "symbol": "ReactLoopAgent.turn",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "89ad70a4d0882ce6e4ef82872bb8be71bac14c344636772b6bdd859bf175b7f4"
+    },
+    "E21": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 398,
+        "end": 544,
+        "symbol": "ReactLoopAgent.step",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "f889229b0d3e02df05d9af3cbe534edd99b03292098ddeffa90e899d6ce6b7f9"
+    },
+    "E22": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 547,
+        "end": 686,
+        "symbol": "ReactLoopAgent.prepareRequest / buildRequest",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "aa4a379f5a297f0b2245785db2c785e9c0bf51654e733a96d3ca59c6f43a1f87"
+    },
+    "E23": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/tool-calls.ts",
+        "start": 60,
+        "end": 290,
+        "symbol": "executeToolCalls / runGroup / commitReady",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/tool-calls.ts",
+      "review_status": "pending",
+      "status": "missing",
+      "previous_snippet_hash": "91cd8766f2420390292c03dc6dce61c867863c27a038f0f00315dd0f4cdf52a6"
+    },
+    "E24": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/assistant-stream.ts",
+        "start": 45,
+        "end": 110,
+        "symbol": "AssistantStreamAttempt / settle",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/assistant-stream.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "1f6b93c6f7de0ca8d6f7dae703f86a2191ca81c91625c770e516cab51a05f9e5",
+      "candidate_start": 45,
+      "candidate_end": 110,
+      "candidate_snippet_hash": "1f6b93c6f7de0ca8d6f7dae703f86a2191ca81c91625c770e516cab51a05f9e5",
+      "candidate_blob": "8cbcc9e3c2bf16af84f884bd7db3aa8ea455625a"
+    },
+    "E25": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/session/src/types.ts",
+        "start": 79,
+        "end": 137,
+        "symbol": "SESSION_FORMAT_VERSION / SessionHeader / AgentCancelCause",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/session/src/types.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "2e5986caa2d26804d3dc0c3b5ba2fba0b69c814a297cedd004ad0f3cfde3a0fb"
+    },
+    "E26": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/session/src/index.ts",
+        "start": 718,
+        "end": 775,
+        "symbol": "Session.append",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/session/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "e0d5cdbecaf95110d482c204377c3782f46056b3b8201a19b968fe24852963ae"
+    },
+    "E27": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/session/src/index.ts",
+        "start": 856,
+        "end": 904,
+        "symbol": "Session.deriveMessages",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/session/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "f05b978b9281519fc7f3b3715ce4da33247983aa3b65dcfa94b4ae675ddf3238",
+      "candidate_start": 999,
+      "candidate_end": 1047,
+      "candidate_snippet_hash": "f05b978b9281519fc7f3b3715ce4da33247983aa3b65dcfa94b4ae675ddf3238",
+      "candidate_blob": "e9baee1b82d877eb90f67b3a7beae3d14b650442"
+    },
+    "E28": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-projection/src/index.ts",
+        "start": 253,
+        "end": 355,
+        "symbol": "SessionProjectionRegistry.register / stateOf / snapshot",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-projection/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "82e52ddcafda16cb70b28a2d08c676e48aea48cf5eb92d5c5193e13a3d342016"
+    },
+    "E29": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/runtime-context.ts",
+        "start": 88,
+        "end": 164,
+        "symbol": "SystemPromptProjection / RuntimeContextProjection",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/runtime-context.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "ba4ba9ae3f360f6270bcadad9db780b70c09c9798f4e730ba9f99f84d22b2698"
+    },
+    "E30": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/index.ts",
+        "start": 929,
+        "end": 1018,
+        "symbol": "LlmRuntime.prepareCall / stream",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/llm/llm/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "c8c88e578cb7a693e8ad6a20f82423ebeeb58c2f2c56c65d9a3e098efd1cb655"
+    },
+    "E31": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm-retry/src/index.ts",
+        "start": 188,
+        "end": 259,
+        "symbol": "recover / agent/request-error / abort and drain",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/llm/llm-retry/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "47ca1e9421a7f78a4c6f4477f2ccd55636e8918266840c3fdac339c3c7692911"
+    },
+    "E32": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 90,
+        "end": 208,
+        "symbol": "ToolDefinition / tools events",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/tools/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "39f052e2bcb37e0cba340889b707b9a53177adb40e9b7cb5822fa583f9fd60c1"
+    },
+    "E33": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 1493,
+        "end": 1699,
+        "symbol": "ToolRuntime.prepareExecution / dispatchExecution / finalizeExecution",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/tools/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "d628ba02a2c32ceab240f372006c88d7e3bd8c9cb1a4dca56de042eae68fb0ad"
+    },
+    "E34": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/schema.ts",
+        "start": 554,
+        "end": 632,
+        "symbol": "defineTool",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/tools/src/schema.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "00ff21e0a3ecf9632a26ed796c3dd77ea20bd10d739be9de6943c11586877a53",
+      "candidate_start": 555,
+      "candidate_end": 633,
+      "candidate_snippet_hash": "00ff21e0a3ecf9632a26ed796c3dd77ea20bd10d739be9de6943c11586877a53",
+      "candidate_blob": "eb6b6f30f9115d3e5c3f19cd1b6b869b0e2cffb2"
+    },
+    "E35": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/guard/timeout-policy/src/index.ts",
+        "start": 55,
+        "end": 81,
+        "symbol": "tools/execute deadline wrapper",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/guard/timeout-policy/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "06f1b609d53785b421c40b774911c7830a3ca4553c1debfdc47b004de6f87c67",
+      "candidate_start": 55,
+      "candidate_end": 81,
+      "candidate_snippet_hash": "06f1b609d53785b421c40b774911c7830a3ca4553c1debfdc47b004de6f87c67",
+      "candidate_blob": "9ee3c7026b52df87510f0af1d4c55b073d4168a2"
+    },
+    "E36": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/interaction/user-approval/src/index.ts",
+        "start": 215,
+        "end": 307,
+        "symbol": "ApprovalService.request / decide",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/interaction/user-approval/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "c536a0225d7879d274e912acbc558dfecd834df31576901fcde8acd71c4855cd"
+    },
+    "E37": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-persistence/src/index.ts",
+        "start": 52,
+        "end": 173,
+        "symbol": "SessionHandle / SessionPersistence",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-persistence/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "27b9f5b41445633869b0e32dc5f1a33da62c70796ca72fea8b069fb6861e0bb7"
+    },
+    "E38": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-checkpoint-policy/src/index.ts",
+        "start": 54,
+        "end": 83,
+        "symbol": "afterCheckpoint / apply",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-checkpoint-policy/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "c425c2587fedcb3847aaf9f0d0c59c6796949cf2892ddce7c6c76ca1e360891c",
+      "candidate_start": 54,
+      "candidate_end": 83,
+      "candidate_snippet_hash": "c425c2587fedcb3847aaf9f0d0c59c6796949cf2892ddce7c6c76ca1e360891c",
+      "candidate_blob": "0fc456eb08853b9fe54d0bf9ca3a26c05b4413cf"
+    },
+    "E39": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-persistence-jsonl/src/index.ts",
+        "start": 314,
+        "end": 435,
+        "symbol": "JsonlSessionPersistence.create / open / flush",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-persistence-jsonl/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "505d01c89ead13a8da4ab79fc4c9058825e468b70c9588d890218ff2acb67b36",
+      "candidate_start": 360,
+      "candidate_end": 481,
+      "candidate_snippet_hash": "505d01c89ead13a8da4ab79fc4c9058825e468b70c9588d890218ff2acb67b36",
+      "candidate_blob": "f8351fa9ee75db9790859de9672d1602c0c05664"
+    },
+    "E40": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-persistence-jsonl/src/storage.ts",
+        "start": 187,
+        "end": 263,
+        "symbol": "JsonlSessionHandle.append / flush / close",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-persistence-jsonl/src/storage.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "9ca4ee996cca88fc6ab55eace3d0d126a99e9daaad9e65c8c3f94beaebf3159f",
+      "candidate_start": 187,
+      "candidate_end": 263,
+      "candidate_snippet_hash": "9ca4ee996cca88fc6ab55eace3d0d126a99e9daaad9e65c8c3f94beaebf3159f",
+      "candidate_blob": "197dcbc270cd153c8cb8b897359378d46963daa8"
+    },
+    "E41": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-persistence-jsonl/src/lease.ts",
+        "start": 70,
+        "end": 134,
+        "symbol": "SessionWriteLease.acquire / release",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-persistence-jsonl/src/lease.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "2d1f1dbe044ffba90cf77cf359694746dc9d511b1e6b554c7fdf1ff9ed5d9791",
+      "candidate_start": 70,
+      "candidate_end": 134,
+      "candidate_snippet_hash": "2d1f1dbe044ffba90cf77cf359694746dc9d511b1e6b554c7fdf1ff9ed5d9791",
+      "candidate_blob": "59dfe27fcacc9943ae0eda8fe7bde4d136c86afb"
+    },
+    "E42": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-format-catalog/src/generated.ts",
+        "start": 16,
+        "end": 48,
+        "symbol": "sessionFormatCatalogOptions / static migrations",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-format-catalog/src/generated.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "4184915606e1bc0513386cf43db1e47d79ef51684e160afb054c7f0b95ba723d",
+      "candidate_start": 16,
+      "candidate_end": 48,
+      "candidate_snippet_hash": "4184915606e1bc0513386cf43db1e47d79ef51684e160afb054c7f0b95ba723d",
+      "candidate_blob": "eab9d914564be9be6ccd331562bd9d4be97a6bd9"
+    },
+    "E43": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/session/src/repair.ts",
+        "start": 14,
+        "end": 97,
+        "symbol": "TOOL_NOT_STARTED / TOOL_OUTCOME_UNKNOWN / openTurnClosers",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/session/src/repair.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "5fa9633fd35b39425facad6a27245182f77c5adee8db05f7e90be346f1c70c87",
+      "candidate_start": 14,
+      "candidate_end": 97,
+      "candidate_snippet_hash": "5fa9633fd35b39425facad6a27245182f77c5adee8db05f7e90be346f1c70c87",
+      "candidate_blob": "bb32f01ca06af2c496fa4c68fed287297e1b7fce"
+    },
+    "E44": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/session/src/fork.ts",
+        "start": 1,
+        "end": 30,
+        "symbol": "buildForkSeed",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/session/src/fork.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "aed335789ed92c72fd971709f830ce02b14598524c1d9d74b86afb4d714cba0b",
+      "candidate_start": 1,
+      "candidate_end": 30,
+      "candidate_snippet_hash": "aed335789ed92c72fd971709f830ce02b14598524c1d9d74b86afb4d714cba0b",
+      "candidate_blob": "8d5b2219768ce0a660b461166d50dcb80f3bcff2"
+    },
+    "E45": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/api/gateway/src/client/journal-stream.ts",
+        "start": 261,
+        "end": 391,
+        "symbol": "RemoteJournalStream.replaceGeneration / acceptEntry / replaceThrough",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/api/gateway/src/client/journal-stream.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "50c6616817f452eede6569ad61386e723d1307b554732d36251847f0f6a9ab7b",
+      "candidate_start": 261,
+      "candidate_end": 391,
+      "candidate_snippet_hash": "50c6616817f452eede6569ad61386e723d1307b554732d36251847f0f6a9ab7b",
+      "candidate_blob": "ab013abdf3555f61e11f6a9c12c76f9996fa7a4c"
+    },
+    "E46": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/api/gateway/src/client/snapshot-stream.ts",
+        "start": 67,
+        "end": 94,
+        "symbol": "RemoteSnapshotStream.consume",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/api/gateway/src/client/snapshot-stream.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "b860d8fc5fc118e71fa679984c60a46b814146dd76632e2665e08ac39f91d6fe",
+      "candidate_start": 67,
+      "candidate_end": 94,
+      "candidate_snippet_hash": "b860d8fc5fc118e71fa679984c60a46b814146dd76632e2665e08ac39f91d6fe",
+      "candidate_blob": "bc822b28c99738d7fa2c0db4f492e31c01d52b26"
+    },
+    "E47": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/api/session-controller/src/assistant-stream.ts",
+        "start": 45,
+        "end": 102,
+        "symbol": "SessionAssistantStreamState.snapshot",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/api/session-controller/src/assistant-stream.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "63e7c13af2809cf7ae9964453a7ed6194fe2b5e2f9daa722081262ed82686853",
+      "candidate_start": 45,
+      "candidate_end": 102,
+      "candidate_snippet_hash": "63e7c13af2809cf7ae9964453a7ed6194fe2b5e2f9daa722081262ed82686853",
+      "candidate_blob": "b34ec2ed73afaef69954d7b92e53422ac721b4ba"
+    },
+    "E48": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/scope/src/index.ts",
+        "start": 1,
+        "end": 180,
+        "symbol": "scopeOf / scopeTarget / createScope / bindScopeParent",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/scope/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "30ec1da0e8bcffbb92161f462e0f9b2ea365aecde9378517d149f3fa59bcbe2e",
+      "candidate_start": 1,
+      "candidate_end": 180,
+      "candidate_snippet_hash": "30ec1da0e8bcffbb92161f462e0f9b2ea365aecde9378517d149f3fa59bcbe2e",
+      "candidate_blob": "ef64440ac4c4aa579cc95898a467a91ff76bc4c3"
+    },
+    "E49": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/sandbox/sandbox-policy/src/index.ts",
+        "start": 1,
+        "end": 87,
+        "symbol": "SandboxPolicyService / SandboxPolicyRequest",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/sandbox/sandbox-policy/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "4182bebeb8ce3d30276c754d0da7f55ba0a03a1d5daa3969830805460181d9f8"
+    },
+    "E50": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/fs/fs-sandbox/src/index.ts",
+        "start": 80,
+        "end": 140,
+        "symbol": "SandboxFsService.checkedTarget / writeText / editText",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/fs/fs-sandbox/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "db6234ae07bea10298a50b521c1743a2e4f8a3a67b0a912f98d9974fbbf03ba6",
+      "candidate_start": 80,
+      "candidate_end": 140,
+      "candidate_snippet_hash": "db6234ae07bea10298a50b521c1743a2e4f8a3a67b0a912f98d9974fbbf03ba6",
+      "candidate_blob": "408334cb3012b0bddeba1882ac449064ca38eb1d"
+    },
+    "E51": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/sandbox/sandbox-local/src/index.ts",
+        "start": 152,
+        "end": 184,
+        "symbol": "PLATFORM_CHAINS / STATIC_ENFORCEMENT",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/sandbox/sandbox-local/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "ef473b1621fc127ae5540b240f96a4469df00b2db722ff3618e8b94ccd76769a",
+      "candidate_start": 152,
+      "candidate_end": 184,
+      "candidate_snippet_hash": "ef473b1621fc127ae5540b240f96a4469df00b2db722ff3618e8b94ccd76769a",
+      "candidate_blob": "acf4b4e7387d7e6b3ec7931d96070896c3b71578"
+    },
+    "E52": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subprocess/subprocess-local/src/index.ts",
+        "start": 107,
+        "end": 138,
+        "symbol": "LocalSubprocessService.disposeManagedProcesses",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/subprocess/subprocess-local/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "59c2a710855c796a1ac7a2d963d821e39352196b9d20cf8402b62458f4677355",
+      "candidate_start": 122,
+      "candidate_end": 153,
+      "candidate_snippet_hash": "59c2a710855c796a1ac7a2d963d821e39352196b9d20cf8402b62458f4677355",
+      "candidate_blob": "be249270932b4384dc31f4b0cada90b2de78a166"
+    },
+    "E53": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/client/connection/src/api-request-trust.ts",
+        "start": 91,
+        "end": 118,
+        "symbol": "isTrustedApiRequest",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/client/connection/src/api-request-trust.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "028767dc828a6efbdc5cd1f06e2e1409ec93f70c6886e07fe0357a417f8e321a"
+    },
+    "E54": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/client/connection/src/browser-auth.ts",
+        "start": 52,
+        "end": 57,
+        "symbol": "processLaunchToken",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/client/connection/src/browser-auth.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "e2da8a9e68734f41e60a738fc87cbf6bf8c1078c397908a57ade712c537e0301",
+      "candidate_start": 61,
+      "candidate_end": 66,
+      "candidate_snippet_hash": "e2da8a9e68734f41e60a738fc87cbf6bf8c1078c397908a57ade712c537e0301",
+      "candidate_blob": "5c8594df6f6c8269dfef5db1faebe4da3f9e9f26"
+    },
+    "E55": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/credentials/credentials-local/src/index.ts",
+        "start": 114,
+        "end": 146,
+        "symbol": "assertOwnerOnly",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/credentials/credentials-local/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "d114f89890f65446679029cf592169dc07218b28bfe6c28b71ba89818ed37382",
+      "candidate_start": 114,
+      "candidate_end": 146,
+      "candidate_snippet_hash": "d114f89890f65446679029cf592169dc07218b28bfe6c28b71ba89818ed37382",
+      "candidate_blob": "48ae487c6d50b309ba316dc5a5e1f6296a67f676"
+    },
+    "E56": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/preset/agent-preset-registry/src/index.ts",
+        "start": 51,
+        "end": 120,
+        "symbol": "AgentPresetRegistry.register / activate",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/preset/agent-preset-registry/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "7c86d6e639a6f81f5e65588ce7d372a897ebf03eb23929b01943ec778fc77988"
+    },
+    "E57": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/workflow/workflow/src/index.ts",
+        "start": 150,
+        "end": 187,
+        "symbol": "WorkflowEngine.start / emitWorkflowEvent",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/workflow/workflow/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "45177dba5fd468eb88c3f11a65fc58b367814976d6a2d69e92eedc8f69076a4c",
+      "candidate_start": 150,
+      "candidate_end": 187,
+      "candidate_snippet_hash": "45177dba5fd468eb88c3f11a65fc58b367814976d6a2d69e92eedc8f69076a4c",
+      "candidate_blob": "b78a9729770f3a68cf57877209e8b5d33291d0c0"
+    },
+    "E58": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/client/ui-slots/src/index.ts",
+        "start": 1203,
+        "end": 1262,
+        "symbol": "SlotCore.register",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/client/ui-slots/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "13643990ed8f879253bf4aa004e249264a60dc6e696c5d36917d2c771499a1b6",
+      "candidate_start": 1207,
+      "candidate_end": 1266,
+      "candidate_snippet_hash": "13643990ed8f879253bf4aa004e249264a60dc6e696c5d36917d2c771499a1b6",
+      "candidate_blob": "85c7d676cccc53c0958182eea8f98dd2bae9042a"
+    },
+    "E59": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/system-prompt/src/index.ts",
+        "start": 454,
+        "end": 544,
+        "symbol": "SystemPrompt.section / context / tools / variable",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/system-prompt/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "cdd927acd96cc7e735213b39ddf7c438eb7fb2997d4148abd4526e601d449504"
+    },
+    "E60": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/sdk/server/src/index.ts",
+        "start": 46,
+        "end": 100,
+        "symbol": "apply / initialize / disposeAndExit",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/sdk/server/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "d588ca9f5227980dbced03255c7a8d02f5bf8186454357685497861342fbff62"
+    },
+    "E61": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "python/sdk/src/deepseek_harness/client.py",
+        "start": 71,
+        "end": 92,
+        "symbol": "HarnessClient.start",
+        "category": "源码事实"
+      },
+      "candidate_path": "python/sdk/src/deepseek_harness/client.py",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "6da60ad8eb7eca1b2601b7378070e7ba1550dff9d2c1841ede8589a30c6e1536"
+    },
+    "E62": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/index.ts",
+        "start": 158,
+        "end": 221,
+        "symbol": "pre-step pressure / request-error overflow",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "8b9041c0524609dc4beefdfcce470e322f359adae636daa71775c0d702210b25"
+    },
+    "E63": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent/src/runtime-types.ts",
+        "start": 309,
+        "end": 350,
+        "symbol": "PreStepDecision / agent/pre-step / agent/request",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent/src/runtime-types.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "f7c905b8e38e99f1c8ef0855419c5bd23b40fde3add6b7852f0392da26aa3eab"
+    },
+    "E64": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/boot/hmr/src/index.ts",
+        "start": 262,
+        "end": 340,
+        "symbol": "runExclusive / init / readiness / profile watches",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/boot/hmr/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "be04be70e674416bfe1db7e6b517f3d9e66606ca3bf4c9b18a763378ed8716b9"
+    },
+    "E65": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent/src/dispatch.ts",
+        "start": 120,
+        "end": 176,
+        "symbol": "AgentDispatch.emit / assembleContextFor",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent/src/dispatch.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "ad1b1efb44ace23646b41f291cb7377d02a8a2abab8eb2d303d832a011f7f65c",
+      "candidate_start": 120,
+      "candidate_end": 176,
+      "candidate_snippet_hash": "ad1b1efb44ace23646b41f291cb7377d02a8a2abab8eb2d303d832a011f7f65c",
+      "candidate_blob": "03fd952ac554c3ce4cc6dd94252195e8304f6d46"
+    },
+    "E66": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/inbox.ts",
+        "start": 109,
+        "end": 148,
+        "symbol": "Inbox.claim",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/inbox.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "e68fb5c48f83e2d709ec8453ba67e5cce404ac13538380473d1843626b8fd862"
+    },
+    "E67": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-persistence-jsonl/src/index.ts",
+        "start": 1446,
+        "end": 1482,
+        "symbol": "resolveGenerationInDirectory",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session/session-persistence-jsonl/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "0485e624f5bf5ad6fb0a4c113bad251644a54cf39ed1aa6169ff57322d1c44a0",
+      "candidate_start": 1535,
+      "candidate_end": 1571,
+      "candidate_snippet_hash": "0485e624f5bf5ad6fb0a4c113bad251644a54cf39ed1aa6169ff57322d1c44a0",
+      "candidate_blob": "f8351fa9ee75db9790859de9672d1602c0c05664"
+    },
+    "E68": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "vendor/README.md",
+        "start": 1,
+        "end": 69,
+        "symbol": "vendored upstream pins and local modifications",
+        "category": "官方说明"
+      },
+      "candidate_path": "vendor/README.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "7c0b245c530bf461fdf1b3d25438eb6630289f0deb0d69254d9321768a83e208"
+    },
+    "E69": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 1063,
+        "end": 1155,
+        "symbol": "ToolRuntime.register / restrict / guard",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/tools/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "9d9a79945d23144cfe068947fe214547ffb1d0da9b8269227a3ca76e5d474846"
+    },
+    "E70": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/index.ts",
+        "start": 389,
+        "end": 435,
+        "symbol": "LlmRuntime.registerAdapter",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/llm/llm/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "a4e999fb440f3910b8e10ff8df795b7a783c55cae45e5df4053ecf8c6cde8260",
+      "candidate_start": 401,
+      "candidate_end": 447,
+      "candidate_snippet_hash": "a4e999fb440f3910b8e10ff8df795b7a783c55cae45e5df4053ecf8c6cde8260",
+      "candidate_blob": "b4a5f82ad371291efde69dd6a01e7d80e7a82a0e"
+    },
+    "E71": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/constants.ts",
+        "start": 1,
+        "end": 6,
+        "symbol": "DEFAULT_MAX_PARALLEL_TOOL_CALLS",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/constants.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "31afc4ae15f7ce39ba156ab9f04d3ded0942cdd990afc6131ba5fb27c6eb3670",
+      "candidate_start": 1,
+      "candidate_end": 6,
+      "candidate_snippet_hash": "31afc4ae15f7ce39ba156ab9f04d3ded0942cdd990afc6131ba5fb27c6eb3670",
+      "candidate_blob": "3f5510967a045d2f3b3e566b50f971ade6ec1ecf"
+    },
+    "E72": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session-query/session-log-export/src/index.ts",
+        "start": 78,
+        "end": 169,
+        "symbol": "apply / authenticated ZIP download route",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/session-query/session-log-export/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "9bb761b8a7e7d89a4b9a0066dc857b03d8f010ba3855f2e4415b751c9a00a592"
+    },
+    "E73": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/architecture.md",
+        "start": 159,
+        "end": 164,
+        "symbol": "extension quick-reference: fork and persistence",
+        "category": "官方说明"
+      },
+      "candidate_path": "docs/architecture.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "69dafd8c03e378e849f1a8ba39463b53f40db2da2492f8ff51575a8cdd5c7a3b"
+    },
+    "E74": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent/src/index.ts",
+        "start": 64,
+        "end": 118,
+        "symbol": "CreateAgentOptions: meta / seed / inheritedEventCount / agentOptions / setup",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "48608a31533448638994bdefe0cec7df5914ace93e2fcba755deb66dade51773"
+    },
+    "E75": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "README.md",
+        "start": 11,
+        "end": 13,
+        "symbol": "Developer preview / compatibility-breaking changes",
+        "category": "官方说明"
+      },
+      "candidate_path": "README.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "a54cf22398555de249edca57bfe6332715cdf8fc896bcdfdcf6948e1989df64b",
+      "candidate_start": 11,
+      "candidate_end": 13,
+      "candidate_snippet_hash": "a54cf22398555de249edca57bfe6332715cdf8fc896bcdfdcf6948e1989df64b",
+      "candidate_blob": "7941e30f7bdca9391befe39b9115d211157fa42d"
+    },
+    "E76": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/cookbook/extension-cookbook.md",
+        "start": 1,
+        "end": 36,
+        "symbol": "tool / gate plugin examples and extension selection",
+        "category": "官方说明"
+      },
+      "candidate_path": "docs/cookbook/extension-cookbook.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "034cf0588d8e38542ff36502ba0735b06f49c6c84978fc733314cfdfff4cf67f",
+      "candidate_start": 1,
+      "candidate_end": 36,
+      "candidate_snippet_hash": "034cf0588d8e38542ff36502ba0735b06f49c6c84978fc733314cfdfff4cf67f",
+      "candidate_blob": "7e960a85f53bfd629a399d6343aa231b01cf4a63"
+    },
+    "E77": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 1,
+        "end": 40,
+        "symbol": "ReactLoopAgent module static imports",
+        "category": "源码事实"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "b7be1493b75baaf9f35459f58eb76dd43514dbc103663c803bed584c85283511"
+    },
+    "E78": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal/src/index.ts",
+        "start": 240,
+        "end": 280,
+        "symbol": "GoalService：配置、投影与进程内激活",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "a11c9db05e2a22aa26213549d48c32d7d66589b577d921e720e2386f2dc0ec09",
+        "blob_id": "48a02e485cb76bd31f1270cc457823590d62e977",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "a11c9db05e2a22aa26213549d48c32d7d66589b577d921e720e2386f2dc0ec09"
+    },
+    "E79": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal/src/index.ts",
+        "start": 303,
+        "end": 424,
+        "symbol": "GoalService：创建与生命周期变更",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "59ee36bd59c2f9abd2237dee5bfa32ac2a36ba50972415b7deb42e259e02e2c2",
+        "blob_id": "48a02e485cb76bd31f1270cc457823590d62e977",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "59ee36bd59c2f9abd2237dee5bfa32ac2a36ba50972415b7deb42e259e02e2c2",
+      "candidate_start": 305,
+      "candidate_end": 426,
+      "candidate_snippet_hash": "59ee36bd59c2f9abd2237dee5bfa32ac2a36ba50972415b7deb42e259e02e2c2",
+      "candidate_blob": "3d54ed75d6d15ff61468d0a2d6aa4109bd543311"
+    },
+    "E80": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal/README.md",
+        "start": 152,
+        "end": 159,
+        "symbol": "Goal：回合预算与独立评测的能力边界",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "dbb3a6dd7438ee29d53f0fa95a4bfee6be93b81a9551baebd5e15d9ec6a288ab",
+        "blob_id": "c39bc0cbcbc650f134695cdc04ff4e7796e6b32a",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal/README.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "dbb3a6dd7438ee29d53f0fa95a4bfee6be93b81a9551baebd5e15d9ec6a288ab",
+      "candidate_start": 152,
+      "candidate_end": 159,
+      "candidate_snippet_hash": "dbb3a6dd7438ee29d53f0fa95a4bfee6be93b81a9551baebd5e15d9ec6a288ab",
+      "candidate_blob": "9e0a1ee60d3053f6719fb53e521384a7b38755b2"
+    },
+    "E81": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal-round-driver/src/index.ts",
+        "start": 137,
+        "end": 205,
+        "symbol": "drive：checkpoint、回合额度与 followup",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e6f10041bf9a797ca2102d084eed5c29a26ccb372898b4a9bcf78334f0952e27",
+        "blob_id": "c4ca27e5deb7a9099c4af7c14641315a3e227e91",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal-round-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "e6f10041bf9a797ca2102d084eed5c29a26ccb372898b4a9bcf78334f0952e27"
+    },
+    "E82": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal-round-driver/src/index.ts",
+        "start": 350,
+        "end": 459,
+        "symbol": "回合准入双重校验与驱动卸载",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "5cfb61df2a7271db4eff0f686892e9c819654fc73aa244ce6efc06d3832fe8e9",
+        "blob_id": "c4ca27e5deb7a9099c4af7c14641315a3e227e91",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal-round-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "5cfb61df2a7271db4eff0f686892e9c819654fc73aa244ce6efc06d3832fe8e9"
+    },
+    "E83": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/tool-goal/src/authority.ts",
+        "start": 48,
+        "end": 117,
+        "symbol": "目标工具：直接人类输入与当前目标回合权限",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "c666f081250730bb30dd89b7889945e3939710b6dc705860523b0bc5037ccc54",
+        "blob_id": "eadc0bd8f945e012bd368a8799d90c610eb15df9",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/tool-goal/src/authority.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "c666f081250730bb30dd89b7889945e3939710b6dc705860523b0bc5037ccc54",
+      "candidate_start": 47,
+      "candidate_end": 116,
+      "candidate_snippet_hash": "c666f081250730bb30dd89b7889945e3939710b6dc705860523b0bc5037ccc54",
+      "candidate_blob": "77568e3746486dac7c6b212c5cb4c818baca12bf"
+    },
+    "E84": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/tool-goal/src/index.ts",
+        "start": 207,
+        "end": 331,
+        "symbol": "目标工具：创建、变更、阻塞阈值与收尾",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "5e80392635723570b77c123a04b04d10b546f7e7fd61fb4906a2c193ef0d7101",
+        "blob_id": "9f47f1a77d9bed5b48579ebc7c653189b0ba8a76",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/tool-goal/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "5e80392635723570b77c123a04b04d10b546f7e7fd61fb4906a2c193ef0d7101",
+      "candidate_start": 207,
+      "candidate_end": 331,
+      "candidate_snippet_hash": "5e80392635723570b77c123a04b04d10b546f7e7fd61fb4906a2c193ef0d7101",
+      "candidate_blob": "482d614160d997f307420c516165d9a76d707f3c"
+    },
+    "E85": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/todo/tool-todo/src/index.ts",
+        "start": 117,
+        "end": 134,
+        "symbol": "todo projection：后续 turn/start 清空当前清单",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "0503f3b341dc3ccaf0243c901ce1b3768d6b7dfe707a99d868c92ec390504fc6",
+        "blob_id": "f345045c93f12c8e86c103f70ad9bba39313a149",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/todo/tool-todo/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "0503f3b341dc3ccaf0243c901ce1b3768d6b7dfe707a99d868c92ec390504fc6"
+    },
+    "E86": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/plan/plan-mode/src/index.ts",
+        "start": 277,
+        "end": 348,
+        "symbol": "exit_plan_mode：用户审阅与确认",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "9f8705fcdbe19b3dc43effc5ef5186c3f7aed141f8b646c92f92413c4c1e5971",
+        "blob_id": "e711607da81319476080573ef1dd6497eb6ffd99",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/plan/plan-mode/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "9f8705fcdbe19b3dc43effc5ef5186c3f7aed141f8b646c92f92413c4c1e5971"
+    },
+    "E87": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/plan/plan-mode/src/index.ts",
+        "start": 418,
+        "end": 453,
+        "symbol": "plan/mode：当前或后续 Step 边界提交",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "3c379819dbd1e1d38678f730769f5a6e97cbb3a98ddb7efb8f7aa94a5c5e62f6",
+        "blob_id": "e711607da81319476080573ef1dd6497eb6ffd99",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/plan/plan-mode/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "3c379819dbd1e1d38678f730769f5a6e97cbb3a98ddb7efb8f7aa94a5c5e62f6",
+      "candidate_start": 431,
+      "candidate_end": 466,
+      "candidate_snippet_hash": "3c379819dbd1e1d38678f730769f5a6e97cbb3a98ddb7efb8f7aa94a5c5e62f6",
+      "candidate_blob": "06af5c282831944ad8194f78fe85b65614e3b548"
+    },
+    "E88": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/types.ts",
+        "start": 167,
+        "end": 189,
+        "symbol": "TokenUsage：互斥输入与缓存计数",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "8e1922e9d70714011f13f39848ee80917b71d8dad950582a0f44bebac9ba62f9",
+        "blob_id": "54453607f5c07f31baea3e6fd722f94cec71ad5d",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm/src/types.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "8e1922e9d70714011f13f39848ee80917b71d8dad950582a0f44bebac9ba62f9",
+      "candidate_start": 167,
+      "candidate_end": 189,
+      "candidate_snippet_hash": "8e1922e9d70714011f13f39848ee80917b71d8dad950582a0f44bebac9ba62f9",
+      "candidate_blob": "8001ab81d8f4e159f1b5e02e12af4f7f6223f625"
+    },
+    "E89": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/types.ts",
+        "start": 379,
+        "end": 421,
+        "symbol": "精确模型路由的 reasoning 与更新能力",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "6d8602eb12290917fdb10f33af4625e6a1c7dadf4faec38f87adb2e7d8a5ee4e",
+        "blob_id": "54453607f5c07f31baea3e6fd722f94cec71ad5d",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm/src/types.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "6d8602eb12290917fdb10f33af4625e6a1c7dadf4faec38f87adb2e7d8a5ee4e"
+    },
+    "E90": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/index.ts",
+        "start": 885,
+        "end": 918,
+        "symbol": "resolveCallWithInfo：默认输出额度与能力校验",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "8363ac825d8728028cbfba675808a2439593da19f23f1138d254e45226948716",
+        "blob_id": "b1c9081bfe9c56bf0d33e44b498ee26b674d2d30",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "8363ac825d8728028cbfba675808a2439593da19f23f1138d254e45226948716",
+      "candidate_start": 908,
+      "candidate_end": 941,
+      "candidate_snippet_hash": "8363ac825d8728028cbfba675808a2439593da19f23f1138d254e45226948716",
+      "candidate_blob": "b4a5f82ad371291efde69dd6a01e7d80e7a82a0e"
+    },
+    "E91": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/index.ts",
+        "start": 984,
+        "end": 998,
+        "symbol": "forAdapter：过滤其他 adapter 私有 replayState",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "0879f340bab4df87adbba2e259b9b6dd902aacf897e80c4f9df2900137d74351",
+        "blob_id": "b1c9081bfe9c56bf0d33e44b498ee26b674d2d30",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "0879f340bab4df87adbba2e259b9b6dd902aacf897e80c4f9df2900137d74351",
+      "candidate_start": 1022,
+      "candidate_end": 1036,
+      "candidate_snippet_hash": "0879f340bab4df87adbba2e259b9b6dd902aacf897e80c4f9df2900137d74351",
+      "candidate_blob": "b4a5f82ad371291efde69dd6a01e7d80e7a82a0e"
+    },
+    "E92": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subagent/subagent-in-process-driver/src/structured.ts",
+        "start": 49,
+        "end": 141,
+        "symbol": "attachStructuredRuntime：schema、最终结果提交与终止 guard",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "88988d7a950b20525b5884369a36f9945330115a18bcb42719280fc1ae0c0f8f",
+        "blob_id": "2d266f9120fa1b49d4a5cb31b8881562bd280f35",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/subagent/subagent/src/structured.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "88988d7a950b20525b5884369a36f9945330115a18bcb42719280fc1ae0c0f8f"
+    },
+    "E93": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+        "start": 110,
+        "end": 139,
+        "symbol": "子 Agent setup：outputSchema 的实现挂载",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "59f281a54a3c3fae6220c467bcfc8eea86af3f657c2bf31a322362a0766c91e5",
+        "blob_id": "dbaac326b10c444c6509dcb9f1aabc5f4f87df02",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "missing",
+      "previous_snippet_hash": "59f281a54a3c3fae6220c467bcfc8eea86af3f657c2bf31a322362a0766c91e5"
+    },
+    "E94": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/user/guide/mcp-memory.md",
+        "start": 5,
+        "end": 31,
+        "symbol": "默认关闭的外部 MCP 记忆与责任边界",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "134d9e68b03667f10d0f1eda3aa070636d5e11f4a65d225cb72d2671d755de38",
+        "blob_id": "2bc3c6be49b78224932c66e7d0d832dcc026816b",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "docs/user/guide/mcp-memory.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "134d9e68b03667f10d0f1eda3aa070636d5e11f4a65d225cb72d2671d755de38",
+      "candidate_start": 5,
+      "candidate_end": 31,
+      "candidate_snippet_hash": "134d9e68b03667f10d0f1eda3aa070636d5e11f4a65d225cb72d2671d755de38",
+      "candidate_blob": "2bc3c6be49b78224932c66e7d0d832dcc026816b"
+    },
+    "E95": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/mcp/mcp-client/src/tools.ts",
+        "start": 113,
+        "end": 160,
+        "symbol": "syncTools：发现、桥接调用与注册撤销",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e768ecb669cced77102a256e4f0185bdd8e8ac247ce2f27b8f8005cabf5d7229",
+        "blob_id": "9e7b5c0ab550dc2f2074126ca08c07b12f65dcce",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/mcp/mcp-client/src/tools.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "e768ecb669cced77102a256e4f0185bdd8e8ac247ce2f27b8f8005cabf5d7229",
+      "candidate_start": 113,
+      "candidate_end": 160,
+      "candidate_snippet_hash": "e768ecb669cced77102a256e4f0185bdd8e8ac247ce2f27b8f8005cabf5d7229",
+      "candidate_blob": "9e7b5c0ab550dc2f2074126ca08c07b12f65dcce"
+    },
+    "E96": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/mcp/mcp-client/src/server-context.ts",
+        "start": 28,
+        "end": 40,
+        "symbol": "registerServerContext：MCP 指令进入提示词",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "d563279e2509e155dd26b58c071be4dab35f2113dfef775366da3da6807779af",
+        "blob_id": "b0ba4ccd78883ac4730c3facc35b7e4b609c7fd6",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/mcp/mcp-client/src/server-context.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "d563279e2509e155dd26b58c071be4dab35f2113dfef775366da3da6807779af",
+      "candidate_start": 28,
+      "candidate_end": 40,
+      "candidate_snippet_hash": "d563279e2509e155dd26b58c071be4dab35f2113dfef775366da3da6807779af",
+      "candidate_blob": "b0ba4ccd78883ac4730c3facc35b7e4b609c7fd6"
+    },
+    "E97": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/jobs/jobs-local/src/index.ts",
+        "start": 128,
+        "end": 224,
+        "symbol": "LocalJobRegistry：配置、内存记录与准入",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "2a483ef39c70f904de3c2116d283db9826b6cb416f78706f1e1d179f67f46ebc",
+        "blob_id": "ea68015158ce2258d3f43fcfed03470d8dfa5a36",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/jobs/jobs-local/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "2a483ef39c70f904de3c2116d283db9826b6cb416f78706f1e1d179f67f46ebc"
+    },
+    "E98": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/jobs/jobs-local/src/index.ts",
+        "start": 610,
+        "end": 683,
+        "symbol": "作业 owner 与服务卸载：取消、等待、清理",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "a93cb363776a485d449829e57b5febcd69189853ddfe9a3225216b89841f774a",
+        "blob_id": "ea68015158ce2258d3f43fcfed03470d8dfa5a36",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/jobs/jobs-local/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "a93cb363776a485d449829e57b5febcd69189853ddfe9a3225216b89841f774a"
+    },
+    "E99": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subagent/subagent/src/index.ts",
+        "start": 189,
+        "end": 202,
+        "symbol": "SubagentRuntime：委派深度与活跃子 Agent 容量",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "6afcf9cdcc66ed820119063de7560c0b0f670f4cdc906a4383cbfdaf905d995d",
+        "blob_id": "baf4ef3f26ed9e9efe686dcf125152f006095978",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/subagent/subagent/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "6afcf9cdcc66ed820119063de7560c0b0f670f4cdc906a4383cbfdaf905d995d"
+    },
+    "E100": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/guard/repeat-tool-reminder/src/index.ts",
+        "start": 188,
+        "end": 239,
+        "symbol": "重复工具提醒：观察与上下文补充，不阻止执行",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "0128c5317c5a5a911350e3a451d90973d0961a0054facd64fa705b7f3dea3e40",
+        "blob_id": "a79722aad0362e9f7360f33dd3cfe0f96e2fc804",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/guard/repeat-tool-reminder/src/index.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "0128c5317c5a5a911350e3a451d90973d0961a0054facd64fa705b7f3dea3e40",
+      "candidate_start": 188,
+      "candidate_end": 239,
+      "candidate_snippet_hash": "0128c5317c5a5a911350e3a451d90973d0961a0054facd64fa705b7f3dea3e40",
+      "candidate_blob": "a79722aad0362e9f7360f33dd3cfe0f96e2fc804"
+    },
+    "E101": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry/src/coordinator.ts",
+        "start": 180,
+        "end": 217,
+        "symbol": "事件副本、脱敏 waterfall 与交接游标",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "23ab0224f4e48891b6fe0aac4daa3c1e2d4f0dec53a26f99612cf1bd084942af",
+        "blob_id": "fa21a5ae417c147e3def7c0b046758fadcb6926d",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry/src/coordinator.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "23ab0224f4e48891b6fe0aac4daa3c1e2d4f0dec53a26f99612cf1bd084942af",
+      "candidate_start": 180,
+      "candidate_end": 217,
+      "candidate_snippet_hash": "23ab0224f4e48891b6fe0aac4daa3c1e2d4f0dec53a26f99612cf1bd084942af",
+      "candidate_blob": "fa21a5ae417c147e3def7c0b046758fadcb6926d"
+    },
+    "E102": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry-otel/src/index.ts",
+        "start": 151,
+        "end": 162,
+        "symbol": "DISABLED：不构建遥测 reporter",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "fb4e6fcae7c4f2b09fccba9be138e31ffa36c46ea911a778757c3de989981bed",
+        "blob_id": "6d351a585f302000ed52455428821d4ad11abe83",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry-otel/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "fb4e6fcae7c4f2b09fccba9be138e31ffa36c46ea911a778757c3de989981bed",
+      "candidate_start": 152,
+      "candidate_end": 163,
+      "candidate_snippet_hash": "fb4e6fcae7c4f2b09fccba9be138e31ffa36c46ea911a778757c3de989981bed",
+      "candidate_blob": "1e5dc258b84dbaa625c4ffeb912a1712211489be"
+    },
+    "E103": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry-otel/src/index.ts",
+        "start": 218,
+        "end": 250,
+        "symbol": "按新反馈授权捕获前缀；直接 emit 无效",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "db559bf00e8cae191751addeacfdc0c387395ab444f2c5de0d242e7c031affc6",
+        "blob_id": "6d351a585f302000ed52455428821d4ad11abe83",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry-otel/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "db559bf00e8cae191751addeacfdc0c387395ab444f2c5de0d242e7c031affc6",
+      "candidate_start": 219,
+      "candidate_end": 251,
+      "candidate_snippet_hash": "db559bf00e8cae191751addeacfdc0c387395ab444f2c5de0d242e7c031affc6",
+      "candidate_blob": "1e5dc258b84dbaa625c4ffeb912a1712211489be"
+    },
+    "E104": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry-otel/README.md",
+        "start": 30,
+        "end": 80,
+        "symbol": "Session OTel：反馈模式、导出额度与不自动捕获",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "8e1985054050b35fc06c8afac81dc5649ec45bb8e6d3e9fd2a03a52e20e3d8dc",
+        "blob_id": "818406c6d187d9a64163a020fc3466dc1f804435",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry-otel/README.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "8e1985054050b35fc06c8afac81dc5649ec45bb8e6d3e9fd2a03a52e20e3d8dc",
+      "candidate_start": 30,
+      "candidate_end": 80,
+      "candidate_snippet_hash": "8e1985054050b35fc06c8afac81dc5649ec45bb8e6d3e9fd2a03a52e20e3d8dc",
+      "candidate_blob": "633110b23626781e5569e32fd214d085ca1f752e"
+    },
+    "E105": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/telemetry/otel/src/index.ts",
+        "start": 14,
+        "end": 34,
+        "symbol": "Otel：独立产品与 Session 日志 reporter",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "a501488927be55e38f8826be9093f661c3a88dbc13e214876e4439997a7584b5",
+        "blob_id": "607b0c2908633b77b4093063d3434ea0a0e09595",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/telemetry/otel/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "a501488927be55e38f8826be9093f661c3a88dbc13e214876e4439997a7584b5"
+    },
+    "E106": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/client/product-analytics/src/index.ts",
+        "start": 76,
+        "end": 100,
+        "symbol": "ProductAnalytics.report：开关、可用身份与本地提交",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "1845274a752e95a71ea680324f902ff7a75828dc88c1c96b8161fcee832dabe1",
+        "blob_id": "3eae234d57648a5d6de49ac213f89c9f8b9f6432",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/client/product-analytics/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "1845274a752e95a71ea680324f902ff7a75828dc88c1c96b8161fcee832dabe1"
+    },
+    "E107": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/testing.md",
+        "start": 7,
+        "end": 41,
+        "symbol": "分层测试、真实入口与外部世界断言",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "1acf5d30fed59e1232206f05e880731abf020894c49e34b3430321f8e4be4016",
+        "blob_id": "21b2916a9283dc91e717cc31816df32cb79c6242",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "docs/testing.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "1acf5d30fed59e1232206f05e880731abf020894c49e34b3430321f8e4be4016"
+    },
+    "E108": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "benchmarks/agent-continuation/README.md",
+        "start": 5,
+        "end": 27,
+        "symbol": "合成后端 continuation benchmark 的测量范围",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "9271d4757687214b7e4e7355aae54334a96219b0538f25fb0081c26fbdf57662",
+        "blob_id": "3074ba73e0fd1873f96ce62eae2d0ee1a1a80693",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "benchmarks/agent-continuation/README.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "9271d4757687214b7e4e7355aae54334a96219b0538f25fb0081c26fbdf57662"
+    },
+    "E109": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/tool-present/src/index.ts",
+        "start": 70,
+        "end": 108,
+        "symbol": "present：常规文件检查与成功结果后声明",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "0d830c8b667d2e6618fef1e4a84da5775ac8bd739d6d2cc8614701eca08d9a6d",
+        "blob_id": "459636ee0e011bc52901371229b3e2c16bedefcc",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/tool-present/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "0d830c8b667d2e6618fef1e4a84da5775ac8bd739d6d2cc8614701eca08d9a6d"
+    },
+    "E110": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/src/index.ts",
+        "start": 94,
+        "end": 163,
+        "symbol": "WorkspaceChanges：按 Session 内存索引与生命周期",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "67a17999436464e74d2cf37d9b331046f1f1962def5cf324023247971fe4466e",
+        "blob_id": "c05787d931870defacfdfcb4feca85f4ae733d8e",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "67a17999436464e74d2cf37d9b331046f1f1962def5cf324023247971fe4466e"
+    },
+    "E111": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+        "start": 342,
+        "end": 369,
+        "symbol": "workspace/changes 只记 turn；summary 与 sources 存内存",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "09ba7f8e2168283202ac46e4ba524859eff6514d33da8717582a8228d100327a",
+        "blob_id": "380341a85a2afa759962921aa4684794efcd8ad9",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "09ba7f8e2168283202ac46e4ba524859eff6514d33da8717582a8228d100327a",
+      "candidate_start": 339,
+      "candidate_end": 366,
+      "candidate_snippet_hash": "09ba7f8e2168283202ac46e4ba524859eff6514d33da8717582a8228d100327a",
+      "candidate_blob": "d0abb9e7ad61a4411bfd1352d99f1cd41a48d17d"
+    },
+    "E112": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+        "start": 242,
+        "end": 251,
+        "symbol": "TurnRecorder.dispose：清理记录与临时目录",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "125f24068ec8df44f4e1439118b99b2e01f3b28d22f510affcb674752ea326ae",
+        "blob_id": "380341a85a2afa759962921aa4684794efcd8ad9",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "125f24068ec8df44f4e1439118b99b2e01f3b28d22f510affcb674752ea326ae",
+      "candidate_start": 239,
+      "candidate_end": 248,
+      "candidate_snippet_hash": "125f24068ec8df44f4e1439118b99b2e01f3b28d22f510affcb674752ea326ae",
+      "candidate_blob": "d0abb9e7ad61a4411bfd1352d99f1cd41a48d17d"
+    },
+    "E113": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/README.md",
+        "start": 40,
+        "end": 60,
+        "symbol": "工作区变更的覆盖、比较与重启边界",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "7db86b7e0bd7542e7e08b2a71bb66c446ef089bdac69628f11ac31a4d3aae0fa",
+        "blob_id": "33a4ad05a3a65a8c00c1fd0212fa10d6ebc1983a",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/README.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "7db86b7e0bd7542e7e08b2a71bb66c446ef089bdac69628f11ac31a4d3aae0fa"
+    },
+    "E114": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/bundle/base/cordis.patch.yml",
+        "start": 188,
+        "end": 216,
+        "symbol": "base：反馈授权 Session 遥测默认配置",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "592811ba3348fb3d54d993b5cc01b078003f4da2f333145717f4dd45be7c05b9",
+        "blob_id": "9c35ebf5c21516cd49bdcfadc78b13c95b04dce4",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/bundle/base/cordis.patch.yml",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "592811ba3348fb3d54d993b5cc01b078003f4da2f333145717f4dd45be7c05b9",
+      "candidate_start": 202,
+      "candidate_end": 230,
+      "candidate_snippet_hash": "592811ba3348fb3d54d993b5cc01b078003f4da2f333145717f4dd45be7c05b9",
+      "candidate_blob": "863d194bf5ae78d83e9473589e466744f05a76df"
+    },
+    "E115": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/bundle/base/cordis.patch.yml",
+        "start": 313,
+        "end": 323,
+        "symbol": "base：目标服务、续跑驱动、命令与规划模式",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "818e15a6fdf404b6bd386378f62c1572c83de2839db5cdf3dc7e9ded44d77374",
+        "blob_id": "9c35ebf5c21516cd49bdcfadc78b13c95b04dce4",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/bundle/base/cordis.patch.yml",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "818e15a6fdf404b6bd386378f62c1572c83de2839db5cdf3dc7e9ded44d77374",
+      "candidate_start": 323,
+      "candidate_end": 333,
+      "candidate_snippet_hash": "818e15a6fdf404b6bd386378f62c1572c83de2839db5cdf3dc7e9ded44d77374",
+      "candidate_blob": "863d194bf5ae78d83e9473589e466744f05a76df"
+    },
+    "E116": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/session-format-status.md",
+        "start": 18,
+        "end": 51,
+        "symbol": "writer、已接受格式基线与提交内发布记录",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "4b218f52777b4adc2023a5590ff99164cdf68fb984b75383fdd2fb69eed39715",
+        "blob_id": "9df313da2fad277254f464a8bdf6a6c8b541aab1",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "docs/session-format-status.md",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "4b218f52777b4adc2023a5590ff99164cdf68fb984b75383fdd2fb69eed39715"
+    },
+    "E117": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/context/agent-instructions/src/index.ts",
+        "start": 315,
+        "end": 340,
+        "symbol": "工作区指令在 accepted pre-step 中进入上下文",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "2211dd3a1c553f738809520306914edd174a1aa9f382ac2bec9fd9fd254762dc",
+        "blob_id": "82cd0451f31eb26e46ff899f21f939aa91fb3622",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/context/agent-instructions/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "2211dd3a1c553f738809520306914edd174a1aa9f382ac2bec9fd9fd254762dc",
+      "candidate_start": 330,
+      "candidate_end": 355,
+      "candidate_snippet_hash": "2211dd3a1c553f738809520306914edd174a1aa9f382ac2bec9fd9fd254762dc",
+      "candidate_blob": "ec752e07150ff3da38e7d7264cee825f7d3f881b"
+    },
+    "E118": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "docs/subsystems/session-telemetry.md",
+        "start": 24,
+        "end": 60,
+        "symbol": "Session 遥测：ledger、ops、非 live feed 与 best-effort 语义",
+        "category": "官方说明",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "12691af4e3085e81509bce2de9d7cf55889ba04af2e90c1404e467b4f0681494",
+        "blob_id": "4b99fc8ff9b3d0ce9ff6b47e6c27de8c443f97dd",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "docs/subsystems/session-telemetry.md",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "12691af4e3085e81509bce2de9d7cf55889ba04af2e90c1404e467b4f0681494",
+      "candidate_start": 24,
+      "candidate_end": 60,
+      "candidate_snippet_hash": "12691af4e3085e81509bce2de9d7cf55889ba04af2e90c1404e467b4f0681494",
+      "candidate_blob": "4b99fc8ff9b3d0ce9ff6b47e6c27de8c443f97dd"
+    },
+    "E119": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/jobs/jobs-local/src/index.ts",
+        "start": 30,
+        "end": 61,
+        "symbol": "作业默认容量与活跃状态计数",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "6e96f736cd6a93e13350d2f16ccc7824926767f16b19c2e93478cdb236131dcc",
+        "blob_id": "ea68015158ce2258d3f43fcfed03470d8dfa5a36",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/jobs/jobs-local/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "6e96f736cd6a93e13350d2f16ccc7824926767f16b19c2e93478cdb236131dcc",
+      "candidate_start": 31,
+      "candidate_end": 62,
+      "candidate_snippet_hash": "6e96f736cd6a93e13350d2f16ccc7824926767f16b19c2e93478cdb236131dcc",
+      "candidate_blob": "daa4ce0db3c19b135d3c7401c983655a5c70c1f4"
+    },
+    "E120": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal/src/index.ts",
+        "start": 609,
+        "end": 625,
+        "symbol": "目标变更：先追加 goal/change，再通知观察者",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "1b1371c88e07a4c35635815d6ce77cf86e82c5ba0154e12d44ce62321e5b9c61",
+        "blob_id": "48a02e485cb76bd31f1270cc457823590d62e977",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "1b1371c88e07a4c35635815d6ce77cf86e82c5ba0154e12d44ce62321e5b9c61",
+      "candidate_start": 608,
+      "candidate_end": 624,
+      "candidate_snippet_hash": "1b1371c88e07a4c35635815d6ce77cf86e82c5ba0154e12d44ce62321e5b9c61",
+      "candidate_blob": "3d54ed75d6d15ff61468d0a2d6aa4109bd543311"
+    },
+    "E121": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal/src/fold.ts",
+        "start": 313,
+        "end": 331,
+        "symbol": "目标回合：只有精确匹配的 user/message 才计数",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "3412af73543233ebd5c2c26bf3ac8879ecebf195ac608c316fed8f036d8fab0a",
+        "blob_id": "6396c7f75b50348f97c9aefd1ce1cad3696b6f8f",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal/src/fold.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "3412af73543233ebd5c2c26bf3ac8879ecebf195ac608c316fed8f036d8fab0a",
+      "candidate_start": 313,
+      "candidate_end": 331,
+      "candidate_snippet_hash": "3412af73543233ebd5c2c26bf3ac8879ecebf195ac608c316fed8f036d8fab0a",
+      "candidate_blob": "6396c7f75b50348f97c9aefd1ce1cad3696b6f8f"
+    },
+    "E122": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal-round-driver/src/index.ts",
+        "start": 96,
+        "end": 134,
+        "symbol": "续跑准入：活跃实例、idle、checkpoint 后重查与 disarm",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "ede60681fd6b44805b441b9d7290bf65a8b53f97ed0681172629fbbade0edf39",
+        "blob_id": "c4ca27e5deb7a9099c4af7c14641315a3e227e91",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal-round-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "ede60681fd6b44805b441b9d7290bf65a8b53f97ed0681172629fbbade0edf39"
+    },
+    "E123": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/goal/goal-round-driver/src/index.ts",
+        "start": 246,
+        "end": 344,
+        "symbol": "续跑观察：错误、竞争输入、目标变更与 max-tokens",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "ab7d8221ccebf769376c9fafc11afe8d8e952c62b5ebc7cc96ed8b254b41d0d3",
+        "blob_id": "c4ca27e5deb7a9099c4af7c14641315a3e227e91",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/goal/goal-round-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "ab7d8221ccebf769376c9fafc11afe8d8e952c62b5ebc7cc96ed8b254b41d0d3",
+      "candidate_start": 262,
+      "candidate_end": 360,
+      "candidate_snippet_hash": "ab7d8221ccebf769376c9fafc11afe8d8e952c62b5ebc7cc96ed8b254b41d0d3",
+      "candidate_blob": "2d20ee08d98b9eb4c36489c05b912df5b61b912a"
+    },
+    "E124": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/todo/tool-todo/src/index.ts",
+        "start": 192,
+        "end": 208,
+        "symbol": "todo_write：工具 body 内追加 todo/write",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "d5fb27a146666a8ec43d4d70dab1d8b0cbab4421cc3f73099363b1f99073236d",
+        "blob_id": "f345045c93f12c8e86c103f70ad9bba39313a149",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/todo/tool-todo/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "d5fb27a146666a8ec43d4d70dab1d8b0cbab4421cc3f73099363b1f99073236d",
+      "candidate_start": 193,
+      "candidate_end": 209,
+      "candidate_snippet_hash": "d5fb27a146666a8ec43d4d70dab1d8b0cbab4421cc3f73099363b1f99073236d",
+      "candidate_blob": "0f59f7be17899156b622d1fb98e6952f1153aa39"
+    },
+    "E125": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/plan/plan-mode/src/index.ts",
+        "start": 196,
+        "end": 224,
+        "symbol": "规划模式：pending intent、提示词选择与 accepted pre-step 提交",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e819de11a119f5ca7dd6ccfcb14f66327787d529e94d941e36b43356edbbecbd",
+        "blob_id": "e711607da81319476080573ef1dd6497eb6ffd99",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/plan/plan-mode/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "e819de11a119f5ca7dd6ccfcb14f66327787d529e94d941e36b43356edbbecbd"
+    },
+    "E126": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/plan/plan-mode/src/index.ts",
+        "start": 340,
+        "end": 352,
+        "symbol": "退出规划：精确用户同意后暂存模式意图",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "21ddb76b3530776ce33d7b9eae5f35d0a86a3fed227c46aa160e4b6b5a8bb4ae",
+        "blob_id": "e711607da81319476080573ef1dd6497eb6ffd99",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/plan/plan-mode/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "21ddb76b3530776ce33d7b9eae5f35d0a86a3fed227c46aa160e4b6b5a8bb4ae",
+      "candidate_start": 350,
+      "candidate_end": 362,
+      "candidate_snippet_hash": "21ddb76b3530776ce33d7b9eae5f35d0a86a3fed227c46aa160e4b6b5a8bb4ae",
+      "candidate_blob": "06af5c282831944ad8194f78fe85b65614e3b548"
+    },
+    "E127": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm/src/index.ts",
+        "start": 1047,
+        "end": 1114,
+        "symbol": "adapter 边界：附件投影、能力适配与异常规范化",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "772f5a72440a5b5c63a1cc285660f39828cf2008a5645b6a3e13351605fac255",
+        "blob_id": "b1c9081bfe9c56bf0d33e44b498ee26b674d2d30",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "772f5a72440a5b5c63a1cc285660f39828cf2008a5645b6a3e13351605fac255",
+      "candidate_start": 1085,
+      "candidate_end": 1152,
+      "candidate_snippet_hash": "772f5a72440a5b5c63a1cc285660f39828cf2008a5645b6a3e13351605fac255",
+      "candidate_blob": "b4a5f82ad371291efde69dd6a01e7d80e7a82a0e"
+    },
+    "E128": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/agent-loop/src/agent.ts",
+        "start": 267,
+        "end": 285,
+        "symbol": "preStep：先 claim 和 assembly，再执行准入 waterfall",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "5b00c3822d5fc53adaeae9d773538dc32ec30a360646af9bd95b2f5df88d5027",
+        "blob_id": "2f68565cef052f82ef6f2a740141962507654e02",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/core/agent-loop/src/agent.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "5b00c3822d5fc53adaeae9d773538dc32ec30a360646af9bd95b2f5df88d5027"
+    },
+    "E129": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/index.ts",
+        "start": 190,
+        "end": 234,
+        "symbol": "窗口错误恢复：以 surface 代际前进证明压缩进展",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e93e9b7e495780a4dc7e5999c6652ca682f997324b8127fc45be6e023e26674e",
+        "blob_id": "163cec3810e9d3a335efe6c1264eac5a00c107c2",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "e93e9b7e495780a4dc7e5999c6652ca682f997324b8127fc45be6e023e26674e",
+      "candidate_start": 213,
+      "candidate_end": 257,
+      "candidate_snippet_hash": "e93e9b7e495780a4dc7e5999c6652ca682f997324b8127fc45be6e023e26674e",
+      "candidate_blob": "096fa72fe46a1a715a3a34a2a109b4dc379de42b"
+    },
+    "E130": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/index.ts",
+        "start": 278,
+        "end": 346,
+        "symbol": "上下文压力：测量、路由额度、裁剪、重测与摘要",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "ab8616d81dc8566e6f50136c8777f81681328fcaeea1d52e361c36d006c817bb",
+        "blob_id": "163cec3810e9d3a335efe6c1264eac5a00c107c2",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "ab8616d81dc8566e6f50136c8777f81681328fcaeea1d52e361c36d006c817bb"
+    },
+    "E131": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/region.ts",
+        "start": 117,
+        "end": 154,
+        "symbol": "压缩选区：保留尾部预算并平衡工具调用与结果",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "6ef299beb54cbe1f4e092e101cc238d66b68cd641240ceec5bbbb5433e37f1aa",
+        "blob_id": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/region.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "6ef299beb54cbe1f4e092e101cc238d66b68cd641240ceec5bbbb5433e37f1aa",
+      "candidate_start": 117,
+      "candidate_end": 154,
+      "candidate_snippet_hash": "6ef299beb54cbe1f4e092e101cc238d66b68cd641240ceec5bbbb5433e37f1aa",
+      "candidate_blob": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c"
+    },
+    "E132": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/region.ts",
+        "start": 173,
+        "end": 268,
+        "symbol": "压缩事务：start、稳定性校验、提交、end 与错误收尾",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "4b7e443301c1cb1befbbf803cad5fa39e8a68072ec437c0299a5c5ebad3f7724",
+        "blob_id": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/region.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "4b7e443301c1cb1befbbf803cad5fa39e8a68072ec437c0299a5c5ebad3f7724",
+      "candidate_start": 173,
+      "candidate_end": 268,
+      "candidate_snippet_hash": "4b7e443301c1cb1befbbf803cad5fa39e8a68072ec437c0299a5c5ebad3f7724",
+      "candidate_blob": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c"
+    },
+    "E133": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/region.ts",
+        "start": 470,
+        "end": 509,
+        "symbol": "压缩提交：摘要事实与 user/message 的 surface 替换",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "c29d5c359b8c4dc069de07d52605c3c96bd21eb52dd083a34f73c72f3aac847c",
+        "blob_id": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/region.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "c29d5c359b8c4dc069de07d52605c3c96bd21eb52dd083a34f73c72f3aac847c",
+      "candidate_start": 470,
+      "candidate_end": 509,
+      "candidate_snippet_hash": "c29d5c359b8c4dc069de07d52605c3c96bd21eb52dd083a34f73c72f3aac847c",
+      "candidate_blob": "7b3d77d299881fa47b8dfdab7fae0a92cd7d462c"
+    },
+    "E134": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/summarizer.ts",
+        "start": 120,
+        "end": 180,
+        "symbol": "摘要调用：直接 LLM stream、路由、输出与 usage",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "f8b6d68f917aecd1a0b3db5f317fac63ff0f89fcc667eeb55a7767523343c62d",
+        "blob_id": "2d258fa410a7a87258f8d3a45c548cde0d383014",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/summarizer.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "f8b6d68f917aecd1a0b3db5f317fac63ff0f89fcc667eeb55a7767523343c62d",
+      "candidate_start": 120,
+      "candidate_end": 180,
+      "candidate_snippet_hash": "f8b6d68f917aecd1a0b3db5f317fac63ff0f89fcc667eeb55a7767523343c62d",
+      "candidate_blob": "2d258fa410a7a87258f8d3a45c548cde0d383014"
+    },
+    "E135": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/compaction/compaction-basic/src/summarizer.ts",
+        "start": 196,
+        "end": 209,
+        "symbol": "摘要结算：error、aborted、max-tokens 均拒绝",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e8f8d3d876b8c066e5e380a405825967fe5be8c95d95d055b0533bfb9d36e6bd",
+        "blob_id": "2d258fa410a7a87258f8d3a45c548cde0d383014",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/compaction/compaction-basic/src/summarizer.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "e8f8d3d876b8c066e5e380a405825967fe5be8c95d95d055b0533bfb9d36e6bd",
+      "candidate_start": 196,
+      "candidate_end": 209,
+      "candidate_snippet_hash": "e8f8d3d876b8c066e5e380a405825967fe5be8c95d95d055b0533bfb9d36e6bd",
+      "candidate_blob": "2d258fa410a7a87258f8d3a45c548cde0d383014"
+    },
+    "E136": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/llm/llm-retry/src/index.ts",
+        "start": 124,
+        "end": 137,
+        "symbol": "重试状态：按 Step 或 Turn 边界清空 projection",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "55fb30a0ee7031113509bf065bf67ee36adc5ab758f7cb81938b25d1e9063d87",
+        "blob_id": "89ffc14c40d937af31499a2a945dfbabfe6100af",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/llm/llm-retry/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "55fb30a0ee7031113509bf065bf67ee36adc5ab758f7cb81938b25d1e9063d87"
+    },
+    "E137": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 1694,
+        "end": 1713,
+        "symbol": "tools/result：只读结果通知、观察者失败不改 outcome",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "dcb71e541accde5f434d939de4f0d5577b59ebc53199edc9c43c0addb9ebfccf",
+        "blob_id": "ca89f370febac1fa24f84cc25351a186866fe7e7",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/core/tools/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "dcb71e541accde5f434d939de4f0d5577b59ebc53199edc9c43c0addb9ebfccf"
+    },
+    "E138": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/core/tools/src/index.ts",
+        "start": 1727,
+        "end": 1767,
+        "symbol": "ask：缺审批服务或 Agent 时拒绝，逐项映射审批结果",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "8e9c1667d8101e2fc9d52a4b97d103a038df710cafe5741ea230297b52b838b8",
+        "blob_id": "ca89f370febac1fa24f84cc25351a186866fe7e7",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/core/tools/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "8e9c1667d8101e2fc9d52a4b97d103a038df710cafe5741ea230297b52b838b8"
+    },
+    "E139": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/sdk/server/src/server.ts",
+        "start": 137,
+        "end": 170,
+        "symbol": "SDK initialize：校验参数与精确模型配置，再开放入口",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "5c2fc02bc1fed2eeed072aa976b5cc3d5aa3b1ac5f13d553e425b16e6ac4303d",
+        "blob_id": "50567c32e78067d7d82cd5c8429e945ca3c7d237",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/sdk/server/src/server.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "5c2fc02bc1fed2eeed072aa976b5cc3d5aa3b1ac5f13d553e425b16e6ac4303d"
+    },
+    "E140": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/sdk/server/src/server.ts",
+        "start": 178,
+        "end": 194,
+        "symbol": "SDK prompt：异步附件准入前后校验 live Agent，返回消息身份",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "2f896d32449ab4c67cfb7eb3fad910077f7a0ea009c326b647d939aab3efe5da",
+        "blob_id": "50567c32e78067d7d82cd5c8429e945ca3c7d237",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/sdk/server/src/server.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "2f896d32449ab4c67cfb7eb3fad910077f7a0ea009c326b647d939aab3efe5da",
+      "candidate_start": 253,
+      "candidate_end": 269,
+      "candidate_snippet_hash": "2f896d32449ab4c67cfb7eb3fad910077f7a0ea009c326b647d939aab3efe5da",
+      "candidate_blob": "0dceccc59c7341713cb294b882e84ff2afda99c2"
+    },
+    "E141": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/jobs/jobs-local/src/index.ts",
+        "start": 206,
+        "end": 280,
+        "symbol": "作业注册：owner 准入、启动生产者后提交记录并 pump",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "a5a01bf7685f865e5943a0df85635f0c564c86b500cedab98941a87055460e92",
+        "blob_id": "ea68015158ce2258d3f43fcfed03470d8dfa5a36",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/jobs/jobs-local/src/index.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "a5a01bf7685f865e5943a0df85635f0c564c86b500cedab98941a87055460e92"
+    },
+    "E142": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/jobs/jobs-local/src/index.ts",
+        "start": 378,
+        "end": 409,
+        "symbol": "作业配额与可见性：精确 owner、running/stopping 与 Session",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "1432d32832869413044601b0d3d6d6780b108bea0a8e97742696f754ae3f36e2",
+        "blob_id": "ea68015158ce2258d3f43fcfed03470d8dfa5a36",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/jobs/jobs-local/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "1432d32832869413044601b0d3d6d6780b108bea0a8e97742696f754ae3f36e2",
+      "candidate_start": 382,
+      "candidate_end": 413,
+      "candidate_snippet_hash": "1432d32832869413044601b0d3d6d6780b108bea0a8e97742696f754ae3f36e2",
+      "candidate_blob": "daa4ce0db3c19b135d3c7401c983655a5c70c1f4"
+    },
+    "E143": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+        "start": 158,
+        "end": 207,
+        "symbol": "子 Agent：父级取消、等待结果与 dispose 排空",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "5236c84b3c93c17d7155d0cc304c11f5e161fa3b30953ec6ce5710a116e7a765",
+        "blob_id": "dbaac326b10c444c6509dcb9f1aabc5f4f87df02",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "missing",
+      "previous_snippet_hash": "5236c84b3c93c17d7155d0cc304c11f5e161fa3b30953ec6ce5710a116e7a765"
+    },
+    "E144": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+        "start": 219,
+        "end": 237,
+        "symbol": "子 Agent 结算：要求结构化结果时 completed 仍可判失败",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "e055b96e29c166509edd957ffcb52d3fce6fbca5f67033f6a80e3f7d2bcc288e",
+        "blob_id": "dbaac326b10c444c6509dcb9f1aabc5f4f87df02",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/subagent/subagent-in-process-driver/src/index.ts",
+      "review_status": "pending",
+      "status": "missing",
+      "previous_snippet_hash": "e055b96e29c166509edd957ffcb52d3fce6fbca5f67033f6a80e3f7d2bcc288e"
+    },
+    "E145": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+        "start": 128,
+        "end": 187,
+        "symbol": "工作区记录：Turn 基线、工具前捕获与工具结果观察",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "90c51fc9ddea5e0b90f7d536d0a875b906f71464741e8942f1078ce856d5b87b",
+        "blob_id": "380341a85a2afa759962921aa4684794efcd8ad9",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "review_status": "pending",
+      "status": "changed",
+      "previous_snippet_hash": "90c51fc9ddea5e0b90f7d536d0a875b906f71464741e8942f1078ce856d5b87b"
+    },
+    "E146": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/deliverables/workspace-changes/src/recorder.ts",
+        "start": 303,
+        "end": 333,
+        "symbol": "工作区比较：仅有有效基线和工具结果时生成 owned delta",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "d9adb2f4b04f95ae08fa52a7a023af8cde977671cb03c53f0277a18b7b8992e9",
+        "blob_id": "380341a85a2afa759962921aa4684794efcd8ad9",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/deliverables/workspace-changes/src/recorder.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "d9adb2f4b04f95ae08fa52a7a023af8cde977671cb03c53f0277a18b7b8992e9",
+      "candidate_start": 300,
+      "candidate_end": 330,
+      "candidate_snippet_hash": "d9adb2f4b04f95ae08fa52a7a023af8cde977671cb03c53f0277a18b7b8992e9",
+      "candidate_blob": "d0abb9e7ad61a4411bfd1352d99f1cd41a48d17d"
+    },
+    "E147": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry-otel/src/index.ts",
+        "start": 45,
+        "end": 53,
+        "symbol": "反馈授权：Session 自有后缀内的持久反馈事件",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "9846f802f5c893bfb74ac1c91d6541519c461ea16bebb93b6e53be9edae31d48",
+        "blob_id": "6d351a585f302000ed52455428821d4ad11abe83",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry-otel/src/index.ts",
+      "review_status": "pending",
+      "status": "reanchored-identical-text",
+      "previous_snippet_hash": "9846f802f5c893bfb74ac1c91d6541519c461ea16bebb93b6e53be9edae31d48",
+      "candidate_start": 43,
+      "candidate_end": 51,
+      "candidate_snippet_hash": "9846f802f5c893bfb74ac1c91d6541519c461ea16bebb93b6e53be9edae31d48",
+      "candidate_blob": "1e5dc258b84dbaa625c4ffeb912a1712211489be"
+    },
+    "E148": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry/src/coordinator.ts",
+        "start": 151,
+        "end": 164,
+        "symbol": "遥测捕获：按授权前缀与交接游标逐事件复制",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "ce2edf5c2d0e0d8ee301eb8c5b446a0b831e8ed70ea6de4e4adf666e1831b7eb",
+        "blob_id": "fa21a5ae417c147e3def7c0b046758fadcb6926d",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry/src/coordinator.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "ce2edf5c2d0e0d8ee301eb8c5b446a0b831e8ed70ea6de4e4adf666e1831b7eb",
+      "candidate_start": 151,
+      "candidate_end": 164,
+      "candidate_snippet_hash": "ce2edf5c2d0e0d8ee301eb8c5b446a0b831e8ed70ea6de4e4adf666e1831b7eb",
+      "candidate_blob": "fa21a5ae417c147e3def7c0b046758fadcb6926d"
+    },
+    "E149": {
+      "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "target_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "previous": {
+        "path": "packages/session/session-telemetry/src/coordinator.ts",
+        "start": 45,
+        "end": 58,
+        "symbol": "handoffCursor：按 Session 对象保存的进程内交接游标",
+        "category": "源码事实",
+        "sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+        "snippet_hash": "a059f637c2b5c30309e3d9653cc47015be9d3541728edfcb4d700226262564aa",
+        "blob_id": "fa21a5ae417c147e3def7c0b046758fadcb6926d",
+        "review_status": "reviewed"
+      },
+      "candidate_path": "packages/session/session-telemetry/src/coordinator.ts",
+      "review_status": "pending",
+      "status": "identical-text",
+      "previous_snippet_hash": "a059f637c2b5c30309e3d9653cc47015be9d3541728edfcb4d700226262564aa",
+      "candidate_start": 45,
+      "candidate_end": 58,
+      "candidate_snippet_hash": "a059f637c2b5c30309e3d9653cc47015be9d3541728edfcb4d700226262564aa",
+      "candidate_blob": "fa21a5ae417c147e3def7c0b046758fadcb6926d"
+    }
+  }
+}

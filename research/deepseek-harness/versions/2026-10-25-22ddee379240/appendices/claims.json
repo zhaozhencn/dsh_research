@@ -1,0 +1,182 @@
+[
+  {
+    "id": "C01",
+    "old_claim": "agent/request 可以选路",
+    "current_claim": "select before Step；旧 hook 变更被拒绝",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E05",
+      "E07",
+      "R01"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C02",
+    "old_claim": "工具 runtime 自带执行模式",
+    "current_claim": "独立 executor 提供完整批次执行",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E09",
+      "E10",
+      "E27"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C03",
+    "old_claim": "工具声明可在 assemble 过滤",
+    "current_claim": "when/ResolvedToolSet 统一 Step 准入",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E03",
+      "E04",
+      "E29"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C04",
+    "old_claim": "同名工具重挂可以误作旧代延续",
+    "current_claim": "原定义/注册身份必须继续匹配",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E04",
+      "R01"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C05",
+    "old_claim": "投影按同步 disposer/key 使用",
+    "current_claim": "await handle；retained reader 有独立寿命",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E12",
+      "E37",
+      "R02"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C06",
+    "old_claim": "Session 创建与 setup 旧顺序",
+    "current_claim": "公告先于 setup；store-owned 写入受 publication 约束",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E21",
+      "E22"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C07",
+    "old_claim": "企业需新增入口授权，原生仅局部说明",
+    "current_claim": "已有 Peer/Remote resource policy；企业租户仍需业务控制",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E13",
+      "E14",
+      "E19"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C08",
+    "old_claim": "兼容主要依据 peers",
+    "current_claim": "engines.dsh 独立优先，缺省回退 DSH peers",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E11",
+      "R02"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C09",
+    "old_claim": "模型卸载不回滚已记路线",
+    "current_claim": "select 持久事实仍保留",
+    "status": "retained",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E08",
+      "R01"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C10",
+    "old_claim": "取消要等 body 清理、不能盲重试业务写",
+    "current_claim": "pipeline 融合原取消并等待 body；业务核对仍必要",
+    "status": "retained",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E32",
+      "E10"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C11",
+    "old_claim": "泛称 Client dependencies",
+    "current_claim": "模块图和 service DI、信息依赖各有语义",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E16",
+      "E17"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C12",
+    "old_claim": "普通 fork 的 parent 可能供关系追踪",
+    "current_claim": "新普通 fork 独立，不再存来源父关系",
+    "status": "modified",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E35",
+      "E36"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C13",
+    "old_claim": "Persistence 接口没有 export，架构说明有偏差",
+    "current_claim": "该文档偏差当前仍存在",
+    "status": "retained",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "E34"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C14",
+    "old_claim": null,
+    "current_claim": "两个扩展 rc.3 类型/编译与 8 项集成通过",
+    "status": "new",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [
+      "R01"
+    ],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  },
+  {
+    "id": "C15",
+    "old_claim": "历史全部 29 篇/1,520 用例/企业扩展记录",
+    "current_claim": "本批未将这些全量结论复核为 rc.3",
+    "status": "uncertain",
+    "reason": "根据当前实现与本批运行重新判断；uncertain 不继承历史通过",
+    "evidence_ids": [],
+    "reviewed_at_sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60"
+  }
+]

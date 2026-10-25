@@ -1,0 +1,298 @@
+[
+  {
+    "path": "docs/architecture.md",
+    "start": 9,
+    "end": 68,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E01",
+    "category": "官方说明"
+  },
+  {
+    "path": "package.json",
+    "start": 1,
+    "end": 16,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E02",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/core/tools/src/contracts.ts",
+    "start": 104,
+    "end": 137,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E03",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/tools/src/index.ts",
+    "start": 230,
+    "end": 300,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E04",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 276,
+    "end": 310,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E05",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 335,
+    "end": 390,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E06",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 606,
+    "end": 651,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E07",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/agent/src/model-selection.ts",
+    "start": 17,
+    "end": 174,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E08",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/tool-executor-native/src/index.ts",
+    "start": 1,
+    "end": 35,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E09",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/tools/src/executor.ts",
+    "start": 20,
+    "end": 102,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E10",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/boot/app-boot/src/plugin-compatibility.ts",
+    "start": 52,
+    "end": 101,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E11",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/session/session-projection/src/index.ts",
+    "start": 302,
+    "end": 430,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E12",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/api/gateway/src/index.ts",
+    "start": 783,
+    "end": 825,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E13",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/api/remote-access/src/index.ts",
+    "start": 160,
+    "end": 227,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E14",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/boot/config-editor/src/index.ts",
+    "start": 80,
+    "end": 153,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E15",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/client/modules/src/index.ts",
+    "start": 889,
+    "end": 919,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E16",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/client/AGENTS.md",
+    "start": 73,
+    "end": 104,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E17",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/boot/plugin-manager/README.md",
+    "start": 31,
+    "end": 79,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E18",
+    "category": "官方说明"
+  },
+  {
+    "path": "docs/defensive-patterns/remote-and-api.md",
+    "start": 9,
+    "end": 64,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E19",
+    "category": "官方说明"
+  },
+  {
+    "path": "docs/cookbook/adding-a-tool.md",
+    "start": 9,
+    "end": 84,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E20",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/core/agent-loop/src/index.ts",
+    "start": 616,
+    "end": 651,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E21",
+    "category": "源码事实"
+  },
+  {
+    "path": "docs/upgrade-guide/v0.2.1-rc.2/session-store-writes/guide.md",
+    "start": 1,
+    "end": 25,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E22",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/core/agent/src/runtime-types.ts",
+    "start": 53,
+    "end": 72,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E23",
+    "category": "源码事实"
+  },
+  {
+    "path": "AGENTS.md",
+    "start": 74,
+    "end": 121,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E24",
+    "category": "官方说明"
+  },
+  {
+    "path": "docs/cookbook/extension-cookbook.md",
+    "start": 5,
+    "end": 132,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E25",
+    "category": "官方说明"
+  },
+  {
+    "path": "AGENTS.md",
+    "start": 129,
+    "end": 149,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E26",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/core/tools/src/index.ts",
+    "start": 99,
+    "end": 115,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E27",
+    "category": "源码事实"
+  },
+  {
+    "path": "docs/upgrade-guide/v0.2.1-alpha.4/session-model-selection/guide.md",
+    "start": 1,
+    "end": 28,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E28",
+    "category": "官方说明"
+  },
+  {
+    "path": "docs/upgrade-guide/v0.2.1-rc.2/conditional-tools/guide.md",
+    "start": 1,
+    "end": 25,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E29",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 430,
+    "end": 475,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E30",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/agent-loop/tests/cancel.spec.ts",
+    "start": 1,
+    "end": 99,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E31",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/tools/src/pipeline.ts",
+    "start": 254,
+    "end": 290,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E32",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/tools/src/pipeline.ts",
+    "start": 327,
+    "end": 394,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E33",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/session/session-persistence/src/index.ts",
+    "start": 144,
+    "end": 213,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E34",
+    "category": "源码事实"
+  },
+  {
+    "path": "packages/core/session/src/types.ts",
+    "start": 83,
+    "end": 101,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E35",
+    "category": "源码事实"
+  },
+  {
+    "path": "docs/upgrade-guide/v0.2.1-rc.3/independent-session-forks/guide.md",
+    "start": 1,
+    "end": 23,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E36",
+    "category": "官方说明"
+  },
+  {
+    "path": "packages/session/session-projection/README.md",
+    "start": 62,
+    "end": 106,
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "evidence_id": "E37",
+    "category": "官方说明"
+  }
+]

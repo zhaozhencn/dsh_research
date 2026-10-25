@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-10-25T11:19:01.241720+00:00",
+  "repository": "https://github.com/deepseek-ai/deepseek-harness",
+  "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+  "previous_sha": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "commit_date": "2026-10-23T19:48:59+08:00",
+  "commit_subject": "Merge pull request #7075 from deepseek-harness/worktree-chatgap",
+  "checkout": "/Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25",
+  "checkout_head": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+  "tracked_worktree_clean": true,
+  "checkout_matches_target": true,
+  "version": "0.2.1-rc.3",
+  "packageManager": "pnpm@11.28.5",
+  "engines": {
+    "node": ">=24.9.0"
+  },
+  "tracked_files": 19188,
+  "workspace_packages": 386,
+  "environment": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.9.6",
+    "git": "git version 2.54.0 (Apple Git-157)",
+    "node": "v24.19.0",
+    "corepack": "0.35.0"
+  },
+  "workspace_enumeration": {
+    "method": "commit-workspace-globs",
+    "patterns": [
+      "vendor/*",
+      "packages/*/*",
+      "native/system",
+      "native/system/packages/*",
+      "apps/*",
+      "benchmarks",
+      "website",
+      "python/sdk-runtime"
+    ],
+    "parser_limitation": null
+  },
+  "latest_resolution": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "requested_ref": "default-branch-HEAD",
+    "ref": "refs/heads/master",
+    "sha": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "resolved_at": "2026-10-25T11:18:23.996178+00:00",
+    "method": "git-ls-remote"
+  },
+  "declared_version": "0.2.1-rc.3",
+  "declared_node": ">=24.9.0",
+  "actual_node": "v24.19.0",
+  "declared_packageManager": "pnpm@11.28.5",
+  "actual_pnpm": "11.28.5 (corepack within checkout)",
+  "actual_typescript": "6.0.3",
+  "actual_vitest": "4.1.11",
+  "actual_mermaid": "11.17.2",
+  "actual_cordis": "4.0.5",
+  "actual_schemastery": "3.18.5",
+  "scope": "插件扩展开发；全仓包清单，不代表全部深读",
+  "online_sources_accessed_at": "2026-10-25",
+  "native_build": "pnpm run build:native-system；仅 host addon，不是全仓构建"
+}

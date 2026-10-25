@@ -1,0 +1,10 @@
+- insert:
+    - id: research-sum
+      name: '@research/dsh-sum-tool'
+      config:
+        enabled: true
+    - id: research-route
+      name: '@research/dsh-route-policy'
+      config:
+        provider: mock
+        model: policy

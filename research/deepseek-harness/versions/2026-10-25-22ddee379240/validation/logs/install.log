@@ -1,0 +1,108 @@
+native/system/packages/darwin-x64        | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+native/system/packages/linux-arm64       | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+native/system/packages/linux-x64         | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["linux"],"libc":["any"]} (current: {"os":"darwin","cpu":"arm64","libc":"unknown"})
+Scope: all 387 workspace projects
+[WARN] There are cyclic workspace dependencies: /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/apps/cli, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/sdk/client; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/apps/web, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/test-support/client-runtime, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/bundle/web-app; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/api/gateway, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/api/remote-access; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/api/remotes, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-plugin-manager, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-sidebar, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-workspace, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-conversation, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/message-quotes, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-chat, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/client/ui-approval; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/compaction/compaction, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/interaction/commands, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/core/agent, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/session-projection, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/test-support/loader-smoke, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/core/tools, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/test-support/agent-loop-testkit, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/core/agent-loop, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/session-persistence-jsonl, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/session-format-catalog, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/compaction/compaction-image-offload, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/compaction/compaction-basic, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/compaction/compaction-tool-result-pruner; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/core/agent-default-model, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/settings/settings; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/experimental/client-ui-creation-recommendations, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/experimental/creation-recommendations; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/experimental/client-ui-plugin-recommendations, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/experimental/plugin-recommendations; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/llm/llm-deepseek, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/llm/llm-deepseek-api-key; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/preset/agent-preset, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/preset/agent-preset-registry; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/sandbox/sandbox-local, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/sandbox/sandbox-windows-acl; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/tool-working-directory, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/session/working-directory; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/ssh/fs-ssh, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/ssh/ssh; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/subagent/subagent-spawn-in-process, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/packages/subagent/tool-subagent; /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/vendor/cordis, /Volumes/Ext_SSD/prj/dsh_research/.sources/deepseek-harness-2026-10-25/vendor/include
+? Verifying lockfile against supply-chain policies (1742 entries)...
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +1421
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Update available! 11.28.5 → 12.15.0.
+Changelog: https://pnpm.io/v/12.15.0
+To update, run: curl -fsSL https://get.pnpm.io/install.sh | sh -
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: /Users/zz/Library/pnpm/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 1421, reused 1266, downloaded 38, added 86
+Progress: resolved 1421, reused 1266, downloaded 104, added 454
+Progress: resolved 1421, reused 1266, downloaded 138, added 532
+Progress: resolved 1421, reused 1266, downloaded 142, added 991
+Progress: resolved 1421, reused 1266, downloaded 145, added 1315
+Progress: resolved 1421, reused 1266, downloaded 149, added 1407
+Progress: resolved 1421, reused 1266, downloaded 149, added 1421, done
+✓ Lockfile passes supply-chain policies (1742 entries in 8.8s)
+
+devDependencies:
++ @deepseek-ai/dsh-action-cards 0.2.1-rc.3 <- packages/experimental/action-cards
++ @deepseek-ai/dsh-agent 0.2.1-rc.3 <- packages/core/agent
++ @deepseek-ai/dsh-browser-use 0.2.1-rc.3 <- packages/browser-use/browser-use
++ @deepseek-ai/dsh-computer-use 0.2.1-rc.3 <- packages/computer-use/computer-use
++ @deepseek-ai/dsh-cua 0.2.1-rc.3 <- packages/experimental/cua
++ @deepseek-ai/dsh-cua-bundle 0.2.1-rc.3 <- packages/experimental/cua-bundle
++ @deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp 0.2.1-rc.3 <- packages/experimental/browser-use-chrome-devtools-mcp
++ @deepseek-ai/dsh-experimental-browser-use-playwright-mcp 0.2.1-rc.3 <- packages/experimental/browser-use-playwright-mcp
++ @deepseek-ai/dsh-experimental-browser-use-runtime 0.2.1-rc.3 <- packages/experimental/browser-use-runtime
++ @deepseek-ai/dsh-experimental-browser-use-stagehand-native 0.2.1-rc.3 <- packages/experimental/browser-use-stagehand-native
++ @deepseek-ai/dsh-experimental-claude-code-mods 0.2.1-rc.3 <- packages/experimental/claude-code-mods
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp 0.2.1-rc.3 <- packages/experimental/computer-use-cua-driver-mcp
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-native 0.2.1-rc.3 <- packages/experimental/computer-use-cua-driver-native
++ @deepseek-ai/dsh-experimental-cua-macos 0.2.1-rc.3 <- packages/experimental/cua-macos
++ @deepseek-ai/dsh-experimental-subagent-oar 0.2.1-rc.3 <- packages/experimental/subagent-oar
++ @deepseek-ai/dsh-experimental-tool-subagent-oar 0.2.1-rc.3 <- packages/experimental/tool-subagent-oar
++ @deepseek-ai/dsh-experimental-tool-worktree 0.2.1-rc.3 <- packages/experimental/tool-worktree
++ @deepseek-ai/dsh-experimental-worktree 0.2.1-rc.3 <- packages/experimental/worktree
++ @deepseek-ai/dsh-hooks-claude-code 0.2.1-rc.3 <- packages/experimental/hooks-claude-code
++ @deepseek-ai/dsh-hooks-codex 0.2.1-rc.3 <- packages/experimental/hooks-codex
++ @deepseek-ai/dsh-llm 0.2.1-rc.3 <- packages/llm/llm
++ @deepseek-ai/dsh-llm-replay 0.2.1-rc.3 <- packages/test-support/llm-replay
++ @deepseek-ai/dsh-mcp-client 0.2.1-rc.3 <- packages/mcp/mcp-client
++ @deepseek-ai/dsh-skill-office 0.2.1-rc.3 <- packages/skill/skill-office
++ @deepseek-ai/dsh-subagent-dsh-sdk 0.2.1-rc.3 <- packages/subagent/subagent-dsh-sdk
++ @deepseek-ai/dsh-tool-executor-native 0.2.1-rc.3 <- packages/core/tool-executor-native
++ @deepseek-ai/dsh-tool-executor-ptc 0.2.1-rc.3 <- packages/core/tool-executor-ptc
++ @deepseek-ai/dsh-tool-ralph 0.2.1-rc.3 <- packages/experimental/tool-ralph
++ @deepseek-ai/dsh-tool-session-query 0.2.1-rc.3 <- packages/experimental/tool-session-query
++ @deepseek-ai/dsh-tool-terminal 0.2.1-rc.3 <- packages/experimental/tool-terminal
++ @deepseek-ai/dsh-tool-working-directory 0.2.1-rc.3 <- packages/session/tool-working-directory
++ @deepseek-ai/dsh-tool-workspace-dependencies 0.2.1-rc.3 <- packages/skill/tool-workspace-dependencies
++ @deepseek-ai/dsh-web-fetch-http 0.2.1-rc.3 <- packages/web/web-fetch-http
++ @deepseek-ai/dsh-working-directory 0.2.1-rc.3 <- packages/session/working-directory
++ @stylistic/eslint-plugin 5.10.0
++ @testing-library/dom 10.4.2
++ @testing-library/react 16.3.3
++ @types/js-yaml 4.0.9
++ @types/jsdom 28.0.3
++ @types/mdast 4.0.4
++ @types/node 22.20.1
++ @types/papaparse 5.5.2
++ @types/react 18.3.31
++ @types/react-dom 18.3.7
++ @types/semver 7.8.0
++ @types/spdx-expression-parse 4.0.0
++ @vitest/coverage-v8 4.1.11
++ @yao-pkg/pkg 6.21.0
++ @yarnpkg/cli-dist 4.18.0
++ eslint-plugin-sonarjs 4.2.0
++ execa 10.0.1
++ extract-zip 2.0.1
++ fast-check 4.9.0
++ fflate 0.8.3
++ istanbul-lib-report 3.0.1
++ js-yaml 4.3.2
++ jscpd 5.1.2
++ jsdom 29.1.1
++ lefthook 2.1.12
++ lightningcss 1.33.0
++ mdast-util-from-markdown 2.0.3
++ mdast-util-gfm 3.1.0
++ mermaid 11.17.2
++ micromark-extension-gfm 3.0.0
++ oxlint 1.81.0
++ oxlint-tsgolint 7.0.2001
++ papaparse 5.5.3
++ pnpm 11.28.5
++ publint 0.3.24
++ semver 7.8.5
++ smol-toml 1.9.0
++ spdx-expression-parse 5.0.0
++ tar 7.5.22
++ tsdown 0.22.2
++ tsx 4.23.13
++ typescript 6.0.3
++ vite 8.2.2
++ vite-tsconfig-paths 6.1.1
++ vitest 4.1.11
++ zod 4.4.3
+
+Done in 10.3s using pnpm v11.28.5
